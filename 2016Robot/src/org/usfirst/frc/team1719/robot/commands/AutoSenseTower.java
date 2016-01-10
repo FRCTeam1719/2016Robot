@@ -8,9 +8,9 @@ import org.usfirst.frc.team1719.robot.Robot;
 /**
  *
  */
-public class ExampleCommand extends Command {
+public class AutoSenseTower extends Command {
 
-    public ExampleCommand() {
+    public AutoSenseTower() {
         // Use requires() here to declare subsystem dependencies
         requires(Robot.exampleSubsystem);
     }
