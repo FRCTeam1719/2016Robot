@@ -1,7 +1,10 @@
 package org.usfirst.frc.team1719.robot;
 
+import org.usfirst.frc.team1719.robot.commands.toggleShifters;
+
+import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.buttons.Button;
-import org.usfirst.frc.team1719.robot.commands.ExampleCommand;
+import edu.wpi.first.wpilibj.buttons.JoystickButton;
 
 /**
  * This class is the glue that binds the controls on the physical operator
@@ -34,5 +37,42 @@ public class OI {
     // Start the command when the button is released  and let it run the command
     // until it is finished as determined by it's isFinished method.
     // button.whenReleased(new ExampleCommand());
+	
+	//LOGITECH ATTACK 3 BINDINGS
+		final int ATTACK_X_AXIS = 0;
+		final int ATTACK_Y_AXIS = 1;
+		final int ATTACK_TRIGGER = 1;
+		final int ATTACK_BUTTON_2 = 2;
+		final int ATTACK_BUTTON_3 = 3;
+		final int ATTACK_BUTTON_4 = 4;
+		final int ATTACK_BUTTON_5 = 5;
+		final int ATTACK_BUTTON_6 = 6;
+		final int ATTACK_BUTTON_7 = 7;
+		final int ATTACK_BUTTON_8 = 8;
+		final int ATTACK_BUTTON_9 = 9;
+		final int ATTACK_BUTTON_10 = 10;
+		final int ATTACK_BUTTON_11 = 11;
+	
+		private Joystick leftJoystick;
+		private Joystick rightJoystick;
+	
+		private Button toggleButton;
+		public OI(){
+			leftJoystick = new Joystick(0);
+			rightJoystick = new Joystick(1);
+			toggleButton = new JoystickButton(leftJoystick, ATTACK_TRIGGER);
+			toggleButton.whenPressed(new toggleShifters());
+		}
+		
+	
+		public double getLeftReading(){
+			return leftJoystick.getRawAxis(ATTACK_Y_AXIS);
+		}
+		
+		public double getRightReading(){
+			return rightJoystick.getRawAxis(ATTACK_Y_AXIS);
+		}
+		
+		
 }
 
