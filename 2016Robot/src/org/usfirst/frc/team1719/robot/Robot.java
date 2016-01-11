@@ -35,6 +35,12 @@ public class Robot extends IterativeRobot {
         chooser.addDefault("Sense Tower High Goals", new AutoSenseTower());
 //        chooser.addObject("My Auto", new MyAutoCommand());
         SmartDashboard.putData("Auto mode", chooser);
+        SmartDashboard.putNumber("Hue Min", 101);
+        SmartDashboard.putNumber("Hue Max", 64);
+        SmartDashboard.putNumber("Sat Min", 88);
+        SmartDashboard.putNumber("Sat Max", 255);
+        SmartDashboard.putNumber("Val Min", 128);
+        SmartDashboard.putNumber("Val Max", 255);
     }
 	
 	/**
