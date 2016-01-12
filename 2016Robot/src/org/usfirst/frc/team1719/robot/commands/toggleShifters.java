@@ -6,6 +6,11 @@ import edu.wpi.first.wpilibj.command.Command;
 
 public class toggleShifters extends Command{
 
+	public toggleShifters(){
+		requires(Robot.shifters);
+	}
+	
+	
 	@Override
 	protected void initialize() {
 		// No init

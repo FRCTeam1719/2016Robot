@@ -6,9 +6,12 @@ import edu.wpi.first.wpilibj.command.Command;
 
 public class UseDrive extends Command{
 
-	final double TOLERANCE = 0.3;
+	final double TOLERANCE = 0.1;
 	final double NIL = 0.0;
 	
+	public UseDrive(){
+		requires(Robot.drive);
+	}
 	
 	
 	@Override
@@ -27,6 +30,9 @@ public class UseDrive extends Command{
 		if(Math.abs(right)<TOLERANCE){
 			right = NIL;
 		}
+	    //Adjust sensitivity
+		left = Math.abs(left) * left;
+		right = Math.abs(right) * right;
 		System.out.println("LEFT: "+left+" RIGHT: "+right);
 		Robot.drive.operateDrive(left, right);
 	}
