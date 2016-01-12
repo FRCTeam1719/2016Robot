@@ -3,6 +3,8 @@ package org.usfirst.frc.team1719.robot.commands;
 import java.util.Comparator;
 import java.util.Vector;
 
+import org.usfirst.frc.team1719.robot.Robot;
+
 import com.ni.vision.NIVision;
 import com.ni.vision.NIVision.Image;
 import com.ni.vision.NIVision.ImageType;
@@ -17,21 +19,21 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 public class AutoSenseTower extends Command {
 
     public class ParticleReport implements Comparator<ParticleReport>, Comparable<ParticleReport>{
-        double PercentAreaToImageArea;
-        double Area;
-        double BoundingRectLeft;
-        double BoundingRectTop;
-        double BoundingRectRight;
-        double BoundingRectBottom;
+        double percentAreaToImageArea;
+        double area;
+        double boundingRectLeft;
+        double boundingRectTop;
+        double boundingRectRight;
+        double boundingRectBottom;
         
         public int compareTo(ParticleReport r)
         {
-            return (int)(r.Area - this.Area);
+            return (int)(r.area - this.area);
         }
         
         public int compare(ParticleReport r1, ParticleReport r2)
         {
-            return (int)(r1.Area - r2.Area);
+            return (int)(r1.area - r2.area);
         }
     }
     
@@ -40,6 +42,10 @@ public class AutoSenseTower extends Command {
     private static final double SCORE_MIN = 75.0D;
     private static final double TARGET_WIDTH_IN = 20.0D;
     private static final double OPTIMUM_DISTANCE_FT = 10.0D;
+    private static final double TARGET_HEIGHT_FT = 7.583D;
+    private static final double DISTANCE_ACC_PCT = 85.0D;
+    private static final double AZIMUTH_ACC_DEG = 10.0D;
+    private static final double ANGLE_ACC_DEG = 10.0D;
     
     Image frame;
     Image binaryFrame;
@@ -47,7 +53,7 @@ public class AutoSenseTower extends Command {
     NIVision.Range h_rng;
     NIVision.Range s_rng;
     NIVision.Range v_rng;
-    
+    boolean done;
     NIVision.ParticleFilterCriteria2 criteria[] = new NIVision.ParticleFilterCriteria2[1];
     NIVision.ParticleFilterOptions2 filterOptions = new NIVision.ParticleFilterOptions2(0,0,1,1);
     
@@ -57,6 +63,7 @@ public class AutoSenseTower extends Command {
 
     // Called just before this Command runs the first time
     protected void initialize() {
+        done = false;
         frame = NIVision.imaqCreateImage(ImageType.IMAGE_RGB, 0);
         binaryFrame = NIVision.imaqCreateImage(ImageType.IMAGE_U8, 0);
         session = NIVision.IMAQdxOpenCamera(CAM_ID, NIVision.IMAQdxCameraControlMode.CameraControlModeController);
@@ -90,12 +97,12 @@ public class AutoSenseTower extends Command {
             for(int particleIndex = 0; particleIndex < numParticles; particleIndex++)
             {
                 ParticleReport par = new ParticleReport();
-                par.PercentAreaToImageArea = NIVision.imaqMeasureParticle(binaryFrame, particleIndex, 0, NIVision.MeasurementType.MT_AREA_BY_IMAGE_AREA);
-                par.Area = NIVision.imaqMeasureParticle(binaryFrame, particleIndex, 0, NIVision.MeasurementType.MT_AREA);
-                par.BoundingRectTop = NIVision.imaqMeasureParticle(binaryFrame, particleIndex, 0, NIVision.MeasurementType.MT_BOUNDING_RECT_TOP);
-                par.BoundingRectLeft = NIVision.imaqMeasureParticle(binaryFrame, particleIndex, 0, NIVision.MeasurementType.MT_BOUNDING_RECT_LEFT);
-                par.BoundingRectBottom = NIVision.imaqMeasureParticle(binaryFrame, particleIndex, 0, NIVision.MeasurementType.MT_BOUNDING_RECT_BOTTOM);
-                par.BoundingRectRight = NIVision.imaqMeasureParticle(binaryFrame, particleIndex, 0, NIVision.MeasurementType.MT_BOUNDING_RECT_RIGHT);
+                par.percentAreaToImageArea = NIVision.imaqMeasureParticle(binaryFrame, particleIndex, 0, NIVision.MeasurementType.MT_AREA_BY_IMAGE_AREA);
+                par.area = NIVision.imaqMeasureParticle(binaryFrame, particleIndex, 0, NIVision.MeasurementType.MT_AREA);
+                par.boundingRectTop = NIVision.imaqMeasureParticle(binaryFrame, particleIndex, 0, NIVision.MeasurementType.MT_BOUNDING_RECT_TOP);
+                par.boundingRectLeft = NIVision.imaqMeasureParticle(binaryFrame, particleIndex, 0, NIVision.MeasurementType.MT_BOUNDING_RECT_LEFT);
+                par.boundingRectBottom = NIVision.imaqMeasureParticle(binaryFrame, particleIndex, 0, NIVision.MeasurementType.MT_BOUNDING_RECT_BOTTOM);
+                par.boundingRectRight = NIVision.imaqMeasureParticle(binaryFrame, particleIndex, 0, NIVision.MeasurementType.MT_BOUNDING_RECT_RIGHT);
                 particles.add(par);
             }
             particles.sort(null);
@@ -112,12 +119,24 @@ public class AutoSenseTower extends Command {
             //Send distance and tote status to dashboard. The bounding rect, particularly the horizontal center (left - right) may be useful for rotating/driving towards a tote
             SmartDashboard.putBoolean("Target Lock", lock);
             if(!lock) {
-                //turn to try to aim
+                //turn to try to find target
+                return;
             }
-            double distance = computeDistance(binaryFrame, particles.elementAt(0));
-            SmartDashboard.putNumber("Distance", distance);
-            double normalizedDistance = distance / OPTIMUM_DISTANCE_FT;
-            
+            double widthcalc_distance = computeDistance(binaryFrame, particles.elementAt(0));
+            double azimuth = computeTargetAzimuth(binaryFrame, particles.elementAt(0));
+            double altitude = computeTargetAltitude(binaryFrame, particles.elementAt(0));
+            double altcalc_distance = TARGET_HEIGHT_FT / Math.tan((Math.PI / 180.0D) * altitude);
+            SmartDashboard.putNumber("Target Distance", altcalc_distance);
+            SmartDashboard.putNumber("Target Azimuth", azimuth);
+            SmartDashboard.putNumber("Target Altitude", altitude);
+            double normalizedDistance = altcalc_distance / OPTIMUM_DISTANCE_FT;
+            double angleToNormal = Math.acos(widthcalc_distance / altcalc_distance);
+            if((ratioToScore(normalizedDistance) > DISTANCE_ACC_PCT) && (azimuth < AZIMUTH_ACC_DEG) && (angleToNormal < ANGLE_ACC_DEG)) {
+                Robot.weapon.fire();
+                done = true;
+                return;
+            }
+            // aim at target
         } else {
             SmartDashboard.putBoolean("Target Lock", false);
         }
@@ -125,12 +144,13 @@ public class AutoSenseTower extends Command {
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-        return false;
+        return done;
     }
 
     // Called once after isFinished returns true
     protected void end() {
         NIVision.IMAQdxStopAcquisition(session);
+        done = false;
     }
 
     // Called when another command which requires one or more of the same
@@ -146,14 +166,14 @@ public class AutoSenseTower extends Command {
 
     double scoreArea(ParticleReport report)
     {
-        double boundingArea = (report.BoundingRectBottom - report.BoundingRectTop) * (report.BoundingRectRight - report.BoundingRectLeft);
+        double boundingArea = (report.boundingRectBottom - report.boundingRectTop) * (report.boundingRectRight - report.boundingRectLeft);
         
-        return ratioToScore((280.0D/88.0D)*report.Area/boundingArea);
+        return ratioToScore((280.0D/88.0D)*report.area/boundingArea);
     }
 
     double scoreAspect(ParticleReport report)
     {
-        return ratioToScore((14.0D/20.0D)*((report.BoundingRectRight-report.BoundingRectLeft)/(report.BoundingRectBottom-report.BoundingRectTop)));
+        return ratioToScore((14.0D/20.0D)*((report.boundingRectRight-report.boundingRectLeft)/(report.boundingRectBottom-report.boundingRectTop)));
     }
     
     /**
@@ -170,8 +190,18 @@ public class AutoSenseTower extends Command {
         NIVision.GetImageSizeResult size;
 
         size = NIVision.imaqGetImageSize(image);
-        normalizedWidth = 2*(report.BoundingRectRight - report.BoundingRectLeft)/size.width;
+        normalizedWidth = 2*(report.boundingRectRight - report.boundingRectLeft)/size.width;
 
         return  TARGET_WIDTH_IN/(normalizedWidth*12*Math.tan(VIEW_ANGLE*Math.PI/(180*2)));
+    }
+    
+    double computeTargetAzimuth(Image image, ParticleReport report) {
+        double normalizedPosX = (report.boundingRectLeft + report.boundingRectRight)/NIVision.imaqGetImageSize(image).width - 1.0D;
+        return (Math.atan(normalizedPosX*Math.tan(VIEW_ANGLE*Math.PI/(180*2))) * (180.0D / Math.PI));
+    }
+    
+    double computeTargetAltitude(Image image, ParticleReport report) {
+        double normalizedPosY = (report.boundingRectTop + report.boundingRectBottom)/NIVision.imaqGetImageSize(image).height - 1.0D;
+        return (Math.atan(normalizedPosY*Math.tan(VIEW_ANGLE*Math.PI/(180*2))) * (180.0D / Math.PI));
     }
 }
