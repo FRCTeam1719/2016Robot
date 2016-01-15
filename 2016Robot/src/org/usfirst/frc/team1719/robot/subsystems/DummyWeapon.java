@@ -14,5 +14,10 @@ public class DummyWeapon extends Subsystem implements IFireable {
     
     @Override
     protected void initDefaultCommand() {}
+
+    @Override
+    public void aimAndFire(double distance, double height) {
+        this.fire();
+    }
     
 }
