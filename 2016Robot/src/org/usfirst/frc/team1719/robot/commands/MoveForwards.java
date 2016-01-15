@@ -47,7 +47,7 @@ public class MoveForwards extends Command {
 		currentAngle = gyro.getAngle();
 		
 		//If the robot is not turned
-		if (currentAngle <= ANGLE_TOLERANCE) {
+		if (Math.abs(currentAngle) <= ANGLE_TOLERANCE) {
 			drive.operateDrive(0.5, 0.5);
 		}
 		//If the robot is turned counterclockwise
