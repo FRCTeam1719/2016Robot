@@ -77,7 +77,10 @@ public class AutoSenseTower extends Command {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-        NIVision.IMAQdxGrab(session, frame, 1);
+        //NIVision.IMAQdxGrab(session, frame, 1);
+        
+        NIVision.imaqReadFile(frame, "/home/lvuser/SampleImages/targetimage.jpg"); //remove this
+        
         NIVision.imaqColorThreshold(binaryFrame, frame, 255, NIVision.ColorMode.HSV, h_rng, s_rng, v_rng);
         
         int numParticles = NIVision.imaqCountParticles(binaryFrame, 1);
@@ -89,7 +92,7 @@ public class AutoSenseTower extends Command {
 
         numParticles = NIVision.imaqCountParticles(binaryFrame, 1);
         SmartDashboard.putNumber("Filtered particles", numParticles);
-        
+        if(true) return; //remove this
         if(numParticles > 0)
         {
             //Measure particles and sort by particle size
