@@ -47,16 +47,16 @@ public class AutoSenseTower extends Command {
         }
     }
     
-    private static final double VIEW_WIDTH = 1000.0D;
-    private static final double VIEW_HEIGHT = 700.0D;
-    private static final double VIEW_ANGLE = 49.4D; //View angle fo camera, set to Axis m1011 by default, 64 for m1013, 51.7 for 206, 52 for HD3000 square, 60 for HD3000 640x480
-    private static final double VIEW_ANGLE_HEIGHT = 50.0D;
+    private static final double VIEW_WIDTH_PX = 1000.0D;
+    private static final double VIEW_HEIGHT_PX = 700.0D;
+    private static final double VIEW_ANGLE_DEG = 49.4D; //View angle fo camera, set to Axis m1011 by default, 64 for m1013, 51.7 for 206, 52 for HD3000 square, 60 for HD3000 640x480
+    private static final double VIEW_ANGLE_HEIGHT_DEG = 50.0D;
+    private static final double CAM_HEIGHT_FT = 1.0D;
     private static final double SCORE_MIN = 75.0D;
     private static final double TARGET_WIDTH_IN = 20.0D;
     private static final double MIN_DISTANCE_FT = 2.0D;
     private static final double MAX_DISTANCE_FT = 10.0D;
     private static final double TARGET_HEIGHT_FT = 7.583D;
-    private static final double DISTANCE_ACC_PCT = 85.0D;
     private static final double AZIMUTH_ACC_DEG = 10.0D;
     private static final double ANGLE_ACC_DEG = 10.0D;
     
@@ -77,16 +77,16 @@ public class AutoSenseTower extends Command {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-        
+        System.out.println("Begin AutoSenseTower loop");
         double[] areas1 = table1.getNumberArray("area", new double[] {});
         double[] areas2 = table2.getNumberArray("area", new double[] {});
         double[] width = table2.getNumberArray("width", new double[] {});
         double[] height = table2.getNumberArray("height", new double[] {});
         double[] posX = table2.getNumberArray("centerX", new double[] {});
         double[] posY = table2.getNumberArray("centerY", new double[] {});
-        
+        System.out.println("prevector" + areas1.length);
         Vector<Contour> contours = Contour.getContours(areas1, areas2, width, height, posX, posY);
-        
+        System.out.println("Contours: " + contours.size());
         if(contours.size() > 0)
         {
 
@@ -95,8 +95,10 @@ public class AutoSenseTower extends Command {
             //about the location of the tote (not just the distance) you will need to correlate two adjacent targets in order to find the true center of the tote.
             double aspectScore = scoreAspect(contours.elementAt(0));
             SmartDashboard.putNumber("Aspect Score", aspectScore);
+            System.out.println("Aspect" + aspectScore);
             double areaScore = scoreArea(contours.elementAt(0));
             SmartDashboard.putNumber("Area Score", aspectScore);
+            System.out.println("Area" + areaScore);
             boolean lock = aspectScore > SCORE_MIN && areaScore > SCORE_MIN;
 
             //Send distance and tote status to dashboard. The bounding rect, particularly the horizontal center (left - right) may be useful for rotating/driving towards a tote
@@ -107,11 +109,14 @@ public class AutoSenseTower extends Command {
             }
             double widthcalc_distance = computeDistance(contours.elementAt(0));
             double azimuth = computeTargetAzimuth(contours.elementAt(0));
-            double altitude = 0;// = computeTargetAltitude(binaryFrame, particles.elementAt(0));
-            double altcalc_distance = TARGET_HEIGHT_FT / Math.tan((Math.PI / 180.0D) * altitude);
+            double altitude = computeTargetAltitude(contours.elementAt(0));
+            double altcalc_distance = (TARGET_HEIGHT_FT - CAM_HEIGHT_FT) / Math.tan((Math.PI / 180.0D) * altitude);
             SmartDashboard.putNumber("Target Distance", altcalc_distance);
             SmartDashboard.putNumber("Target Azimuth", azimuth);
             SmartDashboard.putNumber("Target Altitude", altitude);
+            System.out.println("Distance" + altcalc_distance);
+            System.out.println("Azimuth" + azimuth);
+            System.out.println("Altitude" + altitude);
             double angleToNormal = Math.acos(widthcalc_distance / altcalc_distance);
             if((altcalc_distance > MIN_DISTANCE_FT) && (altcalc_distance < MAX_DISTANCE_FT) && (azimuth < AZIMUTH_ACC_DEG) && (angleToNormal < ANGLE_ACC_DEG)) {
                 Robot.weapon.aimAndFire(altcalc_distance, TARGET_HEIGHT_FT + 0.9D);
@@ -155,18 +160,18 @@ public class AutoSenseTower extends Command {
     
     double computeDistance(Contour contour) {
         double normalizedWidth;
-        normalizedWidth = 2.0D * contour.width / VIEW_WIDTH;
+        normalizedWidth = 2.0D * contour.width / VIEW_WIDTH_PX;
 
-        return  TARGET_WIDTH_IN / (normalizedWidth * 12 * Math.tan(VIEW_ANGLE * Math.PI / (180*2)));
+        return  TARGET_WIDTH_IN / (normalizedWidth * 12 * Math.tan(VIEW_ANGLE_DEG * Math.PI / (180*2)));
     }
     
     double computeTargetAzimuth(Contour contour) {
-        double normalizedPosX = 2.0D * contour.posX / VIEW_WIDTH - 1.0D;
-        return (Math.atan(normalizedPosX * Math.tan(VIEW_ANGLE*Math.PI/(180*2))) * (180.0D / Math.PI));
+        double normalizedPosX = 2.0D * contour.posX / VIEW_WIDTH_PX - 1.0D;
+        return (Math.atan(normalizedPosX * Math.tan(VIEW_ANGLE_DEG*Math.PI/(180*2))) * (180.0D / Math.PI));
     }
     
     double computeTargetAltitude(Contour contour) {
-        double normalizedPosY = 2.0D * contour.posY / VIEW_HEIGHT - 1.0D;
-        return (Math.atan(normalizedPosY * Math.tan(VIEW_ANGLE_HEIGHT * Math.PI / (180*2))) * (180.0D / Math.PI));
+        double normalizedPosY = 2.0D * contour.posY / VIEW_HEIGHT_PX - 1.0D;
+        return (Math.atan(normalizedPosY * Math.tan(VIEW_ANGLE_HEIGHT_DEG * Math.PI / (180*2))) * (180.0D / Math.PI));
     }
 }

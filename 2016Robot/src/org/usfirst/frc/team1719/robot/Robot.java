@@ -36,17 +36,13 @@ public class Robot extends IterativeRobot {
      * used for any initialization code.
      */
     public void robotInit() {
+        System.out.println("Robot initializing...");
 		oi = new OI();
         chooser = new SendableChooser();
         chooser.addDefault("Sense Tower High Goals", new AutoSenseTower());
 //        chooser.addObject("My Auto", new MyAutoCommand());
         SmartDashboard.putData("Auto mode", chooser);
-        SmartDashboard.putNumber("Hue Min", 101);
-        SmartDashboard.putNumber("Hue Max", 64);
-        SmartDashboard.putNumber("Sat Min", 88);
-        SmartDashboard.putNumber("Sat Max", 255);
-        SmartDashboard.putNumber("Val Min", 128);
-        SmartDashboard.putNumber("Val Max", 255);
+        System.out.println("Robot initialized.");
     }
 	
 	/**
@@ -72,8 +68,9 @@ public class Robot extends IterativeRobot {
 	 * or additional comparisons to the switch structure below with additional strings & commands.
 	 */
     public void autonomousInit() {
+        System.out.println("Initiating autonomous mode...");
         autonomousCommand = (Command) chooser.getSelected();
-        
+        System.out.println("Autonomous start: " + autonomousCommand.toString());
 		/* String autoSelected = SmartDashboard.getString("Auto Selector", "Default");
 		switch(autoSelected) {
 		case "My Auto":
@@ -87,12 +84,14 @@ public class Robot extends IterativeRobot {
     	
     	// schedule the autonomous command (example)
         if (autonomousCommand != null) autonomousCommand.start();
+        System.out.println("Autonomous mode intialized");
     }
 
     /**
      * This function is called periodically during autonomous
      */
     public void autonomousPeriodic() {
+        System.out.println("Auto loop:");
         Scheduler.getInstance().run();
     }
 
