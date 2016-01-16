@@ -45,11 +45,11 @@ public class RobotMap {
 		mainCompressor = new Compressor();
 		shifterSolenoid = new Solenoid(0);
 		
-		gyro = new AnalogGyro(-1337);
-		armLowerLimitSwitch = new DigitalInput(-1337);
-		armUpperLimitSwitch = new DigitalInput(-1337);
-		armMotor = new Talon(-1337);
-		armPot = new AnalogPotentiometer(-1337, 100);
+		//gyro = new AnalogGyro(4);
+		armLowerLimitSwitch = new DigitalInput(2);
+		armUpperLimitSwitch = new DigitalInput(1);
+		armMotor = new Talon(2);
+		armPot = new AnalogPotentiometer(0, 100);
 	}
 	
 }

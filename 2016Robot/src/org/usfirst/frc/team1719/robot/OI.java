@@ -1,5 +1,6 @@
 package org.usfirst.frc.team1719.robot;
 
+import org.usfirst.frc.team1719.robot.commands.MoveArmToPos;
 import org.usfirst.frc.team1719.robot.commands.toggleShifters;
 
 import edu.wpi.first.wpilibj.Joystick;
@@ -57,11 +58,15 @@ public class OI {
 		private Joystick rightJoystick;
 	
 		private Button toggleButton;
+		private Button moveArmButton;
 		public OI(){
 			leftJoystick = new Joystick(0);
 			rightJoystick = new Joystick(1);
 			toggleButton = new JoystickButton(leftJoystick, ATTACK_TRIGGER);
 			toggleButton.whenPressed(new toggleShifters());
+			
+			moveArmButton = new JoystickButton(leftJoystick, ATTACK_BUTTON_4);
+			moveArmButton.whenPressed(new MoveArmToPos(60));
 		}
 		
 	

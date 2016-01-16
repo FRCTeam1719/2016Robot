@@ -35,13 +35,13 @@ public class Arm extends Subsystem {
 		}
 		
 		if (speed < 0) {
-			if (!(lowerLimitSwitch.get())) {
+			if ((lowerLimitSwitch.get())) {
 				motor.set(0);
 				return;
 			}
 		}
 		if (speed > 0) {
-			if (!(upperLimitSwitch.get())) {
+			if ((upperLimitSwitch.get())) {
 				motor.set(0);
 				return;
 			}

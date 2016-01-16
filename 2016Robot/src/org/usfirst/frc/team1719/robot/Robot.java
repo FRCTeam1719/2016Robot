@@ -2,6 +2,7 @@
 package org.usfirst.frc.team1719.robot;
 
 import org.usfirst.frc.team1719.robot.commands.ExampleCommand;
+import org.usfirst.frc.team1719.robot.subsystems.Arm;
 import org.usfirst.frc.team1719.robot.subsystems.DriveSubsystem;
 import org.usfirst.frc.team1719.robot.subsystems.ExampleSubsystem;
 import org.usfirst.frc.team1719.robot.subsystems.Shifters;
@@ -29,6 +30,7 @@ public class Robot extends IterativeRobot {
 	public static OI oi;
 	public static DriveSubsystem drive;
 	public static Shifters shifters;
+	public static Arm arm;
     Command autonomousCommand;
     SendableChooser chooser;
 
@@ -45,6 +47,7 @@ public class Robot extends IterativeRobot {
         RobotMap.init();
         drive = new DriveSubsystem(RobotMap.leftController, RobotMap.rightController);
         shifters = new Shifters(RobotMap.shifterSolenoid);
+        arm = new Arm();
         oi = new OI();
     }
 	
