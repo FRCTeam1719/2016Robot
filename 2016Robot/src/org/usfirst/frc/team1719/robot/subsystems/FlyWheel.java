@@ -55,7 +55,7 @@ public class FlyWheel extends Subsystem {
 		integral += error;
 		derivative = error - previousError;
 		
-		if(error<100 || error>100)
+		if(Math.abs(error) < 100)
 		{
 			integral = 0;
 		}
