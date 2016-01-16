@@ -2,9 +2,9 @@
 package org.usfirst.frc.team1719.robot;
 
 import org.usfirst.frc.team1719.robot.commands.ExampleCommand;
+import org.usfirst.frc.team1719.robot.commands.MoveForwards;
 import org.usfirst.frc.team1719.robot.subsystems.DriveSubsystem;
 import org.usfirst.frc.team1719.robot.subsystems.ExampleSubsystem;
-import org.usfirst.frc.team1719.robot.subsystems.Shifters;
 
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.command.Command;
@@ -28,7 +28,6 @@ public class Robot extends IterativeRobot {
 	public static final ExampleSubsystem exampleSubsystem = new ExampleSubsystem();
 	public static OI oi;
 	public static DriveSubsystem drive;
-	public static Shifters shifters;
     Command autonomousCommand;
     SendableChooser chooser;
 
@@ -44,7 +43,6 @@ public class Robot extends IterativeRobot {
         SmartDashboard.putData("Auto mode", chooser);
         RobotMap.init();
         drive = new DriveSubsystem(RobotMap.leftController, RobotMap.rightController);
-        shifters = new Shifters(RobotMap.shifterSolenoid);
         oi = new OI();
     }
 	
@@ -72,7 +70,7 @@ public class Robot extends IterativeRobot {
 	 */
     public void autonomousInit() {
         autonomousCommand = (Command) chooser.getSelected();
-        
+        autonomousCommand = new MoveForwards(100); 	
 		/* String autoSelected = SmartDashboard.getString("Auto Selector", "Default");
 		switch(autoSelected) {
 		case "My Auto":

@@ -1,6 +1,6 @@
 package org.usfirst.frc.team1719.robot;
 
-import org.usfirst.frc.team1719.robot.commands.toggleShifters;
+import org.usfirst.frc.team1719.robot.commands.TurnToAngle;
 
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.buttons.Button;
@@ -56,12 +56,13 @@ public class OI {
 		private Joystick leftJoystick;
 		private Joystick rightJoystick;
 	
-		private Button toggleButton;
+		private Button rotateButton;
+		
 		public OI(){
 			leftJoystick = new Joystick(0);
 			rightJoystick = new Joystick(1);
-			toggleButton = new JoystickButton(leftJoystick, ATTACK_TRIGGER);
-			toggleButton.whenPressed(new toggleShifters());
+			rotateButton = new JoystickButton(leftJoystick, ATTACK_BUTTON_5);
+			rotateButton.whenPressed(new TurnToAngle(90));
 		}
 		
 	

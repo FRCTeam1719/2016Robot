@@ -36,7 +36,7 @@ public class TurnToAngle extends Command {
     	currentAngle = gyro.getAngle();
     	
     	//turning clockwise
-    	if (desiredAngle > 0) {
+    	if (desiredAngle < 0) {
     		Robot.drive.operateDrive(SPEED, -SPEED);
     	}
     	else if (desiredAngle > 0) {

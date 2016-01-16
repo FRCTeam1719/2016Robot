@@ -42,9 +42,10 @@ public class MoveForwards extends Command {
 		
 		//Don't let the robot run because we don't have a way to measure distance yet
 		//TODO: implement a way to measure distance
-		currentDist = desiredDist + 1;
+		currentDist++;
 		
 		currentAngle = gyro.getAngle();
+		System.out.println("Command Running, currentDistance: "+currentDist);
 		
 		//If the robot is not turned
 		if (Math.abs(currentAngle) <= ANGLE_TOLERANCE) {

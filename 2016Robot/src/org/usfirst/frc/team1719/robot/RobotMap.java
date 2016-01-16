@@ -36,7 +36,7 @@ public class RobotMap {
 		mainCompressor = new Compressor();
 		shifterSolenoid = new Solenoid(0);
 		
-		gyro = new AnalogGyro(-1337);
+		gyro = new AnalogGyro(0);
 	}
 	
 }
