@@ -6,6 +6,7 @@ import org.usfirst.frc.team1719.robot.subsystems.DriveSubsystem;
 
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.interfaces.Gyro;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class MoveForwards extends Command {
 	
@@ -69,7 +70,7 @@ public class MoveForwards extends Command {
 	protected void initialize() {
 		currentDist = 0;
 		gyro.reset();
-		
+		if(desiredDist == 0.0D) desiredDist = SmartDashboard.getNumber("MoveDistParam");
 	}
 
 	@Override
