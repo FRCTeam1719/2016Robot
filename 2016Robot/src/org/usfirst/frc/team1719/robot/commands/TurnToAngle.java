@@ -34,7 +34,7 @@ public class TurnToAngle extends Command {
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
     	currentAngle = gyro.getAngle();
-    	
+    	System.out.println(currentAngle);
     	//turning clockwise
     	if (desiredAngle < 0) {
     		Robot.drive.operateDrive(SPEED, -SPEED);

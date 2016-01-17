@@ -45,19 +45,21 @@ public class MoveForwards extends Command {
 		currentDist++;
 		
 		currentAngle = gyro.getAngle();
-		System.out.println("Command Running, currentDistance: "+currentDist);
-		
+		System.out.println(currentAngle);
 		//If the robot is not turned
 		if (Math.abs(currentAngle) <= ANGLE_TOLERANCE) {
 			drive.operateDrive(0.5, 0.5);
+			System.out.println("UNDER TOLERANCE");
 		}
 		//If the robot is turned counterclockwise
-		if (currentAngle < 0) {
+		else if (currentAngle < 0) {
 			drive.operateDrive(0.5, 0.5 - (kP * Math.abs(currentAngle)) );
+			System.out.println("Moving clockwise");
 		}
 		//If the robot is turned clockwise
 		else if (currentAngle > 0) {
 			drive.operateDrive(0.5 - (kP * currentAngle), 0.5);
+			System.out.println("Moving counterclockwise");
 		}
 		
 		

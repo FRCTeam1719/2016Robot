@@ -33,8 +33,7 @@ public class UseDrive extends Command{
 	    //Adjust sensitivity
 		left = Math.abs(left) * left;
 		right = Math.abs(right) * right;
-		System.out.println("LEFT: "+left+" RIGHT: "+right);
-		Robot.drive.operateDrive(-left, -right);
+		Robot.drive.operateDrive(-right, -left);
 	}
 
 	@Override
