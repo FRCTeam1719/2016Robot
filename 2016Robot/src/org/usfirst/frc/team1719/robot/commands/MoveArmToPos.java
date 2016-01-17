@@ -3,6 +3,7 @@ package org.usfirst.frc.team1719.robot.commands;
 import org.usfirst.frc.team1719.robot.Robot;
 
 import edu.wpi.first.wpilibj.command.Command;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
  *
@@ -27,7 +28,7 @@ public class MoveArmToPos extends Command {
     // Called just before this Command runs the first time
     protected void initialize() {
     	currentPos = Robot.arm.getPos();
-    	
+    	if(desiredPos < 0.0D) desiredPos = SmartDashboard.getNumber("MoveArmParam");
     	if (currentPos < desiredPos) {
     		direction = DIRECTION_UP;
     	}

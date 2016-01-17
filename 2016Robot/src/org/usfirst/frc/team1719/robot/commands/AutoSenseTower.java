@@ -38,6 +38,9 @@ public class AutoSenseTower extends Command {
         double dist1 = Math.max(pos.distance - MAX_DISTANCE_FT, 0.0D);
         double dist2 = Math.min(pos.distance - MIN_DISTANCE_FT, 0.0D);
         SmartDashboard.putNumber("MoveDistParam", (dist1 > 0.0D) ? dist1 : dist2);
+        double firingAltitude, firingVelocity;
+        firingAltitude = 0; // add calculations
+        SmartDashboard.putNumber("MoveArmParam", firingAltitude);
         done = true;
         return;
     }
