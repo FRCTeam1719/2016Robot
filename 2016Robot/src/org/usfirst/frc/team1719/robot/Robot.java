@@ -42,10 +42,18 @@ public class Robot extends IterativeRobot {
 //        chooser.addObject("My Auto", new MyAutoCommand());
         SmartDashboard.putData("Auto mode", chooser);
         RobotMap.init();
+        smartDashboardInit();
         drive = new DriveSubsystem(RobotMap.leftController, RobotMap.rightController);
         oi = new OI();
     }
 	
+    public void smartDashboardInit(){
+    	SmartDashboard.putNumber("Drive kP", -0.02);
+    	SmartDashboard.putNumber("Drive kI", 0.003);
+    	SmartDashboard.putNumber("Drive kD", 0.003);
+    }
+    
+    
 	/**
      * This function is called once each time the robot enters Disabled mode.
      * You can use it to reset any subsystem information you want to clear when
@@ -105,7 +113,6 @@ public class Robot extends IterativeRobot {
      * This function is called periodically during operator control
      */
     public void teleopPeriodic() {
-    	System.out.println(RobotMap.gyro.getAngle());
         Scheduler.getInstance().run();
     }
     
