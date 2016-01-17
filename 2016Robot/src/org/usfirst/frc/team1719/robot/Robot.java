@@ -1,9 +1,10 @@
-
 package org.usfirst.frc.team1719.robot;
 
 import org.usfirst.frc.team1719.robot.subsystems.Arm;
 import org.usfirst.frc.team1719.robot.subsystems.DriveSubsystem;
 import org.usfirst.frc.team1719.robot.subsystems.ExampleSubsystem;
+import org.usfirst.frc.team1719.robot.settings.PIDData;
+import org.usfirst.frc.team1719.robot.subsystems.FlyWheel;
 
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.command.Command;
@@ -34,6 +35,9 @@ public class Robot extends IterativeRobot {
 	public static OI oi;
 	public static DriveSubsystem drive;
 	public static Arm arm;
+	public static FlyWheel rightFlywheel;
+	
+	PIDData rightFlywheelPIDData;
     Command autonomousCommand;
     SendableChooser chooser;
     
@@ -43,13 +47,20 @@ public class Robot extends IterativeRobot {
      * used for any initialization code.
      */
     public void robotInit() {
+    	rightFlywheelPIDData = new PIDData();
         chooser = new SendableChooser();
         chooser.addDefault("Sense Tower High Goals", new AutoSenseTower());
 //        chooser.addObject("My Auto", new MyAutoCommand());
         SmartDashboard.putData("Auto mode", chooser);
+        SmartDashboard.putNumber("Right flywheel kP: ", rightFlywheelPIDData.kP);
+        SmartDashboard.putNumber("Right flywheel kI: ", rightFlywheelPIDData.kI);
+        SmartDashboard.putNumber("Right flywheel kD: ", rightFlywheelPIDData.kD);
+        
+
         RobotMap.init();
         drive = new DriveSubsystem(RobotMap.leftController, RobotMap.rightController);
         arm = new Arm();
+        rightFlywheel = new FlyWheel(RobotMap.rightFlyWheelTalon, RobotMap.rightFlyWheelEncoder, rightFlywheelPIDData);
         oi = new OI();
     }
 	
@@ -59,7 +70,7 @@ public class Robot extends IterativeRobot {
 	 * the robot is disabled.
      */
     public void disabledInit(){
-
+    	rightFlywheel.spin(0);
     }
 	
 	public void disabledPeriodic() {
@@ -87,7 +98,6 @@ public class Robot extends IterativeRobot {
 			autonomousCommand = new ExampleCommand();
 			break;
 		} */
-    	
     	// schedule the autonomous command (example)
         if (autonomousCommand != null) autonomousCommand.start();
         System.out.println("Autonomous mode intialized");
@@ -97,7 +107,8 @@ public class Robot extends IterativeRobot {
      * This function is called periodically during autonomous
      */
     public void autonomousPeriodic() {
-        System.out.println("Auto loop:");
+    	//rightFlywheel.spin(256);
+    	System.out.println("encoder rate: " + RobotMap.rightFlyWheelEncoder.getRate());
         Scheduler.getInstance().run();
     }
 
