@@ -1,6 +1,7 @@
 
 package org.usfirst.frc.team1719.robot;
 
+import org.usfirst.frc.team1719.robot.subsystems.Arm;
 import org.usfirst.frc.team1719.robot.subsystems.DriveSubsystem;
 import org.usfirst.frc.team1719.robot.subsystems.ExampleSubsystem;
 
@@ -32,6 +33,7 @@ public class Robot extends IterativeRobot {
 	public static final IFireable weapon = new DummyWeapon();
 	public static OI oi;
 	public static DriveSubsystem drive;
+	public static Arm arm;
     Command autonomousCommand;
     SendableChooser chooser;
     
@@ -47,6 +49,7 @@ public class Robot extends IterativeRobot {
         SmartDashboard.putData("Auto mode", chooser);
         RobotMap.init();
         drive = new DriveSubsystem(RobotMap.leftController, RobotMap.rightController);
+        arm = new Arm();
         oi = new OI();
     }
 	

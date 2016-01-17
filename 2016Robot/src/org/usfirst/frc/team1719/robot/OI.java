@@ -73,14 +73,12 @@ public class OI {
 		final int RIGHT_BUTTON = 10;
 		
 		private Joystick driverXBOX;
-		private Joystick rightJoystick;
 	
 		private Button rotateButton;
 		private Button driveStraightButton;
 		
 		public OI(){
 			driverXBOX = new Joystick(0);
-			rightJoystick = new Joystick(1);
 			rotateButton = new JoystickButton(driverXBOX, A_BUTTON);
 			rotateButton.whenPressed(new TurnToAngle(90));
 			driveStraightButton = new JoystickButton(driverXBOX, B_BUTTON);
