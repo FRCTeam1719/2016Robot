@@ -1,6 +1,9 @@
 
 package org.usfirst.frc.team1719.robot;
 
+import org.usfirst.frc.team1719.robot.subsystems.DriveSubsystem;
+import org.usfirst.frc.team1719.robot.subsystems.ExampleSubsystem;
+
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
@@ -8,7 +11,6 @@ import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 
 import org.usfirst.frc.team1719.robot.commands.AutoSenseTower;
 import org.usfirst.frc.team1719.robot.subsystems.DummyWeapon;
-import org.usfirst.frc.team1719.robot.subsystems.ExampleSubsystem;
 import org.usfirst.frc.team1719.robot.subsystems.IFireable;
 
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
@@ -21,12 +23,15 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  * creating this project, you must also update the manifest file in the resource
  * directory.
  */
+//TEST
+
+
 public class Robot extends IterativeRobot {
 
 	public static final ExampleSubsystem exampleSubsystem = new ExampleSubsystem();
 	public static final IFireable weapon = new DummyWeapon();
 	public static OI oi;
-
+	public static DriveSubsystem drive;
     Command autonomousCommand;
     SendableChooser chooser;
     
@@ -36,13 +41,13 @@ public class Robot extends IterativeRobot {
      * used for any initialization code.
      */
     public void robotInit() {
-        System.out.println("Robot initializing...");
-		oi = new OI();
         chooser = new SendableChooser();
         chooser.addDefault("Sense Tower High Goals", new AutoSenseTower());
 //        chooser.addObject("My Auto", new MyAutoCommand());
         SmartDashboard.putData("Auto mode", chooser);
-        System.out.println("Robot initialized.");
+        RobotMap.init();
+        drive = new DriveSubsystem(RobotMap.leftController, RobotMap.rightController);
+        oi = new OI();
     }
 	
 	/**
@@ -68,9 +73,7 @@ public class Robot extends IterativeRobot {
 	 * or additional comparisons to the switch structure below with additional strings & commands.
 	 */
     public void autonomousInit() {
-        System.out.println("Initiating autonomous mode...");
         autonomousCommand = (Command) chooser.getSelected();
-        System.out.println("Autonomous start: " + autonomousCommand.toString());
 		/* String autoSelected = SmartDashboard.getString("Auto Selector", "Default");
 		switch(autoSelected) {
 		case "My Auto":
@@ -107,6 +110,7 @@ public class Robot extends IterativeRobot {
      * This function is called periodically during operator control
      */
     public void teleopPeriodic() {
+    	System.out.println(RobotMap.gyro.getAngle());
         Scheduler.getInstance().run();
     }
     

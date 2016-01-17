@@ -1,7 +1,11 @@
 package org.usfirst.frc.team1719.robot;
 
+import org.usfirst.frc.team1719.robot.commands.MoveForwards;
+import org.usfirst.frc.team1719.robot.commands.TurnToAngle;
+
+import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.buttons.Button;
-import org.usfirst.frc.team1719.robot.commands.AutoSenseTower;
+import edu.wpi.first.wpilibj.buttons.JoystickButton;
 
 /**
  * This class is the glue that binds the controls on the physical operator
@@ -34,5 +38,64 @@ public class OI {
     // Start the command when the button is released  and let it run the command
     // until it is finished as determined by it's isFinished method.
     // button.whenReleased(new ExampleCommand());
+	
+	//LOGITECH ATTACK 3 BINDINGS
+		final int ATTACK_X_AXIS = 0;
+		final int ATTACK_Y_AXIS = 1;
+		final int ATTACK_TRIGGER = 1;
+		final int ATTACK_BUTTON_2 = 2;
+		final int ATTACK_BUTTON_3 = 3;
+		final int ATTACK_BUTTON_4 = 4;
+		final int ATTACK_BUTTON_5 = 5;
+		final int ATTACK_BUTTON_6 = 6;
+		final int ATTACK_BUTTON_7 = 7;
+		final int ATTACK_BUTTON_8 = 8;
+		final int ATTACK_BUTTON_9 = 9;
+		final int ATTACK_BUTTON_10 = 10;
+		final int ATTACK_BUTTON_11 = 11;
+	
+		//XBOX BINDINGS
+		final int LEFT_X = 0;
+		final int LEFT_Y = 1;
+		final int LEFT_TRIGGER = 2;
+		final int RIGHT_TRIGGER = 3;
+		final int RIGHT_X = 4;
+		final int RIGHT_Y = 5;
+		final int A_BUTTON = 1;
+		final int B_BUTTON = 2;
+		final int X_BUTTON = 3;
+		final int Y_BUTTON = 4;
+		final int LEFT_BUMPER = 5;
+		final int RIGHT_BUMPER = 6;
+		final int BACK_BUTTON = 7;
+		final int START_BUTTON = 8;
+		final int LEFT_BUTTON = 9;
+		final int RIGHT_BUTTON = 10;
+		
+		private Joystick driverXBOX;
+		private Joystick rightJoystick;
+	
+		private Button rotateButton;
+		private Button driveStraightButton;
+		
+		public OI(){
+			driverXBOX = new Joystick(0);
+			rightJoystick = new Joystick(1);
+			rotateButton = new JoystickButton(driverXBOX, A_BUTTON);
+			rotateButton.whenPressed(new TurnToAngle(90));
+			driveStraightButton = new JoystickButton(driverXBOX, B_BUTTON);
+			driveStraightButton.whenPressed(new MoveForwards(200));
+		}
+		
+	
+		public double getLeftReading(){
+			return driverXBOX.getRawAxis(LEFT_Y);
+		}
+		
+		public double getRightReading(){
+			return driverXBOX.getRawAxis(RIGHT_Y);
+		}
+		
+		
 }
 
