@@ -13,6 +13,7 @@ public class AutoSenseTower extends Command {
 
     private static final double MIN_DISTANCE_FT = 2.0D;
     private static final double MAX_DISTANCE_FT = 10.0D;
+    private static final double WHEEL_RADIUS_FT = 0.5D;
     private static final double TARGET_HEIGHT_FT = 7.583D;
     private static final double ANGLE_ACC_DEG = 10.0D;
     
@@ -39,8 +40,9 @@ public class AutoSenseTower extends Command {
         double dist2 = Math.min(pos.distance - MIN_DISTANCE_FT, 0.0D);
         SmartDashboard.putNumber("MoveDistParam", (dist1 > 0.0D) ? dist1 : dist2);
         double firingAltitude, firingVelocity;
-        firingAltitude = 0; // add calculations
+        firingAltitude = firingVelocity = 0; // add calculations for altitude/velocity
         SmartDashboard.putNumber("MoveArmParam", firingAltitude);
+        SmartDashboard.putNumber("FlywheelParam", firingVelocity / (WHEEL_RADIUS_FT * 2.0D * Math.PI));
         done = true;
         return;
     }

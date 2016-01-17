@@ -1,5 +1,6 @@
 package org.usfirst.frc.team1719.robot.subsystems;
 
+import org.usfirst.frc.team1719.robot.commands.UseFlyWheel;
 import org.usfirst.frc.team1719.robot.settings.PIDData;
 
 import edu.wpi.first.wpilibj.Encoder;
@@ -31,8 +32,7 @@ public class FlyWheel extends Subsystem {
 
 	@Override
 	protected void initDefaultCommand() {
-		// TODO Auto-generated method stub
-		
+		setDefaultCommand(new UseFlyWheel());
 	}
 	
 	public void reset(){

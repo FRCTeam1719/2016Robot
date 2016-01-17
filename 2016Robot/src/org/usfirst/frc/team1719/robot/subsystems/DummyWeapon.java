@@ -8,16 +8,11 @@ public class DummyWeapon extends Subsystem implements IFireable {
     public DummyWeapon() {}
     
     @Override
-    public void fire() {
+    public boolean fire() {
         SmartDashboard.putBoolean("Fired?", true);
+        return true;
     }
     
     @Override
     protected void initDefaultCommand() {}
-
-    @Override
-    public void aimAndFire(double distance, double height) {
-        this.fire();
-    }
-    
 }
