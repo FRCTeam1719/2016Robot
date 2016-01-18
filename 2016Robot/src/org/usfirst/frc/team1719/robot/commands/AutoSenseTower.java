@@ -19,6 +19,12 @@ public class AutoSenseTower extends Command {
     private static final double MASS = 0.2954545455D;
     private static final double K_DRAG = 0.05834736622D;
     private static final double VELOCITY_MAX = 13.5D;
+    private static final double HACKY_NUMBER_A = 11080.0D;
+    private static final double HACKY_NUMBER_B = -3067D;
+    private static final double HACKY_NUMBER_C = 339.7D;
+    private static final double HACKY_NUMBER_D = -18.76D;
+    private static final double HACKY_NUMBER_E = 0.5166D;
+    private static final double HACKY_NUMBER_F = -0.005665D;
     
     boolean done;
     
@@ -49,7 +55,12 @@ public class AutoSenseTower extends Command {
         firingVelocity = Math.sqrt(v_0_x * v_0_x + V_0_Y * V_0_Y);
         firingAltitude = (180.0D / Math.PI) * Math.atan(V_0_Y / v_0_x);
         if(firingVelocity > VELOCITY_MAX) {
-            // Deal with excessive distances
+            // Hack -- deal with excessive distances by interpolation between estimated points using
+            // a quintic curve fit because actually solving the equation is (nigh) impossible.
+            firingAltitude = HACKY_NUMBER_A * Math.pow(pos.distance, 5.0D) + HACKY_NUMBER_B * Math.pow(pos.distance, 4.0D)
+                    + HACKY_NUMBER_C * Math.pow(pos.distance, 3.0D) + HACKY_NUMBER_D * Math.pow(pos.distance, 2.0D)
+                    + HACKY_NUMBER_E * pos.distance + HACKY_NUMBER_F;
+            firingVelocity = VELOCITY_MAX;
         }
         SmartDashboard.putNumber("MoveArmParam", firingAltitude);
         SmartDashboard.putNumber("FlywheelParam", firingVelocity / (M_PER_FT * WHEEL_RADIUS_FT * 2.0D * Math.PI));
