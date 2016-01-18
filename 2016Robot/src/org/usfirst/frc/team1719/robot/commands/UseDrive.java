@@ -33,6 +33,12 @@ public class UseDrive extends Command{
 	    //Adjust sensitivity
 		left = Math.abs(left) * left;
 		right = Math.abs(right) * right;
+		//Sync the two sides if within the tolerance
+		if(Math.max(Math.abs(left), Math.abs(right)) - Math.min(Math.abs(left), Math.abs(right)) < TOLERANCE){
+			double corectedSpeed = (left +right) /2;
+			left = corectedSpeed;
+			right = corectedSpeed;
+		}
 		Robot.drive.operateDrive(-right, -left);
 	}
 
