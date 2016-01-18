@@ -2,12 +2,13 @@
 package org.usfirst.frc.team1719.robot;
 
 import org.usfirst.frc.team1719.robot.commands.ExampleCommand;
-import org.usfirst.frc.team1719.robot.commands.MoveForwards;
 import org.usfirst.frc.team1719.robot.commands.UseFlyWheel;
 import org.usfirst.frc.team1719.robot.settings.PIDData;
 import org.usfirst.frc.team1719.robot.subsystems.DriveSubsystem;
+import org.usfirst.frc.team1719.robot.subsystems.DualShooter;
 import org.usfirst.frc.team1719.robot.subsystems.ExampleSubsystem;
 import org.usfirst.frc.team1719.robot.subsystems.FlyWheel;
+
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
@@ -31,11 +32,13 @@ public class Robot extends IterativeRobot {
 	public static OI oi;
 	public static DriveSubsystem drive;
 	public static FlyWheel rightFlywheel;
-	public static FlyWheel leftFlywheel;	
+	public static FlyWheel leftFlywheel;
+	public static DualShooter shooter;
 	PIDData rightFlywheelPIDData;
 	PIDData leftFlywheelPIDData;
     Command autonomousCommand;
     SendableChooser chooser;
+    public static boolean isAuton = false;
 
     /**
      * This function is run when the robot is first started up and should be
@@ -65,14 +68,18 @@ public class Robot extends IterativeRobot {
         drive = new DriveSubsystem(RobotMap.leftController, RobotMap.rightController);
         rightFlywheel = new FlyWheel(RobotMap.rightFlyWheelTalon, RobotMap.rightFlyWheelEncoder, rightFlywheelPIDData);
         leftFlywheel =  new FlyWheel(RobotMap.leftFlyWheelTalon, RobotMap.leftFlyWheelEncoder, leftFlywheelPIDData);
+        shooter = new DualShooter(leftFlywheel, rightFlywheel, RobotMap.holderMotorTalon );
         oi = new OI();
+        isAuton = false;
     }
 	
     public void smartDashboardInit(){
-    	SmartDashboard.putNumber("Drive kP", -0.02);
-    	SmartDashboard.putNumber("Drive kI", 0.003);
-    	SmartDashboard.putNumber("Drive kD", 0.003);
+    	SmartDashboard.putNumber("Drive kP", 0);
+    	SmartDashboard.putNumber("Drive kI", 0.);
+    	SmartDashboard.putNumber("Drive kD", 0.);
     }
+    
+    
     
     
 	/**
@@ -81,6 +88,7 @@ public class Robot extends IterativeRobot {
 	 * the robot is disabled.
      */
     public void disabledInit(){
+    	isAuton = false;
     	rightFlywheel.spin(0);
     	leftFlywheel.spin(0);
     }
@@ -99,6 +107,7 @@ public class Robot extends IterativeRobot {
 	 * or additional comparisons to the switch structure below with additional strings & commands.
 	 */
     public void autonomousInit() {
+    	isAuton = true;
         autonomousCommand = new UseFlyWheel(15, 15);
         
 
@@ -131,9 +140,12 @@ public class Robot extends IterativeRobot {
         // teleop starts running. If you want the autonomous to 
         // continue until interrupted by another command, remove
         // this line or comment it out.
+    	isAuton = false;
         if (autonomousCommand != null) autonomousCommand.cancel();
     }
 
+    
+    //TODO: Implement instance of ShootBoulder for testing.
     /**
      * This function is called periodically during operator control
      */
@@ -145,6 +157,8 @@ public class Robot extends IterativeRobot {
      * This function is called periodically during test mode
      */
     public void testPeriodic() {
+    	isAuton = false;
         LiveWindow.run();
     }
+    
 }

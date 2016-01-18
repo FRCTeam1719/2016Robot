@@ -38,6 +38,8 @@ public class RobotMap {
 	public static Encoder leftFlyWheelEncoder;
 	public static AnalogGyro gyro;
 	
+	public static Talon holderMotorTalon;
+	
 	public static void init(){
 		leftController = new Talon(0);
 		rightController = new Talon(1);
@@ -51,6 +53,8 @@ public class RobotMap {
 		configureEncoder(rightFlyWheelEncoder);
 		configureEncoder(leftFlyWheelEncoder);
 		gyro = new AnalogGyro(0);
+		
+		holderMotorTalon = new Talon(4);
 		
 	}
 	

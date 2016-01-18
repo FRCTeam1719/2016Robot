@@ -1,5 +1,8 @@
 package org.usfirst.frc.team1719.robot.subsystems;
 
+
+import java.util.stream.DoubleStream;
+
 import org.usfirst.frc.team1719.robot.settings.PIDData;
 
 import edu.wpi.first.wpilibj.Encoder;
@@ -7,10 +10,14 @@ import edu.wpi.first.wpilibj.Talon;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
+//TODO: FPS math
+
 public class FlyWheel extends Subsystem {
 	
 	Talon motor;
 	Encoder encoder;
+	
+	double errors[] = new double[30];
 	
 	PIDData pidData;
 	double previousError = 0;
@@ -72,10 +79,20 @@ public class FlyWheel extends Subsystem {
 		
 		motor.set(output);
 		
+		for (int i = (errors.length - 1); i >= 0; i--) {                
+		    errors[i+1] = errors[i];
+		}
+		errors[0] = error;
+		
 		previousError = error;
 		System.out.println("Output: " + output);
 		System.out.println("Error: " + error);
 		System.out.println("kP: "+ pidData.kP);
+	}
+	
+	public boolean isStabilized(double tolerance)
+	{
+		return (DoubleStream.of(errors).sum()/30)>tolerance;
 	}
 	
 	public double getRate() {
