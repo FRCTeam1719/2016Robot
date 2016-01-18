@@ -32,6 +32,9 @@ public class RobotMap {
 	public static Talon rightFlyWheelTalon;
 	public static Encoder rightFlyWheelEncoder;
 	
+	public static Talon leftFlyWheelTalon;
+	public static Encoder leftFlyWheelEncoder;
+	
 	public static void init(){
 		leftController = new Talon(0);
 		rightController = new Talon(1);
@@ -40,8 +43,11 @@ public class RobotMap {
 		
 		rightFlyWheelTalon = new Talon(2);
 		rightFlyWheelEncoder = new Encoder(4, 5, true, Encoder.EncodingType.k4X);
+		
+		leftFlyWheelTalon = new Talon(3);
+		leftFlyWheelEncoder = new Encoder(6, 7, true, Encoder.EncodingType.k4X);
 		configureEncoder(rightFlyWheelEncoder);
-
+		configureEncoder(leftFlyWheelEncoder);
 		
 	}
 	

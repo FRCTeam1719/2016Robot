@@ -31,8 +31,10 @@ public class Robot extends IterativeRobot {
 	public static DriveSubsystem drive;
 	public static Shifters shifters;
 	public static FlyWheel rightFlywheel;
+	public static FlyWheel leftFlywheel;
 	
 	PIDData rightFlywheelPIDData;
+	PIDData leftFlywheelPIDData;
     Command autonomousCommand;
     SendableChooser chooser;
 
@@ -43,19 +45,27 @@ public class Robot extends IterativeRobot {
     public void robotInit() {
 		
     	rightFlywheelPIDData = new PIDData();
+    	leftFlywheelPIDData = new PIDData();
         chooser = new SendableChooser();
         chooser.addDefault("Default Auto", new ExampleCommand());
 //        chooser.addObject("My Auto", new MyAutoCommand());
         SmartDashboard.putData("Auto mode", chooser);
+        
+        //puts right flywheel PID values on the smart Dashboard
         SmartDashboard.putNumber("Right flywheel kP: ", rightFlywheelPIDData.kP);
         SmartDashboard.putNumber("Right flywheel kI: ", rightFlywheelPIDData.kI);
         SmartDashboard.putNumber("Right flywheel kD: ", rightFlywheelPIDData.kD);
         
+        // puts left flywheel PID values on the smart Dashboard
+        SmartDashboard.putNumber("Left flywheel kP: ", leftFlywheelPIDData.kP);
+        SmartDashboard.putNumber("Left flywheel kI: ", leftFlywheelPIDData.kI);
+        SmartDashboard.putNumber("Left flywheel kD: ", leftFlywheelPIDData.kD);        
 
         RobotMap.init();
         drive = new DriveSubsystem(RobotMap.leftController, RobotMap.rightController);
         shifters = new Shifters(RobotMap.shifterSolenoid);
         rightFlywheel = new FlyWheel(RobotMap.rightFlyWheelTalon, RobotMap.rightFlyWheelEncoder, rightFlywheelPIDData);
+        leftFlywheel =  new FlyWheel(RobotMap.leftFlyWheelTalon, RobotMap.leftFlyWheelEncoder, leftFlywheelPIDData);
         oi = new OI();
     }
 	
@@ -66,6 +76,7 @@ public class Robot extends IterativeRobot {
      */
     public void disabledInit(){
     	rightFlywheel.spin(0);
+    	leftFlywheel.spin(0);
     }
 	
 	public void disabledPeriodic() {
@@ -82,7 +93,7 @@ public class Robot extends IterativeRobot {
 	 * or additional comparisons to the switch structure below with additional strings & commands.
 	 */
     public void autonomousInit() {
-        autonomousCommand = new UseFlyWheel();
+        autonomousCommand = new UseFlyWheel(15, 15);
         
 		/* String autoSelected = SmartDashboard.getString("Auto Selector", "Default");
 		switch(autoSelected) {
