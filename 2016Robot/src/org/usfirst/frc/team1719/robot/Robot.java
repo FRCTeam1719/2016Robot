@@ -6,6 +6,9 @@ import org.usfirst.frc.team1719.robot.subsystems.DriveSubsystem;
 import org.usfirst.frc.team1719.robot.subsystems.ExampleSubsystem;
 import org.usfirst.frc.team1719.robot.subsystems.Shifters;
 
+import com.ni.vision.NIVision;
+
+import edu.wpi.first.wpilibj.CameraServer;
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
@@ -23,20 +26,23 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 //TEST
 public class Robot extends IterativeRobot {
 
+	final String CAMERA_NAME = "";
 	public static final ExampleSubsystem exampleSubsystem = new ExampleSubsystem();
 	public static OI oi;
 	public static DriveSubsystem drive;
 	public static Shifters shifters;
     Command autonomousCommand;
     SendableChooser chooser;
-
+    CameraServer camServer;
     /**
      * This function is run when the robot is first started up and should be
      * used for any initialization code.
      */
     public void robotInit() {
-		
-        chooser = new SendableChooser();
+    	camServer = CameraServer.getInstance();
+    	camServer.setQuality(50);
+    	camServer.startAutomaticCapture(CAMERA_NAME);
+    	chooser = new SendableChooser();
         chooser.addDefault("Default Auto", new ExampleCommand());
 //        chooser.addObject("My Auto", new MyAutoCommand());
         SmartDashboard.putData("Auto mode", chooser);
