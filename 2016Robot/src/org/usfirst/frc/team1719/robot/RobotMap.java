@@ -22,6 +22,7 @@ public class RobotMap {
     // number and the module. For example you with a rangefinder:
     // public static int rangefinderPort = 1;
     // public static int rangefinderModule = 1;
+	static double FLYWHEEL_CIRCUMFRENCE_FEET = 1.57075;
 	
 	static SpeedController leftController;
 	static SpeedController rightController;
@@ -48,7 +49,7 @@ public class RobotMap {
 	private static void configureEncoder(Encoder encoder){
 		encoder.setMaxPeriod(.02);
 		encoder.setMinRate(10);
-		encoder.setDistancePerPulse(1);
+		encoder.setDistancePerPulse(FLYWHEEL_CIRCUMFRENCE_FEET);
 		encoder.setSamplesToAverage(127);
 	}
 	
