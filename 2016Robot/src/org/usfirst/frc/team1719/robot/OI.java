@@ -1,6 +1,7 @@
 package org.usfirst.frc.team1719.robot;
 
-import org.usfirst.frc.team1719.robot.commands.toggleShifters;
+import org.usfirst.frc.team1719.robot.commands.MoveForwards;
+import org.usfirst.frc.team1719.robot.commands.TurnToAngle;
 
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.buttons.Button;
@@ -53,24 +54,46 @@ public class OI {
 		final int ATTACK_BUTTON_10 = 10;
 		final int ATTACK_BUTTON_11 = 11;
 	
-		private Joystick leftJoystick;
+		//XBOX BINDINGS
+		final int LEFT_X = 0;
+		final int LEFT_Y = 1;
+		final int LEFT_TRIGGER = 2;
+		final int RIGHT_TRIGGER = 3;
+		final int RIGHT_X = 4;
+		final int RIGHT_Y = 5;
+		final int A_BUTTON = 1;
+		final int B_BUTTON = 2;
+		final int X_BUTTON = 3;
+		final int Y_BUTTON = 4;
+		final int LEFT_BUMPER = 5;
+		final int RIGHT_BUMPER = 6;
+		final int BACK_BUTTON = 7;
+		final int START_BUTTON = 8;
+		final int LEFT_BUTTON = 9;
+		final int RIGHT_BUTTON = 10;
+		
+		private Joystick driverXBOX;
 		private Joystick rightJoystick;
 	
-		private Button toggleButton;
+		private Button rotateButton;
+		private Button driveStraightButton;
+		
 		public OI(){
-			leftJoystick = new Joystick(0);
+			driverXBOX = new Joystick(0);
 			rightJoystick = new Joystick(1);
-			toggleButton = new JoystickButton(leftJoystick, ATTACK_TRIGGER);
-			toggleButton.whenPressed(new toggleShifters());
+			rotateButton = new JoystickButton(driverXBOX, A_BUTTON);
+			rotateButton.whenPressed(new TurnToAngle(90));
+			driveStraightButton = new JoystickButton(driverXBOX, B_BUTTON);
+			driveStraightButton.whenPressed(new MoveForwards(600));
 		}
 		
 	
 		public double getLeftReading(){
-			return leftJoystick.getRawAxis(ATTACK_Y_AXIS);
+			return driverXBOX.getRawAxis(LEFT_Y);
 		}
 		
 		public double getRightReading(){
-			return rightJoystick.getRawAxis(ATTACK_Y_AXIS);
+			return driverXBOX.getRawAxis(RIGHT_Y);
 		}
 		
 		

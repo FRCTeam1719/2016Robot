@@ -1,5 +1,6 @@
 package org.usfirst.frc.team1719.robot;
 
+import edu.wpi.first.wpilibj.AnalogGyro;
 import edu.wpi.first.wpilibj.Compressor;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.Solenoid;
@@ -33,16 +34,17 @@ public class RobotMap {
 	public static Talon rightFlyWheelTalon;
 	public static Encoder rightFlyWheelEncoder;
 	
+	public static AnalogGyro gyro;
+	
 	public static void init(){
 		leftController = new Talon(0);
 		rightController = new Talon(1);
 		mainCompressor = new Compressor();
-		shifterSolenoid = new Solenoid(0);
-		
+		shifterSolenoid = new Solenoid(0);		
 		rightFlyWheelTalon = new Talon(2);
 		rightFlyWheelEncoder = new Encoder(4, 5, true, Encoder.EncodingType.k4X);
 		configureEncoder(rightFlyWheelEncoder);
-
+		gyro = new AnalogGyro(0);
 		
 	}
 	
@@ -51,6 +53,7 @@ public class RobotMap {
 		encoder.setMinRate(10);
 		encoder.setDistancePerPulse(FLYWHEEL_CIRCUMFRENCE_FEET);
 		encoder.setSamplesToAverage(127);
+		
 	}
 	
 }
