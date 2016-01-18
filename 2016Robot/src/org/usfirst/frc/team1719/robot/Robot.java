@@ -2,13 +2,12 @@
 package org.usfirst.frc.team1719.robot;
 
 import org.usfirst.frc.team1719.robot.commands.ExampleCommand;
+import org.usfirst.frc.team1719.robot.commands.MoveForwards;
 import org.usfirst.frc.team1719.robot.commands.UseFlyWheel;
 import org.usfirst.frc.team1719.robot.settings.PIDData;
 import org.usfirst.frc.team1719.robot.subsystems.DriveSubsystem;
 import org.usfirst.frc.team1719.robot.subsystems.ExampleSubsystem;
 import org.usfirst.frc.team1719.robot.subsystems.FlyWheel;
-import org.usfirst.frc.team1719.robot.subsystems.Shifters;
-
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
@@ -24,15 +23,15 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  * directory.
  */
 //TEST
+
+
 public class Robot extends IterativeRobot {
 
 	public static final ExampleSubsystem exampleSubsystem = new ExampleSubsystem();
 	public static OI oi;
 	public static DriveSubsystem drive;
-	public static Shifters shifters;
 	public static FlyWheel rightFlywheel;
-	public static FlyWheel leftFlywheel;
-	
+	public static FlyWheel leftFlywheel;	
 	PIDData rightFlywheelPIDData;
 	PIDData leftFlywheelPIDData;
     Command autonomousCommand;
@@ -62,13 +61,20 @@ public class Robot extends IterativeRobot {
         SmartDashboard.putNumber("Left flywheel kD: ", leftFlywheelPIDData.kD);        
 
         RobotMap.init();
+        smartDashboardInit();
         drive = new DriveSubsystem(RobotMap.leftController, RobotMap.rightController);
-        shifters = new Shifters(RobotMap.shifterSolenoid);
         rightFlywheel = new FlyWheel(RobotMap.rightFlyWheelTalon, RobotMap.rightFlyWheelEncoder, rightFlywheelPIDData);
         leftFlywheel =  new FlyWheel(RobotMap.leftFlyWheelTalon, RobotMap.leftFlyWheelEncoder, leftFlywheelPIDData);
         oi = new OI();
     }
 	
+    public void smartDashboardInit(){
+    	SmartDashboard.putNumber("Drive kP", -0.02);
+    	SmartDashboard.putNumber("Drive kI", 0.003);
+    	SmartDashboard.putNumber("Drive kD", 0.003);
+    }
+    
+    
 	/**
      * This function is called once each time the robot enters Disabled mode.
      * You can use it to reset any subsystem information you want to clear when
@@ -95,6 +101,7 @@ public class Robot extends IterativeRobot {
     public void autonomousInit() {
         autonomousCommand = new UseFlyWheel(15, 15);
         
+
 		/* String autoSelected = SmartDashboard.getString("Auto Selector", "Default");
 		switch(autoSelected) {
 		case "My Auto":

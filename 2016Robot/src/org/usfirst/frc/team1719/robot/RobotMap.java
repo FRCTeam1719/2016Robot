@@ -1,5 +1,6 @@
 package org.usfirst.frc.team1719.robot;
 
+import edu.wpi.first.wpilibj.AnalogGyro;
 import edu.wpi.first.wpilibj.Compressor;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.Solenoid;
@@ -22,6 +23,7 @@ public class RobotMap {
     // number and the module. For example you with a rangefinder:
     // public static int rangefinderPort = 1;
     // public static int rangefinderModule = 1;
+	static double FLYWHEEL_CIRCUMFRENCE_FEET = 1.57075;
 	
 	static SpeedController leftController;
 	static SpeedController rightController;
@@ -34,13 +36,13 @@ public class RobotMap {
 	
 	public static Talon leftFlyWheelTalon;
 	public static Encoder leftFlyWheelEncoder;
+	public static AnalogGyro gyro;
 	
 	public static void init(){
 		leftController = new Talon(0);
 		rightController = new Talon(1);
 		mainCompressor = new Compressor();
-		shifterSolenoid = new Solenoid(0);
-		
+		shifterSolenoid = new Solenoid(0);		
 		rightFlyWheelTalon = new Talon(2);
 		rightFlyWheelEncoder = new Encoder(4, 5, true, Encoder.EncodingType.k4X);
 		
@@ -48,14 +50,16 @@ public class RobotMap {
 		leftFlyWheelEncoder = new Encoder(6, 7, true, Encoder.EncodingType.k4X);
 		configureEncoder(rightFlyWheelEncoder);
 		configureEncoder(leftFlyWheelEncoder);
+		gyro = new AnalogGyro(0);
 		
 	}
 	
 	private static void configureEncoder(Encoder encoder){
 		encoder.setMaxPeriod(.02);
 		encoder.setMinRate(10);
-		encoder.setDistancePerPulse(1);
+		encoder.setDistancePerPulse(FLYWHEEL_CIRCUMFRENCE_FEET);
 		encoder.setSamplesToAverage(127);
+		
 	}
 	
 }

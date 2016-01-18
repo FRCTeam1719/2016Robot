@@ -19,7 +19,8 @@ public class FlyWheel extends Subsystem {
 	double integral = 0;
 	double derivative = 0;
 	
-	final double ONEROTATION = 256;
+	final double ONEROTATION = 1.57075;
+	final double TOLERANCE_FEET_PER_SECOND = 1;
 	
 	public FlyWheel(Talon controller, Encoder enc, PIDData pidData) {
 		
@@ -40,8 +41,8 @@ public class FlyWheel extends Subsystem {
 		output = 0;
 	}
 
-	public void spin(double rotPerSecond) {
-		double desiredSpeed = ONEROTATION * rotPerSecond;
+	public void spin(double feetPerSecond) {
+		double desiredSpeed = feetPerSecond;
 		pidData.kP = SmartDashboard.getNumber("Right flywheel kP: ");
 		pidData.kI = SmartDashboard.getNumber("Right flywheel kI: ");
 		pidData.kD = SmartDashboard.getNumber("Right flywheel kD: ");
@@ -55,7 +56,7 @@ public class FlyWheel extends Subsystem {
 		integral += error;
 		derivative = error - previousError;
 		
-		if(Math.abs(error) < 100)
+		if(Math.abs(error) < TOLERANCE_FEET_PER_SECOND)
 		{
 			integral = 0;
 		}
