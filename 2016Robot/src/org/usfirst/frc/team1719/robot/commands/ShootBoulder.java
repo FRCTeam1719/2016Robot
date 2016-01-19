@@ -32,7 +32,6 @@ public class ShootBoulder extends Command {
 		Robot.shooter.spin(leftPower, rightPower);
 		isStabilized = Robot.shooter.isStabilized();
 		
-		//TODO Get .isAutonomous to work
 		if((!Robot.isAuton && isStabilized && Robot.oi.getFireButton())||
 				(Robot.isAuton && isStabilized && SmartDashboard.getBoolean("Angle Reached")))
 		{
@@ -43,19 +42,16 @@ public class ShootBoulder extends Command {
 
 	@Override
 	protected void initialize() {
-		// TODO Auto-generated method stub
 		Robot.shooter.reset();
 	}
 
 	@Override
 	protected void interrupted() {
-		// TODO Auto-generated method stub
 
 	}
 
 	@Override
 	protected boolean isFinished() {
-		// TODO Auto-generated method stub
 		return hasShot;
 	}
 

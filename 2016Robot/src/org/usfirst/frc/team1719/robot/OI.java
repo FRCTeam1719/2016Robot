@@ -1,6 +1,7 @@
 package org.usfirst.frc.team1719.robot;
 
 import org.usfirst.frc.team1719.robot.commands.MoveForwards;
+import org.usfirst.frc.team1719.robot.commands.ShootBoulder;
 import org.usfirst.frc.team1719.robot.commands.TurnToAngle;
 
 import edu.wpi.first.wpilibj.Joystick;
@@ -87,6 +88,7 @@ public class OI {
 			driveStraightButton = new JoystickButton(driverXBOX, B_BUTTON);
 			driveStraightButton.whenPressed(new MoveForwards(600));
 			fireButton = new JoystickButton(rightJoystick, ATTACK_TRIGGER);
+			fireButton.whenPressed(new ShootBoulder(10, 10));
 		}
 		
 	

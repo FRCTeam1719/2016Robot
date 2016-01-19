@@ -145,7 +145,6 @@ public class Robot extends IterativeRobot {
     }
 
     
-    //TODO: Implement instance of ShootBoulder for testing.
     /**
      * This function is called periodically during operator control
      */
