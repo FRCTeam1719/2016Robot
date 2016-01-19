@@ -50,7 +50,6 @@ public class AutoSenseTower extends Command {
         SmartDashboard.putNumber("MoveDistParam", (dist1 > 0.0D) ? dist1 : dist2);
         double distance_m = M_PER_FT * pos.distance;
         double firingAltitude, firingVelocity;
-        firingAltitude = firingVelocity = 0; // add calculations for altitude/velocity
         double v_0_x = MASS * (Math.exp(K_DRAG * distance_m / MASS) - 1.0D) / (K_DRAG * T_TO_APEX);
         firingVelocity = Math.sqrt(v_0_x * v_0_x + V_0_Y * V_0_Y);
         firingAltitude = (180.0D / Math.PI) * Math.atan(V_0_Y / v_0_x);
