@@ -56,8 +56,8 @@ public class TargetVision {
     private static final double VIEW_ANGLE_HEIGHT_DEG = 50.0D;
     private static final double CAM_HEIGHT_FT = 1.0D;
     private static final double SCORE_MIN = 75.0D;
-    private static final double TARGET_WIDTH_IN = 20.0D;
     private static final double TARGET_HEIGHT_FT = 7.583D;
+    private static final double CAM_ALTITUDE_DEG = 25.0D;
     
     private static final NetworkTable table1;
     private static final NetworkTable table2;
@@ -74,35 +74,28 @@ public class TargetVision {
         System.out.println("Contours: " + contours.size());
         if(contours.size() > 0)
         {
-
-            //This example only scores the largest particle. Extending to score all particles and choosing the desired one is left as an exercise
-            //for the reader. Note that this scores and reports information about a single particle (single L shaped target). To get accurate information 
-            //about the location of the tote (not just the distance) you will need to correlate two adjacent targets in order to find the true center of the tote.
-            double aspectScore = scoreAspect(contours.elementAt(0));
-            SmartDashboard.putNumber("Aspect Score", aspectScore);
-            System.out.println("Aspect" + aspectScore);
-            double areaScore = scoreArea(contours.elementAt(0));
-            SmartDashboard.putNumber("Area Score", aspectScore);
+            Contour contour = contours.elementAt(0);
+            double areaScore = scoreArea(contour);
+            SmartDashboard.putNumber("Area Score", areaScore);
             System.out.println("Area" + areaScore);
-            boolean lock = aspectScore > SCORE_MIN && areaScore > SCORE_MIN;
+            boolean lock = areaScore > SCORE_MIN;
 
             //Send distance and tote status to dashboard. The bounding rect, particularly the horizontal center (left - right) may be useful for rotating/driving towards a tote
             SmartDashboard.putBoolean("Target Lock", lock);
             if(!lock) {
                 return null;
             }
-            double widthcalc_distance = computeDistance(contours.elementAt(0));
-            double azimuth = computeTargetAzimuth(contours.elementAt(0));
-            double altitude = computeTargetAltitude(contours.elementAt(0));
-            double altcalc_distance = (TARGET_HEIGHT_FT - CAM_HEIGHT_FT) / Math.tan((Math.PI / 180.0D) * altitude);
-            SmartDashboard.putNumber("Target Distance", altcalc_distance);
+            double azimuth = computeTargetAzimuth(contour);
+            double altitude = computeTargetAltitude(contour);
+            double distance = (TARGET_HEIGHT_FT - CAM_HEIGHT_FT) / Math.tan((Math.PI / 180.0D) * altitude);
+            SmartDashboard.putNumber("Target Distance", distance);
             SmartDashboard.putNumber("Target Azimuth", azimuth);
             SmartDashboard.putNumber("Target Altitude", altitude);
-            System.out.println("Distance" + altcalc_distance);
+            System.out.println("Distance" + distance);
             System.out.println("Azimuth" + azimuth);
             System.out.println("Altitude" + altitude);
-            double angleToNormal = Math.acos(widthcalc_distance / altcalc_distance);
-            return new TargetPos(altcalc_distance, azimuth, altitude, angleToNormal);
+            double angleToNormal = Math.acos((14.0D/20.0D) * (contour.width / contour.height) * Math.cos(CAM_ALTITUDE_DEG));
+            return new TargetPos(distance, azimuth, altitude, angleToNormal);
         } else {
             SmartDashboard.putBoolean("Target Lock", false);
             return null;
@@ -116,26 +109,15 @@ public class TargetVision {
     private static double scoreArea(Contour contour) {
         return ratioToScore((280.0D/88.0D) * contour.area1 / contour.area2);
     }
-
-    private static double scoreAspect(Contour contour) {
-        return ratioToScore((14.0D/20.0D) * (contour.width / contour.height));
-    }
-    
-    private static double computeDistance(Contour contour) {
-        double normalizedWidth;
-        normalizedWidth = 2.0D * contour.width / VIEW_WIDTH_PX;
-
-        return  TARGET_WIDTH_IN / (normalizedWidth * 12 * Math.tan(VIEW_ANGLE_DEG * Math.PI / (180*2)));
-    }
     
     private static double computeTargetAzimuth(Contour contour) {
         double normalizedPosX = 2.0D * contour.posX / VIEW_WIDTH_PX - 1.0D;
-        return (Math.atan(normalizedPosX * Math.tan(VIEW_ANGLE_DEG*Math.PI/(180*2))) * (180.0D / Math.PI));
+        return (Math.atan(normalizedPosX * Math.tan(VIEW_ANGLE_DEG * Math.PI / (180*2))) * (180.0D / Math.PI));
     }
     
     private static double computeTargetAltitude(Contour contour) {
         double normalizedPosY = 2.0D * contour.posY / VIEW_HEIGHT_PX - 1.0D;
-        return (Math.atan(normalizedPosY * Math.tan(VIEW_ANGLE_HEIGHT_DEG * Math.PI / (180*2))) * (180.0D / Math.PI));
+        return (Math.atan(normalizedPosY * Math.tan(VIEW_ANGLE_HEIGHT_DEG * Math.PI / (180*2))) * (180.0D / Math.PI)) + CAM_ALTITUDE_DEG;
     }
     
     static {
