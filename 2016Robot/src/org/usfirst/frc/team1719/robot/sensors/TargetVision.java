@@ -50,10 +50,10 @@ public class TargetVision {
         }
     }
     
-    private static final double VIEW_WIDTH_PX = 1000.0D;
-    private static final double VIEW_HEIGHT_PX = 700.0D;
-    private static final double VIEW_ANGLE_DEG = 49.4D; //View angle fo camera, set to Axis m1011 by default, 64 for m1013, 51.7 for 206, 52 for HD3000 square, 60 for HD3000 640x480
-    private static final double VIEW_ANGLE_HEIGHT_DEG = 50.0D;
+    private static final double VIEW_WIDTH_PX = 1280.0D;
+    private static final double VIEW_HEIGHT_PX = 720.0D;
+    private static final double VIEW_ANGLE_DEG = 54.70D;
+    private static final double VIEW_ANGLE_HEIGHT_DEG = 18.59D;
     private static final double CAM_HEIGHT_FT = 1.0D;
     private static final double SCORE_MIN = 75.0D;
     private static final double TARGET_HEIGHT_FT = 7.583D;
