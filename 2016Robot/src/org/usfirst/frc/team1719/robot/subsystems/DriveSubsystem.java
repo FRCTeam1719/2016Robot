@@ -44,7 +44,7 @@ public class DriveSubsystem extends Subsystem{
 		double error = currentAngle;
 		integral += error;
 		if(Math.abs(currentAngle) < PIDTolerance){
-			//integral = 0;
+			integral = 0;
 			error = 0;
 		}
 		derivative = error - previousError;

@@ -14,7 +14,7 @@ public class UseDrive extends Command{
 	}
 	double startValueL = 0;
 	double startValueR = 0;
-	double smooth = 420 /10;
+	double smooth = 0.5;
 	double corectedValueL = 0;
 	double corectedValueR = 0;
 	@Override
@@ -37,12 +37,16 @@ public class UseDrive extends Command{
 		left = Math.abs(left) * left;
 		right = Math.abs(right) * right;
 		//Smooth Drive
+		if(left != 0){
 		corectedValueL = (left*smooth) + ( corectedValueL * ( 1.0 - smooth));
 		left = corectedValueL;
+		}
+		if(right != 0){
 		corectedValueR = (right*smooth) + ( corectedValueR * ( 1.0 - smooth));
 		right = corectedValueR;
+		}
 		//Sync the two sides if within the tolerance
-		if(Math.max(Math.abs(left), Math.abs(right)) - Math.min(Math.abs(left), Math.abs(right)) < TOLERANCE){
+		if(Math.abs(left - right) < TOLERANCE){
 			double corectedSpeed = (left +right) /2;
 			left = corectedSpeed;
 			right = corectedSpeed;
