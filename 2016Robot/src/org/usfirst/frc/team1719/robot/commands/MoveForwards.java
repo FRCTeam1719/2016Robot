@@ -5,20 +5,15 @@ import org.usfirst.frc.team1719.robot.RobotMap;
 import org.usfirst.frc.team1719.robot.subsystems.DriveSubsystem;
 
 import edu.wpi.first.wpilibj.command.Command;
-import edu.wpi.first.wpilibj.interfaces.Gyro;
 
 public class MoveForwards extends Command {
 	
-	private double ANGLE_TOLERANCE = 0.5D;
 	final double HALF_SPEED = 0.5;
 	/** distances measured in feet
 	 * 
 	 */
 	private double desiredDist;
 	private double currentDist = 0D;
-	private double desiredAngle = 0;
-	
-	
 	public double kP = 0.1;
 	
 	
