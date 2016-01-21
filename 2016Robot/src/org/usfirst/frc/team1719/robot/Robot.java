@@ -9,7 +9,7 @@ import org.usfirst.frc.team1719.robot.subsystems.DriveSubsystem;
 import org.usfirst.frc.team1719.robot.subsystems.DualShooter;
 import org.usfirst.frc.team1719.robot.subsystems.ExampleSubsystem;
 import org.usfirst.frc.team1719.robot.subsystems.FlyWheel;
-
+import edu.wpi.first.wpilibj.CameraServer;
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
@@ -24,11 +24,11 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  * creating this project, you must also update the manifest file in the resource
  * directory.
  */
-//TEST
 
 
 public class Robot extends IterativeRobot {
 
+	final String CAMERA_NAME = "";
 	public static final ExampleSubsystem exampleSubsystem = new ExampleSubsystem();
 	public static OI oi;
 	public static DriveSubsystem drive;
@@ -41,19 +41,26 @@ public class Robot extends IterativeRobot {
     Command autonomousCommand;
     SendableChooser chooser;
     public static boolean isAuton = false;
-
+    CameraServer camServer;
     /**
      * This function is run when the robot is first started up and should be
      * used for any initialization code.
      */
     public void robotInit() {
 		
-    	rightFlywheelPIDData = new PIDData();
-    	leftFlywheelPIDData = new PIDData();
+    	//Network Initialization
+	
+        //Setup Camera Server
+    	camServer = CameraServer.getInstance();
+    	camServer.setQuality(50);
+    	camServer.startAutomaticCapture(CAMERA_NAME);
+    	
+    	//Setup Autonomous Sendable Chooser
         chooser = new SendableChooser();
         chooser.addDefault("Default Auto", new ExampleCommand());
-//        chooser.addObject("My Auto", new MyAutoCommand());
         SmartDashboard.putData("Auto mode", chooser);
+        
+        //Setup network configurable constant
         
         //puts right flywheel PID values on the smart Dashboard
         SmartDashboard.putNumber("Right flywheel kP: ", rightFlywheelPIDData.kP);
@@ -64,9 +71,12 @@ public class Robot extends IterativeRobot {
         SmartDashboard.putNumber("Left flywheel kP: ", leftFlywheelPIDData.kP);
         SmartDashboard.putNumber("Left flywheel kI: ", leftFlywheelPIDData.kI);
         SmartDashboard.putNumber("Left flywheel kD: ", leftFlywheelPIDData.kD);        
-
-        RobotMap.init();
         smartDashboardInit();
+        
+        //Hardware Initialization
+        RobotMap.init();
+        rightFlywheelPIDData = new PIDData();
+    	leftFlywheelPIDData = new PIDData();
         drive = new DriveSubsystem(RobotMap.leftController, RobotMap.rightController);
         rightFlywheel = new FlyWheel(RobotMap.rightFlyWheelTalon, RobotMap.rightFlyWheelEncoder, rightFlywheelPIDData);
         leftFlywheel =  new FlyWheel(RobotMap.leftFlyWheelTalon, RobotMap.leftFlyWheelEncoder, leftFlywheelPIDData);
