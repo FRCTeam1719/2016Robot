@@ -24,6 +24,7 @@ public class TurnToAngle extends Command {
     	requires(Robot.drive);
     	
     	desiredAngle = angle;
+    	
     }
 
     // Called just before this Command runs the first time
@@ -33,6 +34,7 @@ public class TurnToAngle extends Command {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
+    	
     	currentAngle = gyro.getAngle();
     	System.out.println(currentAngle);
     	//turning clockwise

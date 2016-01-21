@@ -1,7 +1,9 @@
 package org.usfirst.frc.team1719.robot;
 
 import edu.wpi.first.wpilibj.AnalogGyro;
+import edu.wpi.first.wpilibj.AnalogPotentiometer;
 import edu.wpi.first.wpilibj.Compressor;
+import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.SpeedController;
@@ -33,12 +35,14 @@ public class RobotMap {
 	
 	public static Talon rightFlyWheelTalon;
 	public static Encoder rightFlyWheelEncoder;
-	
 	public static Talon leftFlyWheelTalon;
 	public static Encoder leftFlyWheelEncoder;
+	public static Talon armMotor;
+	public static DigitalInput armLowerLimitSwitch;
+	public static DigitalInput armUpperLimitSwitch;	
 	public static AnalogGyro gyro;
-	
-	public static Talon holderMotorTalon;
+	public static Talon innerIntakeMotorTalon;
+	public static AnalogPotentiometer armPot;
 	
 	public static void init(){
 		leftController = new Talon(0);
@@ -46,15 +50,17 @@ public class RobotMap {
 		mainCompressor = new Compressor();
 		shifterSolenoid = new Solenoid(0);		
 		rightFlyWheelTalon = new Talon(2);
-		rightFlyWheelEncoder = new Encoder(4, 5, true, Encoder.EncodingType.k4X);
-		
+		rightFlyWheelEncoder = new Encoder(4, 5, true, Encoder.EncodingType.k4X);		
 		leftFlyWheelTalon = new Talon(3);
 		leftFlyWheelEncoder = new Encoder(6, 7, true, Encoder.EncodingType.k4X);
 		configureEncoder(rightFlyWheelEncoder);
 		configureEncoder(leftFlyWheelEncoder);
 		gyro = new AnalogGyro(0);
-		
-		holderMotorTalon = new Talon(4);
+		armLowerLimitSwitch = new DigitalInput(2);
+		armUpperLimitSwitch = new DigitalInput(1);
+		armMotor = new Talon(2);
+		armPot = new AnalogPotentiometer(0, 100);
+		innerIntakeMotorTalon = new Talon(4);
 		
 	}
 	
@@ -62,8 +68,7 @@ public class RobotMap {
 		encoder.setMaxPeriod(.02);
 		encoder.setMinRate(10);
 		encoder.setDistancePerPulse(FLYWHEEL_CIRCUMFRENCE_FEET);
-		encoder.setSamplesToAverage(127);
-		
+		encoder.setSamplesToAverage(127);		
 	}
 	
 }

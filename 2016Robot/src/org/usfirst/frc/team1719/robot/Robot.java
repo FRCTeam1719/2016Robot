@@ -4,6 +4,7 @@ package org.usfirst.frc.team1719.robot;
 import org.usfirst.frc.team1719.robot.commands.ExampleCommand;
 import org.usfirst.frc.team1719.robot.commands.UseFlyWheel;
 import org.usfirst.frc.team1719.robot.settings.PIDData;
+import org.usfirst.frc.team1719.robot.subsystems.Arm;
 import org.usfirst.frc.team1719.robot.subsystems.DriveSubsystem;
 import org.usfirst.frc.team1719.robot.subsystems.DualShooter;
 import org.usfirst.frc.team1719.robot.subsystems.ExampleSubsystem;
@@ -36,6 +37,7 @@ public class Robot extends IterativeRobot {
 	public static DualShooter shooter;
 	PIDData rightFlywheelPIDData;
 	PIDData leftFlywheelPIDData;
+	public static Arm arm;
     Command autonomousCommand;
     SendableChooser chooser;
     public static boolean isAuton = false;
@@ -68,7 +70,8 @@ public class Robot extends IterativeRobot {
         drive = new DriveSubsystem(RobotMap.leftController, RobotMap.rightController);
         rightFlywheel = new FlyWheel(RobotMap.rightFlyWheelTalon, RobotMap.rightFlyWheelEncoder, rightFlywheelPIDData);
         leftFlywheel =  new FlyWheel(RobotMap.leftFlyWheelTalon, RobotMap.leftFlyWheelEncoder, leftFlywheelPIDData);
-        shooter = new DualShooter(leftFlywheel, rightFlywheel, RobotMap.holderMotorTalon );
+        shooter = new DualShooter(leftFlywheel, rightFlywheel, RobotMap.innerIntakeMotorTalon );
+        arm = new Arm();
         oi = new OI();
         isAuton = false;
     }
