@@ -6,7 +6,7 @@ import edu.wpi.first.wpilibj.command.Command;
 
 public class UseDrive extends Command{
 
-	final double TOLERANCE = 0.1;
+	final double TOLERANCE = 0.025D;
 	final double NIL = 0.0;
 	
 	public UseDrive(){
