@@ -13,7 +13,7 @@ public class Arm extends Subsystem {
 	DigitalInput lowerLimitSwitch = RobotMap.armLowerLimitSwitch;
 	DigitalInput upperLimitSwitch = RobotMap.armUpperLimitSwitch;
 	
-	Talon motor = RobotMap.armMotor;
+	Talon motor = RobotMap.armController;
 	
 	AnalogPotentiometer pot = RobotMap.armPot;
 	

@@ -27,33 +27,33 @@ public class RobotMap {
     // public static int rangefinderModule = 1;
 	static double FLYWHEEL_CIRCUMFRENCE_FEET = 1.57075;
 	
-	static SpeedController leftController;
-	static SpeedController rightController;
+	static SpeedController leftDriveController;
+	static SpeedController rightDriveController;
 	static Compressor mainCompressor;
 	static Solenoid shifterSolenoid;
 
 	
-	public static Talon rightFlyWheelTalon;
+	public static Talon rightFlyWheelController;
 	public static Encoder rightFlyWheelEncoder;
-	public static Talon leftFlyWheelTalon;
+	public static Talon leftFlyWheelController;
 	public static Encoder leftFlyWheelEncoder;
-	public static Talon armMotor;
+	public static Talon armController;
 	public static DigitalInput armLowerLimitSwitch;
 	public static DigitalInput armUpperLimitSwitch;	
 	public static AnalogGyro gyro;
-	public static Talon innerIntakeMotorTalon;
+	public static Talon innerShooterWheelController;
 	public static AnalogPotentiometer armPot;
 	
 	public static void init(){
 		//Main hardware allocation
 		
 		//Motor Controllers
-		leftController = new Talon(0);
-		rightController = new Talon(1);
-		leftFlyWheelTalon = new Talon(2);
-		rightFlyWheelTalon = new Talon(3);
-		armMotor = new Talon(4);
-		innerIntakeMotorTalon = new Talon(5);
+		leftDriveController = new Talon(0);
+		rightDriveController = new Talon(1);
+		leftFlyWheelController = new Talon(2);
+		rightFlyWheelController = new Talon(3);
+		armController = new Talon(4);
+		innerShooterWheelController = new Talon(5);
 
 		//Sensors
 		
