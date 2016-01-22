@@ -49,7 +49,7 @@ public class RobotMap {
 		armLowerLimitSwitch = new DigitalInput(2);
 		armUpperLimitSwitch = new DigitalInput(1);
 		armMotor = new Talon(2);
-		armPot = new AnalogPotentiometer(0, 100);
+		armPot = new AnalogPotentiometer(0, 1200.0D);
 	}
 	
 }
