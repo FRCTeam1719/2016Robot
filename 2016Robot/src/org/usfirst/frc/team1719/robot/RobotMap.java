@@ -45,26 +45,32 @@ public class RobotMap {
 	public static AnalogPotentiometer armPot;
 	
 	public static void init(){
+		//Main hardware initialization
+		
+		//Motor Controllers
 		leftController = new Talon(0);
 		rightController = new Talon(1);
-		mainCompressor = new Compressor();
-		shifterSolenoid = new Solenoid(0);		
 		rightFlyWheelTalon = new Talon(2);
 		rightFlyWheelEncoder = new Encoder(4, 5, true, Encoder.EncodingType.k4X);		
 		leftFlyWheelTalon = new Talon(3);
 		leftFlyWheelEncoder = new Encoder(6, 7, true, Encoder.EncodingType.k4X);
+		armMotor = new Talon(2);
+		innerIntakeMotorTalon = new Talon(4);
+
+		//Sensors
 		configureEncoder(rightFlyWheelEncoder);
 		configureEncoder(leftFlyWheelEncoder);
 		gyro = new AnalogGyro(0);
 		armLowerLimitSwitch = new DigitalInput(2);
 		armUpperLimitSwitch = new DigitalInput(1);
-		armMotor = new Talon(2);
 		armPot = new AnalogPotentiometer(0, 100);
-		innerIntakeMotorTalon = new Talon(4);
 		
 	}
 	
 	private static void configureEncoder(Encoder encoder){
+		/**
+		 * Setting values for encoders
+		 */
 		encoder.setMaxPeriod(.02);
 		encoder.setMinRate(10);
 		encoder.setDistancePerPulse(FLYWHEEL_CIRCUMFRENCE_FEET);

@@ -14,6 +14,7 @@ public class ShootBoulder extends Command {
 	
 	public ShootBoulder(double leftPower,double rightPower)
 	{
+		requires(Robot.shooter);
 		this.leftPower = leftPower;
 		this.rightPower = rightPower;
 	}
@@ -22,7 +23,6 @@ public class ShootBoulder extends Command {
 	protected void end() {
 		
 		SmartDashboard.putBoolean("Angle Reached", false);
-		// TODO Auto-generated method stub
 	
 	}
 

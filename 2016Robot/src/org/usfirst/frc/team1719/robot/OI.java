@@ -58,7 +58,7 @@ public class OI {
 		final int ATTACK_BUTTON_10 = 10;
 		final int ATTACK_BUTTON_11 = 11;
 	
-		//XBOX BINDINGS
+	//XBOX BINDINGS
 		final int LEFT_X = 0;
 		final int LEFT_Y = 1;
 		final int LEFT_TRIGGER = 2;
@@ -76,6 +76,7 @@ public class OI {
 		final int LEFT_BUTTON = 9;
 		final int RIGHT_BUTTON = 10;
 		
+		
 		private Joystick driverXBOX;
 		private Joystick operatorXBOX;
 
@@ -84,8 +85,11 @@ public class OI {
 		private Button fireButton;				
 		private Button moveArmButton;
 		public OI(){
+			//Define Controllers
 			driverXBOX = new Joystick(0);
 			operatorXBOX = new Joystick(1);
+			
+			//Define Buttons
 			rotateButton = new JoystickButton(driverXBOX, A_BUTTON);
 			rotateButton.whenPressed(new TurnToAngle(90));
 			driveStraightButton = new JoystickButton(driverXBOX, B_BUTTON);
@@ -96,7 +100,7 @@ public class OI {
 			moveArmButton.whenPressed(new MoveArmToPos(60));
 		}
 		
-	
+		//Functions for getting input
 		public double getLeftReading(){
 			return driverXBOX.getRawAxis(LEFT_Y);
 		}

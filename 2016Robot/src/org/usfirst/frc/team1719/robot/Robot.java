@@ -55,23 +55,8 @@ public class Robot extends IterativeRobot {
     	camServer.setQuality(50);
     	camServer.startAutomaticCapture(CAMERA_NAME);
     	
-    	//Setup Autonomous Sendable Chooser
-        chooser = new SendableChooser();
-        chooser.addDefault("Default Auto", new ExampleCommand());
-        SmartDashboard.putData("Auto mode", chooser);
-        
-        //Setup network configurable constant
-        
-        //puts right flywheel PID values on the smart Dashboard
-        SmartDashboard.putNumber("Right flywheel kP: ", rightFlywheelPIDData.kP);
-        SmartDashboard.putNumber("Right flywheel kI: ", rightFlywheelPIDData.kI);
-        SmartDashboard.putNumber("Right flywheel kD: ", rightFlywheelPIDData.kD);
-        
-        // puts left flywheel PID values on the smart Dashboard
-        SmartDashboard.putNumber("Left flywheel kP: ", leftFlywheelPIDData.kP);
-        SmartDashboard.putNumber("Left flywheel kI: ", leftFlywheelPIDData.kI);
-        SmartDashboard.putNumber("Left flywheel kD: ", leftFlywheelPIDData.kD);        
-        smartDashboardInit();
+    	//Configure SmartDashboard Things
+        smartDashboardInit();    	   
         
         //Hardware Initialization
         RobotMap.init();
@@ -87,13 +72,28 @@ public class Robot extends IterativeRobot {
     }
 	
     public void smartDashboardInit(){
+    	//Setup Autonomous Sendable Chooser
+        chooser = new SendableChooser();
+        chooser.addDefault("Default Auto", new ExampleCommand());
+        SmartDashboard.putData("Auto mode", chooser);
+        
+        //Setup network configurable constants
+        
+        //puts right flywheel PID values on the smart Dashboard
+        SmartDashboard.putNumber("Right flywheel kP: ", rightFlywheelPIDData.kP);
+        SmartDashboard.putNumber("Right flywheel kI: ", rightFlywheelPIDData.kI);
+        SmartDashboard.putNumber("Right flywheel kD: ", rightFlywheelPIDData.kD);
+        
+        // puts left flywheel PID values on the smart Dashboard
+        SmartDashboard.putNumber("Left flywheel kP: ", leftFlywheelPIDData.kP);
+        SmartDashboard.putNumber("Left flywheel kI: ", leftFlywheelPIDData.kI);
+        SmartDashboard.putNumber("Left flywheel kD: ", leftFlywheelPIDData.kD);  
+        
+        // puts Drive PID values on the smart Dashboard
     	SmartDashboard.putNumber("Drive kP", 0);
     	SmartDashboard.putNumber("Drive kI", 0.);
     	SmartDashboard.putNumber("Drive kD", 0.);
     }
-    
-    
-    
     
 	/**
      * This function is called once each time the robot enters Disabled mode.
@@ -101,6 +101,7 @@ public class Robot extends IterativeRobot {
 	 * the robot is disabled.
      */
     public void disabledInit(){
+    	//Make sure everything gets disabled
     	isAuton = false;
     	rightFlywheel.spin(0);
     	leftFlywheel.spin(0);
@@ -142,9 +143,6 @@ public class Robot extends IterativeRobot {
      * This function is called periodically during autonomous
      */
     public void autonomousPeriodic() {
-    	//rightFlywheel.spin(256);
-    	System.out.println("encoder rate: " + RobotMap.rightFlyWheelEncoder.getRate());
-
         Scheduler.getInstance().run();
     }
 
