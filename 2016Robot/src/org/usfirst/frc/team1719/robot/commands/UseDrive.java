@@ -12,8 +12,12 @@ public class UseDrive extends Command{
 	public UseDrive(){
 		requires(Robot.drive);
 	}
-	
-	
+	double startValueL = 0;
+	double startValueR = 0;
+	double smooth = 0.5;
+	double corectedValueL = 0;
+	double corectedValueR = 0;
+	double sychTolerance = 1.5;
 	@Override
 	protected void initialize() {
 		// No initialization needed
@@ -33,6 +37,22 @@ public class UseDrive extends Command{
 	    //Adjust sensitivity
 		left = Math.abs(left) * left;
 		right = Math.abs(right) * right;
+		//Smooth Drive
+		if(left != 0){
+		corectedValueL = (left*smooth) + ( corectedValueL * ( 1.0 - smooth));
+		left = corectedValueL;
+		}
+		if(right != 0){
+		corectedValueR = (right*smooth) + ( corectedValueR * ( 1.0 - smooth));
+		right = corectedValueR;
+		}
+		//Sync the two sides if within the tolerance
+		if(Math.abs(left - right) < sychTolerance){
+			double corectedSpeed = (left +right) /2;
+			left = corectedSpeed;
+			right = corectedSpeed;
+		}
+
 		Robot.drive.operateDrive(-right, -left);
 	}
 
