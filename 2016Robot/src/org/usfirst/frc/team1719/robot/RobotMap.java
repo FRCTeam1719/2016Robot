@@ -63,8 +63,8 @@ public class RobotMap {
 		gyro = new AnalogGyro(0);
 		armLowerLimitSwitch = new DigitalInput(2);
 		armUpperLimitSwitch = new DigitalInput(1);
-		armPot = new AnalogPotentiometer(0, 100);
-		
+		armMotor = new Talon(2);
+        armPot = new AnalogPotentiometer(0, 1200.0D);
 	}
 	
 	private static void configureEncoder(Encoder encoder){
@@ -74,7 +74,7 @@ public class RobotMap {
 		encoder.setMaxPeriod(.02);
 		encoder.setMinRate(10);
 		encoder.setDistancePerPulse(FLYWHEEL_CIRCUMFRENCE_FEET);
-		encoder.setSamplesToAverage(127);		
+		encoder.setSamplesToAverage(127);
 	}
 	
 }
