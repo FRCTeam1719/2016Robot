@@ -17,6 +17,7 @@ public class UseDrive extends Command{
 	double smooth = 0.5;
 	double corectedValueL = 0;
 	double corectedValueR = 0;
+	double sychTolerance = 1.5;
 	@Override
 	protected void initialize() {
 		// No initialization needed
@@ -46,7 +47,7 @@ public class UseDrive extends Command{
 		right = corectedValueR;
 		}
 		//Sync the two sides if within the tolerance
-		if(Math.abs(left - right) < TOLERANCE){
+		if(Math.abs(left - right) < sychTolerance){
 			double corectedSpeed = (left +right) /2;
 			left = corectedSpeed;
 			right = corectedSpeed;
