@@ -59,7 +59,9 @@ public class Robot extends IterativeRobot {
         smartDashboardInit();    	   
         
         //Hardware Initialization
+        //Allocate Hardware
         RobotMap.init();
+        //Initialize Subsystems
         rightFlywheelPIDData = new PIDData();
     	leftFlywheelPIDData = new PIDData();
         drive = new DriveSubsystem(RobotMap.leftController, RobotMap.rightController);

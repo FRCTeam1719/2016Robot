@@ -45,25 +45,29 @@ public class RobotMap {
 	public static AnalogPotentiometer armPot;
 	
 	public static void init(){
-		//Main hardware initialization
+		//Main hardware allocation
 		
 		//Motor Controllers
 		leftController = new Talon(0);
 		rightController = new Talon(1);
-		rightFlyWheelTalon = new Talon(2);
-		rightFlyWheelEncoder = new Encoder(4, 5, true, Encoder.EncodingType.k4X);		
-		leftFlyWheelTalon = new Talon(3);
-		leftFlyWheelEncoder = new Encoder(6, 7, true, Encoder.EncodingType.k4X);
-		armMotor = new Talon(2);
-		innerIntakeMotorTalon = new Talon(4);
+		leftFlyWheelTalon = new Talon(2);
+		rightFlyWheelTalon = new Talon(3);
+		armMotor = new Talon(4);
+		innerIntakeMotorTalon = new Talon(5);
 
 		//Sensors
+		
+		//DIO
+		armUpperLimitSwitch = new DigitalInput(0);
+		armLowerLimitSwitch = new DigitalInput(1);
+		rightFlyWheelEncoder = new Encoder(2, 3, true, Encoder.EncodingType.k4X);		
 		configureEncoder(rightFlyWheelEncoder);
+		leftFlyWheelEncoder = new Encoder(4, 5, true, Encoder.EncodingType.k4X);
 		configureEncoder(leftFlyWheelEncoder);
+		
+		//Analog In
 		gyro = new AnalogGyro(0);
-		armLowerLimitSwitch = new DigitalInput(2);
-		armUpperLimitSwitch = new DigitalInput(1);
-		armPot = new AnalogPotentiometer(0, 100);
+		armPot = new AnalogPotentiometer(1, 100);
 		
 	}
 	
