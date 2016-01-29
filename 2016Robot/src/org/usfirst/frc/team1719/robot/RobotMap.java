@@ -68,9 +68,9 @@ public class RobotMap {
 	}
 	
 	private static void configureEncoder(Encoder encoder){
-		/**
-		 * Setting values for encoders
-		 */
+
+		 //Setting values for encoders
+
 		encoder.setMaxPeriod(.02);
 		encoder.setMinRate(10);
 		encoder.setDistancePerPulse(FLYWHEEL_CIRCUMFRENCE_FEET);
