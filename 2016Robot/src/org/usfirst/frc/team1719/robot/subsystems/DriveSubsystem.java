@@ -41,14 +41,15 @@ public class DriveSubsystem extends Subsystem{
 		kD = SmartDashboard.getNumber("Drive kD");
 		
 		double currentAngle = RobotMap.gyro.getAngle();
-		double error = currentAngle;
+		double error = -currentAngle;
 		integral += error;
 		if(Math.abs(currentAngle) < PIDTolerance){
-			//integral = 0;
+			integral = 0;
 			error = 0;
 		}
 		derivative = error - previousError;
 		double output = (error*kP) + (integral*kI) + (derivative * kD);
+		System.out.println("output: " + output);
 		
 		mainDrive.arcadeDrive(speed, output);
 		previousError = error;
