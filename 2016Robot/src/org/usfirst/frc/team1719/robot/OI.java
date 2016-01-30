@@ -1,6 +1,6 @@
 package org.usfirst.frc.team1719.robot;
 
-import org.usfirst.frc.team1719.robot.commands.MoveForwardsDistance;
+import org.usfirst.frc.team1719.robot.commands.MoveForwards;
 import org.usfirst.frc.team1719.robot.commands.TurnToAngle;
 
 import edu.wpi.first.wpilibj.Joystick;
@@ -73,18 +73,16 @@ public class OI {
 		final int RIGHT_BUTTON = 10;
 		
 		private Joystick driverXBOX;
-		private Joystick rightJoystick;
 	
 		private Button rotateButton;
 		private Button driveStraightButton;
 		
 		public OI(){
 			driverXBOX = new Joystick(0);
-			rightJoystick = new Joystick(1);
 			rotateButton = new JoystickButton(driverXBOX, A_BUTTON);
 			rotateButton.whenPressed(new TurnToAngle(90));
 			driveStraightButton = new JoystickButton(driverXBOX, B_BUTTON);
-			driveStraightButton.whenPressed(new MoveForwardsDistance());
+			driveStraightButton.whenPressed(new MoveForwards(600));
 		}
 		
 	

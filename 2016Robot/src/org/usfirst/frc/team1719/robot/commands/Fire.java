@@ -1,20 +1,18 @@
-
 package org.usfirst.frc.team1719.robot.commands;
 
-import edu.wpi.first.wpilibj.command.Command;
-
 import org.usfirst.frc.team1719.robot.Robot;
+
+import edu.wpi.first.wpilibj.command.Command;
 
 /**
  *
  */
-public class ExampleCommand extends Command {
+public class Fire extends Command {
 
-	int i =0 ;
-	
-    public ExampleCommand() {
+    boolean done = false;
+    public Fire() {
         // Use requires() here to declare subsystem dependencies
-        requires(Robot.exampleSubsystem);
+        // eg. requires(chassis);
     }
 
     // Called just before this Command runs the first time
@@ -23,21 +21,22 @@ public class ExampleCommand extends Command {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	i++;
+        done = Robot.weapon.fire();
     }
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-        return (i == 5);
+        return done;
     }
 
     // Called once after isFinished returns true
     protected void end() {
-    	
+        done = false;
     }
 
     // Called when another command which requires one or more of the same
     // subsystems is scheduled to run
     protected void interrupted() {
+        done = false;
     }
 }

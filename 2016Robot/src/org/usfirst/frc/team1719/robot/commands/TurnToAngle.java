@@ -5,6 +5,7 @@ import org.usfirst.frc.team1719.robot.RobotMap;
 
 import edu.wpi.first.wpilibj.AnalogGyro;
 import edu.wpi.first.wpilibj.command.Command;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
  *
@@ -14,7 +15,7 @@ public class TurnToAngle extends Command {
 	static double SPEED = 0.5D;
 	
 	private double desiredAngle;
-	private double currentAngle = 0D;
+	private double currentAngle = 0.0D;
 	
 	AnalogGyro gyro = RobotMap.gyro;
 	
@@ -22,13 +23,13 @@ public class TurnToAngle extends Command {
         // Use requires() here to declare subsystem dependencies
         
     	requires(Robot.drive);
-    	
     	desiredAngle = angle;
     }
 
     // Called just before this Command runs the first time
     protected void initialize() {
     	gyro.reset();
+    	if(desiredAngle == 0.0D) desiredAngle = SmartDashboard.getNumber("TurnToAngleParam");
     }
 
     // Called repeatedly when this Command is scheduled to run

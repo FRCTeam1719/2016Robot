@@ -1,10 +1,15 @@
-
 package org.usfirst.frc.team1719.robot;
 
-import org.usfirst.frc.team1719.robot.commands.ExampleCommand;
-import org.usfirst.frc.team1719.robot.commands.MoveForwardsDistance;
+
+import org.usfirst.frc.team1719.robot.commands.AutoSenseTower;
+import org.usfirst.frc.team1719.robot.commands.MoveForwards;
+import org.usfirst.frc.team1719.robot.settings.PIDData;
+import org.usfirst.frc.team1719.robot.subsystems.Arm;
 import org.usfirst.frc.team1719.robot.subsystems.DriveSubsystem;
+import org.usfirst.frc.team1719.robot.subsystems.DummyWeapon;
 import org.usfirst.frc.team1719.robot.subsystems.ExampleSubsystem;
+import org.usfirst.frc.team1719.robot.subsystems.FlyWheel;
+import org.usfirst.frc.team1719.robot.subsystems.IFireable;
 
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.command.Command;
@@ -26,10 +31,16 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 public class Robot extends IterativeRobot {
 
 	public static final ExampleSubsystem exampleSubsystem = new ExampleSubsystem();
+	public static final IFireable weapon = new DummyWeapon();
 	public static OI oi;
 	public static DriveSubsystem drive;
+	public static Arm arm;
+	public static FlyWheel rightFlywheel;
+	
+	PIDData rightFlywheelPIDData;
     Command autonomousCommand;
     SendableChooser autonomousChooser;
+
 
     /**
      * This function is run when the robot is first started up and should be
@@ -38,21 +49,28 @@ public class Robot extends IterativeRobot {
     public void robotInit() {
 		
         autonomousChooser = new SendableChooser();
-        autonomousChooser.addDefault("None", new ExampleCommand());
         
         //Move forwards command
-        autonomousChooser.addObject("Move Forwards", new MoveForwardsDistance());
+        autonomousChooser.addObject("Move Forwards", new MoveForwards(0));
         SmartDashboard.putNumber("Move Forwards Distance: ", 0);
+    	rightFlywheelPIDData = new PIDData();
+        autonomousChooser.addObject("Sense Tower High Goals", new AutoSenseTower());
 //        chooser.addObject("My Auto", new MyAutoCommand());
         SmartDashboard.putData("Auto mode", autonomousChooser);
+        SmartDashboard.putNumber("Right flywheel kP: ", rightFlywheelPIDData.kP);
+        SmartDashboard.putNumber("Right flywheel kI: ", rightFlywheelPIDData.kI);
+        SmartDashboard.putNumber("Right flywheel kD: ", rightFlywheelPIDData.kD);
+
         RobotMap.init();
         smartDashboardInit();
         drive = new DriveSubsystem(RobotMap.leftController, RobotMap.rightController);
+        arm = new Arm();
+        rightFlywheel = new FlyWheel(RobotMap.rightFlyWheelTalon, RobotMap.rightFlyWheelEncoder, rightFlywheelPIDData);
         oi = new OI();
     }
 	
     public void smartDashboardInit(){
-    	SmartDashboard.putNumber("Drive kP", -0.02);
+    	SmartDashboard.putNumber("Drive kP", 0.02);
     	SmartDashboard.putNumber("Drive kI", 0.003);
     	SmartDashboard.putNumber("Drive kD", 0.003);
     }
@@ -64,7 +82,7 @@ public class Robot extends IterativeRobot {
 	 * the robot is disabled.
      */
     public void disabledInit(){
-
+    	rightFlywheel.spin(0);
     }
 	
 	public void disabledPeriodic() {
@@ -82,6 +100,7 @@ public class Robot extends IterativeRobot {
 	 */
     public void autonomousInit() {
         autonomousCommand = (Command) autonomousChooser.getSelected();
+
 		/* String autoSelected = SmartDashboard.getString("Auto Selector", "Default");
 		switch(autoSelected) {
 		case "My Auto":
@@ -92,15 +111,17 @@ public class Robot extends IterativeRobot {
 			autonomousCommand = new ExampleCommand();
 			break;
 		} */
-    	
     	// schedule the autonomous command (example)
         if (autonomousCommand != null) autonomousCommand.start();
+        System.out.println("Autonomous mode intialized");
     }
 
     /**
      * This function is called periodically during autonomous
      */
     public void autonomousPeriodic() {
+    	//rightFlywheel.spin(256);
+    	System.out.println("encoder rate: " + RobotMap.rightFlyWheelEncoder.getRate());
         Scheduler.getInstance().run();
     }
 
