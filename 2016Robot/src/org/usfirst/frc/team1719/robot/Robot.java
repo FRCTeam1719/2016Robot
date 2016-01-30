@@ -53,8 +53,20 @@ public class Robot extends IterativeRobot {
      * This function is run when the robot is first started up and should be
      * used for any initialization code.
      */
-    public void robotInit() {
-		
+    public void robotInit() {		
+
+        RobotMap.init();
+        drive = new DriveSubsystem(RobotMap.leftController, RobotMap.rightController);
+        arm = new Arm();
+        rightFlywheel = new FlyWheel(RobotMap.rightFlyWheelTalon, RobotMap.rightFlyWheelEncoder, rightFlywheelPIDData);
+        oi = new OI();
+        
+        smartDashboardInit();
+
+    }
+	
+    public void smartDashboardInit(){
+    	
         autonomousChooser = new SendableChooser();
         
         //Move forwards command
@@ -66,6 +78,7 @@ public class Robot extends IterativeRobot {
         autonomousChooser.addObject("Go over Rock Wall", new RockWallAuton());
         autonomousChooser.addObject("Go through the Portcullis", new PortcullisAuton());
         autonomousChooser.addObject("Shoot at tower", new AimAndFire());
+        
         rightFlywheelPIDData = new PIDData();
         autonomousChooser.addObject("Sense Tower High Goals", new AutoSenseTower());
 //        chooser.addObject("My Auto", new MyAutoCommand());
@@ -74,15 +87,6 @@ public class Robot extends IterativeRobot {
         SmartDashboard.putNumber("Right flywheel kI: ", rightFlywheelPIDData.kI);
         SmartDashboard.putNumber("Right flywheel kD: ", rightFlywheelPIDData.kD);
 
-        RobotMap.init();
-        smartDashboardInit();
-        drive = new DriveSubsystem(RobotMap.leftController, RobotMap.rightController);
-        arm = new Arm();
-        rightFlywheel = new FlyWheel(RobotMap.rightFlyWheelTalon, RobotMap.rightFlyWheelEncoder, rightFlywheelPIDData);
-        oi = new OI();
-    }
-	
-    public void smartDashboardInit(){
     	SmartDashboard.putNumber("Drive kP", 0.02);
     	SmartDashboard.putNumber("Drive kI", 0.003);
     	SmartDashboard.putNumber("Drive kD", 0.003);
@@ -139,6 +143,7 @@ public class Robot extends IterativeRobot {
     }
 
     public void teleopInit() {
+    	System.out.println("Teleop");
 		// This makes sure that the autonomous stops running when
         // teleop starts running. If you want the autonomous to 
         // continue until interrupted by another command, remove

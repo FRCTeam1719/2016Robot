@@ -60,9 +60,9 @@ public class RobotMap {
 		shifterSolenoid = new Solenoid(0);
 		
 		//create and configure encoders
-		rightDriveWheelEncoder = new Encoder(-1337, -1337, false, Encoder.EncodingType.k4X);
+		rightDriveWheelEncoder = new Encoder(6, 7, false, Encoder.EncodingType.k4X);
 		rightDriveWheelEncoder.setDistancePerPulse(DRIVE_WHEEL_CIRCUMFRENCE / 256);
-		leftDriveWheelEncoder = new Encoder(-1337, -1337, false, Encoder.EncodingType.k4X);
+		leftDriveWheelEncoder = new Encoder(8, 9, false, Encoder.EncodingType.k4X);
 		leftDriveWheelEncoder.setDistancePerPulse(DRIVE_WHEEL_CIRCUMFRENCE / 256);
 		
 		gyro = new AnalogGyro(0);
