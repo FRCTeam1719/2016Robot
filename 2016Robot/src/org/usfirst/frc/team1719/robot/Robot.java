@@ -1,6 +1,7 @@
 
 package org.usfirst.frc.team1719.robot;
 
+import org.usfirst.frc.team1719.robot.commands.SmartDashboardAutoUpdate;
 import org.usfirst.frc.team1719.robot.commands.ExampleCommand;
 import org.usfirst.frc.team1719.robot.commands.UseFlyWheel;
 import org.usfirst.frc.team1719.robot.settings.PIDData;
@@ -42,6 +43,8 @@ public class Robot extends IterativeRobot {
     SendableChooser chooser;
     public static boolean isAuton = false;
     CameraServer camServer;
+    private Command sdUpdate;
+    
     /**
      * This function is run when the robot is first started up and should be
      * used for any initialization code.
@@ -71,6 +74,7 @@ public class Robot extends IterativeRobot {
         arm = new Arm();
         oi = new OI();
         isAuton = false;
+        sdUpdate = new SmartDashboardAutoUpdate();
     }
 	
     public void smartDashboardInit(){
@@ -125,7 +129,7 @@ public class Robot extends IterativeRobot {
     public void autonomousInit() {
     	isAuton = true;
         autonomousCommand = new UseFlyWheel(15, 15);
-        
+        sdUpdate.cancel();
 
 		/* String autoSelected = SmartDashboard.getString("Auto Selector", "Default");
 		switch(autoSelected) {
@@ -155,6 +159,7 @@ public class Robot extends IterativeRobot {
          this line or comment it out. */
     	isAuton = false;
         if (autonomousCommand != null) autonomousCommand.cancel();
+        sdUpdate.start();
     }
 
     

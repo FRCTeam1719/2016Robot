@@ -28,6 +28,8 @@ public class FlyWheel extends Subsystem {
 	final double ONEROTATION = 1.57075;
 	final double TOLERANCE_FEET_PER_SECOND = 1;
 	
+	boolean isRunning;
+	
 	public FlyWheel(Talon controller, Encoder enc, PIDData pidData) {
 		
 		this.pidData = pidData;
@@ -48,6 +50,7 @@ public class FlyWheel extends Subsystem {
 	}
 	//spin at desired feet per second
 	public void spin(double feetPerSecond) {
+	    isRunning = (feetPerSecond != 0);
 		double desiredSpeed = feetPerSecond;
 		pidData.kP = SmartDashboard.getNumber("Right flywheel kP: ");
 		pidData.kI = SmartDashboard.getNumber("Right flywheel kI: ");
@@ -91,7 +94,7 @@ public class FlyWheel extends Subsystem {
 	
 	public boolean isStabilized(double tolerance)
 	{
-		return (DoubleStream.of(errors).sum()/30)>tolerance;
+		return (DoubleStream.of(errors).sum()/30)>tolerance && isRunning;
 	}
 	
 	public double getRate() {
