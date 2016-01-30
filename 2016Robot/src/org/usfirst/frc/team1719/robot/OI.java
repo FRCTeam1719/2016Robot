@@ -82,7 +82,7 @@ public class OI {
 			rotateButton = new JoystickButton(driverXBOX, A_BUTTON);
 			rotateButton.whenPressed(new TurnToAngle(90));
 			driveStraightButton = new JoystickButton(driverXBOX, B_BUTTON);
-			driveStraightButton.whenPressed(new MoveForwards(600));
+			driveStraightButton.whenPressed(new MoveForwards(600, 0.5));
 		}
 		
 	

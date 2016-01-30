@@ -10,6 +10,8 @@ import org.usfirst.frc.team1719.robot.subsystems.DummyWeapon;
 import org.usfirst.frc.team1719.robot.subsystems.ExampleSubsystem;
 import org.usfirst.frc.team1719.robot.subsystems.FlyWheel;
 import org.usfirst.frc.team1719.robot.subsystems.IFireable;
+import org.usfirst.team1719.autonomousSelections.DoNothing;
+import org.usfirst.team1719.autonomousSelections.LowBarAuton;
 
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.command.Command;
@@ -51,7 +53,8 @@ public class Robot extends IterativeRobot {
         autonomousChooser = new SendableChooser();
         
         //Move forwards command
-        autonomousChooser.addObject("Move Forwards", new MoveForwards(0));
+        autonomousChooser.addDefault("Do nothing", new DoNothing());
+        autonomousChooser.addObject("Go Under Low Bar", new LowBarAuton());
         SmartDashboard.putNumber("Move Forwards Distance: ", 0);
     	rightFlywheelPIDData = new PIDData();
         autonomousChooser.addObject("Sense Tower High Goals", new AutoSenseTower());

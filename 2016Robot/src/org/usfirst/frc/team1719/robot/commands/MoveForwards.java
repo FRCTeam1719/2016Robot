@@ -11,6 +11,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 public class MoveForwards extends Command {
 	
 	double HALF_SPEED = 0.5D;
+	double speed;
 	/** distances measured in feet
 	 * 
 	 */
@@ -22,10 +23,10 @@ public class MoveForwards extends Command {
 	DriveSubsystem drive = Robot.drive;
 	Gyro gyro = RobotMap.gyro;
 	
-	public MoveForwards(double distFeet) {
+	public MoveForwards(double distFeet, double speed) {
 		requires(Robot.drive);
 		this.desiredDist = distFeet;
-		
+		this.speed = speed;
 		
 	}
 
