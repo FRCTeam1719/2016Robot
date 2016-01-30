@@ -3,8 +3,12 @@ package org.usfirst.frc.team1719.robot;
 
 import org.usfirst.frc.team1719.robot.autonomousSelections.DoNothing;
 import org.usfirst.frc.team1719.robot.autonomousSelections.LowBarAuton;
+import org.usfirst.frc.team1719.robot.autonomousSelections.MoatAuton;
+import org.usfirst.frc.team1719.robot.autonomousSelections.PortcullisAuton;
+import org.usfirst.frc.team1719.robot.autonomousSelections.RampartsAuton;
+import org.usfirst.frc.team1719.robot.autonomousSelections.RockWallAuton;
+import org.usfirst.frc.team1719.robot.autonomousSelections.RoughTerrainAuton;
 import org.usfirst.frc.team1719.robot.commands.AutoSenseTower;
-import org.usfirst.frc.team1719.robot.commands.MoveForwards;
 import org.usfirst.frc.team1719.robot.settings.PIDData;
 import org.usfirst.frc.team1719.robot.subsystems.Arm;
 import org.usfirst.frc.team1719.robot.subsystems.DriveSubsystem;
@@ -55,8 +59,12 @@ public class Robot extends IterativeRobot {
         //Move forwards command
         autonomousChooser.addDefault("Do nothing", new DoNothing());
         autonomousChooser.addObject("Go Under Low Bar", new LowBarAuton());
-        SmartDashboard.putNumber("Move Forwards Distance: ", 0);
-    	rightFlywheelPIDData = new PIDData();
+        autonomousChooser.addObject("Go over Rough Terrain", new RoughTerrainAuton());
+        autonomousChooser.addObject("Go over Moat", new MoatAuton());
+        autonomousChooser.addObject("Go over Ramparts", new RampartsAuton());
+        autonomousChooser.addObject("Go over Rock Wall", new RockWallAuton());
+        autonomousChooser.addObject("Go through the Portcullis", new PortcullisAuton());
+        rightFlywheelPIDData = new PIDData();
         autonomousChooser.addObject("Sense Tower High Goals", new AutoSenseTower());
 //        chooser.addObject("My Auto", new MyAutoCommand());
         SmartDashboard.putData("Auto mode", autonomousChooser);
