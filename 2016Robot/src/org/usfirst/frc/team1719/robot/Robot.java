@@ -9,6 +9,10 @@ import org.usfirst.frc.team1719.robot.subsystems.DriveSubsystem;
 import org.usfirst.frc.team1719.robot.subsystems.DualShooter;
 import org.usfirst.frc.team1719.robot.subsystems.ExampleSubsystem;
 import org.usfirst.frc.team1719.robot.subsystems.FlyWheel;
+
+import com.ni.vision.NIVision;
+import com.ni.vision.NIVision.Image;
+
 import edu.wpi.first.wpilibj.CameraServer;
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.command.Command;
@@ -28,7 +32,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class Robot extends IterativeRobot {
 
-	final String CAMERA_NAME = "";
+	final String CAMERA_NAME = "cam0";
 	public static final ExampleSubsystem exampleSubsystem = new ExampleSubsystem();
 	public static OI oi;
 	public static DriveSubsystem drive;
@@ -40,8 +44,9 @@ public class Robot extends IterativeRobot {
 	public static Arm arm;
     Command autonomousCommand;
     SendableChooser chooser;
+    Image frame;
+    int session;
     public static boolean isAuton = false;
-    CameraServer camServer;
     /**
      * This function is run when the robot is first started up and should be
      * used for any initialization code.
@@ -51,9 +56,6 @@ public class Robot extends IterativeRobot {
     	//Network Initialization
 	
         //Setup Camera Server
-    	camServer = CameraServer.getInstance();
-    	camServer.setQuality(50);
-    	camServer.startAutomaticCapture(CAMERA_NAME);
     	
     	//Configure SmartDashboard Things
         smartDashboardInit();    	   
@@ -62,8 +64,8 @@ public class Robot extends IterativeRobot {
         //Allocate Hardware
         RobotMap.init();
         //Initialize Subsystems
-        rightFlywheelPIDData = new PIDData();
-    	leftFlywheelPIDData = new PIDData();
+        rightFlywheelPIDData = new PIDData(0,0,0);
+    	leftFlywheelPIDData = new PIDData(0,0,0);
         drive = new DriveSubsystem(RobotMap.leftDriveController, RobotMap.rightDriveController);
         rightFlywheel = new FlyWheel(RobotMap.rightFlyWheelController, RobotMap.rightFlyWheelEncoder, rightFlywheelPIDData);
         leftFlywheel =  new FlyWheel(RobotMap.leftFlyWheelController, RobotMap.leftFlyWheelEncoder, leftFlywheelPIDData);
@@ -71,6 +73,11 @@ public class Robot extends IterativeRobot {
         arm = new Arm();
         oi = new OI();
         isAuton = false;
+        frame = NIVision.imaqCreateImage(NIVision.ImageType.IMAGE_RGB, 0);
+        session = NIVision.IMAQdxOpenCamera("cam0",
+                NIVision.IMAQdxCameraControlMode.CameraControlModeController);
+        NIVision.IMAQdxConfigureGrab(session);
+        
     }
 	
     public void smartDashboardInit(){
@@ -82,14 +89,14 @@ public class Robot extends IterativeRobot {
         //Setup network configurable constants
         
         //puts right flywheel PID values on the smart Dashboard
-        SmartDashboard.putNumber("Right flywheel kP: ", rightFlywheelPIDData.kP);
-        SmartDashboard.putNumber("Right flywheel kI: ", rightFlywheelPIDData.kI);
-        SmartDashboard.putNumber("Right flywheel kD: ", rightFlywheelPIDData.kD);
+        SmartDashboard.putNumber("Right flywheel kP: ", 0);
+        SmartDashboard.putNumber("Right flywheel kI: ", 0);
+        SmartDashboard.putNumber("Right flywheel kD: ", 0);
         
         // puts left flywheel PID values on the smart Dashboard
-        SmartDashboard.putNumber("Left flywheel kP: ", leftFlywheelPIDData.kP);
-        SmartDashboard.putNumber("Left flywheel kI: ", leftFlywheelPIDData.kI);
-        SmartDashboard.putNumber("Left flywheel kD: ", leftFlywheelPIDData.kD);  
+        SmartDashboard.putNumber("Left flywheel kP: ", 0);
+        SmartDashboard.putNumber("Left flywheel kI: ", 0);
+        SmartDashboard.putNumber("Left flywheel kD: ", 0);  
         
         // puts Drive PID values on the smart Dashboard
     	SmartDashboard.putNumber("Drive kP", 0);
@@ -107,6 +114,8 @@ public class Robot extends IterativeRobot {
     	isAuton = false;
     	rightFlywheel.spin(0);
     	leftFlywheel.spin(0);
+        NIVision.IMAQdxStopAcquisition(session);
+
     }
 	
 	public void disabledPeriodic() {
@@ -155,6 +164,7 @@ public class Robot extends IterativeRobot {
          this line or comment it out. */
     	isAuton = false;
         if (autonomousCommand != null) autonomousCommand.cancel();
+        NIVision.IMAQdxStartAcquisition(session);
     }
 
     
@@ -163,6 +173,9 @@ public class Robot extends IterativeRobot {
      */
     public void teleopPeriodic() {
         Scheduler.getInstance().run();
+        NIVision.IMAQdxGrab(session, frame, 1);
+        CameraServer.getInstance().setImage(frame);
+
     }
     
     /**
