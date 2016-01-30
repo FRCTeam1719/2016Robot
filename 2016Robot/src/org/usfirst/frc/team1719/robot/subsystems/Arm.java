@@ -1,6 +1,5 @@
 package org.usfirst.frc.team1719.robot.subsystems;
 
-import org.usfirst.frc.team1719.robot.RobotMap;
 import org.usfirst.frc.team1719.robot.commands.UseArm;
 
 import edu.wpi.first.wpilibj.AnalogPotentiometer;
