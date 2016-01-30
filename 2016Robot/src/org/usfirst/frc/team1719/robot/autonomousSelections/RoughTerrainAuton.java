@@ -1,4 +1,4 @@
-package org.usfirst.team1719.autonomousSelections;
+package org.usfirst.frc.team1719.robot.autonomousSelections;
 
 import org.usfirst.frc.team1719.robot.commands.MoveForwards;
 

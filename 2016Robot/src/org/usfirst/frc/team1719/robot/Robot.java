@@ -1,6 +1,8 @@
 package org.usfirst.frc.team1719.robot;
 
 
+import org.usfirst.frc.team1719.robot.autonomousSelections.DoNothing;
+import org.usfirst.frc.team1719.robot.autonomousSelections.LowBarAuton;
 import org.usfirst.frc.team1719.robot.commands.AutoSenseTower;
 import org.usfirst.frc.team1719.robot.commands.MoveForwards;
 import org.usfirst.frc.team1719.robot.settings.PIDData;
@@ -10,8 +12,6 @@ import org.usfirst.frc.team1719.robot.subsystems.DummyWeapon;
 import org.usfirst.frc.team1719.robot.subsystems.ExampleSubsystem;
 import org.usfirst.frc.team1719.robot.subsystems.FlyWheel;
 import org.usfirst.frc.team1719.robot.subsystems.IFireable;
-import org.usfirst.team1719.autonomousSelections.DoNothing;
-import org.usfirst.team1719.autonomousSelections.LowBarAuton;
 
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.command.Command;
