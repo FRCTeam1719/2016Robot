@@ -14,7 +14,7 @@ public class MoveArmToPos extends Command {
 	final boolean DIRECTION_DOWN = false;
 	double currentPos;
 	double desiredAngle;
-	double desiredPotPos;
+	double desiredPotPos; // the value the potentiometer is giving
 	
 	boolean direction;
 
@@ -30,7 +30,7 @@ public class MoveArmToPos extends Command {
     	//TODO Math to turn desiredAngle into desiredPotPos 
         desiredPotPos = desiredAngle;
     	currentPos = Robot.arm.getPos();
-    	
+    	//raise / lower arm to get to target pos
     	if (currentPos < desiredPotPos) {
     		direction = DIRECTION_UP;
     	}
@@ -44,7 +44,7 @@ public class MoveArmToPos extends Command {
     	currentPos = Robot.arm.getPos();
     	System.out.println("Current Pos: " + currentPos + " | DesiredPos: " + desiredAngle);
 
-    	
+    	//Turn motor to reach disired angle
     	if (desiredPotPos < currentPos) {
     		System.out.println("moving up!");
     		Robot.arm.move(-SPEED);
@@ -60,7 +60,7 @@ public class MoveArmToPos extends Command {
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-        
+        //make sure arm stops
     	if (direction == DIRECTION_UP) {
     		if (currentPos >= desiredPotPos) {
     			Robot.arm.move(0);

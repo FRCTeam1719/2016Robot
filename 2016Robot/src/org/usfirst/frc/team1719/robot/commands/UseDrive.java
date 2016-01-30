@@ -28,6 +28,7 @@ public class UseDrive extends Command{
 	protected void execute() {
 		double left = Robot.oi.getLeftReading();
 		double right = Robot.oi.getRightReading();
+		// Zero out the motors.
 		if(Math.abs(left)<TOLERANCE){
 			left = NIL;
 		}
@@ -46,7 +47,7 @@ public class UseDrive extends Command{
 		corectedValueR = (right*smooth) + ( corectedValueR * ( 1.0 - smooth));
 		right = corectedValueR;
 		}
-		//Sync the two sides if within the tolerance
+		//Sync the two sides speed if within the tolerance
 		if(Math.abs(left - right) < sychTolerance){
 			double corectedSpeed = (left +right) /2;
 			left = corectedSpeed;

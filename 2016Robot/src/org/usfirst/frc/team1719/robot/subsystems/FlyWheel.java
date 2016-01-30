@@ -46,7 +46,7 @@ public class FlyWheel extends Subsystem {
 		encoder.reset();
 		output = 0;
 	}
-
+	//spin at desired feet per second
 	public void spin(double feetPerSecond) {
 		double desiredSpeed = feetPerSecond;
 		pidData.kP = SmartDashboard.getNumber("Right flywheel kP: ");

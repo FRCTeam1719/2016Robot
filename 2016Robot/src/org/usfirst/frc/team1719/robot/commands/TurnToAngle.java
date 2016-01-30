@@ -41,7 +41,7 @@ public class TurnToAngle extends Command {
     	if (desiredAngle < 0) {
     		Robot.drive.operateDrive(SPEED, -SPEED);
     	}
-    	else if (desiredAngle > 0) {
+    	else if (desiredAngle > 0) { //turning counter clockwise
     		Robot.drive.operateDrive(-SPEED, SPEED);
     	}
     	else {

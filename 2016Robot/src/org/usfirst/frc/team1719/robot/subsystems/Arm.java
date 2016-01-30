@@ -9,7 +9,7 @@ import edu.wpi.first.wpilibj.command.Subsystem;
 
 public class Arm extends Subsystem {
 	
-	
+	//Define limit switches
 	DigitalInput lowerLimitSwitch = RobotMap.armLowerLimitSwitch;
 	DigitalInput upperLimitSwitch = RobotMap.armUpperLimitSwitch;
 	
@@ -28,12 +28,13 @@ public class Arm extends Subsystem {
 	}
 	
 	public void move(double speed) {
+		//set speed to stop if speed exceeds the maximum the motors can output
 		
 		if ( speed < -1 || speed > 1) {
 			motor.set(0);
 			return;
 		}
-		
+		//stop if limit switches are hit
 		if (speed < 0) {
 			if ((lowerLimitSwitch.get())) {
 				motor.set(0);

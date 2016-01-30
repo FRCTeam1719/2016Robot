@@ -12,6 +12,7 @@ public class ShootBoulder extends Command {
 	boolean hasShot;
 	boolean isStabilized;
 	
+	//Shoot boulder (desired leftPower, desired rightPower)
 	public ShootBoulder(double leftPower,double rightPower)
 	{
 		requires(Robot.shooter);
@@ -31,7 +32,7 @@ public class ShootBoulder extends Command {
 		
 		Robot.shooter.spin(leftPower, rightPower);
 		isStabilized = Robot.shooter.isStabilized();
-		
+		//if we shoot the boulder check if the angle has been reached before firing
 		if((!Robot.isAuton && isStabilized && Robot.oi.getFireButton())||
 				(Robot.isAuton && isStabilized && SmartDashboard.getBoolean("Angle Reached")))
 		{
