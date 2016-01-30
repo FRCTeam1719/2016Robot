@@ -39,7 +39,8 @@ public class RobotMap {
 	public static Encoder leftFlyWheelEncoder;
 	public static Talon armController;
 	public static DigitalInput armLowerLimitSwitch;
-	public static DigitalInput armUpperLimitSwitch;	
+	public static DigitalInput armUpperLimitSwitch;
+	public static DigitalInput ballLimitSwitch;
 	public static AnalogGyro gyro;
 	public static Talon innerShooterWheelController;
 	public static AnalogPotentiometer armPot;
@@ -60,6 +61,7 @@ public class RobotMap {
 		//DIO
 		armUpperLimitSwitch = new DigitalInput(0);
 		armLowerLimitSwitch = new DigitalInput(1);
+		ballLimitSwitch = new DigitalInput(2);
 		rightFlyWheelEncoder = new Encoder(2, 3, true, Encoder.EncodingType.k4X);		
 		configureEncoder(rightFlyWheelEncoder);
 		leftFlyWheelEncoder = new Encoder(4, 5, true, Encoder.EncodingType.k4X);
