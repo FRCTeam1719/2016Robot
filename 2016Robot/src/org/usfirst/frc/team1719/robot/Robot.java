@@ -8,6 +8,7 @@ import org.usfirst.frc.team1719.robot.autonomousSelections.PortcullisAuton;
 import org.usfirst.frc.team1719.robot.autonomousSelections.RampartsAuton;
 import org.usfirst.frc.team1719.robot.autonomousSelections.RockWallAuton;
 import org.usfirst.frc.team1719.robot.autonomousSelections.RoughTerrainAuton;
+import org.usfirst.frc.team1719.robot.commands.AimAndFire;
 import org.usfirst.frc.team1719.robot.commands.AutoSenseTower;
 import org.usfirst.frc.team1719.robot.settings.PIDData;
 import org.usfirst.frc.team1719.robot.subsystems.Arm;
@@ -64,6 +65,7 @@ public class Robot extends IterativeRobot {
         autonomousChooser.addObject("Go over Ramparts", new RampartsAuton());
         autonomousChooser.addObject("Go over Rock Wall", new RockWallAuton());
         autonomousChooser.addObject("Go through the Portcullis", new PortcullisAuton());
+        autonomousChooser.addObject("Shoot at tower", new AimAndFire());
         rightFlywheelPIDData = new PIDData();
         autonomousChooser.addObject("Sense Tower High Goals", new AutoSenseTower());
 //        chooser.addObject("My Auto", new MyAutoCommand());

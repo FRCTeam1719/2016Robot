@@ -17,18 +17,20 @@ public class MoveArmToPos extends Command {
 	double desiredPos;
 	
 	boolean direction;
+	double speed;
 
-    public MoveArmToPos(double desiredPos) {
+    public MoveArmToPos(double desiredPos, double speed) {
         // Use requires() here to declare subsystem dependencies
         // eg. requires(chassis);
     	requires(Robot.arm);
     	this.desiredPos = desiredPos;
+    	this.speed = speed;
     }
 
     // Called just before this Command runs the first time
     protected void initialize() {
     	currentPos = Robot.arm.getPos();
-    	if(desiredPos < 0.0D) desiredPos = SmartDashboard.getNumber("MoveArmParam");
+    	if(desiredPos == -1337) desiredPos = SmartDashboard.getNumber("MoveArmParam");
     	if (currentPos < desiredPos) {
     		direction = DIRECTION_UP;
     	}
@@ -40,16 +42,13 @@ public class MoveArmToPos extends Command {
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
     	currentPos = Robot.arm.getPos();
-    	System.out.println("Current Pos: " + currentPos + " | DesiredPos: " + desiredPos);
 
     	
-    	if (desiredPos < currentPos) {
-    		System.out.println("moving up!");
-    		Robot.arm.move(-SPEED);
+    	if (direction == DIRECTION_DOWN) {
+    		Robot.arm.move(-speed);
     	}
-    	else if (desiredPos > currentPos) {
-    		System.out.println("MOVING DOWN");
-    		Robot.arm.move(SPEED);
+    	else if (direction == DIRECTION_UP) {
+    		Robot.arm.move(speed);
     	}
     	else {
     		return;

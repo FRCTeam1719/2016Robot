@@ -22,6 +22,7 @@ public class DriveSubsystem extends Subsystem{
 	double kI;
 	double kD;
 	
+	//measured in degrees
 	final double PIDTolerance = 0.5D;
 	
 	public DriveSubsystem(SpeedController leftController,SpeedController rightController){

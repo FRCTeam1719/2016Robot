@@ -10,13 +10,13 @@ import edu.wpi.first.wpilibj.command.CommandGroup;
  */
 public class PortcullisAuton extends CommandGroup {
 	
-	final static double ARM_POS_GROUND = 0;
-	final static double ARM_POS_RAISED = 50;
+	final static double ARM_POS_GROUND = -15;
+	final static double ARM_POS_RAISED = 20;
     
     public  PortcullisAuton() {
-        addSequential(new MoveArmToPos(ARM_POS_GROUND));
+        addSequential(new MoveArmToPos(ARM_POS_GROUND, 0.3));
         addSequential(new MoveForwards(3, 0.3));
-        addSequential(new MoveArmToPos(ARM_POS_RAISED));
+        addSequential(new MoveArmToPos(ARM_POS_RAISED, 0.3));
         addSequential(new MoveForwards(3, 0.3));
     }
 }

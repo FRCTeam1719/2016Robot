@@ -43,7 +43,7 @@ public class MoveForwards extends Command {
 		
 		currentDist = (rightEncoderVal + leftEncoderVal) / 2;
         
-        Robot.drive.driveStraight(HALF_SPEED); // drive towards heading 0
+        Robot.drive.driveStraight(speed); // drive towards heading 0
 		
 	}
 
