@@ -53,14 +53,13 @@ public class UseDrive extends Command{
 			left = corectedSpeed;
 			right = corectedSpeed;
 		}
-
 		Robot.drive.operateDrive(-right, -left);
 	}
 
 	@Override
 	protected boolean isFinished() {
 		// TODO Auto-generated method stub
-		return false;
+		return true;
 	}
 
 	@Override
