@@ -4,18 +4,15 @@ import org.usfirst.frc.team1719.robot.RobotMap;
 import org.usfirst.frc.team1719.robot.commands.UseArm;
 
 import edu.wpi.first.wpilibj.AnalogPotentiometer;
-import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.Spark;
 import edu.wpi.first.wpilibj.command.Subsystem;
 
 public class Arm extends Subsystem {
 	
-	//Define limit switches
-	DigitalInput lowerLimitSwitch = RobotMap.armLowerLimitSwitch;
-	DigitalInput upperLimitSwitch = RobotMap.armUpperLimitSwitch;
-	Spark motor = RobotMap.armController;
+
+	Spark motor;
 	
-	AnalogPotentiometer pot = RobotMap.armPot;
+	AnalogPotentiometer pot;
 	
 	@Override
 	protected void initDefaultCommand() {
@@ -23,7 +20,9 @@ public class Arm extends Subsystem {
 		
 	}
 	
-	public Arm() {
+	public Arm(Spark motor, AnalogPotentiometer pot) {
+		this.motor = motor;
+		this.pot = pot;
 		motor.set(0);
 	}
 	

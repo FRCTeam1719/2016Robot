@@ -70,7 +70,7 @@ public class Robot extends IterativeRobot {
         rightFlywheel = new FlyWheel(RobotMap.rightFlyWheelController, RobotMap.rightFlyWheelEncoder, rightFlywheelPIDData);
         leftFlywheel =  new FlyWheel(RobotMap.leftFlyWheelController, RobotMap.leftFlyWheelEncoder, leftFlywheelPIDData);
         shooter = new DualShooter(leftFlywheel, rightFlywheel, RobotMap.innerShooterWheelController );
-        arm = new Arm();
+        arm = new Arm(RobotMap.armController, RobotMap.armPot);
         oi = new OI();
         isAuton = false;
         frame = NIVision.imaqCreateImage(NIVision.ImageType.IMAGE_RGB, 0);
