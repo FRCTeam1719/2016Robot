@@ -58,7 +58,7 @@ public class Robot extends IterativeRobot {
         //Setup Camera Server
     	
     	//Configure SmartDashboard Things
-        smartDashboardInit();    	   
+        	   
         
         //Hardware Initialization
         //Allocate Hardware
@@ -77,7 +77,7 @@ public class Robot extends IterativeRobot {
         session = NIVision.IMAQdxOpenCamera("cam0",
                 NIVision.IMAQdxCameraControlMode.CameraControlModeController);
         NIVision.IMAQdxConfigureGrab(session);
-        
+        smartDashboardInit();    
     }
 	
     public void smartDashboardInit(){

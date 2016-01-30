@@ -101,13 +101,18 @@ public class OI {
 		}
 		
 		//Functions for getting input
-		public double getLeftReading(){
+		public double getLeftDriveReading(){
 			return driverXBOX.getRawAxis(LEFT_Y);
 		}
 		
-		public double getRightReading(){
+		public double getRightDriveReading(){
 			return driverXBOX.getRawAxis(RIGHT_Y);
 		}
+		
+		public double getArmReading(){
+			return operatorXBOX.getRawAxis(LEFT_Y);
+		}
+		
 		
 		public boolean getFireButton()
 		{

@@ -6,6 +6,7 @@ import edu.wpi.first.wpilibj.Compressor;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.Solenoid;
+import edu.wpi.first.wpilibj.Spark;
 import edu.wpi.first.wpilibj.SpeedController;
 import edu.wpi.first.wpilibj.Talon;
 
@@ -37,7 +38,7 @@ public class RobotMap {
 	public static Encoder rightFlyWheelEncoder;
 	public static Talon leftFlyWheelController;
 	public static Encoder leftFlyWheelEncoder;
-	public static Talon armController;
+	public static Spark armController;
 	public static DigitalInput armLowerLimitSwitch;
 	public static DigitalInput armUpperLimitSwitch;	
 	public static AnalogGyro gyro;
@@ -52,7 +53,7 @@ public class RobotMap {
 		rightDriveController = new Talon(1);
 		leftFlyWheelController = new Talon(2);
 		rightFlyWheelController = new Talon(3);
-		armController = new Talon(4);
+		armController = new Spark(4);
 		innerShooterWheelController = new Talon(5);
 
 		//Sensors
