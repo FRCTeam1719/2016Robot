@@ -11,7 +11,9 @@ import org.usfirst.frc.team1719.robot.subsystems.ExampleSubsystem;
 import org.usfirst.frc.team1719.robot.subsystems.FlyWheel;
 
 import com.ni.vision.NIVision;
+import com.ni.vision.NIVision.DrawMode;
 import com.ni.vision.NIVision.Image;
+import com.ni.vision.NIVision.ShapeMode;
 
 import edu.wpi.first.wpilibj.CameraServer;
 import edu.wpi.first.wpilibj.IterativeRobot;
@@ -46,6 +48,8 @@ public class Robot extends IterativeRobot {
     SendableChooser chooser;
     Image frame;
     int session;
+    NIVision.Rect crosshair;
+
     public static boolean isAuton = false;
     /**
      * This function is run when the robot is first started up and should be
@@ -77,6 +81,7 @@ public class Robot extends IterativeRobot {
         session = NIVision.IMAQdxOpenCamera("cam0",
                 NIVision.IMAQdxCameraControlMode.CameraControlModeController);
         NIVision.IMAQdxConfigureGrab(session);
+        crosshair = new NIVision.Rect(10, 10, 100, 100);
         smartDashboardInit();    
     }
 	
@@ -174,8 +179,14 @@ public class Robot extends IterativeRobot {
     public void teleopPeriodic() {
         Scheduler.getInstance().run();
         NIVision.IMAQdxGrab(session, frame, 1);
+        addCrosshair();
         CameraServer.getInstance().setImage(frame);
 
+    }
+    
+    public void addCrosshair(){
+        NIVision.imaqDrawShapeOnImage(frame, frame, crosshair,
+                DrawMode.DRAW_VALUE, ShapeMode.SHAPE_OVAL, 0.0f);
     }
     
     /**
