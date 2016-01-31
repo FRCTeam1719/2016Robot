@@ -1,6 +1,7 @@
 package org.usfirst.frc.team1719.robot;
 
 import edu.wpi.first.wpilibj.AnalogGyro;
+import edu.wpi.first.wpilibj.AnalogPotentiometer;
 import edu.wpi.first.wpilibj.Compressor;
 import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.SpeedController;
@@ -29,13 +30,14 @@ public class RobotMap {
 	static Solenoid shifterSolenoid;
 	
 	public static AnalogGyro gyro;
+	public static AnalogPotentiometer dial;
 	
 	public static void init(){
 		leftController = new Talon(0);
 		rightController = new Talon(1);
 		mainCompressor = new Compressor();
 		shifterSolenoid = new Solenoid(0);
-		
+		dial = new AnalogPotentiometer(3, 256.0D);
 		gyro = new AnalogGyro(0);
 	}
 	

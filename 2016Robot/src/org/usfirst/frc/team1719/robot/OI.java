@@ -1,5 +1,6 @@
 package org.usfirst.frc.team1719.robot;
 
+import org.usfirst.frc.team1719.robot.commands.DisplayDrawTest;
 import org.usfirst.frc.team1719.robot.commands.MoveForwards;
 import org.usfirst.frc.team1719.robot.commands.TurnToAngle;
 
@@ -77,6 +78,7 @@ public class OI {
 	
 		private Button rotateButton;
 		private Button driveStraightButton;
+		private Button displayButton;
 		
 		public OI(){
 			driverXBOX = new Joystick(0);
@@ -85,6 +87,9 @@ public class OI {
 			rotateButton.whenPressed(new TurnToAngle(90));
 			driveStraightButton = new JoystickButton(driverXBOX, B_BUTTON);
 			driveStraightButton.whenPressed(new MoveForwards(600));
+			displayButton = new JoystickButton(driverXBOX, X_BUTTON);
+			displayButton.whenPressed(new DisplayDrawTest());
+			
 		}
 		
 	
