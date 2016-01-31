@@ -88,7 +88,7 @@ public class OI {
 			driveStraightButton = new JoystickButton(driverXBOX, B_BUTTON);
 			driveStraightButton.whenPressed(new MoveForwards(600));
 			displayButton = new JoystickButton(driverXBOX, X_BUTTON);
-			displayButton.whenPressed(new DisplayDrawTest());
+			//displayButton.whenPressed(new DisplayDrawTest());
 			
 		}
 		

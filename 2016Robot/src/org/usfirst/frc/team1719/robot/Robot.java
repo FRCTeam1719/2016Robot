@@ -1,6 +1,7 @@
 
 package org.usfirst.frc.team1719.robot;
 
+import org.usfirst.frc.team1719.robot.commands.DisplayDrawTest;
 import org.usfirst.frc.team1719.robot.commands.ExampleCommand;
 import org.usfirst.frc.team1719.robot.commands.MoveForwards;
 import org.usfirst.frc.team1719.robot.subsystems.Display;
@@ -47,7 +48,7 @@ public class Robot extends IterativeRobot {
         smartDashboardInit();
         drive = new DriveSubsystem(RobotMap.leftController, RobotMap.rightController);
         oi = new OI();
-        display = new Display();
+        
     }
 	
     public void smartDashboardInit(){
@@ -111,6 +112,8 @@ public class Robot extends IterativeRobot {
         // this line or comment it out.
         if (autonomousCommand != null) autonomousCommand.cancel();
         //display.DoThing();
+        DisplayDrawTest thing = new DisplayDrawTest();
+        thing.start();
     }
 
     /**
