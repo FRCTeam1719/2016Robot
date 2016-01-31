@@ -79,7 +79,6 @@ public class Robot extends IterativeRobot {
         session = NIVision.IMAQdxOpenCamera("cam0",
                 NIVision.IMAQdxCameraControlMode.CameraControlModeController);
         NIVision.IMAQdxConfigureGrab(session);
-        crosshair = new NIVision.Rect(10, 10, 100, 100);
         smartDashboardInit();    
     }
 	

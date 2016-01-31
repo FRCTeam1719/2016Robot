@@ -11,19 +11,22 @@ import edu.wpi.first.wpilibj.command.Command;
  */
 public class TurnToAngle extends Command {
 
-	static double SPEED = 0.5D;
+	final double SPEED = 0.75D;
+
 	
-	private double desiredAngle;
+	private double tunedAngle;
 	private double currentAngle = 0D;
+	
 	
 	AnalogGyro gyro = RobotMap.gyro;
 	
-    public TurnToAngle(double angle) {
+    public TurnToAngle(double desiredAngle) {
         // Use requires() here to declare subsystem dependencies
         
     	requires(Robot.drive);
+    	//TODO make this better
     	
-    	desiredAngle = angle;
+    	tunedAngle = desiredAngle;
     	
     }
 
@@ -35,30 +38,31 @@ public class TurnToAngle extends Command {
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
     	
+    	
+    	
+    	
     	currentAngle = gyro.getAngle();
     	System.out.println(currentAngle);
     	//turning clockwise
-    	if (desiredAngle < 0) {
+    	if (tunedAngle < 0) {
     		Robot.drive.operateDrive(SPEED, -SPEED);
     	}
-    	else if (desiredAngle > 0) { //turning counter clockwise
+    	else if (tunedAngle > 0) { //turning counter clockwise
     		Robot.drive.operateDrive(-SPEED, SPEED);
     	}
-    	else {
-    		return;
-    	}
+    	System.out.println("TURNING, CURRENT ANGLE: "+currentAngle);
     }
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
         
     	//turning counterclockwise
-    	if (desiredAngle < 0) {
-    		return currentAngle <= desiredAngle;
+    	if (tunedAngle < 0) {
+    		return currentAngle <= tunedAngle;
     	}
     	//turning clockwise
-    	else if (desiredAngle > 0) {
-    		return currentAngle >= desiredAngle;
+    	else if (tunedAngle > 0) {
+    		return currentAngle >= tunedAngle;
     	}
     	else {
     		return true;

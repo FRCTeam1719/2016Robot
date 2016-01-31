@@ -79,7 +79,8 @@ public class OI {
 		private Joystick driverXBOX;
 		private Joystick operatorXBOX;
 
-		private Button rotate90Button;
+		private Button rotateRight90Button;
+		private Button rotateLeft90Button;
 		private Button rotate180Button;
 		private Button fireButton;				
 		private Button moveArmButton;
@@ -89,9 +90,12 @@ public class OI {
 			operatorXBOX = new Joystick(1);
 			
 			//Define Buttons
-			rotate90Button = new JoystickButton(driverXBOX, A_BUTTON);
-			rotate90Button.whenPressed(new TurnToAngle(90));
-			rotate180Button.whenPressed(new TurnToAngle(180));
+			rotateRight90Button = new JoystickButton(driverXBOX, X_BUTTON);
+			rotateRight90Button.whenPressed(new TurnToAngle(45));
+			rotateLeft90Button = new JoystickButton(driverXBOX, B_BUTTON);
+			rotateLeft90Button.whenPressed(new TurnToAngle(-45));
+			rotate180Button = new JoystickButton(driverXBOX, Y_BUTTON);
+			rotate180Button.whenPressed(new TurnToAngle(90));
 			fireButton = new JoystickButton(operatorXBOX, RIGHT_TRIGGER);
 			fireButton.whenPressed(new ShootBoulder(10, 10));
 			moveArmButton = new JoystickButton(operatorXBOX, A_BUTTON);
