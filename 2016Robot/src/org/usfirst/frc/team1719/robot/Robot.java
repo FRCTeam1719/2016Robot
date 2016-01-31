@@ -11,9 +11,7 @@ import org.usfirst.frc.team1719.robot.subsystems.ExampleSubsystem;
 import org.usfirst.frc.team1719.robot.subsystems.FlyWheel;
 
 import com.ni.vision.NIVision;
-import com.ni.vision.NIVision.DrawMode;
 import com.ni.vision.NIVision.Image;
-import com.ni.vision.NIVision.ShapeMode;
 
 import edu.wpi.first.wpilibj.CameraServer;
 import edu.wpi.first.wpilibj.IterativeRobot;
@@ -179,15 +177,11 @@ public class Robot extends IterativeRobot {
     public void teleopPeriodic() {
         Scheduler.getInstance().run();
         NIVision.IMAQdxGrab(session, frame, 1);
-        addCrosshair();
         CameraServer.getInstance().setImage(frame);
 
     }
     
-    public void addCrosshair(){
-        NIVision.imaqDrawShapeOnImage(frame, frame, crosshair,
-                DrawMode.DRAW_VALUE, ShapeMode.SHAPE_OVAL, 0.0f);
-    }
+   
     
     /**
      * This function is called periodically during test mode
