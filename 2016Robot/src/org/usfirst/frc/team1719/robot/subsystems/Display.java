@@ -3,6 +3,9 @@ package org.usfirst.frc.team1719.robot.subsystems;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.usfirst.frc.team1719.robot.commands.DisplayVoltage;
+
+import edu.wpi.first.wpilibj.AnalogPotentiometer;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.I2C;
 import edu.wpi.first.wpilibj.I2C.Port;
@@ -12,15 +15,18 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class Display extends Subsystem {
+	DigitalInput buttonA;
+	DigitalInput buttonB;
+	AnalogPotentiometer dial;
 	I2C i2c = new I2C(Port.kMXP, 0x70);
 			//DigitalInput buttonA = new DigitalInput(9);
-			DigitalInput buttonB = new DigitalInput(10);
+			//DigitalInput buttonB = new DigitalInput(10);
 			final String defaultAuto = "default.";
 			final String customAuto = "Other.";
 			String autoSelected;
 			SendableChooser chooser;
 	public static final Map<Character, byte[]> map;
-	public Display() {
+	public Display(DigitalInput buttonA, DigitalInput buttonB, AnalogPotentiometer dial) {
 		// TODO Auto-generated method stub
 		// TODO Auto-generated method stub
 		byte[] osc = new byte[1];
@@ -35,19 +41,35 @@ public class Display extends Subsystem {
 		i2c.writeBulk(blink);
 		Timer.delay(.01);
 		i2c.writeBulk(bright);
-		
+		this.buttonA = buttonA;
+		this.buttonB = buttonB;
+		this.dial = dial;
     	//SmartDashboard.putString("DB/String 1", "ButtonA = " + buttonA.get());
     	SmartDashboard.putString("DB/String 2", "ButtonB = " + buttonB.get());
     }
     public void displayString(String s){
+    	boolean dotMarker[] = new boolean[4];
+    	int dotIndex = s.indexOf('.') -1;
+    	System.out.println("Dot Index: "+dotIndex);
+    	
+    	if(dotIndex>0){
+    		dotMarker[dotIndex] = true;
+    		String split[] = s.split("\\.");
+    		s = split[0] + split[1];
+    	}
+    	
     	
     	byte[] toSend = new byte[10];
     	toSend[0] = (byte)(0b0000111100001111);
     	toSend[1] = (byte)(0b00000000) & 0xFF;
     	for(int i = 0; i < 4; i++){ try {
     		char c = s.toUpperCase().charAt(i);
-    		
-    		System.arraycopy(map.get(c), 0, toSend, 8-2*i, 2);
+    		if(dotMarker[i]){
+    			byte byteWithDot[] = addDot(map.get(c));
+    			System.arraycopy(byteWithDot, 0, toSend, 8-2*i, 2);
+    		}else{
+    			System.arraycopy(map.get(c), 0, toSend, 8-2*i, 2);
+    		}
     	}catch(Exception ex) {}
     	}
     	i2c.writeBulk(toSend);
@@ -55,15 +77,27 @@ public class Display extends Subsystem {
 
     
     public byte[] addDot(byte[] input){
-    	input[1] = (byte) (input[1] | 0b010000000);
+    	input[1] = (byte) (input[1] | 0b001000000);
     	return input;
     }
     
 	@Override
 	protected void initDefaultCommand() {
-		// TODO Auto-generated method stub
-		
+		setDefaultCommand(new DisplayVoltage());
 	}
+	
+	public boolean buttonAPressed(){
+		return buttonA.get();
+	}
+	
+	public boolean buttonBPressed(){
+		return buttonB.get();
+	}
+	
+	public double getDialReading(){
+		return dial.get();
+	}
+	
 	static {
 		map = new HashMap<Character, byte[]>();
 		map.put('0', new byte[] {(byte)0b00111111, (byte)0b00000000});

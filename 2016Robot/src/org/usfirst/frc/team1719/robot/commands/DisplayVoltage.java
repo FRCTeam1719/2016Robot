@@ -1,36 +1,32 @@
 package org.usfirst.frc.team1719.robot.commands;
 
-import org.usfirst.frc.team1719.robot.subsystems.Display;
-
 import edu.wpi.first.wpilibj.DriverStation;
-import edu.wpi.first.wpilibj.PowerDistributionPanel;
 import edu.wpi.first.wpilibj.command.Command;
+import org.usfirst.frc.team1719.robot.Robot;
+public class DisplayVoltage extends Command {
 
-public class DisplayDrawTest extends Command {
 
-	public static Display display = new Display();
-	PowerDistributionPanel pdp = new PowerDistributionPanel();
-
+	public DisplayVoltage(){
+		requires(Robot.display);
+	}
 
 	@Override
 	protected void initialize() {
 		// TODO Auto-generated method stub
-		
+		System.out.println("Hit DisplayDrawTest Command Init");
 	}
 
 	@Override
 	protected void execute() {
 		// TODO Auto-generated method stub
-		double voltage = DriverStation.getInstance().getBatteryVoltage();
-		voltage = voltage*100;
-		String volt = Double.toString(voltage);
-		display.displayString(volt);
+		String voltage = Double.toString(DriverStation.getInstance().getBatteryVoltage());
+		Robot.display.displayString(voltage);
 	}
 
 	@Override
 	protected boolean isFinished() {
 		// TODO Auto-generated method stub
-		return false;
+		return true;
 	}
 
 	@Override

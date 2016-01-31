@@ -1,7 +1,7 @@
 
 package org.usfirst.frc.team1719.robot;
 
-import org.usfirst.frc.team1719.robot.commands.DisplayDrawTest;
+import org.usfirst.frc.team1719.robot.commands.DisplayVoltage;
 import org.usfirst.frc.team1719.robot.commands.ExampleCommand;
 import org.usfirst.frc.team1719.robot.commands.MoveForwards;
 import org.usfirst.frc.team1719.robot.subsystems.Display;
@@ -47,6 +47,7 @@ public class Robot extends IterativeRobot {
         RobotMap.init();
         smartDashboardInit();
         drive = new DriveSubsystem(RobotMap.leftController, RobotMap.rightController);
+        display = new Display(RobotMap.buttonA, RobotMap.buttonB, RobotMap.dial);
         oi = new OI();
         
     }
@@ -64,7 +65,7 @@ public class Robot extends IterativeRobot {
 	 * the robot is disabled.
      */
     public void disabledInit(){
-
+    	display.displayString("1719");
     }
 	
 	public void disabledPeriodic() {
@@ -112,8 +113,7 @@ public class Robot extends IterativeRobot {
         // this line or comment it out.
         if (autonomousCommand != null) autonomousCommand.cancel();
         //display.DoThing();
-        DisplayDrawTest thing = new DisplayDrawTest();
-        thing.start();
+       
     }
 
     /**
@@ -122,6 +122,7 @@ public class Robot extends IterativeRobot {
     public void teleopPeriodic() {
     	//System.out.println("meh" + RobotMap.dial.get());
         Scheduler.getInstance().run();
+        
     }
     
     /**
