@@ -19,6 +19,7 @@ public class DisplayVoltage extends Command {
 	@Override
 	protected void execute() {
 		// TODO Auto-generated method stub
+		System.out.println("Command Running");
 		String voltage = Double.toString(DriverStation.getInstance().getBatteryVoltage());
 		Robot.display.displayString(voltage);
 	}

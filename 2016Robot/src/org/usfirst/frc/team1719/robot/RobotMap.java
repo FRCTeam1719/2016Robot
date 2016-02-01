@@ -1,7 +1,7 @@
 package org.usfirst.frc.team1719.robot;
 
 import edu.wpi.first.wpilibj.AnalogGyro;
-import edu.wpi.first.wpilibj.AnalogPotentiometer;
+import edu.wpi.first.wpilibj.AnalogInput;
 import edu.wpi.first.wpilibj.Compressor;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.Solenoid;
@@ -31,7 +31,7 @@ public class RobotMap {
 	static Solenoid shifterSolenoid;
 	
 	public static AnalogGyro gyro;
-	public static AnalogPotentiometer dial;
+	public static AnalogInput dial;
 	public static DigitalInput buttonA;
 	public static DigitalInput buttonB;
 	public static void init(){
@@ -39,10 +39,10 @@ public class RobotMap {
 		rightController = new Talon(1);
 		mainCompressor = new Compressor();
 		shifterSolenoid = new Solenoid(0);
-		dial = new AnalogPotentiometer(3, 256.0D);
+		dial = new AnalogInput(3);
 		gyro = new AnalogGyro(0);
-		buttonA = new DigitalInput(9);
-		buttonB = new DigitalInput(10);
+		buttonA = new DigitalInput(19);
+		buttonB = new DigitalInput(20);
 		
 	}
 	

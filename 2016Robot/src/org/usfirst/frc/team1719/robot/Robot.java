@@ -8,6 +8,7 @@ import org.usfirst.frc.team1719.robot.subsystems.Display;
 import org.usfirst.frc.team1719.robot.subsystems.DriveSubsystem;
 import org.usfirst.frc.team1719.robot.subsystems.ExampleSubsystem;
 
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
@@ -32,6 +33,7 @@ public class Robot extends IterativeRobot {
 	public static Display display;
 	public static DriveSubsystem drive;
     Command autonomousCommand;
+    Command DisplayVoltage;
     SendableChooser chooser;
 
     /**
@@ -65,10 +67,12 @@ public class Robot extends IterativeRobot {
 	 * the robot is disabled.
      */
     public void disabledInit(){
-    	display.displayString("1719");
+    	
     }
 	
 	public void disabledPeriodic() {
+		String voltage = Double.toString(DriverStation.getInstance().getBatteryVoltage());
+		display.displayString(voltage);
 		Scheduler.getInstance().run();
 	}
 

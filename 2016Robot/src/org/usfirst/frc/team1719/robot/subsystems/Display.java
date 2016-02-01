@@ -3,9 +3,9 @@ package org.usfirst.frc.team1719.robot.subsystems;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.usfirst.frc.team1719.robot.commands.DisplayVoltage;
+import org.usfirst.frc.team1719.robot.commands.ReportOnDisplay;
 
-import edu.wpi.first.wpilibj.AnalogPotentiometer;
+import edu.wpi.first.wpilibj.AnalogInput;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.I2C;
 import edu.wpi.first.wpilibj.I2C.Port;
@@ -17,7 +17,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 public class Display extends Subsystem {
 	DigitalInput buttonA;
 	DigitalInput buttonB;
-	AnalogPotentiometer dial;
+	AnalogInput dial;
 	I2C i2c = new I2C(Port.kMXP, 0x70);
 			//DigitalInput buttonA = new DigitalInput(9);
 			//DigitalInput buttonB = new DigitalInput(10);
@@ -26,7 +26,7 @@ public class Display extends Subsystem {
 			String autoSelected;
 			SendableChooser chooser;
 	public static final Map<Character, byte[]> map;
-	public Display(DigitalInput buttonA, DigitalInput buttonB, AnalogPotentiometer dial) {
+	public Display(DigitalInput buttonA, DigitalInput buttonB, AnalogInput dial) {
 		// TODO Auto-generated method stub
 		// TODO Auto-generated method stub
 		byte[] osc = new byte[1];
@@ -49,9 +49,7 @@ public class Display extends Subsystem {
     }
     public void displayString(String s){
     	boolean dotMarker[] = new boolean[4];
-    	int dotIndex = s.indexOf('.') -1;
-    	System.out.println("Dot Index: "+dotIndex);
-    	
+    	int dotIndex = s.indexOf('.') -1;    	
     	if(dotIndex>0){
     		dotMarker[dotIndex] = true;
     		String split[] = s.split("\\.");
@@ -83,19 +81,19 @@ public class Display extends Subsystem {
     
 	@Override
 	protected void initDefaultCommand() {
-		setDefaultCommand(new DisplayVoltage());
+		setDefaultCommand(new ReportOnDisplay());
 	}
 	
 	public boolean buttonAPressed(){
-		return buttonA.get();
+		return !buttonA.get();
 	}
 	
 	public boolean buttonBPressed(){
-		return buttonB.get();
+		return !buttonB.get();
 	}
 	
 	public double getDialReading(){
-		return dial.get();
+		return dial.getVoltage();
 	}
 	
 	static {
