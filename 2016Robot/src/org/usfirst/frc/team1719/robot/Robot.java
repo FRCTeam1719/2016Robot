@@ -1,9 +1,8 @@
 
 package org.usfirst.frc.team1719.robot;
 
-import org.usfirst.frc.team1719.robot.commands.DisplayVoltage;
+import org.usfirst.frc.team1719.robot.commands.AutonCommand;
 import org.usfirst.frc.team1719.robot.commands.ExampleCommand;
-import org.usfirst.frc.team1719.robot.commands.MoveForwards;
 import org.usfirst.frc.team1719.robot.subsystems.Display;
 import org.usfirst.frc.team1719.robot.subsystems.DriveSubsystem;
 import org.usfirst.frc.team1719.robot.subsystems.ExampleSubsystem;
@@ -32,6 +31,11 @@ public class Robot extends IterativeRobot {
 	public static OI oi;
 	public static Display display;
 	public static DriveSubsystem drive;
+	public int autonomousMode  = 0;
+	final boolean VOLTAGEDISPLAY = true;
+	final boolean AUTONDISPLAY = false;
+	boolean currentDisplayMode = VOLTAGEDISPLAY;
+	final double TOLERANCE = 0.01;
     Command autonomousCommand;
     Command DisplayVoltage;
     SendableChooser chooser;
@@ -71,8 +75,30 @@ public class Robot extends IterativeRobot {
     }
 	
 	public void disabledPeriodic() {
-		String voltage = Double.toString(DriverStation.getInstance().getBatteryVoltage());
-		display.displayString(voltage);
+		
+		if(display.buttonAPressed()){
+			currentDisplayMode = AUTONDISPLAY;
+		}else if(display.buttonBPressed()){
+			currentDisplayMode = VOLTAGEDISPLAY;
+		}
+		
+		
+		if(currentDisplayMode==AUTONDISPLAY){
+		Double dialPos = display.getDialReading();
+		if(dialPos-0.26<TOLERANCE){
+			autonomousMode = 0;
+			display.displayString("A  0");
+		}else if(dialPos-0.27<TOLERANCE){
+			autonomousMode = 1;
+			display.displayString("A  1");
+		}else if(dialPos-0.28<TOLERANCE){
+			autonomousMode = 2;
+			display.displayString("A  2");
+		}
+		}else{
+			String voltage = Double.toString(DriverStation.getInstance().getBatteryVoltage());
+			display.displayString(voltage);
+		}
 		Scheduler.getInstance().run();
 	}
 
@@ -87,7 +113,7 @@ public class Robot extends IterativeRobot {
 	 */
     public void autonomousInit() {
         autonomousCommand = (Command) chooser.getSelected();
-        autonomousCommand = new MoveForwards(100); 	
+        autonomousCommand = new AutonCommand(autonomousMode); 	
 		/* String autoSelected = SmartDashboard.getString("Auto Selector", "Default");
 		switch(autoSelected) {
 		case "My Auto":

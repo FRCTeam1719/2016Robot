@@ -3,7 +3,7 @@ package org.usfirst.frc.team1719.robot.subsystems;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.usfirst.frc.team1719.robot.commands.ReportOnDisplay;
+import org.usfirst.frc.team1719.robot.commands.DisplayVoltage;
 
 import edu.wpi.first.wpilibj.AnalogInput;
 import edu.wpi.first.wpilibj.DigitalInput;
@@ -81,7 +81,7 @@ public class Display extends Subsystem {
     
 	@Override
 	protected void initDefaultCommand() {
-		setDefaultCommand(new ReportOnDisplay());
+		setDefaultCommand(new DisplayVoltage());
 	}
 	
 	public boolean buttonAPressed(){
