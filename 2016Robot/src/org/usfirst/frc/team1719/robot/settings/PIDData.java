@@ -4,4 +4,10 @@ public class PIDData {
 	public double kP;
 	public double kI;
 	public double kD;
+	
+	public PIDData () {
+		kP = 0;
+		kI = 0;
+		kD = 0;
+	}
 }

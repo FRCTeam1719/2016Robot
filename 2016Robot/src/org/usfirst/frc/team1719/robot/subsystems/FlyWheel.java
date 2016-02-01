@@ -42,9 +42,9 @@ public class FlyWheel extends Subsystem {
 
 	public void spin(double rotPerSecond) {
 		double desiredSpeed = ONEROTATION * rotPerSecond;
-		pidData.kP = SmartDashboard.getNumber("Right flywheel kP: ");
-		pidData.kI = SmartDashboard.getNumber("Right flywheel kI: ");
-		pidData.kD = SmartDashboard.getNumber("Right flywheel kD: ");
+		//pidData.kP = SmartDashboard.getNumber("Right flywheel kP: ");
+		//pidData.kI = SmartDashboard.getNumber("Right flywheel kI: ");
+		//pidData.kD = SmartDashboard.getNumber("Right flywheel kD: ");
 
 		if (desiredSpeed == 0) {
 			motor.set(0);

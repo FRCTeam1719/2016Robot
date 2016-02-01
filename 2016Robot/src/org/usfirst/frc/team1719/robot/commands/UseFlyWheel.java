@@ -6,6 +6,10 @@ import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class UseFlyWheel extends Command{
+	
+	public UseFlyWheel() {
+		requires(Robot.rightFlywheel);
+	}
 
 	@Override
 	protected void end() {
@@ -17,7 +21,7 @@ public class UseFlyWheel extends Command{
 
 	@Override
 	protected void execute() {
-		Robot.rightFlywheel.spin(SmartDashboard.getNumber("FlywheelParam"));
+		//Robot.rightFlywheel.spin(SmartDashboard.getNumber("FlywheelParam"));
 	}
 
 	@Override

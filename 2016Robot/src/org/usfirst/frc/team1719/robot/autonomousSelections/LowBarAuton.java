@@ -7,7 +7,7 @@ import edu.wpi.first.wpilibj.command.CommandGroup;
 public class LowBarAuton extends CommandGroup {	
 	
 	public LowBarAuton() {
-		addSequential(new MoveForwards(4.5, 0.3));
+		addSequential(new MoveForwards(4.5, 0.5));
 	}
 
 }

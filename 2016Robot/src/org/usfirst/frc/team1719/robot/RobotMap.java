@@ -66,11 +66,10 @@ public class RobotMap {
 		leftDriveWheelEncoder.setDistancePerPulse(DRIVE_WHEEL_CIRCUMFRENCE / 256);
 		
 		gyro = new AnalogGyro(0);
-		//gyro = new AnalogGyro(4);
 		armLowerLimitSwitch = new DigitalInput(2);
 		armUpperLimitSwitch = new DigitalInput(1);
-		armMotor = new Talon(2);
-		armPot = new AnalogPotentiometer(0, 100);
+		armMotor = new Talon(4);
+		armPot = new AnalogPotentiometer(1, 100);
 		rightFlyWheelTalon = new Talon(2);
 		rightFlyWheelEncoder = new Encoder(4, 5, true, Encoder.EncodingType.k4X);
 		configureEncoder(rightFlyWheelEncoder);
