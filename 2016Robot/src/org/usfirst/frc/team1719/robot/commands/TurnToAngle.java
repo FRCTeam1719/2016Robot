@@ -12,18 +12,32 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  */
 public class TurnToAngle extends Command {
 
-	static double SPEED = 0.5D;
+	final double SPEED = 0.75D;
+
 	
+<<<<<<< HEAD
 	private double desiredAngle;
 	private double currentAngle = 0.0D;
+=======
+	private double tunedAngle;
+	private double currentAngle = 0D;
+	
+>>>>>>> refs/remotes/origin/RobotStaging
 	
 	AnalogGyro gyro = RobotMap.gyro;
 	
-    public TurnToAngle(double angle) {
+    public TurnToAngle(double desiredAngle) {
         // Use requires() here to declare subsystem dependencies
         
     	requires(Robot.drive);
+<<<<<<< HEAD
     	desiredAngle = angle;
+=======
+    	//TODO make this better
+    	
+    	tunedAngle = desiredAngle;
+    	
+>>>>>>> refs/remotes/origin/RobotStaging
     }
 
     // Called just before this Command runs the first time
@@ -34,30 +48,32 @@ public class TurnToAngle extends Command {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
+    	
+    	
+    	
+    	
     	currentAngle = gyro.getAngle();
     	System.out.println(currentAngle);
     	//turning clockwise
-    	if (desiredAngle < 0) {
+    	if (tunedAngle < 0) {
     		Robot.drive.operateDrive(SPEED, -SPEED);
     	}
-    	else if (desiredAngle > 0) {
+    	else if (tunedAngle > 0) { //turning counter clockwise
     		Robot.drive.operateDrive(-SPEED, SPEED);
     	}
-    	else {
-    		return;
-    	}
+    	System.out.println("TURNING, CURRENT ANGLE: "+currentAngle);
     }
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
         
     	//turning counterclockwise
-    	if (desiredAngle < 0) {
-    		return currentAngle <= desiredAngle;
+    	if (tunedAngle < 0) {
+    		return currentAngle <= tunedAngle;
     	}
     	//turning clockwise
-    	else if (desiredAngle > 0) {
-    		return currentAngle >= desiredAngle;
+    	else if (tunedAngle > 0) {
+    		return currentAngle >= tunedAngle;
     	}
     	else {
     		return true;

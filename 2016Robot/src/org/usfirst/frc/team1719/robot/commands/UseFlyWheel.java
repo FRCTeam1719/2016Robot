@@ -11,22 +11,38 @@ public class UseFlyWheel extends Command{
 		requires(Robot.rightFlywheel);
 	}
 
+	double leftPower;
+	double rightPower;
+	
+	public UseFlyWheel(double leftPower, double rightPower)
+	{
+		this.leftPower = leftPower;
+		this.rightPower = rightPower; 
+	}
+	
 	@Override
 	protected void end() {
 		// TODO Auto-generated method stub
 		Robot.rightFlywheel.reset();
-		
+		Robot.leftFlywheel.reset();
 		
 	}
 
 	@Override
 	protected void execute() {
+<<<<<<< HEAD
 		//Robot.rightFlywheel.spin(SmartDashboard.getNumber("FlywheelParam"));
+=======
+		Robot.rightFlywheel.spin(rightPower);
+		Robot.leftFlywheel.spin(leftPower);
+		
+>>>>>>> refs/remotes/origin/RobotStaging
 	}
 
 	@Override
 	protected void initialize() {
 		Robot.rightFlywheel.reset();
+		Robot.leftFlywheel.reset();
 		// TODO Auto-generated method stub
 		
 	}

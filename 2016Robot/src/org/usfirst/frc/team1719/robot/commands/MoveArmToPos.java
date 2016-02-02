@@ -14,27 +14,43 @@ public class MoveArmToPos extends Command {
 	final boolean DIRECTION_UP = true;
 	final boolean DIRECTION_DOWN = false;
 	double currentPos;
-	double desiredPos;
+	double desiredAngle;
+	double desiredPotPos; // the value the potentiometer is giving
 	
 	boolean direction;
 	double speed;
 
+<<<<<<< HEAD
     public MoveArmToPos(double desiredPos, double speed) {
+=======
+    public MoveArmToPos(double desiredAngle) {
+>>>>>>> refs/remotes/origin/RobotStaging
         // Use requires() here to declare subsystem dependencies
         // eg. requires(chassis);
     	requires(Robot.arm);
+<<<<<<< HEAD
     	this.desiredPos = desiredPos;
     	this.speed = speed;
+=======
+    	this.desiredAngle = desiredAngle;
+>>>>>>> refs/remotes/origin/RobotStaging
     }
 
     // Called just before this Command runs the first time
     protected void initialize() {
+    	//TODO Math to turn desiredAngle into desiredPotPos 
+        desiredPotPos = desiredAngle;
     	currentPos = Robot.arm.getPos();
+<<<<<<< HEAD
     	if(desiredPos == -1337) desiredPos = SmartDashboard.getNumber("MoveArmParam");
     	if (currentPos < desiredPos) {
+=======
+    	//raise / lower arm to get to target pos
+    	if (currentPos < desiredPotPos) {
+>>>>>>> refs/remotes/origin/RobotStaging
     		direction = DIRECTION_UP;
     	}
-    	else if (currentPos > desiredPos) {
+    	else if (currentPos > desiredPotPos) {
     		direction = DIRECTION_DOWN;
     	}
     }
@@ -42,13 +58,30 @@ public class MoveArmToPos extends Command {
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
     	currentPos = Robot.arm.getPos();
+<<<<<<< HEAD
+=======
+    	System.out.println("Current Pos: " + currentPos + " | DesiredPos: " + desiredAngle);
+>>>>>>> refs/remotes/origin/RobotStaging
 
+<<<<<<< HEAD
     	
     	if (direction == DIRECTION_DOWN) {
     		Robot.arm.move(-speed);
+=======
+    	//Turn motor to reach disired angle
+    	if (desiredPotPos < currentPos) {
+    		System.out.println("moving up!");
+    		Robot.arm.move(-SPEED);
+>>>>>>> refs/remotes/origin/RobotStaging
     	}
+<<<<<<< HEAD
     	else if (direction == DIRECTION_UP) {
     		Robot.arm.move(speed);
+=======
+    	else if (desiredPotPos > currentPos) {
+    		System.out.println("MOVING DOWN");
+    		Robot.arm.move(SPEED);
+>>>>>>> refs/remotes/origin/RobotStaging
     	}
     	else {
     		return;
@@ -57,9 +90,9 @@ public class MoveArmToPos extends Command {
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-        
+        //make sure arm stops
     	if (direction == DIRECTION_UP) {
-    		if (currentPos >= desiredPos) {
+    		if (currentPos >= desiredPotPos) {
     			Robot.arm.move(0);
     			return true;
     		}
@@ -68,7 +101,7 @@ public class MoveArmToPos extends Command {
     		}
     	}
     	else if (direction == DIRECTION_DOWN) {
-    		if (currentPos <= desiredPos) {
+    		if (currentPos <= desiredPotPos) {
     			Robot.arm.move(0);
     			return true;
     		}
@@ -78,7 +111,7 @@ public class MoveArmToPos extends Command {
     	}
     	else {
     		Robot.arm.move(0);
-    		System.out.println("HOLY FUCK EVERYTHING IS BROKEN");
+    		System.out.println("ERROR: Boolean is neither true nor false in MoveArmToPos, call reality police.");
     		return true;
     	}
     }

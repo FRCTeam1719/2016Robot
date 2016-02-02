@@ -5,19 +5,30 @@ import org.usfirst.frc.team1719.robot.RobotMap;
 import org.usfirst.frc.team1719.robot.subsystems.DriveSubsystem;
 
 import edu.wpi.first.wpilibj.command.Command;
+<<<<<<< HEAD
 import edu.wpi.first.wpilibj.interfaces.Gyro;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+=======
+>>>>>>> refs/remotes/origin/RobotStaging
 
 public class MoveForwards extends Command {
 	
+<<<<<<< HEAD
 	double HALF_SPEED = 0.5D;
 	double speed;
+=======
+	final double HALF_SPEED = 0.5;
+>>>>>>> refs/remotes/origin/RobotStaging
 	/** distances measured in feet
 	 * 
 	 */
 	private double desiredDist;
 	private double currentDist = 0D;
+<<<<<<< HEAD
 	
+=======
+	public double kP = 0.1;
+>>>>>>> refs/remotes/origin/RobotStaging
 	
 	
 	DriveSubsystem drive = Robot.drive;

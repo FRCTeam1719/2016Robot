@@ -1,6 +1,7 @@
 package org.usfirst.frc.team1719.robot;
 
-import org.usfirst.frc.team1719.robot.commands.MoveForwards;
+import org.usfirst.frc.team1719.robot.commands.MoveArmToPos;
+import org.usfirst.frc.team1719.robot.commands.ShootBoulder;
 import org.usfirst.frc.team1719.robot.commands.TurnToAngle;
 
 import edu.wpi.first.wpilibj.Joystick;
@@ -54,7 +55,7 @@ public class OI {
 		final int ATTACK_BUTTON_10 = 10;
 		final int ATTACK_BUTTON_11 = 11;
 	
-		//XBOX BINDINGS
+	//XBOX BINDINGS
 		final int LEFT_X = 0;
 		final int LEFT_Y = 1;
 		final int LEFT_TRIGGER = 2;
@@ -72,26 +73,51 @@ public class OI {
 		final int LEFT_BUTTON = 9;
 		final int RIGHT_BUTTON = 10;
 		
+
 		private Joystick driverXBOX;
-	
-		private Button rotateButton;
-		private Button driveStraightButton;
-		
+		private Joystick operatorXBOX;
+
+		private Button rotateRight90Button;
+		private Button rotateLeft90Button;
+		private Button rotate180Button;
+		private Button fireButton;				
+		private Button moveArmButton;
 		public OI(){
+			//Define Controllers
 			driverXBOX = new Joystick(0);
-			rotateButton = new JoystickButton(driverXBOX, A_BUTTON);
-			rotateButton.whenPressed(new TurnToAngle(90));
-			driveStraightButton = new JoystickButton(driverXBOX, B_BUTTON);
-			driveStraightButton.whenPressed(new MoveForwards(600, 0.5));
+
+			operatorXBOX = new Joystick(1);
+			
+			//Define Buttons
+			rotateRight90Button = new JoystickButton(driverXBOX, X_BUTTON);
+			rotateRight90Button.whenPressed(new TurnToAngle(45));
+			rotateLeft90Button = new JoystickButton(driverXBOX, B_BUTTON);
+			rotateLeft90Button.whenPressed(new TurnToAngle(-45));
+			rotate180Button = new JoystickButton(driverXBOX, Y_BUTTON);
+			rotate180Button.whenPressed(new TurnToAngle(90));
+			fireButton = new JoystickButton(operatorXBOX, RIGHT_TRIGGER);
+			fireButton.whenPressed(new ShootBoulder(10, 10));
+			moveArmButton = new JoystickButton(operatorXBOX, A_BUTTON);
+			moveArmButton.whenPressed(new MoveArmToPos(60));
 		}
 		
-	
-		public double getLeftReading(){
+		//Functions for getting input
+		public double getLeftDriveReading(){
 			return driverXBOX.getRawAxis(LEFT_Y);
 		}
 		
-		public double getRightReading(){
+		public double getRightDriveReading(){
 			return driverXBOX.getRawAxis(RIGHT_Y);
+		}
+		
+		public double getArmReading(){
+			return operatorXBOX.getRawAxis(LEFT_Y);
+		}
+		
+		
+		public boolean getFireButton()
+		{
+			return fireButton.get();
 		}
 		
 		

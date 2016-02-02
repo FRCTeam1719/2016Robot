@@ -6,14 +6,18 @@ import edu.wpi.first.wpilibj.command.Command;
 
 public class UseDrive extends Command{
 
-	final double TOLERANCE = 0.025D;
+	final double DEADZONE = 0.0125D;
 	final double NIL = 0.0;
 	
 	public UseDrive(){
 		requires(Robot.drive);
 	}
-	
-	
+	double startValueL = 0;
+	double startValueR = 0;
+	final double SMOOTH = 0.5;
+	double corectedValueL = 0;
+	double corectedValueR = 0;
+	final double SYNCHTOLERANCE = 0.15;
 	@Override
 	protected void initialize() {
 		// No initialization needed
@@ -22,24 +26,46 @@ public class UseDrive extends Command{
 
 	@Override
 	protected void execute() {
-		double left = Robot.oi.getLeftReading();
-		double right = Robot.oi.getRightReading();
-		if(Math.abs(left)<TOLERANCE){
+		double left = Robot.oi.getLeftDriveReading();
+		double right = Robot.oi.getRightDriveReading();
+		
+		//Drive algorithms 
+		
+		//Deadzone calculations
+		if(Math.abs(left)<DEADZONE){
 			left = NIL;
 		}
-		if(Math.abs(right)<TOLERANCE){
+		if(Math.abs(right)<DEADZONE){
 			right = NIL;
 		}
 	    //Adjust sensitivity
 		left = Math.abs(left) * left;
 		right = Math.abs(right) * right;
+<<<<<<< HEAD
+=======
+		//Smooth Drive
+		if(left != 0){
+			corectedValueL = (left*SMOOTH) + ( corectedValueL * ( 1.0 - SMOOTH));
+			left = corectedValueL;
+		}
+		if(right != 0){
+			corectedValueR = (right*SMOOTH) + ( corectedValueR * ( 1.0 - SMOOTH));
+			right = corectedValueR;
+		}
+		//Sync the two sides speed if within the tolerance
+		if(Math.abs(left - right) < SYNCHTOLERANCE){
+			double corectedSpeed = (left +right) /2;
+			left = corectedSpeed;
+			right = corectedSpeed;
+		}
+>>>>>>> refs/remotes/origin/RobotStaging
 		Robot.drive.operateDrive(-right, -left);
 	}
 
 	@Override
 	protected boolean isFinished() {
 		// TODO Auto-generated method stub
-		return false;
+		return true;
 	}
 
 	@Override
