@@ -1,19 +1,19 @@
 
 package org.usfirst.frc.team1719.robot;
 
+import org.usfirst.frc.team1719.robot.commands.AutonCommand;
 import org.usfirst.frc.team1719.robot.commands.ExampleCommand;
-import org.usfirst.frc.team1719.robot.commands.UseFlyWheel;
 import org.usfirst.frc.team1719.robot.settings.PIDData;
 import org.usfirst.frc.team1719.robot.subsystems.Arm;
+import org.usfirst.frc.team1719.robot.subsystems.Display;
 import org.usfirst.frc.team1719.robot.subsystems.DriveSubsystem;
 import org.usfirst.frc.team1719.robot.subsystems.DualShooter;
 import org.usfirst.frc.team1719.robot.subsystems.ExampleSubsystem;
 import org.usfirst.frc.team1719.robot.subsystems.FlyWheel;
-
 import com.ni.vision.NIVision;
 import com.ni.vision.NIVision.Image;
-
 import edu.wpi.first.wpilibj.CameraServer;
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
@@ -35,6 +35,7 @@ public class Robot extends IterativeRobot {
 	final String CAMERA_NAME = "cam0";
 	public static final ExampleSubsystem exampleSubsystem = new ExampleSubsystem();
 	public static OI oi;
+	public static Display display;
 	public static DriveSubsystem drive;
 	public static FlyWheel rightFlywheel;
 	public static FlyWheel leftFlywheel;
@@ -42,7 +43,13 @@ public class Robot extends IterativeRobot {
 	PIDData rightFlywheelPIDData;
 	PIDData leftFlywheelPIDData;
 	public static Arm arm;
+	public int autonomousMode  = 0;
+	final boolean VOLTAGEDISPLAY = true;
+	final boolean AUTONDISPLAY = false;
+	boolean currentDisplayMode = VOLTAGEDISPLAY;
+	final double TOLERANCE = 0.01;
     Command autonomousCommand;
+    Command DisplayVoltage;
     SendableChooser chooser;
     Image frame;
     int session;
@@ -73,6 +80,7 @@ public class Robot extends IterativeRobot {
         leftFlywheel =  new FlyWheel(RobotMap.leftFlyWheelController, RobotMap.leftFlyWheelEncoder, leftFlywheelPIDData);
         shooter = new DualShooter(leftFlywheel, rightFlywheel, RobotMap.innerShooterWheelController );
         arm = new Arm(RobotMap.armController, RobotMap.armPot);
+        display = new Display(RobotMap.buttonA, RobotMap.buttonB, RobotMap.dial);
         oi = new OI();
         isAuton = false;
         frame = NIVision.imaqCreateImage(NIVision.ImageType.IMAGE_RGB, 0);
@@ -117,10 +125,33 @@ public class Robot extends IterativeRobot {
     	rightFlywheel.spin(0);
     	leftFlywheel.spin(0);
         NIVision.IMAQdxStopAcquisition(session);
-
     }
 	
 	public void disabledPeriodic() {
+		
+		if(display.buttonAPressed()){
+			currentDisplayMode = AUTONDISPLAY;
+		}else if(display.buttonBPressed()){
+			currentDisplayMode = VOLTAGEDISPLAY;
+		}
+		
+		
+		if(currentDisplayMode==AUTONDISPLAY){
+		Double dialPos = display.getDialReading();
+		if(dialPos-0.26<TOLERANCE){
+			autonomousMode = 0;
+			display.displayString("A  0");
+		}else if(dialPos-0.27<TOLERANCE){
+			autonomousMode = 1;
+			display.displayString("A  1");
+		}else if(dialPos-0.28<TOLERANCE){
+			autonomousMode = 2;
+			display.displayString("A  2");
+		}
+		}else{
+			String voltage = Double.toString(DriverStation.getInstance().getBatteryVoltage());
+			display.displayString(voltage);
+		}
 		Scheduler.getInstance().run();
 	}
 
@@ -135,9 +166,8 @@ public class Robot extends IterativeRobot {
 	 */
     public void autonomousInit() {
     	isAuton = true;
-        autonomousCommand = new UseFlyWheel(15, 15);
-        
-
+        autonomousCommand = (Command) chooser.getSelected();
+        autonomousCommand = new AutonCommand(autonomousMode); 	
 		/* String autoSelected = SmartDashboard.getString("Auto Selector", "Default");
 		switch(autoSelected) {
 		case "My Auto":
@@ -174,10 +204,10 @@ public class Robot extends IterativeRobot {
      * This function is called periodically during operator control
      */
     public void teleopPeriodic() {
+    	//System.out.println("meh" + RobotMap.dial.get());
         Scheduler.getInstance().run();
         NIVision.IMAQdxGrab(session, frame, 1);
         CameraServer.getInstance().setImage(frame);
-
     }
     
    

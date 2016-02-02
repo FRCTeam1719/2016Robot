@@ -1,6 +1,7 @@
 package org.usfirst.frc.team1719.robot;
 
 import edu.wpi.first.wpilibj.AnalogGyro;
+import edu.wpi.first.wpilibj.AnalogInput;
 import edu.wpi.first.wpilibj.AnalogPotentiometer;
 import edu.wpi.first.wpilibj.Compressor;
 import edu.wpi.first.wpilibj.DigitalInput;
@@ -33,7 +34,7 @@ public class RobotMap {
 	static Compressor mainCompressor;
 	static Solenoid shifterSolenoid;
 
-	
+	//TODO Migrate these Talon -> Spark
 	public static Talon rightFlyWheelController;
 	public static Encoder rightFlyWheelEncoder;
 	public static Talon leftFlyWheelController;
@@ -42,9 +43,14 @@ public class RobotMap {
 	public static DigitalInput armLowerLimitSwitch;
 	public static DigitalInput armUpperLimitSwitch;	
 	public static AnalogGyro gyro;
+	//TODO Migrate these
+	// Talon -> Spark
+	// Make two, one for each size
 	public static Talon innerShooterWheelController;
 	public static AnalogPotentiometer armPot;
-	
+	public static AnalogInput dial;
+	public static DigitalInput buttonA;
+	public static DigitalInput buttonB;
 	public static void init(){
 		//Main hardware allocation
 		
@@ -67,6 +73,7 @@ public class RobotMap {
 		configureEncoder(leftFlyWheelEncoder);
 		
 		//Analog In
+		dial = new AnalogInput(3);
 		gyro = new AnalogGyro(0);
         armPot = new AnalogPotentiometer(1, 1200.0D);
 	}
@@ -79,6 +86,8 @@ public class RobotMap {
 		encoder.setMinRate(10);
 		encoder.setDistancePerPulse(FLYWHEEL_CIRCUMFRENCE_FEET);
 		encoder.setSamplesToAverage(127);
+		buttonA = new DigitalInput(19);
+		buttonB = new DigitalInput(20);
 	}
 	
 }

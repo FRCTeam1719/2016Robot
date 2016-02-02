@@ -1,7 +1,6 @@
 package org.usfirst.frc.team1719.robot;
 
 
-
 import org.usfirst.frc.team1719.robot.commands.MoveArmToPos;
 import org.usfirst.frc.team1719.robot.commands.ShootBoulder;
 import org.usfirst.frc.team1719.robot.commands.TurnToAngle;
@@ -74,11 +73,10 @@ public class OI {
 		final int START_BUTTON = 8;
 		final int LEFT_BUTTON = 9;
 		final int RIGHT_BUTTON = 10;
-		
-		
+	
 		private Joystick driverXBOX;
-		private Joystick operatorXBOX;
-
+		private Joystick operatorJoystick;
+	
 		private Button rotateRight90Button;
 		private Button rotateLeft90Button;
 		private Button rotate180Button;
@@ -87,7 +85,7 @@ public class OI {
 		public OI(){
 			//Define Controllers
 			driverXBOX = new Joystick(0);
-			operatorXBOX = new Joystick(1);
+			operatorJoystick = new Joystick(1);
 			
 			//Define Buttons
 			rotateRight90Button = new JoystickButton(driverXBOX, X_BUTTON);
@@ -96,9 +94,9 @@ public class OI {
 			rotateLeft90Button.whenPressed(new TurnToAngle(-45));
 			rotate180Button = new JoystickButton(driverXBOX, Y_BUTTON);
 			rotate180Button.whenPressed(new TurnToAngle(90));
-			fireButton = new JoystickButton(operatorXBOX, RIGHT_TRIGGER);
+			fireButton = new JoystickButton(operatorJoystick, ATTACK_TRIGGER);
 			fireButton.whenPressed(new ShootBoulder(10, 10));
-			moveArmButton = new JoystickButton(operatorXBOX, A_BUTTON);
+			moveArmButton = new JoystickButton(operatorJoystick, ATTACK_BUTTON_3);
 			moveArmButton.whenPressed(new MoveArmToPos(60));
 		}
 		
@@ -112,7 +110,7 @@ public class OI {
 		}
 		
 		public double getArmReading(){
-			return operatorXBOX.getRawAxis(LEFT_Y);
+			return operatorJoystick.getRawAxis(ATTACK_Y_AXIS);
 		}
 		
 		
