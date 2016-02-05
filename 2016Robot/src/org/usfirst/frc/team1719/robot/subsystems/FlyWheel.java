@@ -1,12 +1,8 @@
 package org.usfirst.frc.team1719.robot.subsystems;
 
-<<<<<<< HEAD
-import org.usfirst.frc.team1719.robot.commands.UseFlyWheel;
-=======
-
 import java.util.stream.DoubleStream;
 
->>>>>>> refs/remotes/origin/RobotStaging
+import org.usfirst.frc.team1719.robot.commands.UseFlyWheel;
 import org.usfirst.frc.team1719.robot.settings.PIDData;
 
 import edu.wpi.first.wpilibj.Encoder;
@@ -49,21 +45,12 @@ public class FlyWheel extends Subsystem {
 		encoder.reset();
 		output = 0;
 	}
-<<<<<<< HEAD
 
-	public void spin(double rotPerSecond) {
-		double desiredSpeed = ONEROTATION * rotPerSecond;
-		//pidData.kP = SmartDashboard.getNumber("Right flywheel kP: ");
-		//pidData.kI = SmartDashboard.getNumber("Right flywheel kI: ");
-		//pidData.kD = SmartDashboard.getNumber("Right flywheel kD: ");
-=======
-	//spin at desired feet per second
 	public void spin(double feetPerSecond) {
 		double desiredSpeed = feetPerSecond;
 		pidData.kP = SmartDashboard.getNumber("Right flywheel kP: ");
 		pidData.kI = SmartDashboard.getNumber("Right flywheel kI: ");
 		pidData.kD = SmartDashboard.getNumber("Right flywheel kD: ");
->>>>>>> refs/remotes/origin/RobotStaging
 
 		if (desiredSpeed == 0) {
 			motor.set(0);

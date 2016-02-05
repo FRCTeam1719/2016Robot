@@ -3,7 +3,6 @@ package org.usfirst.frc.team1719.robot.commands;
 import org.usfirst.frc.team1719.robot.Robot;
 
 import edu.wpi.first.wpilibj.command.Command;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class UseFlyWheel extends Command{
 	
@@ -30,13 +29,10 @@ public class UseFlyWheel extends Command{
 
 	@Override
 	protected void execute() {
-<<<<<<< HEAD
-		//Robot.rightFlywheel.spin(SmartDashboard.getNumber("FlywheelParam"));
-=======
+
 		Robot.rightFlywheel.spin(rightPower);
 		Robot.leftFlywheel.spin(leftPower);
 		
->>>>>>> refs/remotes/origin/RobotStaging
 	}
 
 	@Override

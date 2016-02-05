@@ -66,12 +66,9 @@ public class RobotMap {
 		gyro = new AnalogGyro(0);
 		armLowerLimitSwitch = new DigitalInput(2);
 		armUpperLimitSwitch = new DigitalInput(1);
-		armMotor = new Talon(4);
 		armPot = new AnalogPotentiometer(1, 100);
-		rightFlyWheelTalon = new Talon(2);
 		rightFlyWheelEncoder = new Encoder(4, 5, true, Encoder.EncodingType.k4X);
 		configureEncoder(rightFlyWheelEncoder);
-=======
 		//Motor Controllers
 		leftDriveController = new Talon(0);
 		rightDriveController = new Talon(1);
@@ -79,7 +76,6 @@ public class RobotMap {
 		rightFlyWheelController = new Talon(3);
 		armController = new Spark(4);
 		innerShooterWheelController = new Talon(5);
->>>>>>> refs/remotes/origin/RobotStaging
 
 		//Sensors
 		

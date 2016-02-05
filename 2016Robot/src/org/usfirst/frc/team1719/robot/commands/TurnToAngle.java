@@ -15,14 +15,10 @@ public class TurnToAngle extends Command {
 	final double SPEED = 0.75D;
 
 	
-<<<<<<< HEAD
-	private double desiredAngle;
-	private double currentAngle = 0.0D;
-=======
+
 	private double tunedAngle;
 	private double currentAngle = 0D;
 	
->>>>>>> refs/remotes/origin/RobotStaging
 	
 	AnalogGyro gyro = RobotMap.gyro;
 	
@@ -30,20 +26,17 @@ public class TurnToAngle extends Command {
         // Use requires() here to declare subsystem dependencies
         
     	requires(Robot.drive);
-<<<<<<< HEAD
-    	desiredAngle = angle;
-=======
+
     	//TODO make this better
     	
     	tunedAngle = desiredAngle;
     	
->>>>>>> refs/remotes/origin/RobotStaging
     }
 
     // Called just before this Command runs the first time
     protected void initialize() {
     	gyro.reset();
-    	if(desiredAngle == 0.0D) desiredAngle = SmartDashboard.getNumber("TurnToAngleParam");
+    	if(tunedAngle == 0.0D) tunedAngle = SmartDashboard.getNumber("TurnToAngleParam");
     }
 
     // Called repeatedly when this Command is scheduled to run

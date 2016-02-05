@@ -41,8 +41,7 @@ public class UseDrive extends Command{
 	    //Adjust sensitivity
 		left = Math.abs(left) * left;
 		right = Math.abs(right) * right;
-<<<<<<< HEAD
-=======
+
 		//Smooth Drive
 		if(left != 0){
 			corectedValueL = (left*SMOOTH) + ( corectedValueL * ( 1.0 - SMOOTH));
@@ -58,7 +57,6 @@ public class UseDrive extends Command{
 			left = corectedSpeed;
 			right = corectedSpeed;
 		}
->>>>>>> refs/remotes/origin/RobotStaging
 		Robot.drive.operateDrive(-right, -left);
 	}
 
