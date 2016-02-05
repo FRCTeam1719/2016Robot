@@ -76,6 +76,8 @@ public class RobotMap {
 		dial = new AnalogInput(3);
 		gyro = new AnalogGyro(0);
         armPot = new AnalogPotentiometer(1, 1200.0D);
+        buttonA = new DigitalInput(9);
+		buttonB = new DigitalInput(10);
 	}
 	
 	private static void configureEncoder(Encoder encoder){
@@ -86,8 +88,7 @@ public class RobotMap {
 		encoder.setMinRate(10);
 		encoder.setDistancePerPulse(FLYWHEEL_CIRCUMFRENCE_FEET);
 		encoder.setSamplesToAverage(127);
-		buttonA = new DigitalInput(19);
-		buttonB = new DigitalInput(20);
+		
 	}
 	
 }

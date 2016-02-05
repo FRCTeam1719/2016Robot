@@ -10,8 +10,11 @@ import org.usfirst.frc.team1719.robot.subsystems.DriveSubsystem;
 import org.usfirst.frc.team1719.robot.subsystems.DualShooter;
 import org.usfirst.frc.team1719.robot.subsystems.ExampleSubsystem;
 import org.usfirst.frc.team1719.robot.subsystems.FlyWheel;
+
 import com.ni.vision.NIVision;
 import com.ni.vision.NIVision.Image;
+import com.ni.vision.VisionException;
+
 import edu.wpi.first.wpilibj.CameraServer;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.IterativeRobot;
@@ -48,6 +51,7 @@ public class Robot extends IterativeRobot {
 	final boolean AUTONDISPLAY = false;
 	boolean currentDisplayMode = VOLTAGEDISPLAY;
 	final double TOLERANCE = 0.01;
+	boolean foundCamera = false;
     Command autonomousCommand;
     Command DisplayVoltage;
     SendableChooser chooser;
@@ -84,9 +88,15 @@ public class Robot extends IterativeRobot {
         oi = new OI();
         isAuton = false;
         frame = NIVision.imaqCreateImage(NIVision.ImageType.IMAGE_RGB, 0);
+        try{
         session = NIVision.IMAQdxOpenCamera("cam0",
                 NIVision.IMAQdxCameraControlMode.CameraControlModeController);
         NIVision.IMAQdxConfigureGrab(session);
+        foundCamera = true;
+        }catch(VisionException e){
+        	foundCamera = false;
+        	System.out.println("Can't find the camera, failing with style");
+        }
         smartDashboardInit();    
     }
 	
@@ -124,7 +134,9 @@ public class Robot extends IterativeRobot {
     	isAuton = false;
     	rightFlywheel.spin(0);
     	leftFlywheel.spin(0);
-        NIVision.IMAQdxStopAcquisition(session);
+    	if(foundCamera){
+    		NIVision.IMAQdxStopAcquisition(session);
+    	}
     }
 	
 	public void disabledPeriodic() {
@@ -178,8 +190,12 @@ public class Robot extends IterativeRobot {
 			autonomousCommand = new ExampleCommand();
 			break;
 		} */
+        if(foundCamera){
+        	NIVision.IMAQdxStartAcquisition(session);
+        }
     	// schedule the autonomous command (example)
         if (autonomousCommand != null) autonomousCommand.start();
+        
     }
 
     /**
@@ -196,7 +212,9 @@ public class Robot extends IterativeRobot {
          this line or comment it out. */
     	isAuton = false;
         if (autonomousCommand != null) autonomousCommand.cancel();
-        NIVision.IMAQdxStartAcquisition(session);
+        if(foundCamera){
+        	NIVision.IMAQdxStartAcquisition(session);
+        }
     }
 
     
@@ -206,8 +224,10 @@ public class Robot extends IterativeRobot {
     public void teleopPeriodic() {
     	//System.out.println("meh" + RobotMap.dial.get());
         Scheduler.getInstance().run();
-        NIVision.IMAQdxGrab(session, frame, 1);
-        CameraServer.getInstance().setImage(frame);
+        if(foundCamera){
+        	NIVision.IMAQdxGrab(session, frame, 1);
+        	CameraServer.getInstance().setImage(frame);
+        }
     }
     
    
