@@ -1,6 +1,6 @@
 package org.usfirst.frc.team1719.robot.subsystems;
 
-import edu.wpi.first.wpilibj.Talon;
+import edu.wpi.first.wpilibj.Spark;
 import edu.wpi.first.wpilibj.command.Subsystem;
 
 
@@ -10,13 +10,15 @@ public class DualShooter extends Subsystem {
 	FlyWheel leftFlyWheel;
 	FlyWheel rightFlyWheel;
 	
-	Talon holderMotor;
+	Spark leftHolderMotor;
+	Spark rightHolderMotor;
 	
-	public DualShooter(FlyWheel leftFlyWheel, FlyWheel rightFlyWheel, Talon controller)
+	public DualShooter(FlyWheel leftFlyWheel, FlyWheel rightFlyWheel, Spark leftHolderMotor, Spark rightHolderMotor)
 	{
 		this.leftFlyWheel = leftFlyWheel;
 		this.rightFlyWheel = rightFlyWheel;
-		holderMotor = controller;
+		this.leftHolderMotor = leftHolderMotor;
+		this.rightHolderMotor = rightHolderMotor;
 	}
 	
 	public void spin(double leftPower, double rightPower)
@@ -27,14 +29,16 @@ public class DualShooter extends Subsystem {
 	
 	public void fire()
 	{
-		holderMotor.set(1);
+		leftHolderMotor.set(1);
+		rightHolderMotor.set(-1);
 	}
 	
 	public void reset()
 	{
 		leftFlyWheel.reset();
 		rightFlyWheel.reset();
-		holderMotor.set(0);
+		leftHolderMotor.set(0);
+		rightHolderMotor.set(0);
 	}
 	
 	public boolean isStabilized()

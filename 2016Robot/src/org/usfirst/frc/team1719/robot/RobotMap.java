@@ -3,13 +3,9 @@ package org.usfirst.frc.team1719.robot;
 import edu.wpi.first.wpilibj.AnalogGyro;
 import edu.wpi.first.wpilibj.AnalogInput;
 import edu.wpi.first.wpilibj.AnalogPotentiometer;
-import edu.wpi.first.wpilibj.Compressor;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.Encoder;
-import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.Spark;
-import edu.wpi.first.wpilibj.SpeedController;
-import edu.wpi.first.wpilibj.Talon;
 
 /**
  * The RobotMap is a mapping from the ports sensors and actuators are wired into
@@ -29,24 +25,21 @@ public class RobotMap {
     // public static int rangefinderModule = 1;
 	static double FLYWHEEL_CIRCUMFRENCE_FEET = 1.57075;
 	
-	static SpeedController leftDriveController;
-	static SpeedController rightDriveController;
-	static Compressor mainCompressor;
-	static Solenoid shifterSolenoid;
+	static Spark leftDriveController;
+	static Spark rightDriveController;
 
-	//TODO Migrate these Talon -> Spark
-	public static Talon rightFlyWheelController;
+
+
+	public static Spark rightFlyWheelController;
 	public static Encoder rightFlyWheelEncoder;
-	public static Talon leftFlyWheelController;
+	public static Spark leftFlyWheelController;
 	public static Encoder leftFlyWheelEncoder;
 	public static Spark armController;
 	public static DigitalInput armLowerLimitSwitch;
 	public static DigitalInput armUpperLimitSwitch;	
 	public static AnalogGyro gyro;
-	//TODO Migrate these
-	// Talon -> Spark
-	// Make two, one for each size
-	public static Talon innerShooterWheelController;
+	public static Spark innerLeftShooterWheelController;
+	public static Spark innerRightShooterWheelController;
 	public static AnalogPotentiometer armPot;
 	public static AnalogInput dial;
 	public static DigitalInput buttonA;
@@ -55,12 +48,13 @@ public class RobotMap {
 		//Main hardware allocation
 		
 		//Motor Controllers
-		leftDriveController = new Talon(0);
-		rightDriveController = new Talon(1);
-		leftFlyWheelController = new Talon(2);
-		rightFlyWheelController = new Talon(3);
+		leftDriveController = new Spark(0);    
+		rightDriveController = new Spark(1);
+		leftFlyWheelController = new Spark(2);
+		rightFlyWheelController = new Spark(3);
 		armController = new Spark(4);
-		innerShooterWheelController = new Talon(5);
+		innerLeftShooterWheelController = new Spark(5);
+		innerRightShooterWheelController = new Spark(6);
 
 		//Sensors
 		

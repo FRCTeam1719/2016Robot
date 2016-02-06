@@ -6,14 +6,14 @@ import java.util.stream.DoubleStream;
 import org.usfirst.frc.team1719.robot.settings.PIDData;
 
 import edu.wpi.first.wpilibj.Encoder;
-import edu.wpi.first.wpilibj.Talon;
+import edu.wpi.first.wpilibj.Spark;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 
 public class FlyWheel extends Subsystem {
 	
-	Talon motor;
+	Spark motor;
 	Encoder encoder;
 	
 	double errors[] = new double[30];
@@ -28,7 +28,7 @@ public class FlyWheel extends Subsystem {
 	final double ONEROTATION = 1.57075;
 	final double TOLERANCE_FEET_PER_SECOND = 1;
 	
-	public FlyWheel(Talon controller, Encoder enc, PIDData pidData) {
+	public FlyWheel(Spark controller, Encoder enc, PIDData pidData) {
 		
 		this.pidData = pidData;
 		motor = controller;

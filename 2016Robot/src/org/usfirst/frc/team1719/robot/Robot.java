@@ -82,7 +82,7 @@ public class Robot extends IterativeRobot {
         drive = new DriveSubsystem(RobotMap.leftDriveController, RobotMap.rightDriveController);
         rightFlywheel = new FlyWheel(RobotMap.rightFlyWheelController, RobotMap.rightFlyWheelEncoder, rightFlywheelPIDData);
         leftFlywheel =  new FlyWheel(RobotMap.leftFlyWheelController, RobotMap.leftFlyWheelEncoder, leftFlywheelPIDData);
-        shooter = new DualShooter(leftFlywheel, rightFlywheel, RobotMap.innerShooterWheelController );
+        shooter = new DualShooter(leftFlywheel, rightFlywheel, RobotMap.innerLeftShooterWheelController, RobotMap.innerRightShooterWheelController );
         arm = new Arm(RobotMap.armController, RobotMap.armPot);
         display = new Display(RobotMap.buttonA, RobotMap.buttonB, RobotMap.dial);
         oi = new OI();
