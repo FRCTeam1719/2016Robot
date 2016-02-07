@@ -42,7 +42,7 @@ public class Arm extends Subsystem {
 	
 	/**
 	 * Get the current angle fo the arm 
-	 * @return
+	 * @return double angle
 	 */
 	public double getArmAngle() {
 		return pot.get();

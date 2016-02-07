@@ -9,6 +9,12 @@ public class PIDData {
 	public double kI;
 	public double kD;
 	
+	/**
+	 * Default constants
+	 * @param defaultKP
+	 * @param defaultKI
+	 * @param defaultKD
+	 */
 	public PIDData (double defaultKP, double defaultKI, double defaultKD){
 		kP = defaultKP;
 		kI = defaultKI;

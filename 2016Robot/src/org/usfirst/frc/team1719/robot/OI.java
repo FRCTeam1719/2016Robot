@@ -108,7 +108,7 @@ public class OI {
 		
 		/**
 		 * Grab the left Y axis from the Driver XBox
-		 * @return
+		 * @return Axis Reading
 		 */
 		public double getLeftDriveReading(){
 			return driverXBOX.getRawAxis(LEFT_Y);
@@ -116,7 +116,7 @@ public class OI {
 		
 		/**
 		 * Grab the right Y axis from the Driver XBox
-		 * @return
+		 * @return Axis Reading
 		 */
 		public double getRightDriveReading(){
 			return driverXBOX.getRawAxis(RIGHT_Y);
@@ -124,7 +124,7 @@ public class OI {
 		
 		/**
 		 * Grab the Y axis from the operator controller for driving the arm
-		 * @return
+		 * @return Axis Reading
 		 */
 		public double getArmReading(){
 			return operatorJoystick.getRawAxis(ATTACK_Y_AXIS);

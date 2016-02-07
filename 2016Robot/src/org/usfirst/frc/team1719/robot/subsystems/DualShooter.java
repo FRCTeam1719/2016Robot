@@ -67,7 +67,7 @@ public class DualShooter extends Subsystem {
 	
 	/**
 	 * Check to see if both flywheels have reached stable speeds
-	 * @return
+	 * @return stabilization status
 	 */
 	public boolean isStabilized()
 	{

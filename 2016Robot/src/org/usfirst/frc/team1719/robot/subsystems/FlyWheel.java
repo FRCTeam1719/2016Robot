@@ -39,10 +39,10 @@ public class FlyWheel extends Subsystem {
 	final double TOLERANCE_FEET_PER_SECOND = 1;
 	
 	/**
-	 * 
-	 * @param controller
-	 * @param enc
-	 * @param pidData
+	 * Takes hardware 
+	 * @param controller  Spark
+	 * @param enc Encoder
+	 * @param pidData PIDData object
 	 */
 	public FlyWheel(Spark controller, Encoder enc, PIDData pidData) {
 		
@@ -67,7 +67,7 @@ public class FlyWheel extends Subsystem {
 	/**
 	 * Spin wheel at desired feet per second
 	 * Uses PID loop for consistency
-	 * @param feetPerSecond
+	 * @param feetPerSecond double
 	 */
 	public void spin(double feetPerSecond) {
 		double desiredSpeed = feetPerSecond;
@@ -113,8 +113,8 @@ public class FlyWheel extends Subsystem {
 	
 	/**
 	 * Check if the FlyWheel has reached a stable speed
-	 * @param tolerance
-	 * @return
+	 * @param tolerance Stabilization check tolerance
+	 * @return Stabilization status
 	 */
 	public boolean isStabilized(double tolerance)
 	{
@@ -123,7 +123,7 @@ public class FlyWheel extends Subsystem {
 	
 	/**
 	 * Get rate of the FlyWheel's encoder
-	 * @return
+	 * @return encoder rate
 	 */
 	public double getRate() {
 		return encoder.getRate();

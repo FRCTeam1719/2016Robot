@@ -99,7 +99,7 @@ public class Display extends Subsystem {
 	}
 	/**
 	 * Returns status of button A
-	 * @return
+	 * @return boolean buttonStatus, true if depressed
 	 */
 	public boolean buttonAPressed(){
 		return !buttonA.get();
@@ -107,7 +107,7 @@ public class Display extends Subsystem {
 	
 	/**
 	 * Return status of button B
-	 * @return
+	 * @return boolean buttonStatus, true if depressed
 	 */
 	public boolean buttonBPressed(){
 		return !buttonB.get();
@@ -115,7 +115,7 @@ public class Display extends Subsystem {
 	
 	/**
 	 * Return status of Analog dial
-	 * @return
+	 * @return double dialReading
 	 */
 	public double getDialReading(){
 		return dial.getVoltage();

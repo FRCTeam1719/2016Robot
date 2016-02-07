@@ -20,7 +20,8 @@ public class TurnToAngle extends Command {
 	
 	AnalogGyro gyro = RobotMap.gyro;
 	/**
-	 * 
+	 * Pass in angle offset
+	 * Negative Angles move to the left, Positive to the Right
 	 * @param desiredAngle
 	 */
     public TurnToAngle(double desiredAngle) {
