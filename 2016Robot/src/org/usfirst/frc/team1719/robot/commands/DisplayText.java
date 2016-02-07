@@ -12,7 +12,7 @@ public class DisplayText extends Command{
 
 	String text;
 	/**
-	 * @param String text to display
+	 * @param text to display
 	 */
 	public DisplayText(String text){
 		requires(Robot.display);
