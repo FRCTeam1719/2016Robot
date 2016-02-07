@@ -90,11 +90,11 @@ public class OI {
 			
 			//Define Buttons
 			rotateRight90Button = new JoystickButton(driverXBOX, X_BUTTON);
-			rotateRight90Button.whenPressed(new TurnToAngle(45));
+			rotateRight90Button.whenPressed(new TurnToAngle(45, true));
 			rotateLeft90Button = new JoystickButton(driverXBOX, B_BUTTON);
-			rotateLeft90Button.whenPressed(new TurnToAngle(-45));
+			rotateLeft90Button.whenPressed(new TurnToAngle(-45, true));
 			rotate180Button = new JoystickButton(driverXBOX, Y_BUTTON);
-			rotate180Button.whenPressed(new TurnToAngle(90));
+			rotate180Button.whenPressed(new TurnToAngle(90, true));
 			fireButton = new JoystickButton(operatorXBOX, RIGHT_TRIGGER);
 			fireButton.whenPressed(new ShootBoulder(10, 10));
 			moveArmButton = new JoystickButton(operatorXBOX, A_BUTTON);

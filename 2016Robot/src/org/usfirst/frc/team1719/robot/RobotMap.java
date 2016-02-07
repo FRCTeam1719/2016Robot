@@ -64,11 +64,7 @@ public class RobotMap {
 		leftDriveWheelEncoder.setDistancePerPulse(DRIVE_WHEEL_CIRCUMFRENCE / 256);
 		
 		gyro = new AnalogGyro(0);
-		armLowerLimitSwitch = new DigitalInput(2);
-		armUpperLimitSwitch = new DigitalInput(1);
-		armPot = new AnalogPotentiometer(1, 100);
-		rightFlyWheelEncoder = new Encoder(4, 5, true, Encoder.EncodingType.k4X);
-		configureEncoder(rightFlyWheelEncoder);
+
 		//Motor Controllers
 		leftDriveController = new Talon(0);
 		rightDriveController = new Talon(1);
@@ -83,12 +79,10 @@ public class RobotMap {
 		armUpperLimitSwitch = new DigitalInput(0);
 		armLowerLimitSwitch = new DigitalInput(1);
 		rightFlyWheelEncoder = new Encoder(2, 3, true, Encoder.EncodingType.k4X);		
-		configureEncoder(rightFlyWheelEncoder);
+		//configureEncoder(rightFlyWheelEncoder);
 		leftFlyWheelEncoder = new Encoder(4, 5, true, Encoder.EncodingType.k4X);
-		configureEncoder(leftFlyWheelEncoder);
+		//configureEncoder(leftFlyWheelEncoder);
 		
-		//Analog In
-		gyro = new AnalogGyro(0);
         armPot = new AnalogPotentiometer(1, 1200.0D);
 	}
 	

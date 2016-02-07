@@ -51,10 +51,14 @@ public class DriveSubsystem extends Subsystem{
 		}
 		derivative = error - previousError;
 		double output = (error*kP) + (integral*kI) + (derivative * kD);
-		System.out.println("output: " + output);
 		
+		System.out.println("Current error: " + error + "Output: " + output);
 		mainDrive.arcadeDrive(speed, output);
 		previousError = error;
+	}
+	
+	public void arcadeDrive(double speed, double angle) {
+		mainDrive.arcadeDrive(speed, angle);
 	}
 
 	public void initDefaultCommand(){

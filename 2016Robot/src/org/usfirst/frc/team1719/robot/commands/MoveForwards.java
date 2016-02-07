@@ -37,11 +37,12 @@ public class MoveForwards extends Command {
 	@Override
 	protected void execute() {
 		
+		//int rightEncoderVal = RobotMap.rightDriveWheelEncoder.get();
+		//int leftEncoderVal = RobotMap.leftDriveWheelEncoder.get();
 		
-		int rightEncoderVal = RobotMap.rightDriveWheelEncoder.get();
-		int leftEncoderVal = RobotMap.leftDriveWheelEncoder.get();
+		//currentDist = (rightEncoderVal + leftEncoderVal) / 2;
 		
-		currentDist = (rightEncoderVal + leftEncoderVal) / 2;
+		currentDist ++;
         
         Robot.drive.driveStraight(speed); // drive towards heading 0
 		

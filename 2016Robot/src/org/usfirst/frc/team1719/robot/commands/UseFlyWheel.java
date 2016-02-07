@@ -8,6 +8,7 @@ public class UseFlyWheel extends Command{
 	
 	public UseFlyWheel() {
 		requires(Robot.rightFlywheel);
+		requires(Robot.leftFlywheel);
 	}
 
 	double leftPower;
@@ -15,6 +16,8 @@ public class UseFlyWheel extends Command{
 	
 	public UseFlyWheel(double leftPower, double rightPower)
 	{
+		requires(Robot.rightFlywheel);
+		requires(Robot.leftFlywheel);
 		this.leftPower = leftPower;
 		this.rightPower = rightPower; 
 	}

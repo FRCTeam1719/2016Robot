@@ -10,6 +10,7 @@ import org.usfirst.frc.team1719.robot.autonomousSelections.RockWallAuton;
 import org.usfirst.frc.team1719.robot.autonomousSelections.RoughTerrainAuton;
 import org.usfirst.frc.team1719.robot.commands.AimAndFire;
 import org.usfirst.frc.team1719.robot.commands.AutoSenseTower;
+import org.usfirst.frc.team1719.robot.commands.TurnToAngle;
 import org.usfirst.frc.team1719.robot.settings.PIDData;
 import org.usfirst.frc.team1719.robot.subsystems.Arm;
 import org.usfirst.frc.team1719.robot.subsystems.DriveSubsystem;
@@ -22,7 +23,6 @@ import org.usfirst.frc.team1719.robot.subsystems.IFireable;
 import com.ni.vision.NIVision;
 import com.ni.vision.NIVision.Image;
 
-import edu.wpi.first.wpilibj.CameraServer;
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
@@ -91,10 +91,10 @@ public class Robot extends IterativeRobot {
         oi = new OI();
 
         isAuton = false;
-        frame = NIVision.imaqCreateImage(NIVision.ImageType.IMAGE_RGB, 0);
-        session = NIVision.IMAQdxOpenCamera("cam0",
-                NIVision.IMAQdxCameraControlMode.CameraControlModeController);
-        NIVision.IMAQdxConfigureGrab(session);
+//        frame = NIVision.imaqCreateImage(NIVision.ImageType.IMAGE_RGB, 0);
+//        session = NIVision.IMAQdxOpenCamera("cam0",
+//                NIVision.IMAQdxCameraControlMode.CameraControlModeController);
+//        NIVision.IMAQdxConfigureGrab(session);
         smartDashboardInit();    
     }
 	
@@ -111,6 +111,7 @@ public class Robot extends IterativeRobot {
         autonomousChooser.addObject("Go over Rock Wall", new RockWallAuton());
         autonomousChooser.addObject("Go through the Portcullis", new PortcullisAuton());
         autonomousChooser.addObject("Shoot at tower", new AimAndFire());
+        autonomousChooser.addObject("Turn 90 degrees", new TurnToAngle(90, true));
         
         rightFlywheelPIDData = new PIDData();
         autonomousChooser.addObject("Sense Tower High Goals", new AutoSenseTower());
@@ -123,6 +124,10 @@ public class Robot extends IterativeRobot {
     	SmartDashboard.putNumber("Drive kP", 0.02);
     	SmartDashboard.putNumber("Drive kI", 0.003);
     	SmartDashboard.putNumber("Drive kD", 0.003);
+    	
+    	SmartDashboard.putNumber("Turn kP", 0.001);;
+    	SmartDashboard.putNumber("Turn kI", 0.0003);
+    	SmartDashboard.putNumber("Turn kD", 0.0003);
     }
     
 	/**
@@ -135,7 +140,7 @@ public class Robot extends IterativeRobot {
     	isAuton = false;
     	rightFlywheel.spin(0);
     	leftFlywheel.spin(0);
-        NIVision.IMAQdxStopAcquisition(session);
+        //NIVision.IMAQdxStopAcquisition(session);
 
     }
 	
@@ -167,7 +172,7 @@ public class Robot extends IterativeRobot {
 			break;
 		} */
     	// schedule the autonomous command (example)
-        if (autonomousCommand != null) autonomousCommand.start();
+        //if (autonomousCommand != null) autonomousCommand.start();
         System.out.println("Autonomous mode intialized");
     }
 
@@ -187,7 +192,7 @@ public class Robot extends IterativeRobot {
          this line or comment it out. */
     	isAuton = false;
         if (autonomousCommand != null) autonomousCommand.cancel();
-        NIVision.IMAQdxStartAcquisition(session);
+        //NIVision.IMAQdxStartAcquisition(session);
     }
 
     
@@ -196,8 +201,10 @@ public class Robot extends IterativeRobot {
      */
     public void teleopPeriodic() {
         Scheduler.getInstance().run();
-        NIVision.IMAQdxGrab(session, frame, 1);
-        CameraServer.getInstance().setImage(frame);
+//        NIVision.IMAQdxGrab(session, frame, 1);
+//        CameraServer.getInstance().setImage(frame);
+        System.out.println("6, 7 enc: " + RobotMap.rightDriveWheelEncoder.get());
+        System.out.println("8, 9 enc: " + RobotMap.leftDriveWheelEncoder.get());
 
     }
     

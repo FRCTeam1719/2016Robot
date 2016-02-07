@@ -27,7 +27,6 @@ public class Arm extends Subsystem {
 	
 	public void move(double speed) {
 		motor.set(speed);
-		System.out.println("MOTOR SPEED: "+speed);
 	}
 	
 	public double getPos() {

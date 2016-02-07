@@ -19,7 +19,6 @@ public class UseArm extends Command{
 
 	@Override
 	protected void execute() {
-		System.out.println("USING ARM");
 		double speed = Robot.oi.getArmReading();
 		if(Math.abs(speed)<TOLERANCE){
 			
