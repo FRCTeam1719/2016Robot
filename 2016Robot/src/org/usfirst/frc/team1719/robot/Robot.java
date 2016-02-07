@@ -34,6 +34,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 public class Robot extends IterativeRobot {
 
 	final String CAMERA_NAME = "cam0";
+	public static final double GET_VALUE_FROM_SMARTDASHBOARD = -1337.0D;
 	public static final ExampleSubsystem exampleSubsystem = new ExampleSubsystem();
 	public static final IFireable weapon = new DummyWeapon();
 	public static OI oi;

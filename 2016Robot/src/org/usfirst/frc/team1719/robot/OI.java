@@ -84,6 +84,7 @@ public class OI {
 		private Button rotate180Button;
 		private Button fireButton;				
 		private Button moveArmButton;
+		private Button aimArmButton;
 		public OI(){
 			//Define Controllers
 			driverXBOX = new Joystick(0);
