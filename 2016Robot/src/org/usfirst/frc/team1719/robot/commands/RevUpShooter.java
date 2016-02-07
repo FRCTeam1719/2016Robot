@@ -4,29 +4,21 @@ import org.usfirst.frc.team1719.robot.Robot;
 
 import edu.wpi.first.wpilibj.command.Command;
 
-public class UseArm extends Command{
+public class RevUpShooter extends Command{
 
-	final double TOLERANCE = 0.1;
-	final double CONTROL_SCALING = .5;
-	
-	public UseArm(){
-		requires(Robot.arm);
+	public RevUpShooter(){
+		requires(Robot.shooter);
 	}
+	
 	@Override
 	protected void initialize() {
-		
+		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
 	protected void execute() {
-		double joystickReading = Robot.oi.getArmReading();
-		//Apply control scaling
-		double motorSpeed = joystickReading * CONTROL_SCALING;
-		if(Math.abs(joystickReading)<TOLERANCE){
-			motorSpeed = 0;
-		}
-		Robot.arm.move(motorSpeed);
+		Robot.shooter.spin(1, 1);
 		
 	}
 

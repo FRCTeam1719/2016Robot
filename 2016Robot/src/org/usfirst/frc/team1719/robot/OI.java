@@ -2,6 +2,7 @@ package org.usfirst.frc.team1719.robot;
 
 
 import org.usfirst.frc.team1719.robot.commands.MoveArmToPos;
+import org.usfirst.frc.team1719.robot.commands.RevUpShooter;
 import org.usfirst.frc.team1719.robot.commands.ShootBoulder;
 import org.usfirst.frc.team1719.robot.commands.TurnToAngle;
 
@@ -82,6 +83,7 @@ public class OI {
 		private Button rotate180Button;
 		private Button fireButton;				
 		private Button moveArmButton;
+		private Button primeButton;
 		public OI(){
 			//Define Controllers
 			driverXBOX = new Joystick(0);
@@ -96,6 +98,8 @@ public class OI {
 			rotate180Button.whenPressed(new TurnToAngle(90));
 			fireButton = new JoystickButton(operatorJoystick, ATTACK_TRIGGER);
 			fireButton.whenPressed(new ShootBoulder(10, 10));
+			primeButton = new JoystickButton(operatorJoystick, ATTACK_BUTTON_10);
+			primeButton.whenPressed(new RevUpShooter());
 			moveArmButton = new JoystickButton(operatorJoystick, ATTACK_BUTTON_3);
 			moveArmButton.whenPressed(new MoveArmToPos(60));
 		}
