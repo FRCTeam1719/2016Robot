@@ -20,7 +20,7 @@ public class MoveArmToPos extends Command {
 
 	/**
 	 * Move the arm to the desiredAngle
-	 * @param desiredAngle
+	 * @param desiredAngle double
 	 */
     public MoveArmToPos(double desiredAngle) {
         // Use requires() here to declare subsystem dependencies

@@ -33,8 +33,7 @@ public class Arm extends Subsystem {
 	}
 	
 	/**
-	 * Move the arm at desired speed
-	 * @param speed
+	 * @param speed to move at
 	 */
 	public void move(double speed) {
 		motor.set(speed);

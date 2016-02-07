@@ -31,8 +31,8 @@ public class DriveSubsystem extends Subsystem{
 	final double PIDTolerance = 0.5D;
 	/**
 	 * Define controllers
-	 * @param leftController
-	 * @param rightController
+	 * @param leftController Spark
+	 * @param rightController Spark
 	 */
 	public DriveSubsystem(Spark leftController,Spark rightController){
 		mainDrive = new RobotDrive(leftController, rightController);
@@ -42,16 +42,16 @@ public class DriveSubsystem extends Subsystem{
 	
 	/**
 	 * Operate the drive as a standard tank drive
-	 * @param left
-	 * @param right
+	 * @param left speed
+	 * @param right speed
 	 */
 	public void operateDrive(double left, double right){
 		mainDrive.tankDrive(left, right);
 	}
 	
 	/**
-	 * Drive the robot straight, using a gryo & a PID loop to correct for errors
-	 * @param speed
+	 * Drive the robot straight, using a gryo and a PID loop to correct for errors
+	 * @param speed to drive
 	 */
 	public void driveStraight(double speed){
 		kP = SmartDashboard.getNumber("Drive kP");

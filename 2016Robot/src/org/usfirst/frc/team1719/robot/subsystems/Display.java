@@ -59,7 +59,7 @@ public class Display extends Subsystem {
 	 * String cannot be longer than 4 characters (as there are only 4 displays)
 	 * String cannot contain more than one decimal, but the decimal does not 
 	 * contribute to character count
-	 * @param s
+	 * @param s toDisplay
 	 */
     public void displayString(String s){
     	boolean dotMarker[] = new boolean[4];

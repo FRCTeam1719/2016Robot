@@ -11,9 +11,9 @@ public class PIDData {
 	
 	/**
 	 * Default constants
-	 * @param defaultKP
-	 * @param defaultKI
-	 * @param defaultKD
+	 * @param defaultKP Default Proportional Constant
+	 * @param defaultKI Default Integral Constant
+	 * @param defaultKD Default Derivative Constant
 	 */
 	public PIDData (double defaultKP, double defaultKI, double defaultKD){
 		kP = defaultKP;

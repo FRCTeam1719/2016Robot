@@ -21,10 +21,10 @@ public class DualShooter extends Subsystem {
 	
 	/**
 	 * Give the flyWheels and inner wheels
-	 * @param leftFlyWheel
-	 * @param rightFlyWheel
-	 * @param leftHolderMotor
-	 * @param rightHolderMotor
+	 * @param leftFlyWheel FlyWheel Subsystem on the left
+	 * @param rightFlyWheel FlyWheel Subsystem on the right
+	 * @param leftHolderMotor Inner motor on the left
+	 * @param rightHolderMotor Inner motor on the right
 	 */
 	public DualShooter(FlyWheel leftFlyWheel, FlyWheel rightFlyWheel, Spark leftHolderMotor, Spark rightHolderMotor)
 	{
@@ -36,8 +36,8 @@ public class DualShooter extends Subsystem {
 	
 	/**
 	 * Spin up the Fly Wheels as specified powers
-	 * @param leftPower
-	 * @param rightPower
+	 * @param leftPower speed
+	 * @param rightPower speed
 	 */
 	public void spin(double leftPower, double rightPower)
 	{

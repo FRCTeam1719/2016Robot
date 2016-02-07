@@ -12,8 +12,7 @@ public class DisplayText extends Command{
 
 	String text;
 	/**
-	 * String to display on DigitBoard
-	 * @param text
+	 * @param String text to display
 	 */
 	public DisplayText(String text){
 		requires(Robot.display);

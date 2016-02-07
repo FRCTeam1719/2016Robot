@@ -20,9 +20,9 @@ public class TurnToAngle extends Command {
 	
 	AnalogGyro gyro = RobotMap.gyro;
 	/**
-	 * Pass in angle offset
+	 * 
 	 * Negative Angles move to the left, Positive to the Right
-	 * @param desiredAngle
+	 * @param desiredAngle to turn to
 	 */
     public TurnToAngle(double desiredAngle) {
         // Use requires() here to declare subsystem dependencies

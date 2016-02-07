@@ -24,8 +24,8 @@ public class MoveForwards extends Command {
 	DriveSubsystem drive = Robot.drive;
 	
 	/**
-	 * Move forward distFeet in Feet
-	 * @param distFeet
+	 * 
+	 * @param distFeet to move forward
 	 */
 	public MoveForwards(double distFeet) {
 		requires(Robot.drive);
