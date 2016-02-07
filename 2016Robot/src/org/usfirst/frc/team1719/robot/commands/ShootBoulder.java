@@ -6,6 +6,11 @@ import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
+/**
+ * Fire the bolder 
+ * @author aaroneline
+ *
+ */
 public class ShootBoulder extends Command {
 	
 	double leftPower;
@@ -38,7 +43,7 @@ public class ShootBoulder extends Command {
 //		isStabilized = Robot.shooter.isStabilized();
 		isStabilized = true;
 		//if we shoot the boulder check if the angle has been reached before firing
-		if((!Robot.isAuton && isStabilized && Robot.oi.getFireButton())||
+		if((!Robot.isAuton && Robot.oi.getFireButton())||
 				(Robot.isAuton && isStabilized && SmartDashboard.getBoolean("Angle Reached")))
 		{
 			Robot.shooter.fire();

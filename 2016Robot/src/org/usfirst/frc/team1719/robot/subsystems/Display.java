@@ -13,7 +13,16 @@ import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-
+/**
+ * DigitBoard display subsystem
+ * Consists of:
+ * 		4 15-segement displays
+ * 		2 Digital Buttons (Labelled A,B)
+ * 		1 Potentiometer
+ * 
+ * @author aaroneline
+ *
+ */
 public class Display extends Subsystem {
 	DigitalInput buttonA;
 	DigitalInput buttonB;
@@ -27,8 +36,6 @@ public class Display extends Subsystem {
 			SendableChooser chooser;
 	public static final Map<Character, byte[]> map;
 	public Display(DigitalInput buttonA, DigitalInput buttonB, AnalogInput dial) {
-		// TODO Auto-generated method stub
-		// TODO Auto-generated method stub
 		byte[] osc = new byte[1];
 		byte[] blink = new byte[1];
 		byte[] bright = new byte[1];
@@ -47,6 +54,13 @@ public class Display extends Subsystem {
     	//SmartDashboard.putString("DB/String 1", "ButtonA = " + buttonA.get());
     	SmartDashboard.putString("DB/String 2", "ButtonB = " + buttonB.get());
     }
+	/**
+	 * Display a String on the DigitBoards display
+	 * String cannot be longer than 4 characters (as there are only 4 displays)
+	 * String cannot contain more than one decimal, but the decimal does not 
+	 * contribute to character count
+	 * @param s
+	 */
     public void displayString(String s){
     	boolean dotMarker[] = new boolean[4];
     	int dotIndex = s.indexOf('.') -1;    	
@@ -74,7 +88,7 @@ public class Display extends Subsystem {
     }
 
     
-    public byte[] addDot(byte[] input){
+    private byte[] addDot(byte[] input){
     	input[1] = (byte) (input[1] | 0b001000000);
     	return input;
     }
@@ -83,19 +97,31 @@ public class Display extends Subsystem {
 	protected void initDefaultCommand() {
 		setDefaultCommand(new DisplayVoltage());
 	}
-	
+	/**
+	 * Returns status of button A
+	 * @return
+	 */
 	public boolean buttonAPressed(){
 		return !buttonA.get();
 	}
 	
+	/**
+	 * Return status of button B
+	 * @return
+	 */
 	public boolean buttonBPressed(){
 		return !buttonB.get();
 	}
 	
+	/**
+	 * Return status of Analog dial
+	 * @return
+	 */
 	public double getDialReading(){
 		return dial.getVoltage();
 	}
 	
+	//Map of characters
 	static {
 		map = new HashMap<Character, byte[]>();
 		map.put('0', new byte[] {(byte)0b00111111, (byte)0b00000000});

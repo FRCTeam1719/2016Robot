@@ -4,7 +4,13 @@ import edu.wpi.first.wpilibj.Spark;
 import edu.wpi.first.wpilibj.command.Subsystem;
 
 
-
+/**
+ * Our shooter subsystem, composed of:
+ * 		2 of our flywheel subsystems
+ * 		2 inner wheels used for intake and launching of stored balls
+ * @author aaroneline
+ *
+ */
 public class DualShooter extends Subsystem {
 	
 	FlyWheel leftFlyWheel;
@@ -13,6 +19,13 @@ public class DualShooter extends Subsystem {
 	Spark leftHolderMotor;
 	Spark rightHolderMotor;
 	
+	/**
+	 * Give the flyWheels and inner wheels
+	 * @param leftFlyWheel
+	 * @param rightFlyWheel
+	 * @param leftHolderMotor
+	 * @param rightHolderMotor
+	 */
 	public DualShooter(FlyWheel leftFlyWheel, FlyWheel rightFlyWheel, Spark leftHolderMotor, Spark rightHolderMotor)
 	{
 		this.leftFlyWheel = leftFlyWheel;
@@ -21,18 +34,29 @@ public class DualShooter extends Subsystem {
 		this.rightHolderMotor = rightHolderMotor;
 	}
 	
+	/**
+	 * Spin up the Fly Wheels as specified powers
+	 * @param leftPower
+	 * @param rightPower
+	 */
 	public void spin(double leftPower, double rightPower)
 	{
 		leftFlyWheel.spin(leftPower);
 		rightFlyWheel.spin(rightPower);
 	}
 	
+	/**
+	 * Spin the inner wheels so that they eject the ball
+	 */
 	public void fire()
 	{
 		leftHolderMotor.set(1);
 		rightHolderMotor.set(-1);
 	}
 	
+	/**
+	 * Stop all motors
+	 */
 	public void reset()
 	{
 		leftFlyWheel.reset();
@@ -41,6 +65,10 @@ public class DualShooter extends Subsystem {
 		rightHolderMotor.set(0);
 	}
 	
+	/**
+	 * Check to see if both flywheels have reached stable speeds
+	 * @return
+	 */
 	public boolean isStabilized()
 	{
 		return leftFlyWheel.isStabilized(100) && rightFlyWheel.isStabilized(100);

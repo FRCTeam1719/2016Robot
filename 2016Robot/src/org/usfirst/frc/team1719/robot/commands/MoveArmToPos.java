@@ -5,7 +5,7 @@ import org.usfirst.frc.team1719.robot.Robot;
 import edu.wpi.first.wpilibj.command.Command;
 
 /**
- *
+ * Move the arm to a specified angle
  */
 public class MoveArmToPos extends Command {
 	
@@ -18,6 +18,10 @@ public class MoveArmToPos extends Command {
 	
 	boolean direction;
 
+	/**
+	 * Move the arm to the desiredAngle
+	 * @param desiredAngle
+	 */
     public MoveArmToPos(double desiredAngle) {
         // Use requires() here to declare subsystem dependencies
         // eg. requires(chassis);
@@ -29,7 +33,7 @@ public class MoveArmToPos extends Command {
     protected void initialize() {
     	//TODO Math to turn desiredAngle into desiredPotPos 
         desiredPotPos = desiredAngle;
-    	currentPos = Robot.arm.getPos();
+    	currentPos = Robot.arm.getArmAngle();
     	//raise / lower arm to get to target pos
     	if (currentPos < desiredPotPos) {
     		direction = DIRECTION_UP;
@@ -41,7 +45,7 @@ public class MoveArmToPos extends Command {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	currentPos = Robot.arm.getPos();
+    	currentPos = Robot.arm.getArmAngle();
     	System.out.println("Current Pos: " + currentPos + " | DesiredPos: " + desiredAngle);
 
     	//Turn motor to reach disired angle

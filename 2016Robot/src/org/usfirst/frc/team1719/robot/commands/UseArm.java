@@ -3,7 +3,11 @@ package org.usfirst.frc.team1719.robot.commands;
 import org.usfirst.frc.team1719.robot.Robot;
 
 import edu.wpi.first.wpilibj.command.Command;
-
+/**
+ * Default command for the arm, drives it according to the Operator Joystick
+ * @author aaroneline
+ *
+ */
 public class UseArm extends Command{
 
 	final double TOLERANCE = 0.1;
@@ -32,19 +36,16 @@ public class UseArm extends Command{
 
 	@Override
 	protected boolean isFinished() {
-		// TODO Auto-generated method stub
 		return true;
 	}
 
 	@Override
 	protected void end() {
-		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
 	protected void interrupted() {
-		// TODO Auto-generated method stub
 		
 	}
 

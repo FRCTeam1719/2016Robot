@@ -105,14 +105,27 @@ public class OI {
 		}
 		
 		//Functions for getting input
+		
+		/**
+		 * Grab the left Y axis from the Driver XBox
+		 * @return
+		 */
 		public double getLeftDriveReading(){
 			return driverXBOX.getRawAxis(LEFT_Y);
 		}
 		
+		/**
+		 * Grab the right Y axis from the Driver XBox
+		 * @return
+		 */
 		public double getRightDriveReading(){
 			return driverXBOX.getRawAxis(RIGHT_Y);
 		}
 		
+		/**
+		 * Grab the Y axis from the operator controller for driving the arm
+		 * @return
+		 */
 		public double getArmReading(){
 			return operatorJoystick.getRawAxis(ATTACK_Y_AXIS);
 		}

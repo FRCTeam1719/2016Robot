@@ -10,7 +10,17 @@ import edu.wpi.first.wpilibj.Spark;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
-
+/**
+ * Flywheel subsystem
+ * Composed of:
+ * 		1 Spark motor controller for spinning the wheel
+ * 		An encoder for measuring wheel speed
+ * 	The subsystem is used as a component of the larger shooter mechanism
+ *  The Flywheel is required to be able to spin and consistent speeds
+ *  independent of battery voltage
+ * @author aaroneline
+ *
+ */
 public class FlyWheel extends Subsystem {
 	
 	Spark motor;
@@ -28,6 +38,12 @@ public class FlyWheel extends Subsystem {
 	final double ONEROTATION = 1.57075;
 	final double TOLERANCE_FEET_PER_SECOND = 1;
 	
+	/**
+	 * 
+	 * @param controller
+	 * @param enc
+	 * @param pidData
+	 */
 	public FlyWheel(Spark controller, Encoder enc, PIDData pidData) {
 		
 		this.pidData = pidData;
@@ -38,15 +54,21 @@ public class FlyWheel extends Subsystem {
 
 	@Override
 	protected void initDefaultCommand() {
-		// TODO Auto-generated method stub
 		
 	}
 	
+	/**
+	 * Stop motors and reset encoders
+	 */
 	public void reset(){
 		encoder.reset();
 		output = 0;
 	}
-	//spin at desired feet per second
+	/**
+	 * Spin wheel at desired feet per second
+	 * Uses PID loop for consistency
+	 * @param feetPerSecond
+	 */
 	public void spin(double feetPerSecond) {
 		double desiredSpeed = feetPerSecond;
 		pidData.kP = SmartDashboard.getNumber("Right flywheel kP: ");
@@ -89,11 +111,20 @@ public class FlyWheel extends Subsystem {
 		System.out.println("kP: "+ pidData.kP);
 	}
 	
+	/**
+	 * Check if the FlyWheel has reached a stable speed
+	 * @param tolerance
+	 * @return
+	 */
 	public boolean isStabilized(double tolerance)
 	{
 		return (DoubleStream.of(errors).sum()/30)>tolerance;
 	}
 	
+	/**
+	 * Get rate of the FlyWheel's encoder
+	 * @return
+	 */
 	public double getRate() {
 		return encoder.getRate();
 	}

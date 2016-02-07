@@ -100,6 +100,9 @@ public class Robot extends IterativeRobot {
         smartDashboardInit();    
     }
 	
+    /**
+     * Initialize SmartDashboard values
+     */
     public void smartDashboardInit(){
     	//Setup Autonomous Sendable Chooser
         chooser = new SendableChooser();

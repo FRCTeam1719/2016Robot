@@ -74,6 +74,10 @@ public class RobotMap {
 		buttonB = new DigitalInput(10);
 	}
 	
+	/**
+	 * Function for configuring encoders
+	 * @param encoder
+	 */
 	private static void configureEncoder(Encoder encoder){
 
 		 //Setting values for encoders

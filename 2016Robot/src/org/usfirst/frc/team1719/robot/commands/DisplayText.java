@@ -3,11 +3,18 @@ package org.usfirst.frc.team1719.robot.commands;
 import org.usfirst.frc.team1719.robot.Robot;
 
 import edu.wpi.first.wpilibj.command.Command;
-
+/**
+ * 
+ * @author aaroneline
+ * Takes a String and displays it on the DigitBoard
+ */
 public class DisplayText extends Command{
 
 	String text;
-	
+	/**
+	 * String to display on DigitBoard
+	 * @param text
+	 */
 	public DisplayText(String text){
 		requires(Robot.display);
 		this.text = text;
@@ -27,19 +34,16 @@ public class DisplayText extends Command{
 
 	@Override
 	protected boolean isFinished() {
-		// TODO Auto-generated method stub
 		return true;
 	}
 
 	@Override
 	protected void end() {
-		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
 	protected void interrupted() {
-		// TODO Auto-generated method stub
 		
 	}
 

@@ -5,7 +5,11 @@ import org.usfirst.frc.team1719.robot.RobotMap;
 import org.usfirst.frc.team1719.robot.subsystems.DriveSubsystem;
 
 import edu.wpi.first.wpilibj.command.Command;
-
+/**
+ * Move forward a specified distance
+ * @author aaroneline
+ *
+ */
 public class MoveForwards extends Command {
 	
 	final double HALF_SPEED = 0.5;
@@ -19,6 +23,10 @@ public class MoveForwards extends Command {
 	
 	DriveSubsystem drive = Robot.drive;
 	
+	/**
+	 * Move forward distFeet in Feet
+	 * @param distFeet
+	 */
 	public MoveForwards(double distFeet) {
 		requires(Robot.drive);
 		this.desiredDist = distFeet;
@@ -63,12 +71,11 @@ public class MoveForwards extends Command {
 	protected void initialize() {
 		currentDist = 0;
 		RobotMap.gyro.reset();
-		System.out.println("GYRO RESET: CURRENT ANGLE: "+RobotMap.gyro.getAngle());
 	}
 
 	@Override
 	protected void interrupted() {
-		// TODO Auto-generated method stub
+		Robot.drive.operateDrive(0, 0);
 		
 	}
 
