@@ -16,6 +16,7 @@ public class AimAndFire extends CommandGroup {
 
 	
     public  AimAndFire() {
+    	
     	addParallel(new RevUpShooter());
         addSequential(new AutoSenseTower());
         addSequential(new TurnToAngle(0.0D));

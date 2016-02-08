@@ -1,5 +1,7 @@
 package org.usfirst.frc.team1719.robot;
 
+import java.io.IOException;
+
 import org.usfirst.frc.team1719.robot.commands.AutoSenseTower;
 import org.usfirst.frc.team1719.robot.commands.AutonCommand;
 import org.usfirst.frc.team1719.robot.commands.MoveForwards;
@@ -108,6 +110,12 @@ public class Robot extends IterativeRobot {
 			System.out.println("Can't find the camera, failing with style");
 		}
 		smartDashboardInit();
+		//Run GRIP in a new process
+		try {
+			new ProcessBuilder("/home/lvuser/grip").inheritIO().start();
+		}catch(IOException e){
+			System.out.println("Error initializing GRIP vision code");
+		}
 	}
 
 	/**
