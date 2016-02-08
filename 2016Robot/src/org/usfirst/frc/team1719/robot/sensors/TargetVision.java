@@ -3,6 +3,8 @@ package org.usfirst.frc.team1719.robot.sensors;
 import java.util.Comparator;
 import java.util.Vector;
 
+import org.usfirst.frc.team1719.robot.Robot;
+
 import edu.wpi.first.wpilibj.networktables.NetworkTable;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
@@ -69,8 +71,6 @@ public class TargetVision {
     private static final double SCORE_MIN = 75.0D;
     // Height of target from the ground
     private static final double TARGET_HEIGHT_FT = 7.583D;
-    // Angle at which the camera is pointed
-    private static final double CAM_ALTITUDE_DEG = 25.0D;
     
     // Tables to read from GRIP
     private static final NetworkTable table1;
@@ -116,7 +116,7 @@ public class TargetVision {
             System.out.println("Azimuth" + azimuth);
             System.out.println("Altitude" + altitude);
             // Orientation of the target
-            double angleToNormal = Math.acos((14.0D/20.0D) * (contour.width / contour.height) * Math.cos(CAM_ALTITUDE_DEG));
+            double angleToNormal = Math.acos((14.0D/20.0D) * (contour.width / contour.height) * Math.cos(Robot.arm.getArmAngle()));
             // Return the position
             return new TargetPos(distance, azimuth, altitude, angleToNormal);
         } else { // no matching contours found
@@ -160,7 +160,7 @@ public class TargetVision {
      */
     private static double computeTargetAltitude(Contour contour) {
         double normalizedPosY = 2.0D * contour.posY / VIEW_HEIGHT_PX - 1.0D;
-        return (Math.atan(normalizedPosY * Math.tan(VIEW_ANGLE_HEIGHT_DEG * Math.PI / (180*2))) * (180.0D / Math.PI)) + CAM_ALTITUDE_DEG;
+        return (Math.atan(normalizedPosY * Math.tan(VIEW_ANGLE_HEIGHT_DEG * Math.PI / (180*2))) * (180.0D / Math.PI)) + Robot.arm.getArmAngle();
     }
     
     static {
