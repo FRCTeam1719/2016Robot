@@ -5,14 +5,19 @@ import org.usfirst.frc.team1719.robot.RobotMap;
 import org.usfirst.frc.team1719.robot.commands.UseDrive;
 
 import edu.wpi.first.wpilibj.RobotDrive;
-import edu.wpi.first.wpilibj.SpeedController;
+import edu.wpi.first.wpilibj.Spark;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-
+/**
+ * Drive Subsystem
+ * Controls a six wheel belt drive, driven by 2 Spark motor controllers
+ * @author aaroneline
+ *
+ */
 public class DriveSubsystem extends Subsystem{
 
-	SpeedController leftController;
-	SpeedController rightController;
+	Spark leftController;
+	Spark rightController;
 	RobotDrive mainDrive;
 	final double HALF_SPEED = 0.5;
 	double previousError = 0;
@@ -24,18 +29,30 @@ public class DriveSubsystem extends Subsystem{
 	double kD;
 	
 	final double PIDTolerance = 0.5D;
-	
-	public DriveSubsystem(SpeedController leftController,SpeedController rightController){
+	/**
+	 * Define controllers
+	 * @param leftController Spark
+	 * @param rightController Spark
+	 */
+	public DriveSubsystem(Spark leftController,Spark rightController){
 		mainDrive = new RobotDrive(leftController, rightController);
 		this.leftController = leftController;
 		this.rightController = rightController;
 	}
 	
-	
+	/**
+	 * Operate the drive as a standard tank drive
+	 * @param left speed
+	 * @param right speed
+	 */
 	public void operateDrive(double left, double right){
 		mainDrive.tankDrive(left, right);
 	}
 	
+	/**
+	 * Drive the robot straight, using a gryo and a PID loop to correct for errors
+	 * @param speed to drive
+	 */
 	public void driveStraight(double speed){
 		kP = SmartDashboard.getNumber("Drive kP");
 		kI = SmartDashboard.getNumber("Drive kI");

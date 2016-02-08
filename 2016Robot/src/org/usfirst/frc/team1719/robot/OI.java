@@ -1,6 +1,7 @@
 package org.usfirst.frc.team1719.robot;
 
 import org.usfirst.frc.team1719.robot.commands.MoveArmToPos;
+import org.usfirst.frc.team1719.robot.commands.RevUpShooter;
 import org.usfirst.frc.team1719.robot.commands.ShootBoulder;
 import org.usfirst.frc.team1719.robot.commands.TurnToAngle;
 
@@ -13,117 +14,130 @@ import edu.wpi.first.wpilibj.buttons.JoystickButton;
  * interface to the commands and command groups that allow control of the robot.
  */
 public class OI {
-    //// CREATING BUTTONS
-    // One type of button is a joystick button which is any button on a joystick.
-    // You create one by telling it which joystick it's on and which button
-    // number it is.
-    // Joystick stick = new Joystick(port);
-    // Button button = new JoystickButton(stick, buttonNumber);
-    
-    // There are a few additional built in buttons you can use. Additionally,
-    // by subclassing Button you can create custom triggers and bind those to
-    // commands the same as any other Button.
-    
-    //// TRIGGERING COMMANDS WITH BUTTONS
-    // Once you have a button, it's trivial to bind it to a button in one of
-    // three ways:
-    
-    // Start the command when the button is pressed and let it run the command
-    // until it is finished as determined by it's isFinished method.
-    // button.whenPressed(new ExampleCommand());
-    
-    // Run the command while the button is being held down and interrupt it once
-    // the button is released.
-    // button.whileHeld(new ExampleCommand());
-    
-    // Start the command when the button is released  and let it run the command
-    // until it is finished as determined by it's isFinished method.
-    // button.whenReleased(new ExampleCommand());
-	
-	//LOGITECH ATTACK 3 BINDINGS
-		final int ATTACK_X_AXIS = 0;
-		final int ATTACK_Y_AXIS = 1;
-		final int ATTACK_TRIGGER = 1;
-		final int ATTACK_BUTTON_2 = 2;
-		final int ATTACK_BUTTON_3 = 3;
-		final int ATTACK_BUTTON_4 = 4;
-		final int ATTACK_BUTTON_5 = 5;
-		final int ATTACK_BUTTON_6 = 6;
-		final int ATTACK_BUTTON_7 = 7;
-		final int ATTACK_BUTTON_8 = 8;
-		final int ATTACK_BUTTON_9 = 9;
-		final int ATTACK_BUTTON_10 = 10;
-		final int ATTACK_BUTTON_11 = 11;
-	
-	//XBOX BINDINGS
-		final int LEFT_X = 0;
-		final int LEFT_Y = 1;
-		final int LEFT_TRIGGER = 2;
-		final int RIGHT_TRIGGER = 3;
-		final int RIGHT_X = 4;
-		final int RIGHT_Y = 5;
-		final int A_BUTTON = 1;
-		final int B_BUTTON = 2;
-		final int X_BUTTON = 3;
-		final int Y_BUTTON = 4;
-		final int LEFT_BUMPER = 5;
-		final int RIGHT_BUMPER = 6;
-		final int BACK_BUTTON = 7;
-		final int START_BUTTON = 8;
-		final int LEFT_BUTTON = 9;
-		final int RIGHT_BUTTON = 10;
-		
-		
-		private Joystick driverXBOX;
-		private Button rotateButton;
-		
-		private Joystick operatorXBOX;
+	//// CREATING BUTTONS
+	// One type of button is a joystick button which is any button on a
+	//// joystick.
+	// You create one by telling it which joystick it's on and which button
+	// number it is.
+	// Joystick stick = new Joystick(port);
+	// Button button = new JoystickButton(stick, buttonNumber);
 
-		private Button rotateRight90Button;
-		private Button rotateLeft90Button;
-		private Button rotate180Button;
-		private Button fireButton;				
-		private Button moveArmButton;
-		private Button aimArmButton;
-		public OI(){
-			//Define Controllers
-			driverXBOX = new Joystick(0);
-			rotateButton = new JoystickButton(driverXBOX, A_BUTTON);
-			rotateButton.whenPressed(new TurnToAngle(90));
-			operatorXBOX = new Joystick(1);
-			
-			//Define Buttons
-			rotateRight90Button = new JoystickButton(driverXBOX, X_BUTTON);
-			rotateRight90Button.whenPressed(new TurnToAngle(45));
-			rotateLeft90Button = new JoystickButton(driverXBOX, B_BUTTON);
-			rotateLeft90Button.whenPressed(new TurnToAngle(-45));
-			rotate180Button = new JoystickButton(driverXBOX, Y_BUTTON);
-			rotate180Button.whenPressed(new TurnToAngle(90));
-			fireButton = new JoystickButton(operatorXBOX, RIGHT_TRIGGER);
-			fireButton.whenPressed(new ShootBoulder(10, 10));
-			moveArmButton = new JoystickButton(operatorXBOX, A_BUTTON);
-			moveArmButton.whenPressed(new MoveArmToPos(60));
-		}
-		
-		//Functions for getting input
-		public double getLeftDriveReading(){
-			return driverXBOX.getRawAxis(LEFT_Y);
-		}
-		
-		public double getRightDriveReading(){
-			return driverXBOX.getRawAxis(RIGHT_Y);
-		}
-		
-		public double getArmReading(){
-			return operatorXBOX.getRawAxis(LEFT_Y);
-		}
-		
-		
-		public boolean getFireButton()
-		{
-			return fireButton.get();
-		}
-		
-		
+	// There are a few additional built in buttons you can use. Additionally,
+	// by subclassing Button you can create custom triggers and bind those to
+	// commands the same as any other Button.
+
+	//// TRIGGERING COMMANDS WITH BUTTONS
+	// Once you have a button, it's trivial to bind it to a button in one of
+	// three ways:
+
+	// Start the command when the button is pressed and let it run the command
+	// until it is finished as determined by it's isFinished method.
+	// button.whenPressed(new ExampleCommand());
+
+	// Run the command while the button is being held down and interrupt it once
+	// the button is released.
+	// button.whileHeld(new ExampleCommand());
+
+	// Start the command when the button is released and let it run the command
+	// until it is finished as determined by it's isFinished method.
+	// button.whenReleased(new ExampleCommand());
+
+	// LOGITECH ATTACK 3 BINDINGS
+	final int ATTACK_X_AXIS = 0;
+	final int ATTACK_Y_AXIS = 1;
+	final int ATTACK_TRIGGER = 1;
+	final int ATTACK_BUTTON_2 = 2;
+	final int ATTACK_BUTTON_3 = 3;
+	final int ATTACK_BUTTON_4 = 4;
+	final int ATTACK_BUTTON_5 = 5;
+	final int ATTACK_BUTTON_6 = 6;
+	final int ATTACK_BUTTON_7 = 7;
+	final int ATTACK_BUTTON_8 = 8;
+	final int ATTACK_BUTTON_9 = 9;
+	final int ATTACK_BUTTON_10 = 10;
+	final int ATTACK_BUTTON_11 = 11;
+
+	// XBOX BINDINGS
+	final int LEFT_X = 0;
+	final int LEFT_Y = 1;
+	final int LEFT_TRIGGER = 2;
+	final int RIGHT_TRIGGER = 3;
+	final int RIGHT_X = 4;
+	final int RIGHT_Y = 5;
+	final int A_BUTTON = 1;
+	final int B_BUTTON = 2;
+	final int X_BUTTON = 3;
+	final int Y_BUTTON = 4;
+	final int LEFT_BUMPER = 5;
+	final int RIGHT_BUMPER = 6;
+	final int BACK_BUTTON = 7;
+	final int START_BUTTON = 8;
+	final int LEFT_BUTTON = 9;
+	final int RIGHT_BUTTON = 10;
+
+	private Joystick driverXBOX;
+	private Button rotateButton;
+	private Joystick operatorJoystick;
+	private Button rotateRight90Button;
+	private Button rotateLeft90Button;
+	private Button rotate180Button;
+	private Button fireButton;
+	private Button moveArmButton;
+	private Button primeButton;
+
+	public OI() {
+		// Define Controllers
+		driverXBOX = new Joystick(0);
+		rotateButton = new JoystickButton(driverXBOX, A_BUTTON);
+		rotateButton.whenPressed(new TurnToAngle(90));
+		operatorJoystick = new Joystick(1);
+
+		// Define Buttons
+		rotateRight90Button = new JoystickButton(driverXBOX, X_BUTTON);
+		rotateRight90Button.whenPressed(new TurnToAngle(45));
+		rotateLeft90Button = new JoystickButton(driverXBOX, B_BUTTON);
+		rotateLeft90Button.whenPressed(new TurnToAngle(-45));
+		rotate180Button = new JoystickButton(driverXBOX, Y_BUTTON);
+		rotate180Button.whenPressed(new TurnToAngle(90));
+		fireButton = new JoystickButton(operatorJoystick, ATTACK_TRIGGER);
+		fireButton.whenPressed(new ShootBoulder(10, 10));
+		primeButton = new JoystickButton(operatorJoystick, ATTACK_BUTTON_10);
+		primeButton.whenPressed(new RevUpShooter());
+		moveArmButton = new JoystickButton(operatorJoystick, ATTACK_BUTTON_3);
+		moveArmButton.whenPressed(new MoveArmToPos(60));
+	}
+
+	// Functions for getting input
+
+	/**
+	 * Grab the left Y axis from the Driver XBox
+	 * 
+	 * @return Axis Reading
+	 */
+	public double getLeftDriveReading() {
+		return driverXBOX.getRawAxis(LEFT_Y);
+	}
+
+	/**
+	 * Grab the right Y axis from the Driver XBox
+	 * 
+	 * @return Axis Reading
+	 */
+	public double getRightDriveReading() {
+		return driverXBOX.getRawAxis(RIGHT_Y);
+	}
+
+	/**
+	 * Grab the Y axis from the operator controller for driving the arm
+	 * 
+	 * @return Axis Reading
+	 */
+	public double getArmReading() {
+		return operatorJoystick.getRawAxis(ATTACK_Y_AXIS);
+	}
+
+	public boolean getFireButton() {
+		return fireButton.get();
+	}
+
 }
-

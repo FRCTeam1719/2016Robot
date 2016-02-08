@@ -1,14 +1,11 @@
 package org.usfirst.frc.team1719.robot;
 
 import edu.wpi.first.wpilibj.AnalogGyro;
+import edu.wpi.first.wpilibj.AnalogInput;
 import edu.wpi.first.wpilibj.AnalogPotentiometer;
-import edu.wpi.first.wpilibj.Compressor;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.Encoder;
-import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.Spark;
-import edu.wpi.first.wpilibj.SpeedController;
-import edu.wpi.first.wpilibj.Talon;
 
 /**
  * The RobotMap is a mapping from the ports sensors and actuators are wired into
@@ -28,23 +25,25 @@ public class RobotMap {
     // public static int rangefinderModule = 1;
 	static double FLYWHEEL_CIRCUMFRENCE_FEET = 1.57075;
 	
-	static SpeedController leftDriveController;
-	static SpeedController rightDriveController;
-	static Compressor mainCompressor;
-	static Solenoid shifterSolenoid;
+	static Spark leftDriveController;
+	static Spark rightDriveController;
 
-	
-	public static Talon rightFlyWheelController;
+
+
+	public static Spark rightFlyWheelController;
 	public static Encoder rightFlyWheelEncoder;
-	public static Talon leftFlyWheelController;
+	public static Spark leftFlyWheelController;
 	public static Encoder leftFlyWheelEncoder;
 	public static Spark armController;
 	public static DigitalInput armLowerLimitSwitch;
 	public static DigitalInput armUpperLimitSwitch;	
 	public static AnalogGyro gyro;
-	public static Talon innerShooterWheelController;
+	public static Spark innerLeftShooterWheelController;
+	public static Spark innerRightShooterWheelController;
 	public static AnalogPotentiometer armPot;
-	
+	public static AnalogInput dial;
+	public static DigitalInput buttonA;
+	public static DigitalInput buttonB;
 	public static void init(){
 		//Main hardware allocation
 		
@@ -56,12 +55,13 @@ public class RobotMap {
 		rightFlyWheelEncoder = new Encoder(4, 5, true, Encoder.EncodingType.k4X);
 		configureEncoder(rightFlyWheelEncoder);
 		//Motor Controllers
-		leftDriveController = new Talon(0);
-		rightDriveController = new Talon(1);
-		leftFlyWheelController = new Talon(2);
-		rightFlyWheelController = new Talon(3);
+		leftDriveController = new Spark(0);    
+		rightDriveController = new Spark(1);
+		leftFlyWheelController = new Spark(2);
+		rightFlyWheelController = new Spark(3);
 		armController = new Spark(4);
-		innerShooterWheelController = new Talon(5);
+		innerLeftShooterWheelController = new Spark(5);
+		innerRightShooterWheelController = new Spark(6);
 
 		//Sensors
 		
@@ -74,10 +74,17 @@ public class RobotMap {
 		configureEncoder(leftFlyWheelEncoder);
 		
 		//Analog In
+		dial = new AnalogInput(3);
 		gyro = new AnalogGyro(0);
         armPot = new AnalogPotentiometer(1, 1200.0D);
+        buttonA = new DigitalInput(9);
+		buttonB = new DigitalInput(10);
 	}
 	
+	/**
+	 * Function for configuring encoders
+	 * @param encoder
+	 */
 	private static void configureEncoder(Encoder encoder){
 
 		 //Setting values for encoders
@@ -86,6 +93,7 @@ public class RobotMap {
 		encoder.setMinRate(10);
 		encoder.setDistancePerPulse(FLYWHEEL_CIRCUMFRENCE_FEET);
 		encoder.setSamplesToAverage(127);
+		
 	}
 	
 }
