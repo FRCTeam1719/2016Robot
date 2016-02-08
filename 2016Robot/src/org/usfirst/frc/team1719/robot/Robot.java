@@ -8,13 +8,13 @@ import org.usfirst.frc.team1719.robot.subsystems.Arm;
 import org.usfirst.frc.team1719.robot.subsystems.Display;
 import org.usfirst.frc.team1719.robot.subsystems.DriveSubsystem;
 import org.usfirst.frc.team1719.robot.subsystems.DualShooter;
-import org.usfirst.frc.team1719.robot.subsystems.DummyWeapon;
 import org.usfirst.frc.team1719.robot.subsystems.ExampleSubsystem;
 import org.usfirst.frc.team1719.robot.subsystems.FlyWheel;
-import org.usfirst.frc.team1719.robot.subsystems.IFireable;
+
 import com.ni.vision.NIVision;
 import com.ni.vision.NIVision.Image;
 import com.ni.vision.VisionException;
+
 import edu.wpi.first.wpilibj.CameraServer;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.IterativeRobot;
@@ -37,7 +37,6 @@ public class Robot extends IterativeRobot {
 	final String CAMERA_NAME = "cam0";
 	public static final double GET_VALUE_FROM_SMARTDASHBOARD = -1337.0D;
 	public static final ExampleSubsystem exampleSubsystem = new ExampleSubsystem();
-	public static final IFireable weapon = new DummyWeapon();
 	public static OI oi;
 	public static Display display;
 	public static DriveSubsystem drive;

@@ -16,11 +16,12 @@ public class AimAndFire extends CommandGroup {
 
 	
     public  AimAndFire() {
+    	addParallel(new RevUpShooter());
         addSequential(new AutoSenseTower());
         addSequential(new TurnToAngle(0.0D));
         addSequential(new MoveForwards(0.0D));
         addSequential(new AutoSenseTower());
         addSequential(new MoveArmToPos(Robot.GET_VALUE_FROM_SMARTDASHBOARD));
-        addSequential(new Fire());
+        addSequential(new ShootBoulder(1,1));
     }
 }
