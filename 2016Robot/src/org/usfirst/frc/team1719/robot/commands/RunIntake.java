@@ -25,7 +25,7 @@ public class RunIntake extends Command{
 
 	@Override
 	protected boolean isFinished() {
-		return Robot.oi.getIntakeButton();
+		return !Robot.oi.getIntakeButton();
 	}
 
 	@Override
