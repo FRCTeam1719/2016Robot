@@ -48,8 +48,8 @@ public class RobotMap {
 		//Main hardware allocation
 		
 		//Motor Controllers
-		leftDriveController = new Spark(0);    
-		rightDriveController = new Spark(1);
+		leftDriveController = new Spark(1);    
+		rightDriveController = new Spark(0);
 		leftFlyWheelController = new Spark(2);
 		rightFlyWheelController = new Spark(3);
 		armController = new Spark(4);
@@ -59,8 +59,6 @@ public class RobotMap {
 		//Sensors
 		
 		//DIO
-		armUpperLimitSwitch = new DigitalInput(0);
-		armLowerLimitSwitch = new DigitalInput(1);
 		rightFlyWheelEncoder = new Encoder(2, 3, true, Encoder.EncodingType.k4X);		
 		configureEncoder(rightFlyWheelEncoder);
 		leftFlyWheelEncoder = new Encoder(4, 5, true, Encoder.EncodingType.k4X);
@@ -68,7 +66,7 @@ public class RobotMap {
 		
 		//Analog In
 		dial = new AnalogInput(3);
-		gyro = new AnalogGyro(0);
+		//gyro = new AnalogGyro(2);
         armPot = new AnalogPotentiometer(1, 1200.0D);
         buttonA = new DigitalInput(9);
 		buttonB = new DigitalInput(10);

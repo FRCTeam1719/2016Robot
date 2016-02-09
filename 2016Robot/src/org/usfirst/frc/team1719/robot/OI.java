@@ -1,8 +1,8 @@
 package org.usfirst.frc.team1719.robot;
 
 
-import org.usfirst.frc.team1719.robot.commands.MoveArmToPos;
 import org.usfirst.frc.team1719.robot.commands.RevUpShooter;
+import org.usfirst.frc.team1719.robot.commands.RunIntake;
 import org.usfirst.frc.team1719.robot.commands.ShootBoulder;
 import org.usfirst.frc.team1719.robot.commands.TurnToAngle;
 
@@ -84,6 +84,7 @@ public class OI {
 		private Button fireButton;				
 		private Button moveArmButton;
 		private Button primeButton;
+		private Button intakeButton;
 		public OI(){
 			//Define Controllers
 			driverXBOX = new Joystick(0);
@@ -98,10 +99,12 @@ public class OI {
 			rotate180Button.whenPressed(new TurnToAngle(90));
 			fireButton = new JoystickButton(operatorJoystick, ATTACK_TRIGGER);
 			fireButton.whenPressed(new ShootBoulder(10, 10));
-			primeButton = new JoystickButton(operatorJoystick, ATTACK_BUTTON_10);
+			primeButton = new JoystickButton(operatorJoystick, ATTACK_BUTTON_3);
 			primeButton.whenPressed(new RevUpShooter());
-			moveArmButton = new JoystickButton(operatorJoystick, ATTACK_BUTTON_3);
-			moveArmButton.whenPressed(new MoveArmToPos(60));
+			moveArmButton = new JoystickButton(operatorJoystick, ATTACK_BUTTON_6);
+			//moveArmButton.whenPressed(new MoveArmToPos(60));
+			intakeButton = new JoystickButton(operatorJoystick, ATTACK_BUTTON_2);
+			intakeButton.whenPressed(new RunIntake());
 		}
 		
 		//Functions for getting input
@@ -134,6 +137,10 @@ public class OI {
 		public boolean getFireButton()
 		{
 			return fireButton.get();
+		}
+		
+		public boolean getIntakeButton(){
+			return intakeButton.get();
 		}
 		
 		

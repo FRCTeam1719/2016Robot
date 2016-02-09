@@ -61,7 +61,7 @@ public class UseDrive extends Command{
 			left = corectedSpeed;
 			right = corectedSpeed;
 		}
-		Robot.drive.operateDrive(-right, -left);
+		Robot.drive.operateDrive(right, left);
 	}
 
 	@Override

@@ -40,7 +40,7 @@ public class Arm extends Subsystem {
 	}
 	
 	/**
-	 * Get the current angle fo the arm 
+	 * Get the current angle of the arm 
 	 * @return double angle
 	 */
 	public double getArmAngle() {

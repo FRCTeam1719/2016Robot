@@ -19,6 +19,9 @@ public class DualShooter extends Subsystem {
 	Spark leftHolderMotor;
 	Spark rightHolderMotor;
 	
+	public final boolean EJECT = true;
+	public final boolean INTAKE = false;
+	
 	/**
 	 * Give the flyWheels and inner wheels
 	 * @param leftFlyWheel FlyWheel Subsystem on the left
@@ -48,10 +51,15 @@ public class DualShooter extends Subsystem {
 	/**
 	 * Spin the inner wheels so that they eject the ball
 	 */
-	public void fire()
+	public void runInnerMotors(boolean direction)
 	{
-		leftHolderMotor.set(1);
-		rightHolderMotor.set(-1);
+		if(direction==EJECT){
+			leftHolderMotor.set(1);
+			rightHolderMotor.set(-1);
+		}else if(direction==INTAKE){
+			leftHolderMotor.set(-1);
+			rightHolderMotor.set(1);
+		}
 	}
 	
 	/**
