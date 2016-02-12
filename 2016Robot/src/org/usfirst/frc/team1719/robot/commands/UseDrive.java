@@ -3,7 +3,12 @@ package org.usfirst.frc.team1719.robot.commands;
 import org.usfirst.frc.team1719.robot.Robot;
 
 import edu.wpi.first.wpilibj.command.Command;
-
+/**
+ * Default command for the Drive
+ * Controls it via tank drive from the Driver XBOX
+ * @author aaroneline
+ *
+ */
 public class UseDrive extends Command{
 
 	final double DEADZONE = 0.0125D;
@@ -57,24 +62,21 @@ public class UseDrive extends Command{
 			left = corectedSpeed;
 			right = corectedSpeed;
 		}
-		Robot.drive.operateDrive(-right, -left);
+		Robot.drive.operateDrive(right, left);
 	}
 
 	@Override
 	protected boolean isFinished() {
-		// TODO Auto-generated method stub
 		return true;
 	}
 
 	@Override
 	protected void end() {
-		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
 	protected void interrupted() {
-		// TODO Auto-generated method stub
 		
 	}
 

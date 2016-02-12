@@ -8,7 +8,7 @@ import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
- *
+ * Turns the drive to the specified angle
  */
 public class TurnToAngle extends Command {
 
@@ -21,7 +21,11 @@ public class TurnToAngle extends Command {
 	
 	
 	AnalogGyro gyro = RobotMap.gyro;
-	
+	/**
+	 * 
+	 * Negative Angles move to the left, Positive to the Right
+	 * @param desiredAngle to turn to
+	 */
     public TurnToAngle(double desiredAngle) {
         // Use requires() here to declare subsystem dependencies
         
@@ -46,7 +50,6 @@ public class TurnToAngle extends Command {
     	
     	
     	currentAngle = gyro.getAngle();
-    	System.out.println(currentAngle);
     	//turning clockwise
     	if (tunedAngle < 0) {
     		Robot.drive.operateDrive(SPEED, -SPEED);
@@ -54,7 +57,6 @@ public class TurnToAngle extends Command {
     	else if (tunedAngle > 0) { //turning counter clockwise
     		Robot.drive.operateDrive(-SPEED, SPEED);
     	}
-    	System.out.println("TURNING, CURRENT ANGLE: "+currentAngle);
     }
 
     // Make this return true when this Command no longer needs to run execute()

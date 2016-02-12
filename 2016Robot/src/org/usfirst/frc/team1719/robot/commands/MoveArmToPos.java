@@ -6,7 +6,7 @@ import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
- *
+ * Move the arm to a specified angle
  */
 public class MoveArmToPos extends Command {
 	
@@ -21,6 +21,10 @@ public class MoveArmToPos extends Command {
 	double speed;
 
 
+	/**
+	 * Move the arm to the desiredAngle
+	 * @param desiredAngle double
+	 */
     public MoveArmToPos(double desiredAngle) {
         // Use requires() here to declare subsystem dependencies
         // eg. requires(chassis);
@@ -33,7 +37,7 @@ public class MoveArmToPos extends Command {
     protected void initialize() {
     	//TODO Math to turn desiredAngle into desiredPotPos 
         desiredPotPos = desiredAngle;
-    	currentPos = Robot.arm.getPos();
+    	currentPos = Robot.arm.getArmAngle();
     	if(desiredAngle == -1337) desiredAngle = SmartDashboard.getNumber("MoveArmParam");
     	if (currentPos < desiredAngle) {
     		direction = DIRECTION_UP;
@@ -45,10 +49,11 @@ public class MoveArmToPos extends Command {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	currentPos = Robot.arm.getPos();
+    	currentPos = Robot.arm.getArmAngle();
     	
     	if (direction == DIRECTION_DOWN) {
     		Robot.arm.move(-speed);
+    		currentPos = Robot.arm.getArmAngle();
     	}
     	else if (direction == DIRECTION_UP) {
     		Robot.arm.move(speed);
