@@ -17,7 +17,7 @@ public class ShootBoulder extends Command {
 	double rightPower;
 	boolean hasShot;
 	boolean isStabilized;
-	final double WAIT_TIME = 0.5;
+	final double WAIT_TIME = 5.0;
 	Timer timer;
 	
 	//Shoot boulder (desired leftPower, desired rightPower)
@@ -46,7 +46,7 @@ public class ShootBoulder extends Command {
 		if((!Robot.isAuton && Robot.oi.getFireButton())||
 				(Robot.isAuton && isStabilized && SmartDashboard.getBoolean("Angle Reached")))
 		{
-			Robot.shooter.fire();
+			Robot.shooter.runInnerMotors(Robot.shooter.EJECT);
 			//TODO Maybe change this
 			//hasShot = true;
 			timer.start();

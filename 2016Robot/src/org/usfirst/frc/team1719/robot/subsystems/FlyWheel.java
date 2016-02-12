@@ -64,6 +64,7 @@ public class FlyWheel extends Subsystem {
 	public void reset() {
 		encoder.reset();
 		output = 0;
+		motor.set(output);
 	}
 
 	/**
@@ -101,15 +102,17 @@ public class FlyWheel extends Subsystem {
 		// TODO PID is disabled until custom encoders are setup
 		// motor.set(output);
 		motor.set(1);
-		for (int i = (errors.length - 1); i >= 0; i--) {
-			errors[i + 1] = errors[i];
-		}
+		//TODO PID is disabled until custom encoders are setup
+		//motor.set(output);
+		motor.set(feetPerSecond);
+		for (int i = (errors.length - 1); i > 0; i--) {                
+		    errors[i] = errors[i-1];
+		} 
 		errors[0] = error;
-
 		previousError = error;
-		System.out.println("Output: " + output);
-		System.out.println("Error: " + error);
-		System.out.println("kP: " + pidData.kP);
+		//System.out.println("Output: " + output);
+		//System.out.println("Error: " + error);
+		//System.out.println("kP: "+ pidData.kP);
 	}
 
 	/**

@@ -3,43 +3,40 @@ package org.usfirst.frc.team1719.robot.commands;
 import org.usfirst.frc.team1719.robot.Robot;
 
 import edu.wpi.first.wpilibj.command.Command;
-/**
- * Bring the shooter up to speed, indicated on the Smartdashboard when you are done
- * @author aaroneline
- *
- */
-public class RevUpShooter extends Command{
 
-	public RevUpShooter(){
+public class RunIntake extends Command{
+
+	public RunIntake(){
 		requires(Robot.shooter);
 	}
 	
 	@Override
 	protected void initialize() {
-		//No initialization needed
+		
+		
 	}
 
 	@Override
 	protected void execute() {
-		Robot.shooter.spin(1, -1);
+		Robot.shooter.runInnerMotors(Robot.shooter.INTAKE);
+		Robot.shooter.spin(-1, 1);
 		
 	}
 
 	@Override
 	protected boolean isFinished() {
-		// TODO only return true when the shooter is up to speed
-		return true;
+		return !Robot.oi.getIntakeButton();
 	}
 
 	@Override
 	protected void end() {
-		
+		Robot.shooter.reset();
 		
 	}
 
 	@Override
 	protected void interrupted() {
-		
+		Robot.shooter.reset();
 		
 	}
 
