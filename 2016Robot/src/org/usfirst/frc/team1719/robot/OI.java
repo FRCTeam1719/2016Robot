@@ -1,9 +1,8 @@
 package org.usfirst.frc.team1719.robot;
 
 
-import org.usfirst.frc.team1719.robot.commands.RevUpShooter;
+import org.usfirst.frc.team1719.robot.commands.ManualShoot;
 import org.usfirst.frc.team1719.robot.commands.RunIntake;
-import org.usfirst.frc.team1719.robot.commands.ShootBoulder;
 import org.usfirst.frc.team1719.robot.commands.TurnToAngle;
 
 import edu.wpi.first.wpilibj.Joystick;
@@ -98,9 +97,8 @@ public class OI {
 			rotate180Button = new JoystickButton(driverXBOX, Y_BUTTON);
 			rotate180Button.whenPressed(new TurnToAngle(90));
 			fireButton = new JoystickButton(operatorJoystick, ATTACK_TRIGGER);
-			fireButton.whenPressed(new ShootBoulder(10, 10));
 			primeButton = new JoystickButton(operatorJoystick, ATTACK_BUTTON_3);
-			primeButton.whenPressed(new RevUpShooter());
+			primeButton.whenPressed(new ManualShoot());
 			moveArmButton = new JoystickButton(operatorJoystick, ATTACK_BUTTON_6);
 			//moveArmButton.whenPressed(new MoveArmToPos(60));
 			intakeButton = new JoystickButton(operatorJoystick, ATTACK_BUTTON_2);

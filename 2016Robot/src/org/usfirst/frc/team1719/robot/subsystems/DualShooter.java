@@ -22,6 +22,8 @@ public class DualShooter extends Subsystem {
 	public final boolean EJECT = true;
 	public final boolean INTAKE = false;
 	
+	
+	
 	/**
 	 * Give the flyWheels and inner wheels
 	 * @param leftFlyWheel FlyWheel Subsystem on the left
