@@ -81,7 +81,7 @@ public class OI {
 		private Button rotateLeft90Button;
 		private Button rotate180Button;
 		private Button fireButton;				
-		private Button moveArmButton;
+//		private Button moveArmButton;
 		private Button primeButton;
 		private Button intakeButton;
 		public OI(){
@@ -99,7 +99,7 @@ public class OI {
 			fireButton = new JoystickButton(operatorJoystick, ATTACK_TRIGGER);
 			primeButton = new JoystickButton(operatorJoystick, ATTACK_BUTTON_3);
 			primeButton.whenPressed(new ManualShoot());
-			moveArmButton = new JoystickButton(operatorJoystick, ATTACK_BUTTON_6);
+			//moveArmButton = new JoystickButton(operatorJoystick, ATTACK_BUTTON_6);
 			//moveArmButton.whenPressed(new MoveArmToPos(60));
 			intakeButton = new JoystickButton(operatorJoystick, ATTACK_BUTTON_2);
 			intakeButton.whenPressed(new RunIntake());
