@@ -3,10 +3,15 @@ package org.usfirst.frc.team1719.robot.commands;
 import org.usfirst.frc.team1719.robot.Robot;
 
 import edu.wpi.first.wpilibj.command.Command;
-
+/**
+ * Default command for the Drive
+ * Controls it via tank drive from the Driver XBOX
+ * @author aaroneline
+ *
+ */
 public class UseDrive extends Command{
 
-	final double TOLERANCE = 0.025D;
+	final double DEADZONE = 0.0125D;
 	final double NIL = 0.0;
 	
 	public UseDrive(){
@@ -14,10 +19,10 @@ public class UseDrive extends Command{
 	}
 	double startValueL = 0;
 	double startValueR = 0;
-	double smooth = 0.5;
+	final double SMOOTH = 0.5;
 	double corectedValueL = 0;
 	double corectedValueR = 0;
-	double sychTolerance = 1.5;
+	final double SYNCHTOLERANCE = 0.15;
 	@Override
 	protected void initialize() {
 		// No initialization needed
@@ -26,13 +31,16 @@ public class UseDrive extends Command{
 
 	@Override
 	protected void execute() {
-		double left = Robot.oi.getLeftReading();
-		double right = Robot.oi.getRightReading();
-		// Zero out the motors.
-		if(Math.abs(left)<TOLERANCE){
+		double left = Robot.oi.getLeftDriveReading();
+		double right = Robot.oi.getRightDriveReading();
+		
+		//Drive algorithms 
+		
+		//Deadzone calculations
+		if(Math.abs(left)<DEADZONE){
 			left = NIL;
 		}
-		if(Math.abs(right)<TOLERANCE){
+		if(Math.abs(right)<DEADZONE){
 			right = NIL;
 		}
 	    //Adjust sensitivity
@@ -40,38 +48,34 @@ public class UseDrive extends Command{
 		right = Math.abs(right) * right;
 		//Smooth Drive
 		if(left != 0){
-		corectedValueL = (left*smooth) + ( corectedValueL * ( 1.0 - smooth));
-		left = corectedValueL;
+			corectedValueL = (left*SMOOTH) + ( corectedValueL * ( 1.0 - SMOOTH));
+			left = corectedValueL;
 		}
 		if(right != 0){
-		corectedValueR = (right*smooth) + ( corectedValueR * ( 1.0 - smooth));
-		right = corectedValueR;
+			corectedValueR = (right*SMOOTH) + ( corectedValueR * ( 1.0 - SMOOTH));
+			right = corectedValueR;
 		}
 		//Sync the two sides speed if within the tolerance
-		if(Math.abs(left - right) < sychTolerance){
+		if(Math.abs(left - right) < SYNCHTOLERANCE){
 			double corectedSpeed = (left +right) /2;
 			left = corectedSpeed;
 			right = corectedSpeed;
 		}
-
-		Robot.drive.operateDrive(-right, -left);
+		Robot.drive.operateDrive(right, left);
 	}
 
 	@Override
 	protected boolean isFinished() {
-		// TODO Auto-generated method stub
-		return false;
+		return true;
 	}
 
 	@Override
 	protected void end() {
-		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
 	protected void interrupted() {
-		// TODO Auto-generated method stub
 		
 	}
 

@@ -13,7 +13,7 @@ public class SmartDashboardAutoUpdate extends Command {
     
     @Override
     protected void execute() {
-        SmartDashboard.putNumber("Arm Position", Robot.arm.getPos());
+        SmartDashboard.putNumber("Arm Position", Robot.arm.getArmAngle());
         SmartDashboard.putBoolean("Shooter Loaded?", !RobotMap.ballLimitSwitch.get());
         SmartDashboard.putBoolean("Shooter Charged?", Robot.shooter.isStabilized());
     }
