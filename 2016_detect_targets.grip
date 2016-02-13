@@ -72,10 +72,10 @@
         <value>table1</value>
       </grip:Input>
       <grip:Input step="4" socket="2">
-        <value>true</value>
+        <value>false</value>
       </grip:Input>
       <grip:Input step="4" socket="3">
-        <value>false</value>
+        <value>true</value>
       </grip:Input>
       <grip:Input step="4" socket="4">
         <value>false</value>
@@ -87,7 +87,7 @@
         <value>false</value>
       </grip:Input>
       <grip:Input step="4" socket="7">
-        <value>true</value>
+        <value>false</value>
       </grip:Input>
     </grip:Step>
     <grip:Step name="Publish ContoursReport">
@@ -111,34 +111,34 @@
         <value>true</value>
       </grip:Input>
       <grip:Input step="5" socket="7">
-        <value>true</value>
+        <value>false</value>
       </grip:Input>
     </grip:Step>
   </steps>
   <connections>
     <grip:Connection>
-      <grip:Output step="3" socket="0" previewed="true"/>
-      <grip:Input step="5" socket="0"/>
-    </grip:Connection>
-    <grip:Connection>
       <grip:Output step="1" socket="0" previewed="false"/>
       <grip:Input step="2" socket="0"/>
-    </grip:Connection>
-    <grip:Connection>
-      <grip:Output step="2" socket="0" previewed="true"/>
-      <grip:Input step="3" socket="0"/>
     </grip:Connection>
     <grip:Connection>
       <grip:Output step="0" socket="0" previewed="false"/>
       <grip:Input step="1" socket="0"/>
     </grip:Connection>
     <grip:Connection>
-      <grip:Output source="0" socket="0" previewed="true"/>
-      <grip:Input step="0" socket="0"/>
+      <grip:Output step="2" socket="0" previewed="true"/>
+      <grip:Input step="3" socket="0"/>
     </grip:Connection>
     <grip:Connection>
       <grip:Output step="2" socket="0" previewed="true"/>
       <grip:Input step="4" socket="0"/>
+    </grip:Connection>
+    <grip:Connection>
+      <grip:Output step="3" socket="0" previewed="true"/>
+      <grip:Input step="5" socket="0"/>
+    </grip:Connection>
+    <grip:Connection>
+      <grip:Output source="0" socket="0" previewed="true"/>
+      <grip:Input step="0" socket="0"/>
     </grip:Connection>
   </connections>
   <settings>
