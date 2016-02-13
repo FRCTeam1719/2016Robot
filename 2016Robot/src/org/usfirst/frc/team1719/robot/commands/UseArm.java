@@ -11,7 +11,7 @@ import edu.wpi.first.wpilibj.command.Command;
 public class UseArm extends Command{
 
 	final double TOLERANCE = 0.1;
-	final double CONTROL_SCALING = .5;
+	final double CONTROL_SCALING = .75;
 	
 	public UseArm(){
 		requires(Robot.arm);

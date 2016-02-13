@@ -6,7 +6,7 @@ import edu.wpi.first.wpilibj.command.Command;
 
 public class ManualShoot extends Command{
 
-	final double WAIT_TIME = 5.0;
+	final double WAIT_TIME = 2.5;
 	boolean hasShoot;
 	Timer timer;
 	
