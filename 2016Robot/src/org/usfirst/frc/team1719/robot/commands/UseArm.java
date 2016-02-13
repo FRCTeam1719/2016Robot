@@ -1,17 +1,14 @@
 package org.usfirst.frc.team1719.robot.commands;
 
 import org.usfirst.frc.team1719.robot.Robot;
+import org.usfirst.frc.team1719.robot.settings.PIDData;
 
 import edu.wpi.first.wpilibj.command.Command;
-/**
- * Default command for the arm, drives it according to the Operator Joystick
- * @author aaroneline
- *
- */
 public class UseArm extends Command{
-
+	PIDData pidData;
 	final double TOLERANCE = 0.1;
 	final double CONTROL_SCALING = .5;
+	
 	
 	public UseArm(){
 		requires(Robot.arm);
@@ -29,6 +26,7 @@ public class UseArm extends Command{
 		double motorSpeed = joystickReading * CONTROL_SCALING;
 		if(Math.abs(joystickReading)<TOLERANCE){
 			motorSpeed = 0;
+			
 		}
 		Robot.arm.move(motorSpeed);
 		System.out.println("Arm Angle: "+Robot.arm.getArmAngle());

@@ -47,6 +47,7 @@ public class Robot extends IterativeRobot {
 	public static DualShooter shooter;
 	PIDData rightFlywheelPIDData;
 	PIDData leftFlywheelPIDData;
+	PIDData armPIDData;
 	public static Arm arm;
 	public int autonomousMode = 0;
 	final boolean VOLTAGEDISPLAY = true;
@@ -90,13 +91,14 @@ public class Robot extends IterativeRobot {
 		// Initialize Subsystems
 		rightFlywheelPIDData = new PIDData(0, 0, 0);
 		leftFlywheelPIDData = new PIDData(0, 0, 0);
+		armPIDData = new PIDData(0,0,0);
 		drive = new DriveSubsystem(RobotMap.leftDriveController, RobotMap.rightDriveController);
 		rightFlywheel = new FlyWheel(RobotMap.rightFlyWheelController, RobotMap.rightFlyWheelEncoder,
 				rightFlywheelPIDData);
 		leftFlywheel = new FlyWheel(RobotMap.leftFlyWheelController, RobotMap.leftFlyWheelEncoder, leftFlywheelPIDData);
 		shooter = new DualShooter(leftFlywheel, rightFlywheel, RobotMap.innerLeftShooterWheelController,
 				RobotMap.innerRightShooterWheelController);
-		arm = new Arm(RobotMap.armController, RobotMap.armPot);
+		arm = new Arm(RobotMap.armController, RobotMap.armPot, armPIDData);
 		display = new Display(RobotMap.buttonA, RobotMap.buttonB, RobotMap.dial);
 		oi = new OI();
 		isAuton = false;

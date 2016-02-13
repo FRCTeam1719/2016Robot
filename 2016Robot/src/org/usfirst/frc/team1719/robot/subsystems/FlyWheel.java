@@ -125,7 +125,7 @@ public class FlyWheel extends Subsystem {
 	public boolean isStabilized(double tolerance) {
 		return (DoubleStream.of(errors).sum() / 30) > tolerance;
 	}
-
+	
 	/**
 	 * Get rate of the FlyWheel's encoder
 	 * 
