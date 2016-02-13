@@ -8,6 +8,11 @@ import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 
+/**
+ * Move forward a specified distance
+ * @author aaroneline
+ *
+ */
 public class MoveForwards extends Command {
 	
 	double HALF_SPEED = 0.5D;
@@ -23,6 +28,11 @@ public class MoveForwards extends Command {
 	
 	DriveSubsystem drive = Robot.drive;
 	
+
+	/**
+	 * 
+	 * @param distFeet to move forward
+	 */
 	public MoveForwards(double distFeet, double speed) {
 		requires(Robot.drive);
 		this.desiredDist = distFeet;
@@ -57,7 +67,7 @@ public class MoveForwards extends Command {
 
 	@Override
 	protected void interrupted() {
-		// TODO Auto-generated method stub
+		Robot.drive.operateDrive(0, 0);
 		
 	}
 

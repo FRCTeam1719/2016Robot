@@ -5,7 +5,14 @@ import org.usfirst.frc.team1719.robot.commands.UseArm;
 import edu.wpi.first.wpilibj.AnalogPotentiometer;
 import edu.wpi.first.wpilibj.Spark;
 import edu.wpi.first.wpilibj.command.Subsystem;
-
+/**
+ * Arm subsystem. 
+ * Controlled by a Spark motor controller w/ limit siwtches
+ * Moves freely in one axis over the robot
+ * Data on current position is obtained via a potentiometer
+ * @author aaroneline
+ *
+ */
 public class Arm extends Subsystem {
 	
 
@@ -25,11 +32,18 @@ public class Arm extends Subsystem {
 		motor.set(0);
 	}
 	
+	/**
+	 * @param speed to move at
+	 */
 	public void move(double speed) {
 		motor.set(speed);
 	}
 	
-	public double getPos() {
+	/**
+	 * Get the current angle of the arm 
+	 * @return double angle
+	 */
+	public double getArmAngle() {
 		return pot.get();
 	}
 	

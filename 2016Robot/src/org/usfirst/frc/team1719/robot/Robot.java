@@ -10,9 +10,12 @@ import org.usfirst.frc.team1719.robot.autonomousSelections.RockWallAuton;
 import org.usfirst.frc.team1719.robot.autonomousSelections.RoughTerrainAuton;
 import org.usfirst.frc.team1719.robot.commands.AimAndFire;
 import org.usfirst.frc.team1719.robot.commands.AutoSenseTower;
+import org.usfirst.frc.team1719.robot.commands.AutonCommand;
 import org.usfirst.frc.team1719.robot.commands.TurnToAngle;
+//github.com/FRCTeam1719/2016Robot.git
 import org.usfirst.frc.team1719.robot.settings.PIDData;
 import org.usfirst.frc.team1719.robot.subsystems.Arm;
+import org.usfirst.frc.team1719.robot.subsystems.Display;
 import org.usfirst.frc.team1719.robot.subsystems.DriveSubsystem;
 import org.usfirst.frc.team1719.robot.subsystems.DualShooter;
 import org.usfirst.frc.team1719.robot.subsystems.DummyWeapon;
@@ -22,7 +25,11 @@ import org.usfirst.frc.team1719.robot.subsystems.IFireable;
 
 import com.ni.vision.NIVision;
 import com.ni.vision.NIVision.Image;
+import com.ni.vision.VisionException;
 
+import edu.wpi.first.wpilibj.CameraServer;
+import edu.wpi.first.wpilibj.DriverStation;
+//github.com/FRCTeam1719/2016Robot.git
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
@@ -45,6 +52,7 @@ public class Robot extends IterativeRobot {
 	public static final ExampleSubsystem exampleSubsystem = new ExampleSubsystem();
 	public static final IFireable weapon = new DummyWeapon();
 	public static OI oi;
+	public static Display display;
 	public static DriveSubsystem drive;
 
 	public static FlyWheel rightFlywheel;
@@ -54,9 +62,15 @@ public class Robot extends IterativeRobot {
 
 	PIDData leftFlywheelPIDData;
 	public static Arm arm;
+	public int autonomousMode  = 0;
+	final boolean VOLTAGEDISPLAY = true;
+	final boolean AUTONDISPLAY = false;
+	boolean currentDisplayMode = VOLTAGEDISPLAY;
+	final double TOLERANCE = 0.01;
+	boolean foundCamera = false;
     Command autonomousCommand;
     SendableChooser autonomousChooser;
-
+    Command DisplayVoltage;
     Image frame;
     int session;
     NIVision.Rect crosshair;
@@ -86,18 +100,29 @@ public class Robot extends IterativeRobot {
         drive = new DriveSubsystem(RobotMap.leftDriveController, RobotMap.rightDriveController);
         rightFlywheel = new FlyWheel(RobotMap.rightFlyWheelController, RobotMap.rightFlyWheelEncoder, rightFlywheelPIDData);
         leftFlywheel =  new FlyWheel(RobotMap.leftFlyWheelController, RobotMap.leftFlyWheelEncoder, leftFlywheelPIDData);
-        shooter = new DualShooter(leftFlywheel, rightFlywheel, RobotMap.innerShooterWheelController );
+        shooter = new DualShooter(leftFlywheel, rightFlywheel, RobotMap.innerLeftShooterWheelController, RobotMap.innerRightShooterWheelController );
         arm = new Arm(RobotMap.armController, RobotMap.armPot);
+        display = new Display(RobotMap.buttonA, RobotMap.buttonB, RobotMap.dial);
         oi = new OI();
 
         isAuton = false;
-//        frame = NIVision.imaqCreateImage(NIVision.ImageType.IMAGE_RGB, 0);
-//        session = NIVision.IMAQdxOpenCamera("cam0",
-//                NIVision.IMAQdxCameraControlMode.CameraControlModeController);
-//        NIVision.IMAQdxConfigureGrab(session);
+
+        frame = NIVision.imaqCreateImage(NIVision.ImageType.IMAGE_RGB, 0);
+        try{
+        session = NIVision.IMAQdxOpenCamera("cam0",
+                NIVision.IMAQdxCameraControlMode.CameraControlModeController);
+        NIVision.IMAQdxConfigureGrab(session);
+        foundCamera = true;
+        }catch(VisionException e){
+        	foundCamera = false;
+        	System.out.println("Can't find the camera, failing with style");
+        }
         smartDashboardInit();    
     }
 	
+    /**
+     * Initialize SmartDashboard values
+     */
     public void smartDashboardInit(){
     	
         autonomousChooser = new SendableChooser();
@@ -140,11 +165,37 @@ public class Robot extends IterativeRobot {
     	isAuton = false;
     	rightFlywheel.spin(0);
     	leftFlywheel.spin(0);
-        //NIVision.IMAQdxStopAcquisition(session);
 
+    	if(foundCamera){
+    		NIVision.IMAQdxStopAcquisition(session);
+    	}
     }
 	
 	public void disabledPeriodic() {
+		
+		if(display.buttonAPressed()){
+			currentDisplayMode = AUTONDISPLAY;
+		}else if(display.buttonBPressed()){
+			currentDisplayMode = VOLTAGEDISPLAY;
+		}
+		
+		
+		if(currentDisplayMode==AUTONDISPLAY){
+		Double dialPos = display.getDialReading();
+		if(dialPos-0.26<TOLERANCE){
+			autonomousMode = 0;
+			display.displayString("A  0");
+		}else if(dialPos-0.27<TOLERANCE){
+			autonomousMode = 1;
+			display.displayString("A  1");
+		}else if(dialPos-0.28<TOLERANCE){
+			autonomousMode = 2;
+			display.displayString("A  2");
+		}
+		}else{
+			String voltage = Double.toString(DriverStation.getInstance().getBatteryVoltage());
+			display.displayString(voltage);
+		}
 		Scheduler.getInstance().run();
 	}
 
@@ -155,12 +206,12 @@ public class Robot extends IterativeRobot {
 	 * below the Gyro
 	 *
 	 * You can add additional auto modes by adding additional commands to the chooser code above (like the commented example)
-	 * or additional comparisons to the switch structure below with additional strings & commands.
+	 * or additional comparisons to the switch structure below with additional strings and commands.
 	 */
     public void autonomousInit() {
         autonomousCommand = (Command) autonomousChooser.getSelected();
     	isAuton = true;
-       
+        autonomousCommand = new AutonCommand(autonomousMode); 	
 		/* String autoSelected = SmartDashboard.getString("Auto Selector", "Default");
 		switch(autoSelected) {
 		case "My Auto":
@@ -171,9 +222,12 @@ public class Robot extends IterativeRobot {
 			autonomousCommand = new ExampleCommand();
 			break;
 		} */
+        if(foundCamera){
+        	NIVision.IMAQdxStartAcquisition(session);
+        }
     	// schedule the autonomous command (example)
-        //if (autonomousCommand != null) autonomousCommand.start();
-        System.out.println("Autonomous mode intialized");
+
+        if (autonomousCommand != null) autonomousCommand.start();
     }
 
     /**
@@ -192,7 +246,10 @@ public class Robot extends IterativeRobot {
          this line or comment it out. */
     	isAuton = false;
         if (autonomousCommand != null) autonomousCommand.cancel();
-        //NIVision.IMAQdxStartAcquisition(session);
+
+        if(foundCamera){
+        	NIVision.IMAQdxStartAcquisition(session);
+        }
     }
 
     
@@ -200,12 +257,13 @@ public class Robot extends IterativeRobot {
      * This function is called periodically during operator control
      */
     public void teleopPeriodic() {
+    	//System.out.println("meh" + RobotMap.dial.get());
         Scheduler.getInstance().run();
-//        NIVision.IMAQdxGrab(session, frame, 1);
-//        CameraServer.getInstance().setImage(frame);
-        System.out.println("6, 7 enc: " + RobotMap.rightDriveWheelEncoder.get());
-        System.out.println("8, 9 enc: " + RobotMap.leftDriveWheelEncoder.get());
 
+        if(foundCamera){
+        	NIVision.IMAQdxGrab(session, frame, 1);
+        	CameraServer.getInstance().setImage(frame);
+        }
     }
     
    

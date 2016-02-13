@@ -3,10 +3,15 @@ package org.usfirst.frc.team1719.robot.commands;
 import org.usfirst.frc.team1719.robot.Robot;
 
 import edu.wpi.first.wpilibj.command.Command;
-
+/**
+ * Default command for the arm, drives it according to the Operator Joystick
+ * @author aaroneline
+ *
+ */
 public class UseArm extends Command{
 
 	final double TOLERANCE = 0.1;
+	final double CONTROL_SCALING = .5;
 	
 	public UseArm(){
 		requires(Robot.arm);
@@ -19,30 +24,30 @@ public class UseArm extends Command{
 
 	@Override
 	protected void execute() {
-		double speed = Robot.oi.getArmReading();
-		if(Math.abs(speed)<TOLERANCE){
-			
-			speed = 0;
+
+		double joystickReading = Robot.oi.getArmReading();
+		//Apply control scaling
+		double motorSpeed = joystickReading * CONTROL_SCALING;
+		if(Math.abs(joystickReading)<TOLERANCE){
+			motorSpeed = 0;
 		}
-		Robot.arm.move(speed);
+		Robot.arm.move(motorSpeed);
+		System.out.println("Arm Angle: "+Robot.arm.getArmAngle());
 		
 	}
 
 	@Override
 	protected boolean isFinished() {
-		// TODO Auto-generated method stub
 		return true;
 	}
 
 	@Override
 	protected void end() {
-		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
 	protected void interrupted() {
-		// TODO Auto-generated method stub
 		
 	}
 

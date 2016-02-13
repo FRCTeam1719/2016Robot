@@ -1,7 +1,7 @@
 package org.usfirst.frc.team1719.robot;
 
-import org.usfirst.frc.team1719.robot.commands.MoveArmToPos;
-import org.usfirst.frc.team1719.robot.commands.ShootBoulder;
+import org.usfirst.frc.team1719.robot.commands.ManualShoot;
+import org.usfirst.frc.team1719.robot.commands.RunIntake;
 import org.usfirst.frc.team1719.robot.commands.TurnToAngle;
 
 import edu.wpi.first.wpilibj.Joystick;
@@ -72,21 +72,20 @@ public class OI {
 		final int START_BUTTON = 8;
 		final int LEFT_BUTTON = 9;
 		final int RIGHT_BUTTON = 10;
-		
-
 		private Joystick driverXBOX;
-		private Joystick operatorXBOX;
-
+		private Joystick operatorJoystick;
+	
 		private Button rotateRight90Button;
 		private Button rotateLeft90Button;
 		private Button rotate180Button;
 		private Button fireButton;				
-		private Button moveArmButton;
+//		private Button moveArmButton;
+		private Button primeButton;
+		private Button intakeButton;
 		public OI(){
 			//Define Controllers
 			driverXBOX = new Joystick(0);
-
-			operatorXBOX = new Joystick(1);
+			operatorJoystick = new Joystick(1);
 			
 			//Define Buttons
 			rotateRight90Button = new JoystickButton(driverXBOX, X_BUTTON);
@@ -94,30 +93,51 @@ public class OI {
 			rotateLeft90Button = new JoystickButton(driverXBOX, B_BUTTON);
 			rotateLeft90Button.whenPressed(new TurnToAngle(-45, true));
 			rotate180Button = new JoystickButton(driverXBOX, Y_BUTTON);
+
 			rotate180Button.whenPressed(new TurnToAngle(90, true));
-			fireButton = new JoystickButton(operatorXBOX, RIGHT_TRIGGER);
-			fireButton.whenPressed(new ShootBoulder(10, 10));
-			moveArmButton = new JoystickButton(operatorXBOX, A_BUTTON);
-			moveArmButton.whenPressed(new MoveArmToPos(60));
+			fireButton = new JoystickButton(operatorJoystick, ATTACK_TRIGGER);
+			primeButton = new JoystickButton(operatorJoystick, ATTACK_BUTTON_3);
+			primeButton.whenPressed(new ManualShoot());
+			//moveArmButton = new JoystickButton(operatorJoystick, ATTACK_BUTTON_6);
+			//moveArmButton.whenPressed(new MoveArmToPos(60));
+			intakeButton = new JoystickButton(operatorJoystick, ATTACK_BUTTON_2);
+			intakeButton.whenPressed(new RunIntake());
 		}
 		
 		//Functions for getting input
+		
+		/**
+		 * Grab the left Y axis from the Driver XBox
+		 * @return Axis Reading
+		 */
 		public double getLeftDriveReading(){
 			return driverXBOX.getRawAxis(LEFT_Y);
 		}
 		
+		/**
+		 * Grab the right Y axis from the Driver XBox
+		 * @return Axis Reading
+		 */
 		public double getRightDriveReading(){
 			return driverXBOX.getRawAxis(RIGHT_Y);
 		}
 		
+		/**
+		 * Grab the Y axis from the operator controller for driving the arm
+		 * @return Axis Reading
+		 */
 		public double getArmReading(){
-			return operatorXBOX.getRawAxis(LEFT_Y);
+			return operatorJoystick.getRawAxis(ATTACK_Y_AXIS);
 		}
 		
 		
 		public boolean getFireButton()
 		{
 			return fireButton.get();
+		}
+		
+		public boolean getIntakeButton(){
+			return intakeButton.get();
 		}
 		
 		
