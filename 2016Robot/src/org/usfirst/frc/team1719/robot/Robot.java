@@ -244,6 +244,7 @@ public class Robot extends IterativeRobot {
 	public void teleopPeriodic() {
 		// System.out.println("meh" + RobotMap.dial.get());
 		Scheduler.getInstance().run();
+		display.displayString(Double.toString(arm.getArmAngle()));
 		if (foundCamera) {
 			NIVision.IMAQdxGrab(session, frame, 1);
 			CameraServer.getInstance().setImage(frame);
