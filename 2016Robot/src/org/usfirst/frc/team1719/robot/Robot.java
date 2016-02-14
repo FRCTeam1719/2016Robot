@@ -32,7 +32,6 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  * directory.
  */
 
-
 public class Robot extends IterativeRobot {
 
 	final String CAMERA_NAME = "cam0";
@@ -46,201 +45,211 @@ public class Robot extends IterativeRobot {
 	PIDData rightFlywheelPIDData;
 	PIDData leftFlywheelPIDData;
 	public static Arm arm;
-	public int autonomousMode  = 0;
+	public int autonomousMode = 0;
 	final boolean VOLTAGEDISPLAY = true;
 	final boolean AUTONDISPLAY = false;
 	boolean currentDisplayMode = VOLTAGEDISPLAY;
 	final double TOLERANCE = 0.01;
+	double maxPotValue = .274; 
+	double scalingFactor; 
+	double minPotValue = .255;
 	boolean foundCamera = false;
-    Command autonomousCommand;
-    Command DisplayVoltage;
-    SendableChooser chooser;
-    Image frame;
-    int session;
-    NIVision.Rect crosshair;
+	Command autonomousCommand;
+	Command DisplayVoltage;
+	SendableChooser chooser;
+	Image frame;
+	int session;
+	NIVision.Rect crosshair;
 
-    public static boolean isAuton = false;
-    /**
-     * This function is run when the robot is first started up and should be
-     * used for any initialization code.
-     */
-    public void robotInit() {
-		
-    	//Network Initialization
-	
-        //Setup Camera Server
-    	
-    	//Configure SmartDashboard Things
-        	   
-        
-        //Hardware Initialization
-        //Allocate Hardware
-        RobotMap.init();
-        //Initialize Subsystems
-        rightFlywheelPIDData = new PIDData(0,0,0);
-    	leftFlywheelPIDData = new PIDData(0,0,0);
-        drive = new DriveSubsystem(RobotMap.leftDriveController, RobotMap.rightDriveController);
-        rightFlywheel = new FlyWheel(RobotMap.rightFlyWheelController, RobotMap.rightFlyWheelEncoder, rightFlywheelPIDData);
-        leftFlywheel =  new FlyWheel(RobotMap.leftFlyWheelController, RobotMap.leftFlyWheelEncoder, leftFlywheelPIDData);
-        shooter = new DualShooter(leftFlywheel, rightFlywheel, RobotMap.innerLeftShooterWheelController, RobotMap.innerRightShooterWheelController );
-        arm = new Arm(RobotMap.armController, RobotMap.armPot);
-        display = new Display(RobotMap.buttonA, RobotMap.buttonB, RobotMap.dial);
-        oi = new OI();
-        isAuton = false;
-        frame = NIVision.imaqCreateImage(NIVision.ImageType.IMAGE_RGB, 0);
-        try{
-        session = NIVision.IMAQdxOpenCamera("cam0",
-                NIVision.IMAQdxCameraControlMode.CameraControlModeController);
-        NIVision.IMAQdxConfigureGrab(session);
-        foundCamera = true;
-        }catch(VisionException e){
-        	foundCamera = false;
-        	System.out.println("Can't find the camera, failing with style");
-        }
-        smartDashboardInit();    
-    }
-	
-    /**
-     * Initialize SmartDashboard values
-     */
-    public void smartDashboardInit(){
-    	//Setup Autonomous Sendable Chooser
-        chooser = new SendableChooser();
-        chooser.addDefault("Default Auto", new ExampleCommand());
-        SmartDashboard.putData("Auto mode", chooser);
-        
-        //Setup network configurable constants
-        
-        //puts right flywheel PID values on the smart Dashboard
-        SmartDashboard.putNumber("Right flywheel kP: ", 0);
-        SmartDashboard.putNumber("Right flywheel kI: ", 0);
-        SmartDashboard.putNumber("Right flywheel kD: ", 0);
-        
-        // puts left flywheel PID values on the smart Dashboard
-        SmartDashboard.putNumber("Left flywheel kP: ", 0);
-        SmartDashboard.putNumber("Left flywheel kI: ", 0);
-        SmartDashboard.putNumber("Left flywheel kD: ", 0);  
-        
-        // puts Drive PID values on the smart Dashboard
-    	SmartDashboard.putNumber("Drive kP", 0);
-    	SmartDashboard.putNumber("Drive kI", 0.);
-    	SmartDashboard.putNumber("Drive kD", 0.);
-    }
-    
+	public static boolean isAuton = false;
+
 	/**
-     * This function is called once each time the robot enters Disabled mode.
-     * You can use it to reset any subsystem information you want to clear when
-	 * the robot is disabled.
-     */
-    public void disabledInit(){
-    	//Make sure everything gets disabled
-    	isAuton = false;
-    	rightFlywheel.spin(0);
-    	leftFlywheel.spin(0);
-    	if(foundCamera){
-    		NIVision.IMAQdxStopAcquisition(session);
-    	}
-    }
-	
-	public void disabledPeriodic() {
+	 * This function is run when the robot is first started up and should be
+	 * used for any initialization code.
+	 */
+	public void robotInit() {		
+		// Network Initialization
 		
-		if(display.buttonAPressed()){
-			currentDisplayMode = AUTONDISPLAY;
-		}else if(display.buttonBPressed()){
-			currentDisplayMode = VOLTAGEDISPLAY;
+		// Setup Camera Server
+
+		// Configure SmartDashboard Things
+
+		// Hardware Initialization
+		// Allocate Hardware
+		RobotMap.init();
+		// Initialize Subsystems
+		rightFlywheelPIDData = new PIDData(0, 0, 0);
+		leftFlywheelPIDData = new PIDData(0, 0, 0);
+		drive = new DriveSubsystem(RobotMap.leftDriveController, RobotMap.rightDriveController);
+		rightFlywheel = new FlyWheel(RobotMap.rightFlyWheelController, RobotMap.rightFlyWheelEncoder,
+				rightFlywheelPIDData);
+		leftFlywheel = new FlyWheel(RobotMap.leftFlyWheelController, RobotMap.leftFlyWheelEncoder, leftFlywheelPIDData);
+		shooter = new DualShooter(leftFlywheel, rightFlywheel, RobotMap.innerLeftShooterWheelController,
+				RobotMap.innerRightShooterWheelController);
+		arm = new Arm(RobotMap.armController, RobotMap.armPot);
+		display = new Display(RobotMap.buttonA, RobotMap.buttonB, RobotMap.dial);
+		oi = new OI();
+		isAuton = false;
+		frame = NIVision.imaqCreateImage(NIVision.ImageType.IMAGE_RGB, 0);
+		try {
+			session = NIVision.IMAQdxOpenCamera("cam0", NIVision.IMAQdxCameraControlMode.CameraControlModeController);
+			NIVision.IMAQdxConfigureGrab(session);
+			foundCamera = true;
+		} catch (VisionException e) {
+			foundCamera = false;
+			System.out.println("Can't find the camera, failing with style");
 		}
-		
-		
-		if(currentDisplayMode==AUTONDISPLAY){
-		Double dialPos = display.getDialReading();
-		if(dialPos-0.26<TOLERANCE){
-			autonomousMode = 0;
-			display.displayString("A  0");
-		}else if(dialPos-0.27<TOLERANCE){
-			autonomousMode = 1;
-			display.displayString("A  1");
-		}else if(dialPos-0.28<TOLERANCE){
-			autonomousMode = 2;
-			display.displayString("A  2");
-		}
-		}else{
-			String voltage = Double.toString(DriverStation.getInstance().getBatteryVoltage());
-			display.displayString(voltage);
-		}
-		Scheduler.getInstance().run();
+		smartDashboardInit();
 	}
 
 	/**
-	 * This autonomous (along with the chooser code above) shows how to select between different autonomous modes
-	 * using the dashboard. The sendable chooser code works with the Java SmartDashboard. If you prefer the LabVIEW
-	 * Dashboard, remove all of the chooser code and uncomment the getString code to get the auto name from the text box
-	 * below the Gyro
-	 *
-	 * You can add additional auto modes by adding additional commands to the chooser code above (like the commented example)
-	 * or additional comparisons to the switch structure below with additional strings and commands.
+	 * Initialize SmartDashboard values
 	 */
-    public void autonomousInit() {
-    	isAuton = true;
-        autonomousCommand = (Command) chooser.getSelected();
-        autonomousCommand = new AutonCommand(autonomousMode); 	
-		/* String autoSelected = SmartDashboard.getString("Auto Selector", "Default");
-		switch(autoSelected) {
-		case "My Auto":
-			autonomousCommand = new MyAutoCommand();
-			break;
-		case "Default Auto":
-		default:
-			autonomousCommand = new ExampleCommand();
-			break;
-		} */
-        if(foundCamera){
-        	NIVision.IMAQdxStartAcquisition(session);
-        }
-    	// schedule the autonomous command (example)
-        if (autonomousCommand != null) autonomousCommand.start();
-        
-    }
+	public void smartDashboardInit() {
+		// Setup Autonomous Sendable Chooser
+		chooser = new SendableChooser();
+		chooser.addDefault("Default Auto", new ExampleCommand());
+		SmartDashboard.putData("Auto mode", chooser);
 
-    /**
-     * This function is called periodically during autonomous
-     */
-    public void autonomousPeriodic() {
-        Scheduler.getInstance().run();
-    }
+		// Setup network configurable constants
 
-    public void teleopInit() {
-		/* This makes sure that the autonomous stops running when
-         teleop starts running. If you want the autonomous to 
-         continue until interrupted by another command, remove
-         this line or comment it out. */
-    	isAuton = false;
-        if (autonomousCommand != null) autonomousCommand.cancel();
-        if(foundCamera){
-        	NIVision.IMAQdxStartAcquisition(session);
-        }
-    }
+		// puts right flywheel PID values on the smart Dashboard
+		SmartDashboard.putNumber("Right flywheel kP: ", 0);
+		SmartDashboard.putNumber("Right flywheel kI: ", 0);
+		SmartDashboard.putNumber("Right flywheel kD: ", 0);
 
-    
-    /**
-     * This function is called periodically during operator control
-     */
-    public void teleopPeriodic() {
-    	//System.out.println("meh" + RobotMap.dial.get());
-        Scheduler.getInstance().run();
-        if(foundCamera){
-        	NIVision.IMAQdxGrab(session, frame, 1);
-        	CameraServer.getInstance().setImage(frame);
-        }
-    }
-    
-   
-    
-    /**
-     * This function is called periodically during test mode
-     */
-    public void testPeriodic() {
-    	isAuton = false;
-        LiveWindow.run();
-    }
-    
+		// puts left flywheel PID values on the smart Dashboard
+		SmartDashboard.putNumber("Left flywheel kP: ", 0);
+		SmartDashboard.putNumber("Left flywheel kI: ", 0);
+		SmartDashboard.putNumber("Left flywheel kD: ", 0);
+
+		// puts Drive PID values on the smart Dashboard
+		SmartDashboard.putNumber("Drive kP", 0);
+		SmartDashboard.putNumber("Drive kI", 0.);
+		SmartDashboard.putNumber("Drive kD", 0.);
+	}
+
+	/**
+	 * This function is called once each time the robot enters Disabled mode.
+	 * You can use it to reset any subsystem information you want to clear when
+	 * the robot is disabled.
+	 */
+	public void disabledInit() {
+		// Make sure everything gets disabled
+		isAuton = false;
+		rightFlywheel.spin(0);
+		leftFlywheel.spin(0);
+		if (foundCamera) {
+			NIVision.IMAQdxStopAcquisition(session);
+		}
+	}
+
+	public void disabledPeriodic() {
+
+		if (display.buttonAPressed()) {
+			currentDisplayMode = AUTONDISPLAY;
+			System.out.println("ABUTTONPRESSED");
+		} else if (display.buttonBPressed()) {
+			currentDisplayMode = VOLTAGEDISPLAY;
+		}
+
+		System.out.println(display.getDialReading());
+			if (currentDisplayMode == AUTONDISPLAY) {
+			System.out.println("displayingAuton");
+		Double dialPos =display.getDialReading();
+			if (dialPos -.25 <= TOLERANCE) {
+			autonomousMode = 0;
+				display.displayString("A  0");
+		} else if (dialPos - .255 <= TOLERANCE) {
+				autonomousMode = 1;
+				display.displayString("A  1");
+			} else if (dialPos - .26 <= TOLERANCE ) {
+				autonomousMode = 2;
+				display.displayString("A  2");
+			} else if (dialPos -.265 <= TOLERANCE) {
+				autonomousMode = 3;
+				display.displayString("A  3");
+
+			}
+		} else if(currentDisplayMode == VOLTAGEDISPLAY){
+			String voltage = Double.toString(DriverStation.getInstance().getBatteryVoltage());
+			display.displayString(voltage);
+		}
+
+		Scheduler.getInstance().run();
+
+	}
+
+	/**
+	 * This autonomous (along with the chooser code above) shows how to select
+	 * between different autonomous modes using the dashboard. The sendable
+	 * chooser code works with the Java SmartDashboard. If you prefer the
+	 * LabVIEW Dashboard, remove all of the chooser code and uncomment the
+	 * getString code to get the auto name from the text box below the Gyro
+	 *
+	 * You can add additional auto modes by adding additional commands to the
+	 * chooser code above (like the commented example) or additional comparisons
+	 * to the switch structure below with additional strings and commands.
+	 */
+	public void autonomousInit() {
+		isAuton = true;
+		autonomousCommand = (Command) chooser.getSelected();
+		autonomousCommand = new AutonCommand(autonomousMode);
+		/*
+		 * String autoSelected = SmartDashboard.getString("Auto Selector",
+		 * "Default"); switch(autoSelected) { case "My Auto": autonomousCommand
+		 * = new MyAutoCommand(); break; case "Default Auto": default:
+		 * autonomousCommand = new ExampleCommand(); break; }
+		 */
+		if (foundCamera) {
+			NIVision.IMAQdxStartAcquisition(session);
+		}
+		// schedule the autonomous command (example)
+		if (autonomousCommand != null)
+			autonomousCommand.start();
+
+	}
+
+	/**
+	 * This function is called periodically during autonomous
+	 */
+	public void autonomousPeriodic() {
+		Scheduler.getInstance().run();
+		System.out.println(autonomousMode);
+	} 
+
+	public void teleopInit() {
+		/*
+		 * This makes sure that the autonomous stops running when teleop starts
+		 * running. If you want the autonomous to continue until interrupted by
+		 * another command, remove this line or comment it out.
+		 */
+		isAuton = false;
+		if (autonomousCommand != null)
+			autonomousCommand.cancel();
+		if (foundCamera) {
+			NIVision.IMAQdxStartAcquisition(session);
+		}
+	}
+
+	/**
+	 * This function is called periodically during operator control
+	 */
+	public void teleopPeriodic() {
+		// System.out.println("meh" + RobotMap.dial.get());
+		Scheduler.getInstance().run();
+		if (foundCamera) {
+			NIVision.IMAQdxGrab(session, frame, 1);
+			CameraServer.getInstance().setImage(frame);
+		}
+	}
+
+	/**
+	 * This function is called periodically during test mode
+	 */
+	public void testPeriodic() {
+		isAuton = false;
+		LiveWindow.run();
+	}
+
 }

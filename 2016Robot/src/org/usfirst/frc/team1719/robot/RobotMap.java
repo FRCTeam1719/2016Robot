@@ -68,8 +68,8 @@ public class RobotMap {
 		dial = new AnalogInput(3);
 		//gyro = new AnalogGyro(2);
         armPot = new AnalogPotentiometer(1, 1200.0D);
-        buttonA = new DigitalInput(9);
-		buttonB = new DigitalInput(10);
+        buttonA = new DigitalInput(19);
+		buttonB = new DigitalInput(20);
 	}
 	
 	/**

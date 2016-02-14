@@ -102,6 +102,7 @@ public class Display extends Subsystem {
 	 * @return boolean buttonStatus, true if depressed
 	 */
 	public boolean buttonAPressed(){
+		System.out.println(!buttonA.get());
 		return !buttonA.get();
 	}
 	
