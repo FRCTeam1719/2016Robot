@@ -4,6 +4,7 @@ import edu.wpi.first.wpilibj.AnalogGyro;
 import edu.wpi.first.wpilibj.AnalogInput;
 import edu.wpi.first.wpilibj.AnalogPotentiometer;
 import edu.wpi.first.wpilibj.DigitalInput;
+import edu.wpi.first.wpilibj.DigitalOutput;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.Spark;
 
@@ -44,6 +45,8 @@ public class RobotMap {
 	public static AnalogInput dial;
 	public static DigitalInput buttonA;
 	public static DigitalInput buttonB;
+	public static DigitalOutput camswap;
+	
 	public static void init(){
 		//Main hardware allocation
 		
@@ -59,6 +62,7 @@ public class RobotMap {
 		//Sensors
 		
 		//DIO
+		camswap = new DigitalOutput(0);
 		rightFlyWheelEncoder = new Encoder(2, 3, true, Encoder.EncodingType.k4X);		
 		configureEncoder(rightFlyWheelEncoder);
 		leftFlyWheelEncoder = new Encoder(4, 5, true, Encoder.EncodingType.k4X);
