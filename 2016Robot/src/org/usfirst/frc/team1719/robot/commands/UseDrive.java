@@ -44,7 +44,7 @@ public class UseDrive extends Command{
 			right = NIL;
 		}
 	    //Adjust sensitivity
-		left = Math.abs(left) * left;
+		left = Math.abs(left) * left;	
 		right = Math.abs(right) * right;
 		//Smooth Drive
 		if(left != 0){
