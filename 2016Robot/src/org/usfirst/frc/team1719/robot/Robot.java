@@ -94,7 +94,7 @@ public class Robot extends IterativeRobot {
         //Initialize Subsystems
         rightFlywheelPIDData = new PIDData(0,0,0);
     	leftFlywheelPIDData = new PIDData(0,0,0);
-        drive = new DriveSubsystem(RobotMap.leftDriveController, RobotMap.rightDriveController);
+        drive = new DriveSubsystem(RobotMap.leftDriveController, RobotMap.rightDriveController, RobotMap.leftDriveWheelEncoder, RobotMap.rightDriveWheelEncoder);
         rightFlywheel = new FlyWheel(RobotMap.rightFlyWheelController, RobotMap.rightFlyWheelEncoder, rightFlywheelPIDData);
         leftFlywheel =  new FlyWheel(RobotMap.leftFlyWheelController, RobotMap.leftFlyWheelEncoder, leftFlywheelPIDData);
         shooter = new DualShooter(leftFlywheel, rightFlywheel, RobotMap.innerLeftShooterWheelController, RobotMap.innerRightShooterWheelController );

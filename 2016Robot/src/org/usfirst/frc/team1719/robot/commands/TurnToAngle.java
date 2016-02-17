@@ -18,7 +18,7 @@ public class TurnToAngle extends Command {
 
 	private double tunedAngle;
 	private double currentAngle = 0D;
-	
+	private boolean shouldResetGyro;
 	
 	AnalogGyro gyro = RobotMap.gyro;
 	/**
@@ -26,7 +26,7 @@ public class TurnToAngle extends Command {
 	 * Negative Angles move to the left, Positive to the Right
 	 * @param desiredAngle to turn to
 	 */
-    public TurnToAngle(double desiredAngle) {
+    public TurnToAngle(double desiredAngle, boolean shouldResetGyro) {
         // Use requires() here to declare subsystem dependencies
         
     	requires(Robot.drive);
@@ -34,13 +34,15 @@ public class TurnToAngle extends Command {
     	//TODO make this better
     	
     	tunedAngle = desiredAngle;
-    	
+    	this.shouldResetGyro = shouldResetGyro;
     }
 
     // Called just before this Command runs the first time
     protected void initialize() {
-    	gyro.reset();
-    	if(tunedAngle == 0.0D) tunedAngle = SmartDashboard.getNumber("TurnToAngleParam");
+    	if(shouldResetGyro){
+    		gyro.reset();
+    	}
+    	if(tunedAngle == 0.1D) tunedAngle = SmartDashboard.getNumber("TurnToAngleParam");
     }
 
     // Called repeatedly when this Command is scheduled to run

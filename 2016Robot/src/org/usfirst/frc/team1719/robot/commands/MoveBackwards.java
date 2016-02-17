@@ -16,7 +16,6 @@ public class MoveBackwards extends Command {
 	 * 
 	 */
 	private double desiredDist;
-	private double currentDist = 0D;
 	
 	
 	
@@ -36,20 +35,12 @@ public class MoveBackwards extends Command {
 
 	@Override
 	protected void execute() {
-		
-		
-		int rightEncoderVal = RobotMap.rightDriveWheelEncoder.get();
-		int leftEncoderVal = RobotMap.leftDriveWheelEncoder.get();
-		
-		currentDist = -((rightEncoderVal + leftEncoderVal) / 2);
-        
         Robot.drive.driveStraight(-speed); // drive towards heading 0
-		
 	}
 
 	@Override
 	protected void initialize() {
-		currentDist = 0;
+		Robot.drive.resetEncoders();
 		gyro.reset();
 		if(desiredDist == 0.0D) desiredDist = SmartDashboard.getNumber("MoveDistParam");
 	}
@@ -62,7 +53,7 @@ public class MoveBackwards extends Command {
 
 	@Override
 	protected boolean isFinished() {
-		return currentDist >= desiredDist;
+		return Robot.drive.getDistanceDriven() >= desiredDist;
 	}
 
 }
