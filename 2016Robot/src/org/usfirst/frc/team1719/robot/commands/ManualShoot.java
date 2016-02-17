@@ -45,7 +45,6 @@ public class ManualShoot extends Command{
 		prepTimer.reset();
 		prepComplete = false;
 		//Move ball into back of shooter
-		Robot.shooter.runInnerMotors(Robot.shooter.INTAKE);
 		prepTimer.start();
 	}
 
@@ -60,6 +59,7 @@ public class ManualShoot extends Command{
 		if(shootTimer.get()>SHOOT_WAIT_TIME){
 			shootTimer.stop();
 			shootTimer.reset();
+			prepTimer.reset();
 			return true;
 		}else{
 			return false;

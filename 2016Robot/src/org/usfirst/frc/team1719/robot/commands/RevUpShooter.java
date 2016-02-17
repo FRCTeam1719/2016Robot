@@ -21,7 +21,7 @@ public class RevUpShooter extends Command{
 
 	@Override
 	protected void execute() {
-		Robot.shooter.spin(1, -1);
+		Robot.shooter.spin(.25, -.25);
 		
 	}
 

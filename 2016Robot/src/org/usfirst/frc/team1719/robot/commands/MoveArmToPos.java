@@ -9,7 +9,7 @@ import edu.wpi.first.wpilibj.command.Command;
  */
 public class MoveArmToPos extends Command {
 	
-	final double SPEED = 0.5;
+	final double SPEED = 0.35;
 	final boolean DIRECTION_UP = true;
 	final boolean DIRECTION_DOWN = false;
 	double currentPos;

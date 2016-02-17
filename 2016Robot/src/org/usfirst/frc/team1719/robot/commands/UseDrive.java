@@ -43,6 +43,12 @@ public class UseDrive extends Command{
 		if(Math.abs(right)<DEADZONE){
 			right = NIL;
 		}
+		//Sync the two sides speed if within the tolerance
+		if(Math.abs(left - right) < SYNCHTOLERANCE){
+			double corectedSpeed = (left +right) /2;
+			left = corectedSpeed;
+			right = corectedSpeed;
+		}
 	    //Adjust sensitivity
 		left = Math.abs(left) * left;	
 		right = Math.abs(right) * right;
@@ -55,12 +61,7 @@ public class UseDrive extends Command{
 			corectedValueR = (right*SMOOTH) + ( corectedValueR * ( 1.0 - SMOOTH));
 			right = corectedValueR;
 		}
-		//Sync the two sides speed if within the tolerance
-		if(Math.abs(left - right) < SYNCHTOLERANCE){
-			double corectedSpeed = (left +right) /2;
-			left = corectedSpeed;
-			right = corectedSpeed;
-		}
+		
 		Robot.drive.operateDrive(right, left);
 	}
 
