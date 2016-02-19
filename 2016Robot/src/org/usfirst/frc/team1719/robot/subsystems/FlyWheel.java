@@ -97,12 +97,7 @@ public class FlyWheel extends Subsystem {
 		} else if (output < -1) {
 			output = -1;
 		}
-		// TODO PID is disabled until custom encoders are setup
-		// motor.set(output);
-		motor.set(1);
-		//TODO PID is disabled until custom encoders are setup
-		//motor.set(output);
-		motor.set(feetPerSecond);
+		motor.set(output);
 		for (int i = (errors.length - 1); i > 0; i--) {                
 		    errors[i] = errors[i-1];
 		} 

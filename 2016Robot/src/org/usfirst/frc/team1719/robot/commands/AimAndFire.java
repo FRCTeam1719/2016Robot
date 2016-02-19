@@ -22,7 +22,7 @@ public class AimAndFire extends CommandGroup {
         addSequential(new TurnToAngle(0.0D, true));
 		addSequential(new MoveForwards(0.0D, 0.5D));
         addSequential(new AutoSenseTower());
-        addSequential(new MoveArmToPos(Robot.GET_VALUE_FROM_SMARTDASHBOARD));
+        addParallel(new MoveArmToPos(Robot.GET_VALUE_FROM_SMARTDASHBOARD));
         addSequential(new ShootBoulder(1,1));
     }
 }

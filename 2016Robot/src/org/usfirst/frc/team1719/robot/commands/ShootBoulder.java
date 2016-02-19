@@ -38,10 +38,8 @@ public class ShootBoulder extends Command {
 
 	@Override
 	protected void execute() {
-		//TODO Uncomment once custom encoders work
-//		Robot.shooter.spin(leftPower, rightPower);
-//		isStabilized = Robot.shooter.isStabilized();
-		isStabilized = true;
+	    Robot.shooter.spin(leftPower, rightPower);
+	    isStabilized = Robot.shooter.isStabilized();
 		//if we shoot the boulder check if the angle has been reached before firing
 		if((!Robot.isAuton && Robot.oi.getFireButton())||
 				(Robot.isAuton && isStabilized && SmartDashboard.getBoolean("Angle Reached")))

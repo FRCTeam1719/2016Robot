@@ -24,10 +24,8 @@ public class UseFlyWheel extends Command{
 	
 	@Override
 	protected void end() {
-		// TODO Auto-generated method stub
 		Robot.rightFlywheel.reset();
 		Robot.leftFlywheel.reset();
-		
 	}
 
 	@Override
@@ -42,19 +40,14 @@ public class UseFlyWheel extends Command{
 	protected void initialize() {
 		Robot.rightFlywheel.reset();
 		Robot.leftFlywheel.reset();
-		// TODO Auto-generated method stub
-		
 	}
 
 	@Override
 	protected void interrupted() {
-		// TODO Auto-generated method stub
-		
 	}
 
 	@Override
 	protected boolean isFinished() {
-		// TODO Auto-generated method stub
 		return false;
 	}
 
