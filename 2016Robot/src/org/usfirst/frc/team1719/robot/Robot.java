@@ -277,8 +277,13 @@ public class Robot extends IterativeRobot {
         
         if ((Robot.arm.getArmAngle() + 90) > PHOTON_CANNON_ANGLE) {
         	RobotMap.photonCannon.set(Relay.Value.kOn);
+
         }
         else {
+        	RobotMap.photonCannon.set(Relay.Value.kOff);//off
+        	RobotMap.photonCannon.set(Relay.Value.kOn);//dim
+        	RobotMap.photonCannon.set(Relay.Value.kOff);//off
+        	RobotMap.photonCannon.set(Relay.Value.kOn);//blinking
         	RobotMap.photonCannon.set(Relay.Value.kOff);
         }
     }
