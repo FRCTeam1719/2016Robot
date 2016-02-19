@@ -5,6 +5,7 @@ import edu.wpi.first.wpilibj.AnalogInput;
 import edu.wpi.first.wpilibj.AnalogPotentiometer;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.Encoder;
+import edu.wpi.first.wpilibj.Relay;
 import edu.wpi.first.wpilibj.Spark;
 
 /**
@@ -52,6 +53,7 @@ public class RobotMap {
 	public static AnalogInput dial;
 	public static DigitalInput buttonA;
 	public static DigitalInput buttonB;
+	public static Relay photonCannon;
 
 	public static void init(){
 		//Main hardware allocation
@@ -88,6 +90,8 @@ public class RobotMap {
         armPot = new AnalogPotentiometer(1, 136.36D, -90);
         buttonA = new DigitalInput(19);
 		buttonB = new DigitalInput(20);
+		
+		photonCannon = new Relay(0);
 	}
 	
 	/**

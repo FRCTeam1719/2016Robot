@@ -31,6 +31,7 @@ import edu.wpi.first.wpilibj.CameraServer;
 import edu.wpi.first.wpilibj.DriverStation;
 //github.com/FRCTeam1719/2016Robot.git
 import edu.wpi.first.wpilibj.IterativeRobot;
+import edu.wpi.first.wpilibj.Relay;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
@@ -47,6 +48,9 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 
 public class Robot extends IterativeRobot {
+	
+	//degrees
+	final double PHOTON_CANNON_ANGLE = 60;
 
 	final String CAMERA_NAME = "cam0";
 	public static final ExampleSubsystem exampleSubsystem = new ExampleSubsystem();
@@ -155,6 +159,10 @@ public class Robot extends IterativeRobot {
     	SmartDashboard.putNumber("Turn kD", 0.0003);
     	
     	SmartDashboard.putNumber("Arm steady kP", (0.2 / 90));
+    	
+    	SmartDashboard.putNumber("Move arm to pos kP", (0.5 / 90));
+    	SmartDashboard.putNumber("Move arm to pos kI", 0);
+    	SmartDashboard.putNumber("Move arm to pos kD", (1 / 90));
     }
     
 	/**
@@ -265,6 +273,13 @@ public class Robot extends IterativeRobot {
         if(foundCamera){
         	NIVision.IMAQdxGrab(session, frame, 1);
         	CameraServer.getInstance().setImage(frame);
+        }
+        
+        if ((Robot.arm.getArmAngle() + 90) > PHOTON_CANNON_ANGLE) {
+        	RobotMap.photonCannon.set(Relay.Value.kOn);
+        }
+        else {
+        	RobotMap.photonCannon.set(Relay.Value.kOff);
         }
     }
     
