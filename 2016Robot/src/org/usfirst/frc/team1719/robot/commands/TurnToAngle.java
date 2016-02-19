@@ -1,6 +1,8 @@
 package org.usfirst.frc.team1719.robot.commands;
 
-import java.util.ArrayList;
+import java.util.ArrayDeque;
+import java.util.Deque;
+import java.util.function.ToDoubleFunction;
 
 import org.usfirst.frc.team1719.robot.Robot;
 import org.usfirst.frc.team1719.robot.RobotMap;
@@ -14,23 +16,27 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  */
 public class TurnToAngle extends Command {
 
-	final double SPEED = 0.75D;
-
+    private static final int QUEUE_LENGTH = 10;
 	//in degrees
-	final double TOLERANCE = 0.5;
+	private static final double TOLERANCE = 0.5;
+	private static final double MAX_PWR = 1.0D;
+	private static final ToDoubleFunction<Double> ident = new ToDoubleFunction<Double>() {
+        
+        @Override
+        public double applyAsDouble(Double value) {
+            return value;
+        }
+    };
 	
 	double kP;
-	double kI;
 	double kD;
 	
 	private double tunedAngle;
 	private double currentAngle = 0D;
 	
-	double integral;
-	double derivative;
 	double previousError;
 	
-	ArrayList<Double> errors = new ArrayList<Double>();
+	Deque<Double> errors = new ArrayDeque<Double>();
 	private boolean shouldResetGyro;
 	
 	AnalogGyro gyro = RobotMap.gyro;
@@ -50,13 +56,13 @@ public class TurnToAngle extends Command {
     	
     	tunedAngle = desiredAngle;
     	this.shouldResetGyro = shouldResetGyro;
+    	for(int i = 0; i < QUEUE_LENGTH; i++) errors.push(0.0D);;
     }
 
     // Called just before this Command runs the first time
     protected void initialize() {
 
     	kP = SmartDashboard.getNumber("Turn kP");
-    	kI = SmartDashboard.getNumber("Turn kI");
     	kD = SmartDashboard.getNumber("Turn kD");
     	if(tunedAngle == -1337) tunedAngle = SmartDashboard.getNumber("TurnToAngleParam");
     	if(shouldResetGyro){
@@ -72,52 +78,20 @@ public class TurnToAngle extends Command {
     	currentAngle = gyro.getAngle();
     	double error = tunedAngle - currentAngle;
     	
-    	if (errors.size() >= 10) {
-    		errors.remove(0);
-    		errors.add(error);
-    	}
-    	else {
-    		errors.add(error);
-    	}
+    	errors.add(error);
+    	errors.remove();
     	
-    	integral += error;
-    	
-    	if (Math.abs(error) < TOLERANCE) {
-    		integral = 0;
-    	}
-    	
-    	
-    	derivative = error - previousError;
-    	double output = (error * kP) + (integral * kI) + (derivative * kD);
-    	if (output > 1) {
-    		output = 1;
-    	}
-    	else if (output < -1) {
-    		output = -1;
-    	}
-    	double rightOutput = -(output);
-    	double leftOutput = (output );
-    	//System.out.println("desired Angle: " + tunedAngle + " | Current angle: " + currentAngle);
-    	//System.out.println("Error: " + error + " | Output: " + output);
-    	
-    	Robot.drive.operateDrive(leftOutput, rightOutput);
-    	
-
-    	//turning clockwise
+    	double derivative = error - previousError;
     	previousError = error;
     	
+    	double output = Math.max(Math.min((error * kP) + (derivative * kD), MAX_PWR), -MAX_PWR);
+    	
+    	Robot.drive.operateDrive(output, -output);
     }
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-        
-    	double avgError = 0;
-    	
-    	for (int i = 0; i < errors.size(); i++) {
-    		avgError += errors.get(i);
-    	}
-    	avgError /= errors.size();
-    	
+    	double avgError = errors.stream().mapToDouble(ident).sum() / errors.size();
     	return (Math.abs(avgError) < TOLERANCE);
     }
 
