@@ -5,7 +5,7 @@ import org.usfirst.frc.team1719.robot.RobotMap;
 import org.usfirst.frc.team1719.robot.commands.UseDrive;
 
 import edu.wpi.first.wpilibj.RobotDrive;
-import edu.wpi.first.wpilibj.Spark;
+import edu.wpi.first.wpilibj.SpeedController;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 /**
@@ -16,8 +16,8 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  */
 public class DriveSubsystem extends Subsystem{
 
-	Spark leftController;
-	Spark rightController;
+	SpeedController leftController;
+	SpeedController rightController;
 	RobotDrive mainDrive;
 	final double HALF_SPEED = 0.5;
 	double previousError = 0;
@@ -31,10 +31,11 @@ public class DriveSubsystem extends Subsystem{
 	final double PIDTolerance = 0.5D;
 	/**
 	 * Define controllers
-	 * @param leftController Spark
-	 * @param rightController Spark
+	 * These are speedControllesr as depending on which robot we are compiling for
+	 * @param leftController SpeedControllers
+	 * @param rightController SpeedControllers
 	 */
-	public DriveSubsystem(Spark leftController,Spark rightController){
+	public DriveSubsystem(SpeedController leftController,SpeedController rightController){
 		mainDrive = new RobotDrive(leftController, rightController);
 		this.leftController = leftController;
 		this.rightController = rightController;
