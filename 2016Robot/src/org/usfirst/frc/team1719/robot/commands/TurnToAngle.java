@@ -23,7 +23,6 @@ public class TurnToAngle extends Command {
 	double kI;
 	double kD;
 	
-	private boolean resetGyro;
 	private double tunedAngle;
 	private double currentAngle = 0D;
 	
@@ -32,6 +31,7 @@ public class TurnToAngle extends Command {
 	double previousError;
 	
 	ArrayList<Double> errors = new ArrayList<Double>();
+	private boolean shouldResetGyro;
 	
 	AnalogGyro gyro = RobotMap.gyro;
 
@@ -40,7 +40,8 @@ public class TurnToAngle extends Command {
 	 * Negative Angles move to the left, Positive to the Right
 	 * @param desiredAngle to turn to
 	 */
-    public TurnToAngle(double desiredAngle, boolean resetGyro) {
+
+    public TurnToAngle(double desiredAngle, boolean shouldResetGyro) {
         // Use requires() here to declare subsystem dependencies
         
     	requires(Robot.drive);
@@ -48,18 +49,19 @@ public class TurnToAngle extends Command {
     	//TODO make this better
     	
     	tunedAngle = desiredAngle;
-    	this.resetGyro = resetGyro;
+    	this.shouldResetGyro = shouldResetGyro;
     }
 
     // Called just before this Command runs the first time
     protected void initialize() {
-    	if (resetGyro) {
-    		gyro.reset();
-    	}
+
     	kP = SmartDashboard.getNumber("Turn kP");
     	kI = SmartDashboard.getNumber("Turn kI");
     	kD = SmartDashboard.getNumber("Turn kD");
     	if(tunedAngle == -1337) tunedAngle = SmartDashboard.getNumber("TurnToAngleParam");
+    	if(shouldResetGyro){
+    		gyro.reset();
+    	}
     }
 
     // Called repeatedly when this Command is scheduled to run
@@ -87,22 +89,23 @@ public class TurnToAngle extends Command {
     	
     	derivative = error - previousError;
     	double output = (error * kP) + (integral * kI) + (derivative * kD);
-    	double rightOutput = (output / 2);
-    	double leftOutput = -(output / 2);
-    	System.out.println("desired Angle: " + tunedAngle + " | Current angle: " + currentAngle);
-    	System.out.println("Error: " + error + " | Output: " + output);
+    	if (output > 1) {
+    		output = 1;
+    	}
+    	else if (output < -1) {
+    		output = -1;
+    	}
+    	double rightOutput = -(output);
+    	double leftOutput = (output );
+    	//System.out.println("desired Angle: " + tunedAngle + " | Current angle: " + currentAngle);
+    	//System.out.println("Error: " + error + " | Output: " + output);
     	
     	Robot.drive.operateDrive(leftOutput, rightOutput);
     	
 
     	//turning clockwise
     	previousError = error;
-    	if (tunedAngle < 0) {
-    		Robot.drive.operateDrive(SPEED, -SPEED);
-    	}
-    	else if (tunedAngle > 0) { //turning counter clockwise
-    		Robot.drive.operateDrive(-SPEED, SPEED);
-    	}
+    	
     }
 
     // Make this return true when this Command no longer needs to run execute()

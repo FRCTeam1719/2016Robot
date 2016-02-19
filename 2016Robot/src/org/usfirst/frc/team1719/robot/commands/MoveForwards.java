@@ -22,7 +22,7 @@ public class MoveForwards extends Command {
 	 * 
 	 */
 	private double desiredDist;
-	private double currentDist = 0D;
+
 
 	
 	
@@ -46,22 +46,13 @@ public class MoveForwards extends Command {
 
 	@Override
 	protected void execute() {
-		
-		//int rightEncoderVal = RobotMap.rightDriveWheelEncoder.get();
-		//int leftEncoderVal = RobotMap.leftDriveWheelEncoder.get();
-		
-		//currentDist = (rightEncoderVal + leftEncoderVal) / 2;
-		
-		currentDist ++;
-        
         Robot.drive.driveStraight(speed); // drive towards heading 0
-		
 	}
 
 	@Override
 	protected void initialize() {
-		currentDist = 0;
 		RobotMap.gyro.reset();
+		Robot.drive.resetEncoders();
 		if(desiredDist == 0.0D) desiredDist = SmartDashboard.getNumber("MoveDistParam");
 	}
 
@@ -73,7 +64,7 @@ public class MoveForwards extends Command {
 
 	@Override
 	protected boolean isFinished() {
-		return currentDist >= desiredDist;
+		return Robot.drive.getDistanceDriven() >= desiredDist;
 	}
 
 }

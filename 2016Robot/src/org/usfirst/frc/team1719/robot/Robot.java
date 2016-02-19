@@ -97,7 +97,7 @@ public class Robot extends IterativeRobot {
         //Initialize Subsystems
         rightFlywheelPIDData = new PIDData(0,0,0);
     	leftFlywheelPIDData = new PIDData(0,0,0);
-        drive = new DriveSubsystem(RobotMap.leftDriveController, RobotMap.rightDriveController);
+        drive = new DriveSubsystem(RobotMap.leftDriveController, RobotMap.rightDriveController, RobotMap.leftDriveWheelEncoder, RobotMap.rightDriveWheelEncoder);
         rightFlywheel = new FlyWheel(RobotMap.rightFlyWheelController, RobotMap.rightFlyWheelEncoder, rightFlywheelPIDData);
         leftFlywheel =  new FlyWheel(RobotMap.leftFlyWheelController, RobotMap.leftFlyWheelEncoder, leftFlywheelPIDData);
         shooter = new DualShooter(leftFlywheel, rightFlywheel, RobotMap.innerLeftShooterWheelController, RobotMap.innerRightShooterWheelController );
@@ -153,6 +153,8 @@ public class Robot extends IterativeRobot {
     	SmartDashboard.putNumber("Turn kP", 0.001);;
     	SmartDashboard.putNumber("Turn kI", 0.0003);
     	SmartDashboard.putNumber("Turn kD", 0.0003);
+    	
+    	SmartDashboard.putNumber("Arm steady kP", (0.2 / 90));
     }
     
 	/**
@@ -250,6 +252,7 @@ public class Robot extends IterativeRobot {
         if(foundCamera){
         	NIVision.IMAQdxStartAcquisition(session);
         }
+        RobotMap.gyro.reset();
     }
 
     
@@ -259,7 +262,6 @@ public class Robot extends IterativeRobot {
     public void teleopPeriodic() {
     	//System.out.println("meh" + RobotMap.dial.get());
         Scheduler.getInstance().run();
-
         if(foundCamera){
         	NIVision.IMAQdxGrab(session, frame, 1);
         	CameraServer.getInstance().setImage(frame);

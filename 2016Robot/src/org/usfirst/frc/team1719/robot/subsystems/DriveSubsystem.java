@@ -4,6 +4,7 @@ package org.usfirst.frc.team1719.robot.subsystems;
 import org.usfirst.frc.team1719.robot.RobotMap;
 import org.usfirst.frc.team1719.robot.commands.UseDrive;
 
+import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.RobotDrive;
 import edu.wpi.first.wpilibj.Spark;
 import edu.wpi.first.wpilibj.command.Subsystem;
@@ -18,6 +19,8 @@ public class DriveSubsystem extends Subsystem{
 
 	Spark leftController;
 	Spark rightController;
+	Encoder leftEncoder;
+	Encoder rightEncoder;
 	RobotDrive mainDrive;
 	final double HALF_SPEED = 0.5;
 	double previousError = 0;
@@ -35,10 +38,12 @@ public class DriveSubsystem extends Subsystem{
 	 * @param leftController Spark
 	 * @param rightController Spark
 	 */
-	public DriveSubsystem(Spark leftController,Spark rightController){
+	public DriveSubsystem(Spark leftController,Spark rightController, Encoder leftEncoder, Encoder rightEncoder){
 		mainDrive = new RobotDrive(leftController, rightController);
 		this.leftController = leftController;
 		this.rightController = rightController;
+		this.leftEncoder = leftEncoder;
+		this.rightEncoder = rightEncoder;
 	}
 	
 	/**
@@ -78,6 +83,23 @@ public class DriveSubsystem extends Subsystem{
 		mainDrive.arcadeDrive(speed, angle);
 	}
 
+	/**
+	 * Resets all the encoders on the drive
+	 */
+	public void resetEncoders(){
+		leftEncoder.reset();
+		rightEncoder.reset();
+	}
+	
+	/**
+	 * Get distance the robot has moved
+	 * @return average of both sides of the drive
+	 */
+	public double getDistanceDriven(){
+		return Math.abs((leftEncoder.getDistance() + rightEncoder.getDistance())/2);
+	}
+	
+	
 	public void initDefaultCommand(){
 		setDefaultCommand(new UseDrive());
 	}
