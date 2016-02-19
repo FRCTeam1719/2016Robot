@@ -6,12 +6,16 @@ import edu.wpi.first.wpilibj.command.Command;
 
 public class ManualShoot extends Command{
 
-	final double WAIT_TIME = 2.5;
-	boolean hasShoot;
-	Timer timer;
+	final double SHOOT_WAIT_TIME = 2.5;
+	final double PREP_WAIT_TIME = 1.0;
+	private boolean prepComplete;
+	private Timer shootTimer;
+	private Timer prepTimer;
 	
 	public ManualShoot(){
 		requires(Robot.shooter);
+		shootTimer = new Timer();
+		prepTimer = new Timer();
 	}
 	
 	@Override
@@ -22,19 +26,27 @@ public class ManualShoot extends Command{
 
 	@Override
 	protected void execute() {
-		if(Robot.oi.getFireButton()){
+		if(prepTimer.get()>PREP_WAIT_TIME){
+				//Spin up the Fly Wheels
+				Robot.shooter.spin(1, -1);
+				prepTimer.stop();
+				prepComplete = true;
+		}
+		if(Robot.oi.getFireButton()&&prepComplete){
 			Robot.shooter.runInnerMotors(Robot.shooter.EJECT);
-			timer.start();
+			shootTimer.start();
 		}
 		
 	}
 
 	@Override
 	protected void initialize() {
-		timer = new Timer();
-		hasShoot = false;
-		//Spin up the Fly Wheels
-		Robot.shooter.spin(1, -1);
+		shootTimer.reset();
+		prepTimer.reset();
+		prepComplete = false;
+		//Move ball into back of shooter
+		Robot.shooter.runInnerMotors(Robot.shooter.INTAKE);
+		prepTimer.start();
 	}
 
 	@Override
@@ -45,9 +57,9 @@ public class ManualShoot extends Command{
 
 	@Override
 	protected boolean isFinished() {
-		if(timer.get()>WAIT_TIME){
-			timer.stop();
-			timer.reset();
+		if(shootTimer.get()>SHOOT_WAIT_TIME){
+			shootTimer.stop();
+			shootTimer.reset();
 			return true;
 		}else{
 			return false;

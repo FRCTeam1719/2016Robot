@@ -1,6 +1,7 @@
 package org.usfirst.frc.team1719.robot.commands;
 
 import org.usfirst.frc.team1719.robot.Robot;
+import org.usfirst.frc.team1719.robot.RobotMap;
 
 import edu.wpi.first.wpilibj.command.Command;
 /**
@@ -28,11 +29,10 @@ public class UseArm extends Command{
 		//Apply control scaling
 		double motorSpeed = joystickReading * CONTROL_SCALING;
 		if(Math.abs(joystickReading)<TOLERANCE){
-			motorSpeed = 0;
+			motorSpeed = 0.2;
 		}
-		Robot.arm.move(motorSpeed);
-		System.out.println("Arm Angle: "+Robot.arm.getArmAngle());
-		
+		Robot.arm.move( motorSpeed);
+		System.out.println("Arm angle: " + RobotMap.armPot.get());
 	}
 
 	@Override
