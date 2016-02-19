@@ -1,6 +1,7 @@
 package org.usfirst.frc.team1719.robot;
 
 import org.usfirst.frc.team1719.robot.commands.ManualShoot;
+import org.usfirst.frc.team1719.robot.commands.MoveArmToPos;
 import org.usfirst.frc.team1719.robot.commands.RunIntake;
 import org.usfirst.frc.team1719.robot.commands.TurnToAngle;
 import edu.wpi.first.wpilibj.Joystick;
@@ -78,14 +79,14 @@ public class OI {
 		final int START_BUTTON = 8;
 		final int LEFT_BUTTON = 9;
 		final int RIGHT_BUTTON = 10;
-	
 		private Joystick driverXBOX;
 		private Joystick operatorJoystick;
 	
 		private Button rotateRight90Button;
 		private Button rotateLeft90Button;
 		private Button rotate180Button;
-		private Button fireButton;				
+		private Button fireButton;			
+		private Button armToPos45;
 //		private Button moveArmButton;
 		private Button primeButton;
 		private Button intakeButton;
@@ -96,11 +97,12 @@ public class OI {
 			
 			//Define Buttons
 			rotateRight90Button = new JoystickButton(driverXBOX, X_BUTTON);
-			rotateRight90Button.whenPressed(new TurnToAngle(45));
+			rotateRight90Button.whenPressed(new TurnToAngle(45,true));
 			rotateLeft90Button = new JoystickButton(driverXBOX, B_BUTTON);
-			rotateLeft90Button.whenPressed(new TurnToAngle(-45));
+			rotateLeft90Button.whenPressed(new TurnToAngle(-45, true));
 			rotate180Button = new JoystickButton(driverXBOX, Y_BUTTON);
-			rotate180Button.whenPressed(new TurnToAngle(90));
+			rotate180Button.whenPressed(new TurnToAngle(90, true));
+
 			fireButton = new JoystickButton(operatorJoystick, ATTACK_TRIGGER);
 			primeButton = new JoystickButton(operatorJoystick, ATTACK_BUTTON_3);
 			primeButton.whenPressed(new ManualShoot());
@@ -108,6 +110,8 @@ public class OI {
 			//moveArmButton.whenPressed(new MoveArmToPos(60));
 			intakeButton = new JoystickButton(operatorJoystick, ATTACK_BUTTON_2);
 			intakeButton.whenPressed(new RunIntake());
+			armToPos45 = new JoystickButton(operatorJoystick, ATTACK_BUTTON_6);
+			armToPos45.whenPressed(new MoveArmToPos(45));
 		}
 		
 		//Functions for getting input

@@ -24,15 +24,22 @@ public class UseArm extends Command{
 
 	@Override
 	protected void execute() {
+		double angle = Robot.arm.getArmAngle();
 		double joystickReading = Robot.oi.getArmReading();
 		//Apply control scaling
 		double motorSpeed = joystickReading * CONTROL_SCALING;
 		if(Math.abs(joystickReading)<TOLERANCE){
-			motorSpeed = 0;
+			if (angle > 0) {
+				motorSpeed = 0.2;
+			}
+			else if (angle < 0) {
+				motorSpeed = -0.25;
+			}
+			
 		}
 		Robot.arm.move(motorSpeed);
 		System.out.println("Arm Angle: "+Robot.arm.getArmAngle());
-		
+		System.out.println("motor speed: " + motorSpeed);
 	}
 
 	@Override

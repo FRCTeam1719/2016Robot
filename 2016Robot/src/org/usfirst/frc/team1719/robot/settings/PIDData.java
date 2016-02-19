@@ -9,6 +9,12 @@ public class PIDData {
 	public double kI;
 	public double kD;
 	
+	public PIDData () {
+		kP = 0;
+		kI = 0;
+		kD = 0;
+	}	
+	
 	/**
 	 * Default constants
 	 * @param defaultKP Default Proportional Constant

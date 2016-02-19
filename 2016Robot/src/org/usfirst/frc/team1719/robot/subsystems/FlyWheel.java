@@ -54,9 +54,7 @@ public class FlyWheel extends Subsystem {
 	}
 
 	@Override
-	protected void initDefaultCommand() {
-
-	}
+	protected void initDefaultCommand() {}
 
 	/**
 	 * Stop motors and reset encoders

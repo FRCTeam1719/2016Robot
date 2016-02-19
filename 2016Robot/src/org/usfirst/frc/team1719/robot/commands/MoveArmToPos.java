@@ -17,6 +17,8 @@ public class MoveArmToPos extends Command {
 	double desiredAngle;
 	double desiredPotPos; // the value the potentiometer is giving
 	boolean direction;
+	double speed;
+
 
 	/**
 	 * Move the arm to the desiredAngle
@@ -24,45 +26,44 @@ public class MoveArmToPos extends Command {
 	 * @param desiredAngle
 	 *            double
 	 */
-	public MoveArmToPos(double desiredAngle) {
-		// Use requires() here to declare subsystem dependencies
-		// eg. requires(chassis);
-		requires(Robot.arm);
-		this.desiredPotPos = desiredAngle;
-	}
+    public MoveArmToPos(double desiredAngle) {
+        // Use requires() here to declare subsystem dependencies
+        // eg. requires(chassis);
+    	requires(Robot.arm);
 
-	// Called just before this Command runs the first time
-	protected void initialize() {
-		// TODO Math to turn desiredAngle into desiredPotPos
-		desiredPotPos = desiredAngle;
-		currentPos = Robot.arm.getArmAngle();
-		if (desiredPotPos == Robot.GET_VALUE_FROM_SMARTDASHBOARD)
-			desiredPotPos = SmartDashboard.getNumber("MoveArmParam");
-		currentPos = Robot.arm.getArmAngle();
-		// raise / lower arm to get to target pos
-		if (currentPos < desiredPotPos) {
-			direction = DIRECTION_UP;
-		} else if (currentPos > desiredPotPos) {
-			direction = DIRECTION_DOWN;
-		}
-	}
+    	this.desiredAngle = desiredAngle;
+    }
 
-	// Called repeatedly when this Command is scheduled to run
-	protected void execute() {
-		currentPos = Robot.arm.getArmAngle();
-		System.out.println("Current Pos: " + currentPos + " | DesiredPos: " + desiredAngle);
+    // Called just before this Command runs the first time
+    protected void initialize() {
+    	//TODO Math to turn desiredAngle into desiredPotPos 
+        desiredPotPos = desiredAngle;
+    	currentPos = Robot.arm.getArmAngle();
+    	if(desiredAngle == -1337) desiredAngle = SmartDashboard.getNumber("MoveArmParam");
+    	if (currentPos < desiredAngle) {
+    		direction = DIRECTION_UP;
+    	}
+    	else if (currentPos > desiredPotPos) {
+    		direction = DIRECTION_DOWN;
+    	}
+    }
 
-		// Turn motor to reach disired angle
-		if (desiredPotPos < currentPos) {
-			System.out.println("moving up!");
-			Robot.arm.move(-SPEED);
-		} else if (desiredPotPos > currentPos) {
-			System.out.println("MOVING DOWN");
-			Robot.arm.move(SPEED);
-		} else {
-			return;
-		}
-	}
+    // Called repeatedly when this Command is scheduled to run
+    protected void execute() {
+    	currentPos = Robot.arm.getArmAngle();
+    	
+    	if (direction == DIRECTION_DOWN) {
+    		Robot.arm.move(-speed);
+    		currentPos = Robot.arm.getArmAngle();
+    	}
+    	else if (direction == DIRECTION_UP) {
+    		Robot.arm.move(speed);
+
+    	}
+    	else {
+    		return;
+    	}
+    }
 
 	// Make this return true when this Command no longer needs to run execute()
 	protected boolean isFinished() {
