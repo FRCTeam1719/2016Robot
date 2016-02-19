@@ -3,7 +3,6 @@ package org.usfirst.frc.team1719.robot.commands;
 import org.usfirst.frc.team1719.robot.Robot;
 
 import edu.wpi.first.wpilibj.command.Command;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 /**
  * Default command for the arm, drives it according to the Operator Joystick
  * @author aaroneline
@@ -25,13 +24,11 @@ public class UseArm extends Command{
 
 	@Override
 	protected void execute() {
-		double kP = SmartDashboard.getNumber("Arm steady kP");
 		double angle = Robot.arm.getArmAngle();
 		double joystickReading = Robot.oi.getArmReading();
 		//Apply control scaling
 		double motorSpeed = joystickReading * CONTROL_SCALING;
 		if(Math.abs(joystickReading)<TOLERANCE){
-			
 			if (angle > 0) {
 				motorSpeed = 0.2;
 			}
@@ -43,7 +40,6 @@ public class UseArm extends Command{
 		Robot.arm.move(motorSpeed);
 		System.out.println("Arm Angle: "+Robot.arm.getArmAngle());
 		System.out.println("motor speed: " + motorSpeed);
-		
 	}
 
 	@Override

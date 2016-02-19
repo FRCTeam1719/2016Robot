@@ -45,7 +45,6 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  * directory.
  */
 
-
 public class Robot extends IterativeRobot {
 
 	final String CAMERA_NAME = "cam0";
@@ -62,14 +61,18 @@ public class Robot extends IterativeRobot {
 
 	PIDData leftFlywheelPIDData;
 	public static Arm arm;
-	public int autonomousMode  = 0;
+	public int autonomousMode = 0;
 	final boolean VOLTAGEDISPLAY = true;
 	final boolean AUTONDISPLAY = false;
 	boolean currentDisplayMode = VOLTAGEDISPLAY;
 	final double TOLERANCE = 0.01;
+	double maxPotValue = .274; 
+	double scalingFactor; 
+	double minPotValue = .255;
 	boolean foundCamera = false;
+
     Command autonomousCommand;
-    SendableChooser autonomousChooser;
+    SendableChooser chooser;
     Command DisplayVoltage;
     Image frame;
     int session;
@@ -125,23 +128,23 @@ public class Robot extends IterativeRobot {
      */
     public void smartDashboardInit(){
     	
-        autonomousChooser = new SendableChooser();
+        chooser = new SendableChooser();
         
         //Move forwards command
-        autonomousChooser.addDefault("Do nothing", new DoNothing());
-        autonomousChooser.addObject("Go Under Low Bar", new LowBarAuton());
-        autonomousChooser.addObject("Go over Rough Terrain", new RoughTerrainAuton());
-        autonomousChooser.addObject("Go over Moat", new MoatAuton());
-        autonomousChooser.addObject("Go over Ramparts", new RampartsAuton());
-        autonomousChooser.addObject("Go over Rock Wall", new RockWallAuton());
-        autonomousChooser.addObject("Go through the Portcullis", new PortcullisAuton());
-        autonomousChooser.addObject("Shoot at tower", new AimAndFire());
-        autonomousChooser.addObject("Turn 90 degrees", new TurnToAngle(90, true));
+        chooser.addDefault("Do nothing", new DoNothing());
+        chooser.addObject("Go Under Low Bar", new LowBarAuton());
+        chooser.addObject("Go over Rough Terrain", new RoughTerrainAuton());
+        chooser.addObject("Go over Moat", new MoatAuton());
+        chooser.addObject("Go over Ramparts", new RampartsAuton());
+        chooser.addObject("Go over Rock Wall", new RockWallAuton());
+        chooser.addObject("Go through the Portcullis", new PortcullisAuton());
+        chooser.addObject("Shoot at tower", new AimAndFire());
+        chooser.addObject("Turn 90 degrees", new TurnToAngle(90, true));
         
         rightFlywheelPIDData = new PIDData();
-        autonomousChooser.addObject("Sense Tower High Goals", new AutoSenseTower());
+        chooser.addObject("Sense Tower High Goals", new AutoSenseTower());
 //        chooser.addObject("My Auto", new MyAutoCommand());
-        SmartDashboard.putData("Auto mode", autonomousChooser);
+        SmartDashboard.putData("Auto mode", chooser);
         SmartDashboard.putNumber("Right flywheel kP: ", rightFlywheelPIDData.kP);
         SmartDashboard.putNumber("Right flywheel kI: ", rightFlywheelPIDData.kI);
         SmartDashboard.putNumber("Right flywheel kD: ", rightFlywheelPIDData.kD);
@@ -156,10 +159,10 @@ public class Robot extends IterativeRobot {
     	
     	SmartDashboard.putNumber("Arm steady kP", (0.2 / 90));
     }
-    
+
 	/**
-     * This function is called once each time the robot enters Disabled mode.
-     * You can use it to reset any subsystem information you want to clear when
+	 * This function is called once each time the robot enters Disabled mode.
+	 * You can use it to reset any subsystem information you want to clear when
 	 * the robot is disabled.
      */
     public void disabledInit(){
@@ -172,74 +175,83 @@ public class Robot extends IterativeRobot {
     		NIVision.IMAQdxStopAcquisition(session);
     	}
     }
-	
 	public void disabledPeriodic() {
-		
-		if(display.buttonAPressed()){
+
+		if (display.buttonAPressed()) {
 			currentDisplayMode = AUTONDISPLAY;
-		}else if(display.buttonBPressed()){
+			System.out.println("ABUTTONPRESSED");
+		} else if (display.buttonBPressed()) {
 			currentDisplayMode = VOLTAGEDISPLAY;
 		}
-		
-		
-		if(currentDisplayMode==AUTONDISPLAY){
-		Double dialPos = display.getDialReading();
-		if(dialPos-0.26<TOLERANCE){
+
+		System.out.println(display.getDialReading());
+			if (currentDisplayMode == AUTONDISPLAY) {
+			System.out.println("displayingAuton");
+		Double dialPos =display.getDialReading();
+			if (dialPos -.25 <= TOLERANCE) {
 			autonomousMode = 0;
-			display.displayString("A  0");
-		}else if(dialPos-0.27<TOLERANCE){
-			autonomousMode = 1;
-			display.displayString("A  1");
-		}else if(dialPos-0.28<TOLERANCE){
-			autonomousMode = 2;
-			display.displayString("A  2");
-		}
-		}else{
+				display.displayString("A  0");
+		} else if (dialPos - .255 <= TOLERANCE) {
+				autonomousMode = 1;
+				display.displayString("A  1");
+			} else if (dialPos - .26 <= TOLERANCE ) {
+				autonomousMode = 2;
+				display.displayString("A  2");
+			} else if (dialPos -.265 <= TOLERANCE) {
+				autonomousMode = 3;
+				display.displayString("A  3");
+
+			}
+		} else if(currentDisplayMode == VOLTAGEDISPLAY){
 			String voltage = Double.toString(DriverStation.getInstance().getBatteryVoltage());
 			display.displayString(voltage);
 		}
+
 		Scheduler.getInstance().run();
+
 	}
 
 	/**
-	 * This autonomous (along with the chooser code above) shows how to select between different autonomous modes
-	 * using the dashboard. The sendable chooser code works with the Java SmartDashboard. If you prefer the LabVIEW
-	 * Dashboard, remove all of the chooser code and uncomment the getString code to get the auto name from the text box
-	 * below the Gyro
+	 * This autonomous (along with the chooser code above) shows how to select
+	 * between different autonomous modes using the dashboard. The sendable
+	 * chooser code works with the Java SmartDashboard. If you prefer the
+	 * LabVIEW Dashboard, remove all of the chooser code and uncomment the
+	 * getString code to get the auto name from the text box below the Gyro
 	 *
-	 * You can add additional auto modes by adding additional commands to the chooser code above (like the commented example)
-	 * or additional comparisons to the switch structure below with additional strings and commands.
+	 * You can add additional auto modes by adding additional commands to the
+	 * chooser code above (like the commented example) or additional comparisons
+	 * to the switch structure below with additional strings and commands.
 	 */
-    public void autonomousInit() {
-        autonomousCommand = (Command) autonomousChooser.getSelected();
-    	isAuton = true;
-        autonomousCommand = new AutonCommand(autonomousMode); 	
-		/* String autoSelected = SmartDashboard.getString("Auto Selector", "Default");
-		switch(autoSelected) {
-		case "My Auto":
-			autonomousCommand = new MyAutoCommand();
-			break;
-		case "Default Auto":
-		default:
-			autonomousCommand = new ExampleCommand();
-			break;
-		} */
-        if(foundCamera){
-        	NIVision.IMAQdxStartAcquisition(session);
-        }
-    	// schedule the autonomous command (example)
+	public void autonomousInit() {
+		isAuton = true;
+		autonomousCommand = (Command) chooser.getSelected();
+		autonomousCommand = new AutonCommand(autonomousMode);
+		/*
+		 * String autoSelected = SmartDashboard.getString("Auto Selector",
+		 * "Default"); switch(autoSelected) { case "My Auto": autonomousCommand
+		 * = new MyAutoCommand(); break; case "Default Auto": default:
+		 * autonomousCommand = new ExampleCommand(); break; }
+		 */
+		if (foundCamera) {
+			NIVision.IMAQdxStartAcquisition(session);
+		}
+		// schedule the autonomous command (example)
+		if (autonomousCommand != null)
+			autonomousCommand.start();
 
-        if (autonomousCommand != null) autonomousCommand.start();
-    }
+	}
 
-    /**
-     * This function is called periodically during autonomous
-     */
-    public void autonomousPeriodic() {
+	/**
+	 * This function is called periodically during autonomous
+	 */
+	public void autonomousPeriodic() {
+		Scheduler.getInstance().run();
+		System.out.println(autonomousMode);
+	} 
 
-        Scheduler.getInstance().run();
-    }
-
+	/**
+	 * This function is called periodically during operator control
+	 */
     public void teleopInit() {
 
 		/* This makes sure that the autonomous stops running when
@@ -277,5 +289,4 @@ public class Robot extends IterativeRobot {
     	isAuton = false;
         LiveWindow.run();
     }
-    
 }

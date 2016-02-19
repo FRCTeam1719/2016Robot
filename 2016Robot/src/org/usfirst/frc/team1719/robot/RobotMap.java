@@ -31,11 +31,10 @@ public class RobotMap {
     // public static int rangefinderModule = 1;
 	static double FLYWHEEL_CIRCUMFRENCE_FEET = 1.57075;
 	
-	static Spark leftDriveController;
-	static Spark rightDriveController;
-
-
-
+	public static Spark leftDriveController;
+	public static Spark rightDriveController;
+	public static Encoder leftDriveEncoder;
+	public static Encoder rightDriveEncoder;
 	public static Spark rightFlyWheelController;
 	public static Encoder rightFlyWheelEncoder;
 	public static Spark leftFlyWheelController;
@@ -65,8 +64,8 @@ public class RobotMap {
 		gyro = new AnalogGyro(0);
 
 		//Motor Controllers
-		leftDriveController = new Spark(1);    
 		rightDriveController = new Spark(0);
+		leftDriveController = new Spark(1);    
 		leftFlyWheelController = new Spark(2);
 		rightFlyWheelController = new Spark(3);
 		armController = new Spark(4);
@@ -77,17 +76,21 @@ public class RobotMap {
 		
 		//DIO
 		rightFlyWheelEncoder = new Encoder(2, 3, true, Encoder.EncodingType.k4X);		
-		//configureEncoder(rightFlyWheelEncoder);
+		configureEncoder(rightFlyWheelEncoder);
 		leftFlyWheelEncoder = new Encoder(4, 5, true, Encoder.EncodingType.k4X);
-		//configureEncoder(leftFlyWheelEncoder);
+		configureEncoder(leftFlyWheelEncoder);
+		rightDriveEncoder = new Encoder(6, 7, true, Encoder.EncodingType.k4X);
+		configureEncoder(rightDriveEncoder);
+		leftDriveEncoder = new Encoder(8, 9, true, Encoder.EncodingType.k4X);
+		configureEncoder(leftDriveEncoder);
+        buttonA = new DigitalInput(19);
+		buttonB = new DigitalInput(20);
 		
 
 		//Analog In
+		gyro = new AnalogGyro(0);
+        armPot = new AnalogPotentiometer(1, 1200.0D);
 		dial = new AnalogInput(3);
-		//gyro = new AnalogGyro(2);
-        armPot = new AnalogPotentiometer(1, 136.36D, -90);
-        buttonA = new DigitalInput(19);
-		buttonB = new DigitalInput(20);
 	}
 	
 	/**
