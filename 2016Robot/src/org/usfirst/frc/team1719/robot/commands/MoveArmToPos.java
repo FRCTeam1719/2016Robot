@@ -49,6 +49,7 @@ public class MoveArmToPos extends Command {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
+        Robot.arm.setTargetPos(desiredAngle);
     	currentPos = Robot.arm.getArmAngle();
     	
     	if (direction == DIRECTION_DOWN) {
