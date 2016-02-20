@@ -50,8 +50,8 @@ public class RobotMap {
 		//Main hardware allocation
 		
 		//Motor Controllers
-		configureMotor(rightDriveController,0);
-		configureMotor(leftDriveController,1);   
+		rightDriveController = configureMotor(rightDriveController,0);
+		leftDriveController = configureMotor(leftDriveController,1);   
 		leftFlyWheelController = new Spark(2);
 		rightFlyWheelController = new Spark(3);
 		armController = new Spark(4);
@@ -75,8 +75,6 @@ public class RobotMap {
 		//Analog In
 		gyro = new AnalogGyro(0);
         armPot = new AnalogPotentiometer(1, 1200.0D);
-        buttonA = new DigitalInput(19);
-		buttonB = new DigitalInput(20);
 		dial = new AnalogInput(3);
 
 	}
@@ -96,13 +94,14 @@ public class RobotMap {
 		
 	}
 	
-	private static void configureMotor(SpeedController controller, int port){
+	private static SpeedController configureMotor(SpeedController controller, int port){
 		if(COMPILINGFORPRODUCTIONBOT){
 			controller = new Spark(port);
 		}else{
 			//We are compiling for the practice bot, use Talons instead
 			controller = new Talon(port);
 		}
+		return controller;
 	}
 	
 	

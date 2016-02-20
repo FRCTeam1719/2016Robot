@@ -31,9 +31,8 @@ public class DriveSubsystem extends Subsystem{
 	final double PIDTolerance = 0.5D;
 	/**
 	 * Define controllers
-	 * These are speedControllesr as depending on which robot we are compiling for
-	 * @param leftController SpeedControllers
-	 * @param rightController SpeedControllers
+	 * @param leftController Spark
+	 * @param rightController Spark
 	 */
 	public DriveSubsystem(SpeedController leftController,SpeedController rightController){
 		mainDrive = new RobotDrive(leftController, rightController);
