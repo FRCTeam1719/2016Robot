@@ -125,6 +125,8 @@ public class Robot extends IterativeRobot {
         	System.out.println("Can't find the camera, failing with style");
         }
         smartDashboardInit();    
+        RobotMap.gyro.initGyro();
+        RobotMap.gyro.calibrate();
     }
 	
     /**

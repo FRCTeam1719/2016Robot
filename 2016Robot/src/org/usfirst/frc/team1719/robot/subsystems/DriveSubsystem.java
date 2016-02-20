@@ -6,7 +6,7 @@ import org.usfirst.frc.team1719.robot.commands.UseDrive;
 
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.RobotDrive;
-import edu.wpi.first.wpilibj.Spark;
+import edu.wpi.first.wpilibj.SpeedController;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 /**
@@ -17,10 +17,10 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  */
 public class DriveSubsystem extends Subsystem{
 
-	Spark leftController;
-	Spark rightController;
 	Encoder leftEncoder;
 	Encoder rightEncoder;
+	SpeedController leftController;
+	SpeedController rightController;
 	RobotDrive mainDrive;
 	final double HALF_SPEED = 0.5;
 	double previousError = 0;
@@ -38,7 +38,7 @@ public class DriveSubsystem extends Subsystem{
 	 * @param leftController Spark
 	 * @param rightController Spark
 	 */
-	public DriveSubsystem(Spark leftController,Spark rightController, Encoder leftEncoder, Encoder rightEncoder){
+	public DriveSubsystem(SpeedController leftController,SpeedController rightController, Encoder leftEncoder, Encoder rightEncoder){
 		mainDrive = new RobotDrive(leftController, rightController);
 		this.leftController = leftController;
 		this.rightController = rightController;

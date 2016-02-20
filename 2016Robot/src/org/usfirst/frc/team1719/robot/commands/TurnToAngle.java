@@ -30,6 +30,7 @@ public class TurnToAngle extends Command {
 	
 	double kP;
 	double kD;
+	double kI;
 	
 	private double tunedAngle;
 	private double currentAngle = 0D;
@@ -64,6 +65,7 @@ public class TurnToAngle extends Command {
 
     	kP = SmartDashboard.getNumber("Turn kP");
     	kD = SmartDashboard.getNumber("Turn kD");
+    	kI = SmartDashboard.getNumber("Turn kI")
     	if(tunedAngle == -1337) tunedAngle = SmartDashboard.getNumber("TurnToAngleParam");
     	if(shouldResetGyro){
     		gyro.reset();

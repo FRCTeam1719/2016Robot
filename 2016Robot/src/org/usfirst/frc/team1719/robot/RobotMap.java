@@ -7,6 +7,8 @@ import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.Relay;
 import edu.wpi.first.wpilibj.Spark;
+import edu.wpi.first.wpilibj.SpeedController;
+import edu.wpi.first.wpilibj.Talon;
 
 /**
  * The RobotMap is a mapping from the ports sensors and actuators are wired into
@@ -20,6 +22,7 @@ public class RobotMap {
 	/** 
 	 * Measured in feet
 	 */
+	public final static boolean COMPILINGFORPRODUCTIONBOT = false;
     // For example to map the left and right motors, you could define the
     // following variables to use with your drivetrain subsystem.
     // public static int leftMotor = 1;
@@ -32,8 +35,8 @@ public class RobotMap {
 	static double FLYWHEEL_CIRCUMFRENCE_FEET = 1.5708;
 	static double DRIVEWHEEL_CIRCUMFRENCE_FEET = 2.618;
 	
-	public static Spark leftDriveController;
-	public static Spark rightDriveController;
+	public static SpeedController leftDriveController;
+	public static SpeedController rightDriveController;
 	public static Encoder leftDriveEncoder;
 	public static Encoder rightDriveEncoder;
 	public static Spark rightFlyWheelController;
@@ -66,8 +69,8 @@ public class RobotMap {
 		gyro = new AnalogGyro(0);
 
 		//Motor Controllers
-		rightDriveController = new Spark(0);
-		leftDriveController = new Spark(1);    
+		rightDriveController = configureMotor(rightDriveController,0);
+		leftDriveController = configureMotor(leftDriveController,1);   
 		leftFlyWheelController = new Spark(2);
 		rightFlyWheelController = new Spark(3);
 		armController = new Spark(4);
@@ -95,12 +98,25 @@ public class RobotMap {
 		buttonB = new DigitalInput(20);
 		//Relay
 		photonCannon = new Relay(0);
+
 	}
 	
 	/**
 	 * Function for configuring encoders
 	 * @param encoder
 	 */
+	
+	
+	private static SpeedController configureMotor(SpeedController controller, int port){
+		if(COMPILINGFORPRODUCTIONBOT){
+			controller = new Spark(port);
+		}else{
+			//We are compiling for the practice bot, use Talons instead
+			controller = new Talon(port);
+		}
+		return controller;
+	}
+	
 	
 	
 }

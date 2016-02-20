@@ -16,7 +16,7 @@ public class MoveArmToPos extends Command {
 	final boolean DIRECTION_UP = true;
 	final boolean DIRECTION_DOWN = false;
 	final double ERROR_TOLERANCE = 1;
-	double currentPos;
+	double currentAngle;
 	double desiredAngle;
 	double desiredPotPos; // the value the potentiometer is giving
 	
@@ -51,14 +51,12 @@ public class MoveArmToPos extends Command {
     	kP = SmartDashboard.getNumber("Move arm to pos kP");
     	kI = SmartDashboard.getNumber("Move arm to pos kI");
     	kD = SmartDashboard.getNumber("Move arm to pos kD");
-    	//TODO Math to turn desiredAngle into desiredPotPos 
-        desiredPotPos = desiredAngle;
-    	currentPos = Robot.arm.getArmAngle();
+    	currentAngle = Robot.arm.getArmAngle();
     	if(desiredAngle == -1337) desiredAngle = SmartDashboard.getNumber("MoveArmParam");
-    	if (currentPos < desiredAngle) {
+    	if (currentAngle < desiredAngle) {
     		direction = DIRECTION_UP;
     	}
-    	else if (currentPos > desiredPotPos) {
+    	else if (currentAngle > desiredPotPos) {
     		direction = DIRECTION_DOWN;
     	}
     	
@@ -66,7 +64,7 @@ public class MoveArmToPos extends Command {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	double error = Robot.arm.getArmAngle();
+    	double error = desiredAngle - Robot.arm.getArmAngle();
     	
     	integral += error;
     	
@@ -87,7 +85,7 @@ public class MoveArmToPos extends Command {
     	if (output > 1) {
     		output = 1;
     	}
-    	else if (output < 1) {
+    	else if (output < -1) {
     		output = -1;
     	}
     	Robot.arm.move(output);
