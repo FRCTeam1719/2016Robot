@@ -43,6 +43,8 @@ public class RobotMap {
 	public static AnalogInput dial;
 	public static DigitalInput buttonA;
 	public static DigitalInput buttonB;
+	public static Spark climberRight;
+	public static Spark climberLeft;
 	public static void init(){
 		//Main hardware allocation
 		
@@ -54,6 +56,8 @@ public class RobotMap {
 		armController = new Spark(4);
 		innerLeftShooterWheelController = new Spark(5);
 		innerRightShooterWheelController = new Spark(6);
+		climberLeft = new Spark (7);
+		climberRight = new Spark (8);
 
 		//Sensors
 		
