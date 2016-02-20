@@ -32,6 +32,7 @@ public class MoveArmToPos extends Command {
 	double error;
 	double previousError;
 	
+	double steadyConstant;
 	double[] errors = new double[20];
 
 	/**
@@ -62,6 +63,19 @@ public class MoveArmToPos extends Command {
     	else if (currentPos > desiredPotPos) {
     		direction = DIRECTION_DOWN;
     	}
+    	for (int i = 0; i < errors.length - 1; i++) {
+    		errors[i] = desiredAngle - Robot.arm.getArmAngle();
+    	}
+    	
+    	if (desiredAngle > -30 && desiredAngle < 0) {
+    		steadyConstant = 0.1;
+    	}
+    	else if (desiredAngle < -30 && desiredAngle > -70) {
+    		steadyConstant = 0.2;
+    	}
+    	else if (desiredAngle < -70) {
+    		steadyConstant = 0.175;
+    	}
     	
     }
 
@@ -71,7 +85,14 @@ public class MoveArmToPos extends Command {
     	
     	integral += error;
     	
+    	double[] newErrors = new double[20];
     	
+    	for (int i = 1; i < errors.length - 1; i++) {
+    		newErrors[i] = errors[i - 1];
+    	}
+    	newErrors[0] = error;
+    	
+    	errors = newErrors;
     	
     	if (Math.abs(error) < ERROR_TOLERANCE) {
     		integral = 0;
@@ -100,7 +121,10 @@ public class MoveArmToPos extends Command {
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
     	double avgVelocity = 0;
-    	
+    	for (int i = 0; i < errors.length - 1; i++) {
+    		avgVelocity += errors[i];
+    	}
+    	avgVelocity /= errors.length;
     	
     	if (Math.abs(error) < ERROR_TOLERANCE) {
     		System.out.println("within error tolerance");
