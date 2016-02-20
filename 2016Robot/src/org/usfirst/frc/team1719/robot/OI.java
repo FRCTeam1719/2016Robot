@@ -84,6 +84,8 @@ public class OI {
 //		private Button moveArmButton;
 		private Button primeButton;
 		private Button intakeButton;
+		
+		private Button lowerButton;
 		public OI(){
 			//Define Controllers
 			driverXBOX = new Joystick(0);
@@ -97,7 +99,7 @@ public class OI {
 			rotate180Button.whenPressed(new TurnToAngle(90, true));
 
 			fireButton = new JoystickButton(operatorJoystick, ATTACK_TRIGGER);
-			primeButton = new JoystickButton(operatorJoystick, ATTACK_BUTTON_3);
+			primeButton = new JoystickButton(operatorJoystick, ATTACK_BUTTON_5);
 			primeButton.whenPressed(new ManualShoot());
 			//moveArmButton = new JoystickButton(operatorJoystick, ATTACK_BUTTON_6);
 			//moveArmButton.whenPressed(new MoveArmToPos(60));
@@ -106,6 +108,8 @@ public class OI {
 			
 			armToPos45 = new JoystickButton(operatorJoystick, ATTACK_BUTTON_6);
 			armToPos45.whenPressed(new MoveArmToPos(45));
+			
+			lowerButton = new JoystickButton(operatorJoystick, ATTACK_BUTTON_3);
 		}
 		
 		//Functions for getting input
@@ -147,5 +151,10 @@ public class OI {
 		public boolean getDontStopButton(){
 			return rotateLeft90Button.get();
 		}
+		
+		public boolean getLowerButton() {
+			return lowerButton.get();
+		}
+		
 }
 
