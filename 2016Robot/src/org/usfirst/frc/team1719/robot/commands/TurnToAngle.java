@@ -1,13 +1,13 @@
 package org.usfirst.frc.team1719.robot.commands;
 
-import java.util.ArrayDeque;
-import java.util.Deque;
 import java.util.function.ToDoubleFunction;
+import java.util.stream.DoubleStream;
 
 import org.usfirst.frc.team1719.robot.Robot;
 import org.usfirst.frc.team1719.robot.RobotMap;
 
 import edu.wpi.first.wpilibj.AnalogGyro;
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
@@ -18,8 +18,9 @@ public class TurnToAngle extends Command {
 
     private static final int QUEUE_LENGTH = 10;
 	//in degrees
-	private static final double TOLERANCE = 0.5;
+	private static final double TOLERANCE = 5;
 	private static final double MAX_PWR = 1.0D;
+	
 	private static final ToDoubleFunction<Double> ident = new ToDoubleFunction<Double>() {
         
         @Override
@@ -32,12 +33,15 @@ public class TurnToAngle extends Command {
 	double kD;
 	double kI;
 	
-	private double tunedAngle;
+	private double desiredAngle;
 	private double currentAngle = 0D;
 	private double integral;
 	double previousError;
+	//In second
+	private final double TIMEOUT_TIME = 5.0;
+	private Timer timeout;
+	double errors[] = new double[20];
 	
-	Deque<Double> errors = new ArrayDeque<Double>();
 	private boolean shouldResetGyro;
 	
 	AnalogGyro gyro = RobotMap.gyro;
@@ -55,9 +59,10 @@ public class TurnToAngle extends Command {
 
     	//TODO make this better
     	
-    	tunedAngle = desiredAngle;
+    	this.desiredAngle = desiredAngle;
     	this.shouldResetGyro = shouldResetGyro;
-    	for(int i = 0; i < QUEUE_LENGTH; i++) errors.push(0.0D);;
+    	timeout = new Timer();
+    	timeout.reset();
     }
 
     // Called just before this Command runs the first time
@@ -66,9 +71,15 @@ public class TurnToAngle extends Command {
     	kP = SmartDashboard.getNumber("Turn kP");
     	kD = SmartDashboard.getNumber("Turn kD");
     	kI = SmartDashboard.getNumber("Turn kI");
-    	if(tunedAngle == -1337) tunedAngle = SmartDashboard.getNumber("TurnToAngleParam");
+    	if(desiredAngle == -1337) desiredAngle = SmartDashboard.getNumber("TurnToAngleParam");
     	if(shouldResetGyro){
     		gyro.reset();
+    	}
+    	System.out.println("Turning command started");
+    	timeout.start();
+    	//Initialize our error array with the default error
+    	for(int i=0;i<errors.length;i++){
+    		errors[i] = desiredAngle;
     	}
     }
 
@@ -78,10 +89,11 @@ public class TurnToAngle extends Command {
     	
     	
     	currentAngle = gyro.getAngle();
-    	double error = tunedAngle - currentAngle;
-    	
-    	errors.add(error);
-    	errors.remove();
+    	double error = desiredAngle - currentAngle;
+    	for (int i = (errors.length - 1); i > 0; i--) {                
+		    errors[i] = errors[i-1];
+		}
+    	errors[0] = error;
     	
     	double derivative = error - previousError;
     	previousError = error;
@@ -90,18 +102,21 @@ public class TurnToAngle extends Command {
     		integral = 0;
     	}
     	double output = Math.max(Math.min((error * kP) + (derivative * kD) + (integral * kI), MAX_PWR), -MAX_PWR);
-    	
-    	Robot.drive.operateDrive(output, -output);
+    	System.out.println(output);
+    	Robot.drive.operateDrive(-output, output);
     }
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-    	double avgError = errors.stream().mapToDouble(ident).sum() / errors.size();
-    	return (Math.abs(avgError) < TOLERANCE);
+		return (Math.abs(DoubleStream.of(errors).sum()/20))<TOLERANCE;
+    	//return (timeout.get() > TIMEOUT_TIME && !Robot.oi.getDontStopButton());
     }
 
     // Called once after isFinished returns true
     protected void end() {
+    	//RobotMap.gyro.reset();
+    	System.out.println("Ending");
+    	timeout.reset();
     }
 
     // Called when another command which requires one or more of the same

@@ -159,9 +159,9 @@ public class Robot extends IterativeRobot {
     	SmartDashboard.putNumber("Drive kI", 0.003);
     	SmartDashboard.putNumber("Drive kD", 0.003);
     	
-    	SmartDashboard.putNumber("Turn kP", 0.001);;
-    	SmartDashboard.putNumber("Turn kI", 0.0003);
-    	SmartDashboard.putNumber("Turn kD", 0.0003);
+    	SmartDashboard.putNumber("Turn kP", 0.1);;
+    	SmartDashboard.putNumber("Turn kI", 0.0);
+    	SmartDashboard.putNumber("Turn kD", 0.65);
     	
     	SmartDashboard.putNumber("Arm steady kP", (0.2 / 90));
     	
@@ -282,6 +282,7 @@ public class Robot extends IterativeRobot {
      * This function is called periodically during operator control
      */
     public void teleopPeriodic() {
+    	System.out.println("Angle: "+RobotMap.gyro.getAngle());
     	//System.out.println("meh" + RobotMap.dial.get());
         Scheduler.getInstance().run();
         if(foundCamera){

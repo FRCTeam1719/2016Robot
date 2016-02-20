@@ -61,12 +61,8 @@ public class RobotMap {
 		//Main hardware allocation
 		
 		//create and configure encoders
-		rightDriveWheelEncoder = new Encoder(6, 7, false, Encoder.EncodingType.k4X);
-		rightDriveWheelEncoder.setDistancePerPulse(DRIVEWHEEL_CIRCUMFRENCE_FEET / 256);
-		leftDriveWheelEncoder = new Encoder(8, 9, false, Encoder.EncodingType.k4X);
-		leftDriveWheelEncoder.setDistancePerPulse(DRIVEWHEEL_CIRCUMFRENCE_FEET / 256);
 		
-		gyro = new AnalogGyro(0);
+		
 
 		//Motor Controllers
 		rightDriveController = configureMotor(rightDriveController,0);
@@ -94,8 +90,7 @@ public class RobotMap {
 		gyro = new AnalogGyro(0);
 		dial = new AnalogInput(3);
         armPot = new AnalogPotentiometer(1, 136.36D, -90);
-        buttonA = new DigitalInput(19);
-		buttonB = new DigitalInput(20);
+        
 		//Relay
 		photonCannon = new Relay(0);
 

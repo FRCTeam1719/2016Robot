@@ -91,9 +91,8 @@ public class OI {
 			
 			//Define Buttons
 			rotateRight90Button = new JoystickButton(driverXBOX, X_BUTTON);
-			rotateRight90Button.whenPressed(new TurnToAngle(45,true));
+			rotateRight90Button.whenPressed(new TurnToAngle(90,true));
 			rotateLeft90Button = new JoystickButton(driverXBOX, B_BUTTON);
-			rotateLeft90Button.whenPressed(new TurnToAngle(-45, true));
 			rotate180Button = new JoystickButton(driverXBOX, Y_BUTTON);
 			rotate180Button.whenPressed(new TurnToAngle(90, true));
 
@@ -145,6 +144,8 @@ public class OI {
 			return intakeButton.get();
 		}
 		
-		
+		public boolean getDontStopButton(){
+			return rotateLeft90Button.get();
+		}
 }
 
