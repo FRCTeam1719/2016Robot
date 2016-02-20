@@ -5,6 +5,7 @@ import edu.wpi.first.wpilibj.AnalogInput;
 import edu.wpi.first.wpilibj.AnalogPotentiometer;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.Encoder;
+import edu.wpi.first.wpilibj.Relay;
 import edu.wpi.first.wpilibj.Spark;
 
 /**
@@ -19,7 +20,6 @@ public class RobotMap {
 	/** 
 	 * Measured in feet
 	 */
-	private static final double DRIVE_WHEEL_CIRCUMFRENCE = Math.PI * 10 / 12;
     // For example to map the left and right motors, you could define the
     // following variables to use with your drivetrain subsystem.
     // public static int leftMotor = 1;
@@ -29,7 +29,8 @@ public class RobotMap {
     // number and the module. For example you with a rangefinder:
     // public static int rangefinderPort = 1;
     // public static int rangefinderModule = 1;
-	static double FLYWHEEL_CIRCUMFRENCE_FEET = 1.57075;
+	static double FLYWHEEL_CIRCUMFRENCE_FEET = 1.5708;
+	static double DRIVEWHEEL_CIRCUMFRENCE_FEET = 2.618;
 	
 	public static Spark leftDriveController;
 	public static Spark rightDriveController;
@@ -51,15 +52,16 @@ public class RobotMap {
 	public static AnalogInput dial;
 	public static DigitalInput buttonA;
 	public static DigitalInput buttonB;
+	public static Relay photonCannon;
 
 	public static void init(){
 		//Main hardware allocation
 		
 		//create and configure encoders
 		rightDriveWheelEncoder = new Encoder(6, 7, false, Encoder.EncodingType.k4X);
-		rightDriveWheelEncoder.setDistancePerPulse(DRIVE_WHEEL_CIRCUMFRENCE / 256);
+		rightDriveWheelEncoder.setDistancePerPulse(DRIVEWHEEL_CIRCUMFRENCE_FEET / 256);
 		leftDriveWheelEncoder = new Encoder(8, 9, false, Encoder.EncodingType.k4X);
-		leftDriveWheelEncoder.setDistancePerPulse(DRIVE_WHEEL_CIRCUMFRENCE / 256);
+		leftDriveWheelEncoder.setDistancePerPulse(DRIVEWHEEL_CIRCUMFRENCE_FEET / 256);
 		
 		gyro = new AnalogGyro(0);
 
@@ -75,37 +77,30 @@ public class RobotMap {
 		//Sensors
 		
 		//DIO
-		rightFlyWheelEncoder = new Encoder(2, 3, true, Encoder.EncodingType.k4X);		
-		configureEncoder(rightFlyWheelEncoder);
+		rightFlyWheelEncoder = new Encoder(2, 3, true, Encoder.EncodingType.k4X);	
+		rightFlyWheelEncoder.setDistancePerPulse(FLYWHEEL_CIRCUMFRENCE_FEET / 20);
 		leftFlyWheelEncoder = new Encoder(4, 5, true, Encoder.EncodingType.k4X);
-		configureEncoder(leftFlyWheelEncoder);
+		leftFlyWheelEncoder.setDistancePerPulse(FLYWHEEL_CIRCUMFRENCE_FEET / 20);
 		rightDriveEncoder = new Encoder(6, 7, true, Encoder.EncodingType.k4X);
-		configureEncoder(rightDriveEncoder);
 		leftDriveEncoder = new Encoder(8, 9, true, Encoder.EncodingType.k4X);
-		configureEncoder(leftDriveEncoder);
         buttonA = new DigitalInput(19);
 		buttonB = new DigitalInput(20);
 		
 
 		//Analog In
 		gyro = new AnalogGyro(0);
-        armPot = new AnalogPotentiometer(1, 1200.0D);
 		dial = new AnalogInput(3);
+        armPot = new AnalogPotentiometer(1, 136.36D, -90);
+        buttonA = new DigitalInput(19);
+		buttonB = new DigitalInput(20);
+		//Relay
+		photonCannon = new Relay(0);
 	}
 	
 	/**
 	 * Function for configuring encoders
 	 * @param encoder
 	 */
-	private static void configureEncoder(Encoder encoder){
-
-		 //Setting values for encoders
-
-		encoder.setMaxPeriod(.02);
-		encoder.setMinRate(10);
-		encoder.setDistancePerPulse(FLYWHEEL_CIRCUMFRENCE_FEET);
-		encoder.setSamplesToAverage(127);
-		
-	}
+	
 	
 }
