@@ -34,7 +34,7 @@ public class TurnToAngle extends Command {
 	
 	private double tunedAngle;
 	private double currentAngle = 0D;
-	
+	private double integral;
 	double previousError;
 	
 	Deque<Double> errors = new ArrayDeque<Double>();
@@ -62,10 +62,10 @@ public class TurnToAngle extends Command {
 
     // Called just before this Command runs the first time
     protected void initialize() {
-
+    	integral = 0;
     	kP = SmartDashboard.getNumber("Turn kP");
     	kD = SmartDashboard.getNumber("Turn kD");
-    	kI = SmartDashboard.getNumber("Turn kI")
+    	kI = SmartDashboard.getNumber("Turn kI");
     	if(tunedAngle == -1337) tunedAngle = SmartDashboard.getNumber("TurnToAngleParam");
     	if(shouldResetGyro){
     		gyro.reset();
@@ -85,8 +85,11 @@ public class TurnToAngle extends Command {
     	
     	double derivative = error - previousError;
     	previousError = error;
-    	
-    	double output = Math.max(Math.min((error * kP) + (derivative * kD), MAX_PWR), -MAX_PWR);
+    	integral += error;
+    	if(error<TOLERANCE){
+    		integral = 0;
+    	}
+    	double output = Math.max(Math.min((error * kP) + (derivative * kD) + (integral * kI), MAX_PWR), -MAX_PWR);
     	
     	Robot.drive.operateDrive(output, -output);
     }
