@@ -5,6 +5,7 @@ import org.usfirst.frc.team1719.robot.commands.AutonCommand;
 import org.usfirst.frc.team1719.robot.commands.ExampleCommand;
 import org.usfirst.frc.team1719.robot.settings.PIDData;
 import org.usfirst.frc.team1719.robot.subsystems.Arm;
+import org.usfirst.frc.team1719.robot.subsystems.Climber;
 import org.usfirst.frc.team1719.robot.subsystems.Display;
 import org.usfirst.frc.team1719.robot.subsystems.DriveSubsystem;
 import org.usfirst.frc.team1719.robot.subsystems.DualShooter;
@@ -60,6 +61,7 @@ public class Robot extends IterativeRobot {
 	Image frame;
 	int session;
 	NIVision.Rect crosshair;
+	public static Climber climber;
 
 	public static boolean isAuton = false;
 
@@ -88,6 +90,7 @@ public class Robot extends IterativeRobot {
 				RobotMap.innerRightShooterWheelController);
 		arm = new Arm(RobotMap.armController, RobotMap.armPot);
 		display = new Display(RobotMap.buttonA, RobotMap.buttonB, RobotMap.dial);
+		climber = new Climber (RobotMap.climberLeft, RobotMap.climberRight); 
 		oi = new OI();
 		isAuton = false;
 		frame = NIVision.imaqCreateImage(NIVision.ImageType.IMAGE_RGB, 0);

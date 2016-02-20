@@ -3,6 +3,7 @@ package org.usfirst.frc.team1719.robot;
 
 import org.usfirst.frc.team1719.robot.commands.ManualShoot;
 import org.usfirst.frc.team1719.robot.commands.RunIntake;
+import org.usfirst.frc.team1719.robot.commands.SparkMotor;
 import org.usfirst.frc.team1719.robot.commands.TurnToAngle;
 
 import edu.wpi.first.wpilibj.Joystick;
@@ -84,6 +85,7 @@ public class OI {
 //		private Button moveArmButton;
 		private Button primeButton;
 		private Button intakeButton;
+		private Button useClimberButton;
 		public OI(){
 			//Define Controllers
 			driverXBOX = new Joystick(0);
@@ -103,6 +105,8 @@ public class OI {
 			//moveArmButton.whenPressed(new MoveArmToPos(60));
 			intakeButton = new JoystickButton(operatorJoystick, ATTACK_BUTTON_2);
 			intakeButton.whenPressed(new RunIntake());
+			useClimberButton = new JoystickButton(operatorJoystick, ATTACK_BUTTON_4);
+			useClimberButton.whenPressed (new SparkMotor(250));
 		}
 		
 		//Functions for getting input
