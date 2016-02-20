@@ -12,7 +12,6 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  */
 public class MoveArmToPos extends Command {
 	
-	final double SPEED = 0.5;
 	final boolean DIRECTION_UP = true;
 	final boolean DIRECTION_DOWN = false;
 	final double ERROR_TOLERANCE = 1;
@@ -29,9 +28,11 @@ public class MoveArmToPos extends Command {
 
 	double integral = 0;
 	double derivative = 0;
+	
+	double error;
 	double previousError;
 	
-	ArrayList<Double> errors = new ArrayList<Double>(20);
+	double[] errors = new double[20];
 
 	/**
 	 * Move the arm to the desiredAngle
@@ -66,14 +67,11 @@ public class MoveArmToPos extends Command {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	double error = Robot.arm.getArmAngle();
+    	error = desiredAngle - Robot.arm.getArmAngle();
     	
     	integral += error;
     	
-    	if (errors.size() == 20) {
-    		errors.remove(0);
-    		errors.add(error);
-    	}
+    	
     	
     	if (Math.abs(error) < ERROR_TOLERANCE) {
     		integral = 0;
@@ -81,28 +79,37 @@ public class MoveArmToPos extends Command {
     	
     	derivative = error - previousError;
     	
-    	double output = (error * kP) + (integral * kI) + (derivative * kD);
+
+    	
+    	
+    	double output = (error * kP) + (integral * kI) + (derivative * kD) + 0.2;
     	
     	//cap output at 1 and -1
-    	if (output > 1) {
-    		output = 1;
+    	if (output > .7) {
+    		output = .7;
     	}
-    	else if (output < 1) {
-    		output = -1;
+    	else if (output < -.7) {
+    		output = -.7;
     	}
     	Robot.arm.move(output);
     	previousError = error;
+    	System.out.println("output: " + output);
+    	System.out.println("angle: " + Robot.arm.getArmAngle());
     }
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
-        //make sure arm stops
-    	double avgError = 0;
-    	for (int i = 0; i < errors.size(); i++) {
-    		avgError += errors.get(i);
+    	double avgVelocity = 0;
+    	
+    	
+    	if (Math.abs(error) < ERROR_TOLERANCE) {
+    		System.out.println("within error tolerance");
+    		if (avgVelocity < 1) {
+    			return true;
+    		}
+    		
     	}
-    	avgError /= errors.size();
-    	return (Math.abs(avgError) < ERROR_TOLERANCE);
+    	return false;
     }
 
     // Called once after isFinished returns true

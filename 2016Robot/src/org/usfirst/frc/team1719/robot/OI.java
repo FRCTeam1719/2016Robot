@@ -108,7 +108,7 @@ public class OI {
 			intakeButton.whenPressed(new RunIntake());
 			
 			armToPos45 = new JoystickButton(operatorJoystick, ATTACK_BUTTON_6);
-			armToPos45.whenPressed(new MoveArmToPos(45));
+			armToPos45.whenPressed(new MoveArmToPos(-45));
 			
 			lowerButton = new JoystickButton(operatorJoystick, ATTACK_BUTTON_3);
 		}

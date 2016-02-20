@@ -85,7 +85,8 @@ public class RobotMap {
 
 		//Analog In
 		dial = new AnalogInput(3);
-        armPot = new AnalogPotentiometer(1, 136.36D, -90);
+		//armPot = new AnalogPotentiometer(1);
+        armPot = new AnalogPotentiometer(1, 141.06, -108.2);
         buttonA = new DigitalInput(19);
 		buttonB = new DigitalInput(20);
 		

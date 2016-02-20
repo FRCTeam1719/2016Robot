@@ -31,21 +31,22 @@ public class UseArm extends Command{
 		//Apply control scaling
 		double motorSpeed = joystickReading * CONTROL_SCALING;
 		
-		if (Robot.arm.getArmAngle() < -90) {
+		if (Robot.arm.getArmAngle() < -95) {
 			
 			//if the lower button isn't pressed
-			if (! (Robot.oi.getLowerButton())) {
-				new MoveArmToPos(-90).start();
-				return;
-			}
+//			if (! (Robot.oi.getLowerButton())) {
+//				System.out.println("ARM BELOW POS, MOVING");
+//				new MoveArmToPos(-85).start();
+//				return;
+//			}
 		}
 		if(Math.abs(joystickReading)<TOLERANCE){
 			
-			if (angle > 0) {
-				motorSpeed = 0.2;
+			if (angle > 10) {
+				motorSpeed = -0.2;
 			}
-			else if (angle < 0) {
-				motorSpeed = -0.25;
+			else if (angle < -20) {
+				motorSpeed = 0.2;
 			}
 			
 		}
