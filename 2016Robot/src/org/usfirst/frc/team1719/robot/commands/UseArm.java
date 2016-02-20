@@ -24,7 +24,6 @@ public class UseArm extends Command{
 		SmartDashboard.putNumber("Arm steady kP", 0.0D);
 		SmartDashboard.putNumber("Arm steady kI", 0.0D);
 		SmartDashboard.putNumber("Arm steady kD", 0.0D);
-		SmartDashboard.putNumber("Arm steady kS", 0.0D);
 		SmartDashboard.putNumber("Arm steady integral range", 7.0D);
 	}
 
@@ -43,7 +42,7 @@ public class UseArm extends Command{
 	        double error = Robot.arm.getTargetPos() - angle;
 	        if(Math.abs(error) < rng) integral += error;
 	        double derivative = error - lastErr;
-	        motorSpeed = kP * error + kI * integral + kD * derivative + kS * Math.sin(angle);
+	        motorSpeed = kP * error + kI * integral + kD * derivative;
 		} else { // joystick touched, reset integral and desired pos
 		    integral = 0;
 		    Robot.arm.setTargetPos(Robot.arm.getArmAngle());
