@@ -15,7 +15,6 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  * Turns the drive to the specified angle
  */
 public class TurnToAngle extends Command {
-
     private static final int QUEUE_LENGTH = 10;
 	//in degrees
 	private static final double TOLERANCE = 5;

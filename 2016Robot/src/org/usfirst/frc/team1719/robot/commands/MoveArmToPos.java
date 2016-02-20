@@ -11,7 +11,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  * Move the arm to a specified angle
  */
 public class MoveArmToPos extends Command {
-	
+
 	final double SPEED = 0.5;
 	final boolean DIRECTION_UP = true;
 	final boolean DIRECTION_DOWN = false;
@@ -19,7 +19,6 @@ public class MoveArmToPos extends Command {
 	double currentAngle;
 	double desiredAngle;
 	double desiredPotPos; // the value the potentiometer is giving
-	
 	boolean direction;
 	double speed;
 	
@@ -35,7 +34,9 @@ public class MoveArmToPos extends Command {
 
 	/**
 	 * Move the arm to the desiredAngle
-	 * @param desiredAngle double
+	 * 
+	 * @param desiredAngle
+	 *            double
 	 */
     public MoveArmToPos(double desiredAngle) {
         // Use requires() here to declare subsystem dependencies
@@ -103,14 +104,15 @@ public class MoveArmToPos extends Command {
     	return (Math.abs(avgError) < ERROR_TOLERANCE);
     }
 
-    // Called once after isFinished returns true
-    protected void end() {
-    	Robot.arm.move(0);
-    }
 
-    // Called when another command which requires one or more of the same
-    // subsystems is scheduled to run
-    protected void interrupted() {
-    	Robot.arm.move(0);
-    }
+	// Called once after isFinished returns true
+	protected void end() {
+		Robot.arm.move(0);
+	}
+
+	// Called when another command which requires one or more of the same
+	// subsystems is scheduled to run
+	protected void interrupted() {
+		Robot.arm.move(0);
+	}
 }

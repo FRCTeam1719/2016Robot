@@ -2,19 +2,18 @@ package org.usfirst.frc.team1719.robot.commands;
 
 import org.usfirst.frc.team1719.robot.Robot;
 import org.usfirst.frc.team1719.robot.RobotMap;
-import org.usfirst.frc.team1719.robot.subsystems.DriveSubsystem;
 
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
-
 /**
  * Move forward a specified distance
+ * 
  * @author aaroneline
  *
  */
 public class MoveForwards extends Command {
-	
+
 	double HALF_SPEED = 0.5D;
 	double speed;
 
@@ -22,16 +21,11 @@ public class MoveForwards extends Command {
 	 * 
 	 */
 	private double desiredDist;
-
-
 	
-	
-	DriveSubsystem drive = Robot.drive;
-	
-
 	/**
 	 * 
-	 * @param distFeet to move forward
+	 * @param distFeet
+	 *            to move forward
 	 */
 	public MoveForwards(double distFeet, double speed) {
 		requires(Robot.drive);
@@ -60,7 +54,7 @@ public class MoveForwards extends Command {
 	@Override
 	protected void interrupted() {
 		Robot.drive.operateDrive(0, 0);
-		
+
 	}
 
 	@Override

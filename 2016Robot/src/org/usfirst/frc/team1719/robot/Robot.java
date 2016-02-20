@@ -1,6 +1,5 @@
 package org.usfirst.frc.team1719.robot;
 
-
 import org.usfirst.frc.team1719.robot.autonomousSelections.DoNothing;
 import org.usfirst.frc.team1719.robot.autonomousSelections.LowBarAuton;
 import org.usfirst.frc.team1719.robot.autonomousSelections.MoatAuton;
@@ -10,18 +9,14 @@ import org.usfirst.frc.team1719.robot.autonomousSelections.RockWallAuton;
 import org.usfirst.frc.team1719.robot.autonomousSelections.RoughTerrainAuton;
 import org.usfirst.frc.team1719.robot.commands.AimAndFire;
 import org.usfirst.frc.team1719.robot.commands.AutoSenseTower;
-import org.usfirst.frc.team1719.robot.commands.AutonCommand;
 import org.usfirst.frc.team1719.robot.commands.TurnToAngle;
-//github.com/FRCTeam1719/2016Robot.git
 import org.usfirst.frc.team1719.robot.settings.PIDData;
 import org.usfirst.frc.team1719.robot.subsystems.Arm;
 import org.usfirst.frc.team1719.robot.subsystems.Display;
 import org.usfirst.frc.team1719.robot.subsystems.DriveSubsystem;
 import org.usfirst.frc.team1719.robot.subsystems.DualShooter;
-import org.usfirst.frc.team1719.robot.subsystems.DummyWeapon;
 import org.usfirst.frc.team1719.robot.subsystems.ExampleSubsystem;
 import org.usfirst.frc.team1719.robot.subsystems.FlyWheel;
-import org.usfirst.frc.team1719.robot.subsystems.IFireable;
 
 import com.ni.vision.NIVision;
 import com.ni.vision.NIVision.Image;
@@ -29,7 +24,6 @@ import com.ni.vision.VisionException;
 
 import edu.wpi.first.wpilibj.CameraServer;
 import edu.wpi.first.wpilibj.DriverStation;
-//github.com/FRCTeam1719/2016Robot.git
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.Relay;
 import edu.wpi.first.wpilibj.command.Command;
@@ -37,6 +31,7 @@ import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -52,17 +47,15 @@ public class Robot extends IterativeRobot {
 	final double PHOTON_CANNON_ANGLE = 60;
 
 	final String CAMERA_NAME = "cam0";
+	public static final double GET_VALUE_FROM_SMARTDASHBOARD = -1337.0D;
 	public static final ExampleSubsystem exampleSubsystem = new ExampleSubsystem();
-	public static final IFireable weapon = new DummyWeapon();
 	public static OI oi;
 	public static Display display;
 	public static DriveSubsystem drive;
-
 	public static FlyWheel rightFlywheel;
 	public static FlyWheel leftFlywheel;
 	public static DualShooter shooter;
 	PIDData rightFlywheelPIDData;
-
 	PIDData leftFlywheelPIDData;
 	public static Arm arm;
 	public int autonomousMode = 0;
@@ -185,23 +178,23 @@ public class Robot extends IterativeRobot {
     		NIVision.IMAQdxStopAcquisition(session);
     	}
     }
+    
 	public void disabledPeriodic() {
 
 		if (display.buttonAPressed()) {
 			currentDisplayMode = AUTONDISPLAY;
-			System.out.println("ABUTTONPRESSED");
 		} else if (display.buttonBPressed()) {
 			currentDisplayMode = VOLTAGEDISPLAY;
 		}
 
-		System.out.println(display.getDialReading());
-			if (currentDisplayMode == AUTONDISPLAY) {
+		
+		if (currentDisplayMode == AUTONDISPLAY) {
 			System.out.println("displayingAuton");
-		Double dialPos =display.getDialReading();
+			Double dialPos =display.getDialReading();
 			if (dialPos -.25 <= TOLERANCE) {
-			autonomousMode = 0;
-				display.displayString("A  0");
-		} else if (dialPos - .255 <= TOLERANCE) {
+			    autonomousMode = 0;
+			    display.displayString("A  0");
+			} else if (dialPos - .255 <= TOLERANCE) {
 				autonomousMode = 1;
 				display.displayString("A  1");
 			} else if (dialPos - .26 <= TOLERANCE ) {
@@ -210,7 +203,6 @@ public class Robot extends IterativeRobot {
 			} else if (dialPos -.265 <= TOLERANCE) {
 				autonomousMode = 3;
 				display.displayString("A  3");
-
 			}
 		} else if(currentDisplayMode == VOLTAGEDISPLAY){
 			String voltage = Double.toString(DriverStation.getInstance().getBatteryVoltage());
@@ -233,9 +225,8 @@ public class Robot extends IterativeRobot {
 	 * to the switch structure below with additional strings and commands.
 	 */
 	public void autonomousInit() {
-		isAuton = true;
 		autonomousCommand = (Command) chooser.getSelected();
-		autonomousCommand = new AutonCommand(autonomousMode);
+		isAuton = true;
 		/*
 		 * String autoSelected = SmartDashboard.getString("Auto Selector",
 		 * "Default"); switch(autoSelected) { case "My Auto": autonomousCommand
@@ -256,12 +247,8 @@ public class Robot extends IterativeRobot {
 	 */
 	public void autonomousPeriodic() {
 		Scheduler.getInstance().run();
-		System.out.println(autonomousMode);
-	} 
+	}
 
-	/**
-	 * This function is called periodically during operator control
-	 */
     public void teleopInit() {
 
 		/* This makes sure that the autonomous stops running when
@@ -302,8 +289,6 @@ public class Robot extends IterativeRobot {
         	RobotMap.photonCannon.set(Relay.Value.kOff);
         }
     }
-    
-   
     
     /**
      * This function is called periodically during test mode

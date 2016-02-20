@@ -23,6 +23,7 @@ public class RobotMap {
 	 * Measured in feet
 	 */
 	public final static boolean COMPILINGFORPRODUCTIONBOT = false;
+
     // For example to map the left and right motors, you could define the
     // following variables to use with your drivetrain subsystem.
     // public static int leftMotor = 1;
@@ -59,9 +60,6 @@ public class RobotMap {
 
 	public static void init(){
 		//Main hardware allocation
-		
-		//create and configure encoders
-		
 		
 
 		//Motor Controllers
