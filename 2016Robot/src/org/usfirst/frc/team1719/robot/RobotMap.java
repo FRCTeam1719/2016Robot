@@ -4,8 +4,8 @@ import edu.wpi.first.wpilibj.AnalogGyro;
 import edu.wpi.first.wpilibj.AnalogInput;
 import edu.wpi.first.wpilibj.AnalogPotentiometer;
 import edu.wpi.first.wpilibj.DigitalInput;
+import edu.wpi.first.wpilibj.DigitalOutput;
 import edu.wpi.first.wpilibj.Encoder;
-import edu.wpi.first.wpilibj.Relay;
 import edu.wpi.first.wpilibj.Spark;
 import edu.wpi.first.wpilibj.SpeedController;
 import edu.wpi.first.wpilibj.Talon;
@@ -56,7 +56,7 @@ public class RobotMap {
 	public static AnalogInput dial;
 	public static DigitalInput buttonA;
 	public static DigitalInput buttonB;
-	public static Relay photonCannon;
+	public static DigitalOutput photonCannon;
 
 	public static void init(){
 		//Main hardware allocation
@@ -92,7 +92,7 @@ public class RobotMap {
 		dial = new AnalogInput(3);
         
 		//Relay
-		photonCannon = new Relay(0);
+		photonCannon = new DigitalOutput(1);
 
         armPot = new AnalogPotentiometer(1, 141, -109.4);
         buttonA = new DigitalInput(19);

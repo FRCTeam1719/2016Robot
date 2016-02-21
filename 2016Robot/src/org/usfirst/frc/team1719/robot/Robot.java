@@ -25,7 +25,6 @@ import com.ni.vision.VisionException;
 import edu.wpi.first.wpilibj.CameraServer;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.IterativeRobot;
-import edu.wpi.first.wpilibj.Relay;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
@@ -281,16 +280,16 @@ public class Robot extends IterativeRobot {
         	CameraServer.getInstance().setImage(frame);
         }
         
-        if ((Robot.arm.getArmAngle() + 90) > PHOTON_CANNON_ANGLE) {
-        	RobotMap.photonCannon.set(Relay.Value.kOn);
-
+        if ((Robot.arm.getArmAngle()) < PHOTON_CANNON_ANGLE) {
+        	RobotMap.photonCannon.set(false);
         }
         else {
-        	RobotMap.photonCannon.set(Relay.Value.kOff);//off
-        	RobotMap.photonCannon.set(Relay.Value.kOn);//dim
-        	RobotMap.photonCannon.set(Relay.Value.kOff);//off
-        	RobotMap.photonCannon.set(Relay.Value.kOn);//blinking
-        	RobotMap.photonCannon.set(Relay.Value.kOff);
+        	//Flicker the photon cannon until we get to the right state
+        	RobotMap.photonCannon.set(true);// dim
+        	RobotMap.photonCannon.set(false);//off
+        	RobotMap.photonCannon.set(true);//blinking
+        	RobotMap.photonCannon.set(false);//off
+        	RobotMap.photonCannon.set(true);//on full power
         }
     }
     
