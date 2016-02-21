@@ -19,6 +19,7 @@ public class Arm extends Subsystem {
 	Spark motor;
 	
 	AnalogPotentiometer pot;
+	private double targetPos = 0.0D;
 	
 	@Override
 	protected void initDefaultCommand() {
@@ -46,6 +47,13 @@ public class Arm extends Subsystem {
 	public double getArmAngle() {
 		return pot.get();
 	}
-	
+
+    public double getTargetPos() {
+        return targetPos;
+    }
+
+    public void setTargetPos(double _targetPos) {
+        targetPos = _targetPos;
+    }
 	
 }

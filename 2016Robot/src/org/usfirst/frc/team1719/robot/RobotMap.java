@@ -87,15 +87,18 @@ public class RobotMap {
         buttonA = new DigitalInput(19);
 		buttonB = new DigitalInput(20);
 		
-
+		//.116
+		//.754
 		//Analog In
 		gyro = new AnalogGyro(0);
 		dial = new AnalogInput(3);
-        //armPot = new AnalogPotentiometer(1, 136.36D, -90);
         
 		//Relay
 		photonCannon = new Relay(0);
 
+        armPot = new AnalogPotentiometer(1, 141, -109.4);
+        buttonA = new DigitalInput(19);
+		buttonB = new DigitalInput(20);
 	}
 	
 	/**
