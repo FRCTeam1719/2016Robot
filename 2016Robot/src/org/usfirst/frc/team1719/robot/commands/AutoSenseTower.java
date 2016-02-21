@@ -64,7 +64,7 @@ public class AutoSenseTower extends Command {
      */
     private double calcAngleFromDistance(double distance){
     	//TODO Actually do stuff here
-    	return distance;
+    	return 45;
     }
     
 }

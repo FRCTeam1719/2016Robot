@@ -67,7 +67,7 @@ public class TargetVision {
     private static final double VIEW_ANGLE_DEG = 54.70D;
     private static final double VIEW_ANGLE_HEIGHT_DEG = 18.59D;
     // Height of camera from the ground
-    private static final double CAM_HEIGHT_FT = 1.0D;
+    private static final double CAM_HEIGHT_FT = 1.208;
     private static final double SCORE_MIN = 75.0D;
     // Height of target from the ground
     private static final double TARGET_HEIGHT_FT = 7.583D;

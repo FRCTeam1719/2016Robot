@@ -80,6 +80,10 @@ public class RobotMap {
 		leftFlyWheelEncoder.setDistancePerPulse(FLYWHEEL_CIRCUMFRENCE_FEET / 20);
 		rightDriveEncoder = new Encoder(6, 7, true, Encoder.EncodingType.k4X);
 		leftDriveEncoder = new Encoder(8, 9, true, Encoder.EncodingType.k4X);
+
+		//Analog In
+		//armPot = new AnalogPotentiometer(1);
+        armPot = new AnalogPotentiometer(1, 141.06, -108.2);
         buttonA = new DigitalInput(19);
 		buttonB = new DigitalInput(20);
 		
@@ -87,7 +91,7 @@ public class RobotMap {
 		//Analog In
 		gyro = new AnalogGyro(0);
 		dial = new AnalogInput(3);
-        armPot = new AnalogPotentiometer(1, 136.36D, -90);
+        //armPot = new AnalogPotentiometer(1, 136.36D, -90);
         
 		//Relay
 		photonCannon = new Relay(0);

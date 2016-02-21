@@ -158,9 +158,9 @@ public class Robot extends IterativeRobot {
     	
     	SmartDashboard.putNumber("Arm steady kP", (0.2 / 90));
     	
-    	SmartDashboard.putNumber("Move arm to pos kP", (0.5 / 90));
-    	SmartDashboard.putNumber("Move arm to pos kI", 0);
-    	SmartDashboard.putNumber("Move arm to pos kD", (1 / 90));
+    	SmartDashboard.putNumber("Move arm to pos kP", .03);
+    	SmartDashboard.putNumber("Move arm to pos kI", .001);
+    	SmartDashboard.putNumber("Move arm to pos kD", .001);
     }
 
 	/**

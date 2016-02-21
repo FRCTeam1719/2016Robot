@@ -1,9 +1,11 @@
 package org.usfirst.frc.team1719.robot;
 
+import org.usfirst.frc.team1719.robot.commands.AimAndFire;
 import org.usfirst.frc.team1719.robot.commands.ManualShoot;
 import org.usfirst.frc.team1719.robot.commands.MoveArmToPos;
 import org.usfirst.frc.team1719.robot.commands.RunIntake;
 import org.usfirst.frc.team1719.robot.commands.TurnToAngle;
+
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.buttons.Button;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
@@ -84,7 +86,7 @@ public class OI {
 	
 		private Button rotateRight90Button;
 		private Button rotateLeft90Button;
-		private Button rotate180Button;
+		private Button visionButton;
 		private Button fireButton;			
 		private Button armToPos45;
 //		private Button moveArmButton;
@@ -101,8 +103,8 @@ public class OI {
 			rotateRight90Button = new JoystickButton(driverXBOX, X_BUTTON);
 			rotateRight90Button.whenPressed(new TurnToAngle(90,true));
 			rotateLeft90Button = new JoystickButton(driverXBOX, B_BUTTON);
-			rotate180Button = new JoystickButton(driverXBOX, Y_BUTTON);
-			rotate180Button.whenPressed(new TurnToAngle(90, true));
+			visionButton = new JoystickButton(driverXBOX, Y_BUTTON);
+			visionButton.whenPressed(new AimAndFire());
 
 			fireButton = new JoystickButton(operatorJoystick, ATTACK_TRIGGER);
 			primeButton = new JoystickButton(operatorJoystick, ATTACK_BUTTON_5);
@@ -112,7 +114,7 @@ public class OI {
 			intakeButton = new JoystickButton(operatorJoystick, ATTACK_BUTTON_2);
 			intakeButton.whenPressed(new RunIntake());
 			armToPos45 = new JoystickButton(operatorJoystick, ATTACK_BUTTON_6);
-			armToPos45.whenPressed(new MoveArmToPos(45));
+			armToPos45.whenPressed(new MoveArmToPos(-20));
 			
 			lowerButton = new JoystickButton(operatorJoystick, ATTACK_BUTTON_3);
 		}
