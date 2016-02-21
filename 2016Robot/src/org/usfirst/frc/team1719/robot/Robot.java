@@ -3,13 +3,10 @@ package org.usfirst.frc.team1719.robot;
 import org.usfirst.frc.team1719.robot.autonomousSelections.DoNothing;
 import org.usfirst.frc.team1719.robot.autonomousSelections.LowBarAuton;
 import org.usfirst.frc.team1719.robot.autonomousSelections.MoatAuton;
-import org.usfirst.frc.team1719.robot.autonomousSelections.PortcullisAuton;
 import org.usfirst.frc.team1719.robot.autonomousSelections.RampartsAuton;
 import org.usfirst.frc.team1719.robot.autonomousSelections.RockWallAuton;
 import org.usfirst.frc.team1719.robot.autonomousSelections.RoughTerrainAuton;
-import org.usfirst.frc.team1719.robot.commands.AimAndFire;
-import org.usfirst.frc.team1719.robot.commands.AutoSenseTower;
-import org.usfirst.frc.team1719.robot.commands.TurnToAngle;
+import org.usfirst.frc.team1719.robot.commands.AutonCommand;
 import org.usfirst.frc.team1719.robot.settings.PIDData;
 import org.usfirst.frc.team1719.robot.subsystems.Arm;
 import org.usfirst.frc.team1719.robot.subsystems.Display;
@@ -68,7 +65,8 @@ public class Robot extends IterativeRobot {
 	boolean foundCamera = false;
 
     Command autonomousCommand;
-    SendableChooser chooser;
+    SendableChooser obstacleChooser;
+    SendableChooser positionChooser;
     Command DisplayVoltage;
     Image frame;
     int session;
@@ -126,23 +124,25 @@ public class Robot extends IterativeRobot {
      */
     public void smartDashboardInit(){
     	
-        chooser = new SendableChooser();
+        obstacleChooser = new SendableChooser();
         
         //Move forwards command
-        chooser.addDefault("Do nothing", new DoNothing());
-        chooser.addObject("Go Under Low Bar", new LowBarAuton());
-        chooser.addObject("Go over Rough Terrain", new RoughTerrainAuton());
-        chooser.addObject("Go over Moat", new MoatAuton());
-        chooser.addObject("Go over Ramparts", new RampartsAuton());
-        chooser.addObject("Go over Rock Wall", new RockWallAuton());
-        chooser.addObject("Go through the Portcullis", new PortcullisAuton());
-        chooser.addObject("Shoot at tower", new AimAndFire());
-        chooser.addObject("Turn 90 degrees", new TurnToAngle(90, true));
+        obstacleChooser.addDefault("Do nothing", new DoNothing());
+        obstacleChooser.addObject("Go Under Low Bar", new LowBarAuton());
+        obstacleChooser.addObject("Go over Rough Terrain", new RoughTerrainAuton());
+        obstacleChooser.addObject("Go over Moat", new MoatAuton());
+        obstacleChooser.addObject("Go over Ramparts", new RampartsAuton());
+        obstacleChooser.addObject("Go over Rock Wall", new RockWallAuton());
+        SmartDashboard.putData("autoMode", obstacleChooser);
+
+        
+        SmartDashboard.putNumber("obstaclePosition", 1);
+        
+        //Autonomous should shoot
+        SmartDashboard.putBoolean("shouldShoot", false);
+        
         
         rightFlywheelPIDData = new PIDData();
-        chooser.addObject("Sense Tower High Goals", new AutoSenseTower());
-//        chooser.addObject("My Auto", new MyAutoCommand());
-        SmartDashboard.putData("Auto mode", chooser);
         SmartDashboard.putNumber("Right flywheel kP: ", rightFlywheelPIDData.kP);
         SmartDashboard.putNumber("Right flywheel kI: ", rightFlywheelPIDData.kI);
         SmartDashboard.putNumber("Right flywheel kD: ", rightFlywheelPIDData.kD);
@@ -228,7 +228,7 @@ public class Robot extends IterativeRobot {
 	 * to the switch structure below with additional strings and commands.
 	 */
 	public void autonomousInit() {
-		autonomousCommand = (Command) chooser.getSelected();
+		autonomousCommand = new AutonCommand();
 		isAuton = true;
 		/*
 		 * String autoSelected = SmartDashboard.getString("Auto Selector",

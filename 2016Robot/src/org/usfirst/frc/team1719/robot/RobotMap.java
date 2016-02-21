@@ -23,7 +23,8 @@ public class RobotMap {
 	 * Measured in feet
 	 */
 	public final static boolean COMPILINGFORPRODUCTIONBOT = false;
-
+	public static final boolean LEFT = true;
+	public static final boolean RIGHT = true;
     // For example to map the left and right motors, you could define the
     // following variables to use with your drivetrain subsystem.
     // public static int leftMotor = 1;
