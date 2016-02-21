@@ -81,11 +81,12 @@ public class RobotMap {
 		leftFlyWheelEncoder = new Encoder(4, 5, true, Encoder.EncodingType.k4X);
 		//configureEncoder(leftFlyWheelEncoder);
 		
-
+		//.116
+		//.754
 		//Analog In
 		dial = new AnalogInput(3);
 		//gyro = new AnalogGyro(2);
-        armPot = new AnalogPotentiometer(1, 136.36D, -90);
+        armPot = new AnalogPotentiometer(1, 141, -109.4);
         buttonA = new DigitalInput(19);
 		buttonB = new DigitalInput(20);
 	}

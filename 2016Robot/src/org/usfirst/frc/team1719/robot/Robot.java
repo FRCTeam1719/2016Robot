@@ -154,7 +154,10 @@ public class Robot extends IterativeRobot {
     	SmartDashboard.putNumber("Turn kI", 0.0003);
     	SmartDashboard.putNumber("Turn kD", 0.0003);
     	
-    	SmartDashboard.putNumber("Arm steady kP", (0.2 / 90));
+    	SmartDashboard.putNumber("Arm steady kP", 0.3D);
+		SmartDashboard.putNumber("Arm steady kI", 0.0D);
+		SmartDashboard.putNumber("Arm steady kD", 0.03D);
+		SmartDashboard.putNumber("Arm steady integral range", 7.0D);
     }
     
 	/**
