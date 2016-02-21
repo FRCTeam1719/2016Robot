@@ -97,7 +97,7 @@ public class FlyWheel extends Subsystem {
 		} else if (output < -1) {
 			output = -1;
 		}
-		motor.set(output);
+		motor.set(feetPerSecond);
 		for (int i = (errors.length - 1); i > 0; i--) {                
 		    errors[i] = errors[i-1];
 		} 

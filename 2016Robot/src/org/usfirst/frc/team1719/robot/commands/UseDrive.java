@@ -43,15 +43,16 @@ public class UseDrive extends Command{
 		if(Math.abs(right)<DEADZONE){
 			right = NIL;
 		}
-		//Sync the drive
+		//Sync the two sides speed if within the tolerance
 		if(Math.abs(left - right) < SYNCHTOLERANCE){
 			double corectedSpeed = (left +right) /2;
 			left = corectedSpeed;
 			right = corectedSpeed;
-		}
-	    //Adjust sensitivity by cubing
-		left = Math.pow(left, 3);	
-		right = Math.pow(right, 3);
+		}		
+	    //Adjust sensitivity
+		left = Math.abs(left) * Math.abs(left) * left;
+		right = Math.abs(right) * Math.abs(right) * right;
+
 		//Smooth Drive
 		if(left != 0){
 			corectedValueL = (left*SMOOTH) + ( corectedValueL * ( 1.0 - SMOOTH));
@@ -61,10 +62,8 @@ public class UseDrive extends Command{
 			corectedValueR = (right*SMOOTH) + ( corectedValueR * ( 1.0 - SMOOTH));
 			right = corectedValueR;
 		}
-		//Sync the two sides speed if within the tolerance
 		
-		System.out.println("Doing Things");
-		Robot.drive.operateDrive(left, right);
+		Robot.drive.operateDrive(right, left);
 	}
 
 	@Override
@@ -81,4 +80,5 @@ public class UseDrive extends Command{
 	protected void interrupted() {
 		
 	}
+
 }

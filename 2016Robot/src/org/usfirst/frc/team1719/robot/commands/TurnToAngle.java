@@ -102,7 +102,7 @@ public class TurnToAngle extends Command {
     	}
     	double output = Math.max(Math.min((error * kP) + (derivative * kD) + (integral * kI), MAX_PWR), -MAX_PWR);
     	System.out.println(output);
-    	Robot.drive.operateDrive(-output, output);
+    	Robot.drive.operateDrive(output, -output);
     }
 
     // Make this return true when this Command no longer needs to run execute()

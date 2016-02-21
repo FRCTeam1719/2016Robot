@@ -20,8 +20,10 @@ public class RunIntake extends Command{
 	protected void execute() {
 		Robot.shooter.runInnerMotors(Robot.shooter.INTAKE);
 		Robot.shooter.spin(-0.5, 0.5);
+
 		
 	}
+	
 
 	@Override
 	protected boolean isFinished() {
