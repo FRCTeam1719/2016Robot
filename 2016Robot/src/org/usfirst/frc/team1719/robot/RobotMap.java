@@ -78,7 +78,6 @@ public class RobotMap {
 		rightFlyWheelEncoder = new Encoder(2, 3, true, Encoder.EncodingType.k4X);	
 		rightFlyWheelEncoder.setDistancePerPulse(FLYWHEEL_CIRCUMFRENCE_FEET / 20);
 		camswap = new DigitalOutput(0);
-		rightFlyWheelEncoder = new Encoder(2, 3, true, Encoder.EncodingType.k4X);
 		leftFlyWheelEncoder = new Encoder(4, 5, true, Encoder.EncodingType.k4X);
 		leftFlyWheelEncoder.setDistancePerPulse(FLYWHEEL_CIRCUMFRENCE_FEET / 20);
 		rightDriveEncoder = new Encoder(6, 7, true, Encoder.EncodingType.k4X);

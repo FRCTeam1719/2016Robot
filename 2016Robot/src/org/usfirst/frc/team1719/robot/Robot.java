@@ -192,7 +192,7 @@ public class Robot extends IterativeRobot {
 
 		
 		if (currentDisplayMode == AUTONDISPLAY) {
-			System.out.println("displayingAuton");
+			//System.out.println("displayingAuton");
 			Double dialPos =display.getDialReading();
 			if (dialPos -.25 <= TOLERANCE) {
 			    autonomousMode = 0;
@@ -272,7 +272,7 @@ public class Robot extends IterativeRobot {
      * This function is called periodically during operator control
      */
     public void teleopPeriodic() {
-    	System.out.println("Angle: "+RobotMap.gyro.getAngle());
+    	//System.out.println("Angle: "+RobotMap.gyro.getAngle());
     	//System.out.println("meh" + RobotMap.dial.get());
         Scheduler.getInstance().run();
         if(foundCamera){

@@ -17,28 +17,33 @@ public class AutoSenseTower extends Command {
     boolean done;
     
     public AutoSenseTower() {
+        System.out.println("Command Constructed!");
         // Use requires() here to declare subsystem dependencies
     }
 
     // Called just before this Command runs the first time
     protected void initialize() {
+        System.out.println("Command Running!");
         done = false;
     }
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
+        
     	//Gather vision data 
         TargetVision.TargetPos pos = TargetVision.detect();
         if(pos == null) {
             //We didn't find the target, so try again
+            System.out.println("POS EQUALS NULL YOU GLIP GLOP");
             return;
         }
         //Angle for turning to the goal
         SmartDashboard.putNumber("TurnToAngleParam", -pos.azimuth);
-        
+        System.out.println("Azimuth: "+pos.azimuth);
         double dist1 = Math.max(pos.distance - MAX_DISTANCE_FT, 0.0D);
         double dist2 = Math.min(pos.distance - MIN_DISTANCE_FT, 0.0D);
         SmartDashboard.putNumber("MoveDistParam", (dist1 > 0.0D) ? dist1 : dist2);
+        System.out.println("Dist To Goal: "+pos.distance);
         double necessaryAngle = calcAngleFromDistance(pos.distance);
         SmartDashboard.putNumber("MoveArmParam", necessaryAngle);
         done = true;

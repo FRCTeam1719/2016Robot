@@ -3,8 +3,6 @@ package org.usfirst.frc.team1719.robot.sensors;
 import java.util.Comparator;
 import java.util.Vector;
 
-import org.usfirst.frc.team1719.robot.Robot;
-
 import edu.wpi.first.wpilibj.networktables.NetworkTable;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
@@ -68,7 +66,7 @@ public class TargetVision {
     private static final double VIEW_ANGLE_HEIGHT_DEG = 18.59D;
     // Height of camera from the ground
     private static final double CAM_HEIGHT_FT = 1.208;
-    private static final double SCORE_MIN = 75.0D;
+    private static final double CAM_ANGLE_DEG = 25.0D;
     // Height of target from the ground
     private static final double TARGET_HEIGHT_FT = 7.583D;
     
@@ -89,6 +87,7 @@ public class TargetVision {
         double[] posX = table2.getNumberArray("centerX", new double[] {});
         double[] posY = table2.getNumberArray("centerY", new double[] {});
         Vector<Contour> contours = Contour.getContours(areas1, areas2, width, height, posX, posY);
+        System.out.println(contours.size());
         if(contours.size() > 0)
         {
             // We only pay attention to the largest (in terms of area) contour
@@ -97,13 +96,14 @@ public class TargetVision {
             double areaScore = scoreArea(contour);
             SmartDashboard.putNumber("Area Score", areaScore);
             System.out.println("Area" + areaScore);
-            boolean lock = areaScore > SCORE_MIN;
-
+            boolean lock = true;//areaScore > SCORE_MIN;
+            System.out.println("LockStatus: "+lock);
             // Is the target detected?
             SmartDashboard.putBoolean("Target Lock", lock);
             if(!lock) {
                 return null; // Target not found
             }
+            System.out.println("Still here");
             // Calculate position of the target from the contour data
             double azimuth = computeTargetAzimuth(contour);
             double altitude = computeTargetAltitude(contour);
@@ -116,7 +116,7 @@ public class TargetVision {
             System.out.println("Azimuth" + azimuth);
             System.out.println("Altitude" + altitude);
             // Orientation of the target
-            double angleToNormal = Math.acos((14.0D/20.0D) * (contour.width / contour.height) * Math.cos(Robot.arm.getArmAngle()));
+            double angleToNormal = Math.acos((14.0D/20.0D) * (contour.width / contour.height) * Math.cos(CAM_ANGLE_DEG));
             // Return the position
             return new TargetPos(distance, azimuth, altitude, angleToNormal);
         } else { // no matching contours found
@@ -160,7 +160,7 @@ public class TargetVision {
      */
     private static double computeTargetAltitude(Contour contour) {
         double normalizedPosY = 2.0D * contour.posY / VIEW_HEIGHT_PX - 1.0D;
-        return (Math.atan(normalizedPosY * Math.tan(VIEW_ANGLE_HEIGHT_DEG * Math.PI / (180*2))) * (180.0D / Math.PI)) + Robot.arm.getArmAngle();
+        return (Math.atan(normalizedPosY * Math.tan(VIEW_ANGLE_HEIGHT_DEG * Math.PI / (180*2))) * (180.0D / Math.PI)) + CAM_ANGLE_DEG;
     }
     
     static {
