@@ -4,7 +4,7 @@ import org.usfirst.frc.team1719.robot.Robot;
 
 import edu.wpi.first.wpilibj.command.Command;
 
-public class SparkMotor extends Command {
+public class ExtendHook extends Command {
 	
 	int loopNumber = 0;
 	int desiredLoopNumber ;
@@ -16,7 +16,6 @@ public class SparkMotor extends Command {
 
 	@Override
 	protected void execute() {
-		loopNumber++;
 		Robot.climber.extend (1,-1);
 		// TODO Auto-generated method stub
 		
@@ -31,8 +30,8 @@ public class SparkMotor extends Command {
 		
 	}
 	
-	public SparkMotor (int loopNumber) {
-		desiredLoopNumber = loopNumber ;
+	public ExtendHook () {
+		
 	}
 
 	@Override
@@ -43,11 +42,6 @@ public class SparkMotor extends Command {
 
 	@Override
 	protected boolean isFinished() {
-		if (desiredLoopNumber == loopNumber){
-			return true;
-			
-		}
-
 		// TODO Auto-generated method stub
 		return false;
 	}

@@ -45,7 +45,7 @@ public class ManualShoot extends Command{
 		prepTimer.reset();
 		prepComplete = false;
 		//Move ball into back of shooter
-		Robot.shooter.runInnerMotors(Robot.shooter.INTAKE);
+		
 		prepTimer.start();
 	}
 
