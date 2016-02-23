@@ -27,8 +27,7 @@ public class RevUpShooter extends Command{
 
 	@Override
 	protected boolean isFinished() {
-		// TODO only return true when the shooter is up to speed
-		return true;
+	    return false;
 	}
 
 	@Override

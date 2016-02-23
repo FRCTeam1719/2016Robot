@@ -9,6 +9,12 @@ import edu.wpi.first.wpilibj.command.Command;
  * @author aaroneline
  *
  */
+/**
+ * Default command for the Drive
+ * Controls it via tank drive from the Driver XBOX
+ * @author aaroneline
+ *
+ */
 public class UseDrive extends Command{
 
 	final double DEADZONE = 0.0125D;
@@ -43,9 +49,16 @@ public class UseDrive extends Command{
 		if(Math.abs(right)<DEADZONE){
 			right = NIL;
 		}
+		//Sync the two sides speed if within the tolerance
+		if(Math.abs(left - right) < SYNCHTOLERANCE){
+			double corectedSpeed = (left +right) /2;
+			left = corectedSpeed;
+			right = corectedSpeed;
+		}		
 	    //Adjust sensitivity
-		left = Math.pow(left, 3);
-		right = Math.pow(right, 3);
+		left = Math.abs(left) * Math.abs(left) * left;
+		right = Math.abs(right) * Math.abs(right) * right;
+
 		//Smooth Drive
 		if(left != 0){
 			corectedValueL = (left*SMOOTH) + ( corectedValueL * ( 1.0 - SMOOTH));
@@ -55,12 +68,7 @@ public class UseDrive extends Command{
 			corectedValueR = (right*SMOOTH) + ( corectedValueR * ( 1.0 - SMOOTH));
 			right = corectedValueR;
 		}
-		//Sync the two sides speed if within the tolerance
-		if(Math.abs(left - right) < SYNCHTOLERANCE){
-			double corectedSpeed = (left +right) /2;
-			left = corectedSpeed;
-			right = corectedSpeed;
-		}
+		
 		Robot.drive.operateDrive(right, left);
 	}
 
@@ -80,4 +88,3 @@ public class UseDrive extends Command{
 	}
 
 }
-

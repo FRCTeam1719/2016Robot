@@ -1,8 +1,15 @@
-
 package org.usfirst.frc.team1719.robot;
 
-import org.usfirst.frc.team1719.robot.commands.AutonCommand;
-import org.usfirst.frc.team1719.robot.commands.ExampleCommand;
+import org.usfirst.frc.team1719.robot.autonomousSelections.DoNothing;
+import org.usfirst.frc.team1719.robot.autonomousSelections.LowBarAuton;
+import org.usfirst.frc.team1719.robot.autonomousSelections.MoatAuton;
+import org.usfirst.frc.team1719.robot.autonomousSelections.PortcullisAuton;
+import org.usfirst.frc.team1719.robot.autonomousSelections.RampartsAuton;
+import org.usfirst.frc.team1719.robot.autonomousSelections.RockWallAuton;
+import org.usfirst.frc.team1719.robot.autonomousSelections.RoughTerrainAuton;
+import org.usfirst.frc.team1719.robot.commands.AimAndFire;
+import org.usfirst.frc.team1719.robot.commands.AutoSenseTower;
+import org.usfirst.frc.team1719.robot.commands.TurnToAngle;
 import org.usfirst.frc.team1719.robot.settings.PIDData;
 import org.usfirst.frc.team1719.robot.subsystems.Arm;
 import org.usfirst.frc.team1719.robot.subsystems.Climber;
@@ -26,6 +33,7 @@ import edu.wpi.first.wpilibj.livewindow.LiveWindow;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
+
 /**
  * The VM is configured to automatically run this class, and to call the
  * functions corresponding to each mode, as described in the IterativeRobot
@@ -35,8 +43,12 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  */
 
 public class Robot extends IterativeRobot {
+	
+	//degrees
+	final double PHOTON_CANNON_ANGLE = 60;
 
 	final String CAMERA_NAME = "cam0";
+	public static final double GET_VALUE_FROM_SMARTDASHBOARD = -1337.0D;
 	public static final ExampleSubsystem exampleSubsystem = new ExampleSubsystem();
 	public static OI oi;
 	public static Display display;
@@ -58,117 +70,140 @@ public class Robot extends IterativeRobot {
 	double scalingFactor; 
 	double minPotValue = .255;
 	boolean foundCamera = false;
-	Command autonomousCommand;
-	Command DisplayVoltage;
-	SendableChooser chooser;
-	Image frame;
-	int session;
-	NIVision.Rect crosshair;
 
 
-	public static boolean isAuton = false;
+    Command autonomousCommand;
+    SendableChooser chooser;
+    Command DisplayVoltage;
+    Image frame;
+    int session;
+    NIVision.Rect crosshair;
 
-	/**
-	 * This function is run when the robot is first started up and should be
-	 * used for any initialization code.
-	 */
-	public void robotInit() {		
-		// Network Initialization
+    public static boolean isAuton = false;
+    /**
+     * This function is run when the robot is first started up and should be
+     * used for any initialization code.
+     */
+
+    public void robotInit() {
 		
-		// Setup Camera Server
+    	//Network Initialization
+	
+        //Setup Camera Server
+    	
+    	//Configure SmartDashboard Things
+        	   
+        
+        //Hardware Initialization
+        //Allocate Hardware
+        RobotMap.init();
 
-		// Configure SmartDashboard Things
+        //Initialize Subsystems
+        rightFlywheelPIDData = new PIDData(0,0,0);
+    	leftFlywheelPIDData = new PIDData(0,0,0);
+        drive = new DriveSubsystem(RobotMap.leftDriveController, RobotMap.rightDriveController, RobotMap.leftDriveEncoder, RobotMap.rightDriveEncoder);
+        rightFlywheel = new FlyWheel(RobotMap.rightFlyWheelController, RobotMap.rightFlyWheelEncoder, rightFlywheelPIDData);
+        leftFlywheel =  new FlyWheel(RobotMap.leftFlyWheelController, RobotMap.leftFlyWheelEncoder, leftFlywheelPIDData);
+        shooter = new DualShooter(leftFlywheel, rightFlywheel, RobotMap.innerLeftShooterWheelController, RobotMap.innerRightShooterWheelController );
+        arm = new Arm(RobotMap.armController, RobotMap.armPot);
+        display = new Display(RobotMap.buttonA, RobotMap.buttonB, RobotMap.dial);
+        oi = new OI();
 
-		// Hardware Initialization
-		// Allocate Hardware
-		RobotMap.init();
-		// Initialize Subsystems
-		rightFlywheelPIDData = new PIDData(0, 0, 0);
-		leftFlywheelPIDData = new PIDData(0, 0, 0);
-		drive = new DriveSubsystem(RobotMap.leftDriveController, RobotMap.rightDriveController);
-		rightFlywheel = new FlyWheel(RobotMap.rightFlyWheelController, RobotMap.rightFlyWheelEncoder,
-				rightFlywheelPIDData);
-		leftFlywheel = new FlyWheel(RobotMap.leftFlyWheelController, RobotMap.leftFlyWheelEncoder, leftFlywheelPIDData);
-		shooter = new DualShooter(leftFlywheel, rightFlywheel, RobotMap.innerLeftShooterWheelController,
-				RobotMap.innerRightShooterWheelController);
-		arm = new Arm(RobotMap.armController, RobotMap.armPot);
-		display = new Display(RobotMap.buttonA, RobotMap.buttonB, RobotMap.dial);
-		climber = new Climber (RobotMap.winchMotor); 
-		tapeSubsystem = new TapeSubsystem(RobotMap.climberLeft, RobotMap.climberRight);
-		
-		oi = new OI();
-		isAuton = false;
-		frame = NIVision.imaqCreateImage(NIVision.ImageType.IMAGE_RGB, 0);
-		try {
-			session = NIVision.IMAQdxOpenCamera("cam0", NIVision.IMAQdxCameraControlMode.CameraControlModeController);
-			NIVision.IMAQdxConfigureGrab(session);
-			foundCamera = true;
-		} catch (VisionException e) {
-			foundCamera = false;
-			System.out.println("Can't find the camera, failing with style");
-		}
-		smartDashboardInit();
-	}
 
-	/**
-	 * Initialize SmartDashboard values
-	 */
-	public void smartDashboardInit() {
-		// Setup Autonomous Sendable Chooser
-		chooser = new SendableChooser();
-		chooser.addDefault("Default Auto", new ExampleCommand());
-		SmartDashboard.putData("Auto mode", chooser);
+        isAuton = false;
 
-		// Setup network configurable constants
+        frame = NIVision.imaqCreateImage(NIVision.ImageType.IMAGE_RGB, 0);
+        try{
+        session = NIVision.IMAQdxOpenCamera("cam0",
+                NIVision.IMAQdxCameraControlMode.CameraControlModeController);
+        NIVision.IMAQdxConfigureGrab(session);
+        foundCamera = true;
+        }catch(VisionException e){
+        	foundCamera = false;
+        	System.out.println("Can't find the camera, failing with style");
+        }
+        smartDashboardInit();    
+        RobotMap.gyro.initGyro();
+        RobotMap.gyro.calibrate();
+    }
+	
+    /**
+     * Initialize SmartDashboard values
+     */
+    public void smartDashboardInit(){
+    	
+        chooser = new SendableChooser();
+        
+        //Move forwards command
+        chooser.addDefault("Do nothing", new DoNothing());
+        chooser.addObject("Go Under Low Bar", new LowBarAuton());
+        chooser.addObject("Go over Rough Terrain", new RoughTerrainAuton());
+        chooser.addObject("Go over Moat", new MoatAuton());
+        chooser.addObject("Go over Ramparts", new RampartsAuton());
+        chooser.addObject("Go over Rock Wall", new RockWallAuton());
+        chooser.addObject("Go through the Portcullis", new PortcullisAuton());
+        chooser.addObject("Shoot at tower", new AimAndFire());
+        chooser.addObject("Turn 90 degrees", new TurnToAngle(90, true));
+        
+        rightFlywheelPIDData = new PIDData();
+        chooser.addObject("Sense Tower High Goals", new AutoSenseTower());
+//        chooser.addObject("My Auto", new MyAutoCommand());
+        SmartDashboard.putData("Auto mode", chooser);
+        SmartDashboard.putNumber("Right flywheel kP: ", rightFlywheelPIDData.kP);
+        SmartDashboard.putNumber("Right flywheel kI: ", rightFlywheelPIDData.kI);
+        SmartDashboard.putNumber("Right flywheel kD: ", rightFlywheelPIDData.kD);
 
-		// puts right flywheel PID values on the smart Dashboard
-		SmartDashboard.putNumber("Right flywheel kP: ", 0);
-		SmartDashboard.putNumber("Right flywheel kI: ", 0);
-		SmartDashboard.putNumber("Right flywheel kD: ", 0);
-
-		// puts left flywheel PID values on the smart Dashboard
-		SmartDashboard.putNumber("Left flywheel kP: ", 0);
-		SmartDashboard.putNumber("Left flywheel kI: ", 0);
-		SmartDashboard.putNumber("Left flywheel kD: ", 0);
-
-		// puts Drive PID values on the smart Dashboard
-		SmartDashboard.putNumber("Drive kP", 0);
-		SmartDashboard.putNumber("Drive kI", 0.);
-		SmartDashboard.putNumber("Drive kD", 0.);
-	}
+    	SmartDashboard.putNumber("Drive kP", 0.02);
+    	SmartDashboard.putNumber("Drive kI", 0.003);
+    	SmartDashboard.putNumber("Drive kD", 0.003);
+    	
+    	SmartDashboard.putNumber("Turn kP", 0.1);;
+    	SmartDashboard.putNumber("Turn kI", 0.0);
+    	SmartDashboard.putNumber("Turn kD", 0.65);
+    	
+    	SmartDashboard.putNumber("Arm steady kP", (0.2 / 90));
+    	
+    	SmartDashboard.putNumber("Move arm to pos kP", .03);
+    	SmartDashboard.putNumber("Move arm to pos kI", .001);
+    	SmartDashboard.putNumber("Move arm to pos kD", .001);
+    	SmartDashboard.putNumber("Arm steady kP", 0.3D);
+		SmartDashboard.putNumber("Arm steady kI", 0.001D);
+		SmartDashboard.putNumber("Arm steady kD", 0.002D);
+		SmartDashboard.putNumber("Arm steady integral range", 7.0D);
+    }
 
 	/**
 	 * This function is called once each time the robot enters Disabled mode.
 	 * You can use it to reset any subsystem information you want to clear when
 	 * the robot is disabled.
-	 */
-	public void disabledInit() {
-		// Make sure everything gets disabled
-		isAuton = false;
-		rightFlywheel.spin(0);
-		leftFlywheel.spin(0);
-		if (foundCamera) {
-			NIVision.IMAQdxStopAcquisition(session);
-		}
-	}
+     */
+    public void disabledInit(){
+    	//Make sure everything gets disabled
+    	isAuton = false;
+    	rightFlywheel.spin(0);
+    	leftFlywheel.spin(0);
 
+    	if(foundCamera){
+    		NIVision.IMAQdxStopAcquisition(session);
+    	}
+    }
+    
 	public void disabledPeriodic() {
 
 		if (display.buttonAPressed()) {
 			currentDisplayMode = AUTONDISPLAY;
-			System.out.println("ABUTTONPRESSED");
 		} else if (display.buttonBPressed()) {
 			currentDisplayMode = VOLTAGEDISPLAY;
 		}
 
-		System.out.println(display.getDialReading());
-			if (currentDisplayMode == AUTONDISPLAY) {
-			System.out.println("displayingAuton");
-		Double dialPos =display.getDialReading();
+		
+		if (currentDisplayMode == AUTONDISPLAY) {
+			//System.out.println("displayingAuton");
+			Double dialPos =display.getDialReading();
 			if (dialPos -.25 <= TOLERANCE) {
-			autonomousMode = 0;
-				display.displayString("A  0");
-		} else if (dialPos - .255 <= TOLERANCE) {
+			    autonomousMode = 0;
+			    display.displayString("A  0");
+			} else if (dialPos - .255 <= TOLERANCE) {
 				autonomousMode = 1;
 				display.displayString("A  1");
 			} else if (dialPos - .26 <= TOLERANCE ) {
@@ -177,7 +212,6 @@ public class Robot extends IterativeRobot {
 			} else if (dialPos -.265 <= TOLERANCE) {
 				autonomousMode = 3;
 				display.displayString("A  3");
-
 			}
 		} else if(currentDisplayMode == VOLTAGEDISPLAY){
 			String voltage = Double.toString(DriverStation.getInstance().getBatteryVoltage());
@@ -200,9 +234,8 @@ public class Robot extends IterativeRobot {
 	 * to the switch structure below with additional strings and commands.
 	 */
 	public void autonomousInit() {
-		isAuton = true;
 		autonomousCommand = (Command) chooser.getSelected();
-		autonomousCommand = new AutonCommand(autonomousMode);
+		isAuton = true;
 		/*
 		 * String autoSelected = SmartDashboard.getString("Auto Selector",
 		 * "Default"); switch(autoSelected) { case "My Auto": autonomousCommand
@@ -223,41 +256,64 @@ public class Robot extends IterativeRobot {
 	 */
 	public void autonomousPeriodic() {
 		Scheduler.getInstance().run();
-		System.out.println(autonomousMode);
-	} 
-
-	public void teleopInit() {
-		/*
-		 * This makes sure that the autonomous stops running when teleop starts
-		 * running. If you want the autonomous to continue until interrupted by
-		 * another command, remove this line or comment it out.
-		 */
-		isAuton = false;
-		if (autonomousCommand != null)
-			autonomousCommand.cancel();
-		if (foundCamera) {
-			NIVision.IMAQdxStartAcquisition(session);
-		}
 	}
 
-	/**
-	 * This function is called periodically during operator control
-	 */
-	public void teleopPeriodic() {
-		// System.out.println("meh" + RobotMap.dial.get());
-		Scheduler.getInstance().run();
-		if (foundCamera) {
-			NIVision.IMAQdxGrab(session, frame, 1);
-			CameraServer.getInstance().setImage(frame);
-		}
-	}
+    public void teleopInit() {
 
-	/**
-	 * This function is called periodically during test mode
-	 */
-	public void testPeriodic() {
-		isAuton = false;
-		LiveWindow.run();
-	}
+		/* This makes sure that the autonomous stops running when
+         teleop starts running. If you want the autonomous to 
+         continue until interrupted by another command, remove
+         this line or comment it out. */
+    	isAuton = false;
+        if (autonomousCommand != null) autonomousCommand.cancel();
 
+        if(foundCamera){
+        	NIVision.IMAQdxStartAcquisition(session);
+        }
+        RobotMap.gyro.reset();
+    }
+
+    
+    /**
+     * This function is called periodically during operator control
+     */
+    public void teleopPeriodic() {
+
+    	//System.out.println("meh" + RobotMap.dial.get());
+        Scheduler.getInstance().run();
+        if(foundCamera){
+        	NIVision.IMAQdxGrab(session, frame, 1);
+        	CameraServer.getInstance().setImage(frame);
+        }
+        
+        if ((Robot.arm.getArmAngle()) < PHOTON_CANNON_ANGLE) {
+        	RobotMap.photonCannon.set(false);
+        }
+        else {
+        	//Flicker the photon cannon until we get to the right state
+        	RobotMap.photonCannon.set(true);// dim
+        	RobotMap.photonCannon.set(false);//off
+        	RobotMap.photonCannon.set(true);//blinking
+        	RobotMap.photonCannon.set(false);//off
+        	RobotMap.photonCannon.set(true);//on full power
+        }
+        if(oi.getPhotonButton() == true){
+        	//Flicker the photon cannon until we get to the right state
+        	RobotMap.photonCannon.set(true);// dim
+        	RobotMap.photonCannon.set(false);//off
+        	RobotMap.photonCannon.set(true);//blinking
+        	RobotMap.photonCannon.set(false);//off
+        	RobotMap.photonCannon.set(true);//on full power
+        }else{
+        	RobotMap.photonCannon.set(false);
+        }
+    }
+    
+    /**
+     * This function is called periodically during test mode
+     */
+    public void testPeriodic() {
+    	isAuton = false;
+        LiveWindow.run();
+    }
 }

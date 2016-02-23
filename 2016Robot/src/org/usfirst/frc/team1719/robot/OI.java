@@ -1,6 +1,7 @@
 package org.usfirst.frc.team1719.robot;
 
 
+import org.usfirst.frc.team1719.robot.commands.AutoSenseTower;
 import org.usfirst.frc.team1719.robot.commands.ClimbUp;
 import org.usfirst.frc.team1719.robot.commands.ExtendHook;
 import org.usfirst.frc.team1719.robot.commands.ManualShoot;
@@ -18,6 +19,13 @@ import edu.wpi.first.wpilibj.buttons.JoystickButton;
  * interface to the commands and command groups that allow control of the robot.
  */
 public class OI {
+	//// CREATING BUTTONS
+	// One type of button is a joystick button which is any button on a
+	//// joystick.
+	// You create one by telling it which joystick it's on and which button
+	// number it is.
+	// Joystick stick = new Joystick(port);
+	// Button button = new JoystickButton(stick, buttonNumber);
     //// CREATING BUTTONS
     // One type of button is a joystick button which is any button on a joystick.
     // You create one by telling it which joystick it's on and which button
@@ -81,13 +89,16 @@ public class OI {
 		public final boolean MODE_NORMAL = true;
 		public final boolean MODE_CLIMB = false;
 	
+
 		private Joystick driverXBOX;
 		private Joystick operatorJoystick;
 	
 		private Button rotateRight90Button;
 		private Button rotateLeft90Button;
-		private Button rotate180Button;
-		private Button fireButton;				
+		private Button visionButton;
+		private Button photonButton;
+		private Button fireButton;			
+		private Button armToPos45;
 //		private Button moveArmButton;
 		private Button primeButton;
 		private Button intakeButton;
@@ -98,6 +109,11 @@ public class OI {
 		private Button switchModeButton;
 
 		private boolean currentMode;
+		private Button lowerButton;
+
+		private Button camswapButton;
+		private Button driveButton;
+
 		public OI(){
 			normalModeInit();
 			
@@ -111,13 +127,15 @@ public class OI {
 			
 			//Define Buttons
 			rotateRight90Button = new JoystickButton(driverXBOX, X_BUTTON);
-			rotateRight90Button.whenPressed(new TurnToAngle(45));
+			rotateRight90Button.whenPressed(new TurnToAngle(90,true));
 			rotateLeft90Button = new JoystickButton(driverXBOX, B_BUTTON);
-			rotateLeft90Button.whenPressed(new TurnToAngle(-45));
-			rotate180Button = new JoystickButton(driverXBOX, Y_BUTTON);
-			rotate180Button.whenPressed(new TurnToAngle(90));
+			rotateLeft90Button.whenPressed(new TurnToAngle(-1337D,true));
+			visionButton = new JoystickButton(driverXBOX, Y_BUTTON);
+			visionButton.whenPressed(new AutoSenseTower());
+			photonButton = new JoystickButton(operatorJoystick, ATTACK_BUTTON_3);
+
 			fireButton = new JoystickButton(operatorJoystick, ATTACK_TRIGGER);
-			primeButton = new JoystickButton(operatorJoystick, ATTACK_BUTTON_3);
+			primeButton = new JoystickButton(operatorJoystick, ATTACK_BUTTON_5);
 			primeButton.whenPressed(new ManualShoot());
 			//moveArmButton = new JoystickButton(operatorJoystick, ATTACK_BUTTON_6);
 			//moveArmButton.whenPressed(new MoveArmToPos(60));
@@ -126,6 +144,7 @@ public class OI {
 			
 			switchModeButton = new JoystickButton(operatorJoystick, ATTACK_BUTTON_4);
 			switchModeButton.whenPressed(new SwitchOperatorMode());
+
 		}
 		
 		public void climbModeInit() {
@@ -166,7 +185,9 @@ public class OI {
 			return operatorJoystick.getRawAxis(ATTACK_Y_AXIS);
 		}
 		
-		
+		public boolean getPhotonButton(){
+			return photonButton.get();
+		}
 		public boolean getFireButton()
 		{
 			return fireButton.get();
@@ -179,6 +200,12 @@ public class OI {
 		public boolean getCurrentMode() {
 			return currentMode;
 		}
+		public boolean getDontStopButton(){
+			return rotateLeft90Button.get();
+		}
+		
+		public boolean getLowerButton() {
+			return lowerButton.get();
+		}
 		
 }
-

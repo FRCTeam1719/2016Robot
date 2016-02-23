@@ -7,7 +7,7 @@ import edu.wpi.first.wpilibj.command.Command;
 public class ManualShoot extends Command{
 
 	final double SHOOT_WAIT_TIME = 2.5;
-	final double PREP_WAIT_TIME = 1.0;
+	final double PREP_WAIT_TIME = 0.2;
 	private boolean prepComplete;
 	private Timer shootTimer;
 	private Timer prepTimer;
@@ -29,6 +29,7 @@ public class ManualShoot extends Command{
 		if(prepTimer.get()>PREP_WAIT_TIME){
 				//Spin up the Fly Wheels
 				Robot.shooter.spin(1, -1);
+				Robot.shooter.runInnerMotors(Robot.shooter.INTAKE);
 				prepTimer.stop();
 				prepComplete = true;
 		}
