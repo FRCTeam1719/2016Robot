@@ -110,12 +110,14 @@ public class TargetVision {
             // Calculate position of the target from the contour data
             double azimuth = computeTargetAzimuth(contour);
             double altitude = computeTargetAltitude(contour);
-            double distance = computeTargetDistance(contour); //(TARGET_HEIGHT_FT - CAM_HEIGHT_FT) / Math.tan((Math.PI / 180.0D) * altitude);
+            double distanceduncan = (TARGET_HEIGHT_FT - CAM_HEIGHT_FT) / Math.tan((Math.PI / 180.0D) * altitude);
+            double distancejeremy = computeTargetDistance(contour);
             // And put them on the smart dashboard as well for good measure
-            SmartDashboard.putNumber("Target Distance", distance);
+            SmartDashboard.putNumber("Target Distance", distanceduncan);
             SmartDashboard.putNumber("Target Azimuth", azimuth);
             SmartDashboard.putNumber("Target Altitude", altitude);
-            System.out.println("Distance" + distance);
+            System.out.println("Distance (Duncan's Method): " + distanceduncan);
+            System.out.println("Distance (Jeremy's Method): " + distancejeremy);
             System.out.println("Azimuth" + azimuth);
             System.out.println("Altitude" + altitude);
             System.out.println("Height" + contour.height);
@@ -126,7 +128,7 @@ public class TargetVision {
             // Orientation of the target
             double angleToNormal = Math.acos((14.0D/20.0D) * (contour.width / contour.height) * Math.cos(CAM_ANGLE_DEG));
             // Return the position
-            return new TargetPos(distance, azimuth, altitude, angleToNormal);
+            return new TargetPos(distanceduncan, azimuth, altitude, angleToNormal);
         } else { // no matching contours found
             SmartDashboard.putBoolean("Target Lock", false);
             return null;
@@ -167,7 +169,7 @@ public class TargetVision {
      * @return the altitude (in degrees)
      */
     private static double computeTargetAltitude(Contour contour) {
-        double normalizedPosY = 2.0D * contour.posY / VIEW_HEIGHT_PX - 1.0D;
+        double normalizedPosY = 1.0D - 2.0D * contour.posY / VIEW_HEIGHT_PX;
         return (Math.atan(normalizedPosY * Math.tan(VIEW_ANGLE_HEIGHT_DEG * Math.PI / (180*2))) * (180.0D / Math.PI)) + CAM_ANGLE_DEG;
     }
     
