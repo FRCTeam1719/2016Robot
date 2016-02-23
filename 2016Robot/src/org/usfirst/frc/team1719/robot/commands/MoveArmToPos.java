@@ -1,11 +1,7 @@
 package org.usfirst.frc.team1719.robot.commands;
 
-import java.util.ArrayList;
-
 import org.usfirst.frc.team1719.robot.Robot;
-
 import edu.wpi.first.wpilibj.command.Command;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
  * Move the arm to a specified angle
@@ -13,7 +9,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 public class MoveArmToPos extends Command {
 
 	final double SPEED = 0.5;
-	
+
 	final boolean DIRECTION_UP = true;
 	final boolean DIRECTION_DOWN = false;
 	final double ERROR_TOLERANCE = 1;
@@ -22,17 +18,17 @@ public class MoveArmToPos extends Command {
 	double desiredPotPos; // the value the potentiometer is giving
 	boolean direction;
 	double speed;
-	
+
 	double kP;
 	double kI;
 	double kD;
 
 	double integral = 0;
 	double derivative = 0;
-	
+
 	double error;
 	double previousError;
-	
+
 	double steadyConstant;
 	double[] errors = new double[20];
 
@@ -42,31 +38,29 @@ public class MoveArmToPos extends Command {
 	 * @param desiredAngle
 	 *            double
 	 */
-    public MoveArmToPos(double desiredAngle) {
-        // Use requires() here to declare subsystem dependencies
-        // eg. requires(chassis);
-    	requires(Robot.arm);
+	public MoveArmToPos(double desiredAngle) {
+		// Use requires() here to declare subsystem dependencies
+		// eg. requires(chassis);
+		requires(Robot.arm);
 
-    	this.desiredAngle = desiredAngle;
-    	
-    }
+		this.desiredAngle = desiredAngle;
 
-    // Called just before this Command runs the first time
-    protected void initialize() {
-    	
-    	
-    }
+	}
 
-    // Called repeatedly when this Command is scheduled to run
-    protected void execute() {
-    	Robot.arm.setTargetPos(desiredAngle);
-    }
+	// Called just before this Command runs the first time
+	protected void initialize() {
 
-    // Make this return true when this Command no longer needs to run execute()
-    protected boolean isFinished() {
-    	return true;
-    }
+	}
 
+	// Called repeatedly when this Command is scheduled to run
+	protected void execute() {
+		Robot.arm.setTargetPos(desiredAngle);
+	}
+
+	// Make this return true when this Command no longer needs to run execute()
+	protected boolean isFinished() {
+		return true;
+	}
 
 	// Called once after isFinished returns true
 	protected void end() {

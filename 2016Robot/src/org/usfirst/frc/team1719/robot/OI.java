@@ -1,10 +1,11 @@
 package org.usfirst.frc.team1719.robot;
 
-import org.usfirst.frc.team1719.robot.commands.AimAndFire;
+import org.usfirst.frc.team1719.robot.commands.AutoSenseTower;
 import org.usfirst.frc.team1719.robot.commands.ManualShoot;
 import org.usfirst.frc.team1719.robot.commands.MoveArmToPos;
 import org.usfirst.frc.team1719.robot.commands.MoveForwards;
 import org.usfirst.frc.team1719.robot.commands.RunIntake;
+import org.usfirst.frc.team1719.robot.commands.SwapCamera;
 import org.usfirst.frc.team1719.robot.commands.TurnToAngle;
 
 import edu.wpi.first.wpilibj.Joystick;
@@ -88,14 +89,17 @@ public class OI {
 		private Button rotateRight90Button;
 		private Button rotateLeft90Button;
 		private Button visionButton;
+		private Button photonButton;
 		private Button fireButton;			
 		private Button armToPos45;
 //		private Button moveArmButton;
 		private Button primeButton;
 		private Button intakeButton;
-		
 		private Button lowerButton;
-		private Button forwardsButton;
+
+		private Button camswapButton;
+		private Button driveButton;
+
 		public OI(){
 			//Define Controllers
 			driverXBOX = new Joystick(0);
@@ -105,8 +109,10 @@ public class OI {
 			rotateRight90Button = new JoystickButton(driverXBOX, X_BUTTON);
 			rotateRight90Button.whenPressed(new TurnToAngle(90,true));
 			rotateLeft90Button = new JoystickButton(driverXBOX, B_BUTTON);
+			rotateLeft90Button.whenPressed(new TurnToAngle(-1337D,true));
 			visionButton = new JoystickButton(driverXBOX, Y_BUTTON);
-			visionButton.whenPressed(new AimAndFire());
+			visionButton.whenPressed(new AutoSenseTower());
+			photonButton = new JoystickButton(operatorJoystick, ATTACK_BUTTON_3);
 
 			fireButton = new JoystickButton(operatorJoystick, ATTACK_TRIGGER);
 			primeButton = new JoystickButton(operatorJoystick, ATTACK_BUTTON_5);
@@ -115,12 +121,17 @@ public class OI {
 			//moveArmButton.whenPressed(new MoveArmToPos(60));
 			intakeButton = new JoystickButton(operatorJoystick, ATTACK_BUTTON_2);
 			intakeButton.whenPressed(new RunIntake());
+
 			armToPos45 = new JoystickButton(operatorJoystick, ATTACK_BUTTON_6);
 			armToPos45.whenPressed(new MoveArmToPos(-20));
 			
 			lowerButton = new JoystickButton(operatorJoystick, ATTACK_BUTTON_3);
-			forwardsButton = new JoystickButton(driverXBOX, A_BUTTON);
-			forwardsButton.whenPressed(new MoveForwards(5, 0.7));
+
+
+			camswapButton = new JoystickButton(operatorJoystick, ATTACK_BUTTON_4);
+			camswapButton.whenPressed(new SwapCamera());
+			driveButton = new JoystickButton(driverXBOX, A_BUTTON);
+			driveButton.whenPressed(new MoveForwards(5.0,0.3));
 		}
 		
 		//Functions for getting input
@@ -149,7 +160,9 @@ public class OI {
 			return operatorJoystick.getRawAxis(ATTACK_Y_AXIS);
 		}
 		
-		
+		public boolean getPhotonButton(){
+			return photonButton.get();
+		}
 		public boolean getFireButton()
 		{
 			return fireButton.get();

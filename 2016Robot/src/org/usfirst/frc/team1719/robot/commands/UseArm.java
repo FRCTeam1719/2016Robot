@@ -13,6 +13,8 @@ public class UseArm extends Command{
 
 	final double TOLERANCE = 0.1;
 	final double CONTROL_SCALING = .75;
+	final double LOW_RANGE_CONTROL_SCALING = .25;
+	final double LOW_RANGE_THRESHOLD = -60;
 	private double lastErr = 0.0D;
 	private double integral = 0.0D;
 	
@@ -28,8 +30,7 @@ public class UseArm extends Command{
 	protected void execute() {
 
 	    double joystickReading = Robot.oi.getArmReading();
-		//Apply control scaling
-		double motorSpeed = joystickReading * CONTROL_SCALING;
+	    double motorSpeed;
 
 		if(Math.abs(joystickReading) < TOLERANCE){ // joystick not used, hold arm steady with PID + sinusoidally varing force
 		    double kP = SmartDashboard.getNumber("Arm steady kP");
@@ -44,6 +45,11 @@ public class UseArm extends Command{
 		} else { // joystick touched, reset integral and desired pos
 		    integral = 0;
 		    Robot.arm.setTargetPos(Robot.arm.getArmAngle());
+			//Apply control scaling
+		    if(Robot.arm.getArmAngle()<LOW_RANGE_THRESHOLD)
+				motorSpeed = joystickReading *LOW_RANGE_CONTROL_SCALING;
+		    else
+		    	motorSpeed = joystickReading * CONTROL_SCALING;
 		}
 		if (motorSpeed > 0.7) {
 			motorSpeed = 0.7;
@@ -51,6 +57,9 @@ public class UseArm extends Command{
 		else if (motorSpeed < -0.7) {
 			motorSpeed = -0.7;
 		}
+
+		
+		
 		Robot.arm.move(motorSpeed);
 		//System.out.println("Arm Angle: "+Robot.arm.getArmAngle());
 		//System.out.println("motor speed: " + motorSpeed);
