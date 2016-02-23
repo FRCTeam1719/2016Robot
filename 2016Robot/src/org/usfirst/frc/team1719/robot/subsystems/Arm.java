@@ -31,6 +31,7 @@ public class Arm extends Subsystem {
 		this.motor = motor;
 		this.pot = pot;
 		motor.set(0);
+		targetPos = getArmAngle();
 	}
 	
 	/**

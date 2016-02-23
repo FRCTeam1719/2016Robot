@@ -42,6 +42,7 @@ public class MoveForwards extends Command {
 	protected void execute() {
 		
         Robot.drive.driveStraight(speed); // drive towards heading 0
+        System.out.println("Dist: " + RobotMap.leftDriveEncoder.getDistance());
 	}
 
 	@Override

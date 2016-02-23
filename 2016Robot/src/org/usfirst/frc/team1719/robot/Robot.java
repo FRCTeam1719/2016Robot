@@ -83,6 +83,16 @@ public class Robot extends IterativeRobot {
 	 */
 
 	public void robotInit() {
+        //Initialize Subsystems
+        rightFlywheelPIDData = new PIDData(0,0,0);
+    	leftFlywheelPIDData = new PIDData(0,0,0);
+        drive = new DriveSubsystem(RobotMap.leftDriveController, RobotMap.rightDriveController, RobotMap.leftDriveEncoder, RobotMap.rightDriveEncoder);
+        rightFlywheel = new FlyWheel(RobotMap.rightFlyWheelController, RobotMap.rightFlyWheelEncoder, rightFlywheelPIDData);
+        leftFlywheel =  new FlyWheel(RobotMap.leftFlyWheelController, RobotMap.leftFlyWheelEncoder, leftFlywheelPIDData);
+        shooter = new DualShooter(leftFlywheel, rightFlywheel, RobotMap.innerLeftShooterWheelController, RobotMap.innerRightShooterWheelController );
+        arm = new Arm(RobotMap.armController, RobotMap.armPot);
+        display = new Display(RobotMap.buttonA, RobotMap.buttonB, RobotMap.dial);
+        oi = new OI();
 
 		// Network Initialization
 
@@ -98,7 +108,7 @@ public class Robot extends IterativeRobot {
 		rightFlywheelPIDData = new PIDData(0, 0, 0);
 		leftFlywheelPIDData = new PIDData(0, 0, 0);
 		drive = new DriveSubsystem(RobotMap.leftDriveController, RobotMap.rightDriveController,
-				RobotMap.leftDriveWheelEncoder, RobotMap.rightDriveWheelEncoder);
+				RobotMap.leftDriveEncoder, RobotMap.rightDriveEncoder);
 		rightFlywheel = new FlyWheel(RobotMap.rightFlyWheelController, RobotMap.rightFlyWheelEncoder,
 				rightFlywheelPIDData);
 		leftFlywheel = new FlyWheel(RobotMap.leftFlyWheelController, RobotMap.leftFlyWheelEncoder, leftFlywheelPIDData);
@@ -156,18 +166,17 @@ public class Robot extends IterativeRobot {
 		SmartDashboard.putNumber("Drive kD", 0.003);
 
 		SmartDashboard.putNumber("Turn kP", 0.1);
-		;
 		SmartDashboard.putNumber("Turn kI", 0.0);
 		SmartDashboard.putNumber("Turn kD", 0.65);
-
-		SmartDashboard.putNumber("Arm steady kP", (0.2 / 90));
-
-		SmartDashboard.putNumber("Move arm to pos kP", .03);
-		SmartDashboard.putNumber("Move arm to pos kI", .001);
-		SmartDashboard.putNumber("Move arm to pos kD", .001);
-		SmartDashboard.putNumber("Arm steady kP", 0.3D);
-		SmartDashboard.putNumber("Arm steady kI", 0.0D);
-		SmartDashboard.putNumber("Arm steady kD", 0.03D);
+    	
+    	SmartDashboard.putNumber("Arm steady kP", (0.2 / 90));
+    	
+    	SmartDashboard.putNumber("Move arm to pos kP", .03);
+    	SmartDashboard.putNumber("Move arm to pos kI", .001);
+    	SmartDashboard.putNumber("Move arm to pos kD", .001);
+    	SmartDashboard.putNumber("Arm steady kP", 0.3D);
+		SmartDashboard.putNumber("Arm steady kI", 0.001D);
+		SmartDashboard.putNumber("Arm steady kD", 0.002D);
 		SmartDashboard.putNumber("Arm steady integral range", 7.0D);
 	}
 
@@ -273,6 +282,7 @@ public class Robot extends IterativeRobot {
 		RobotMap.gyro.reset();
 	}
 
+
 	/**
 	 * This function is called periodically during operator control
 	 */
@@ -294,4 +304,5 @@ public class Robot extends IterativeRobot {
 		isAuton = false;
 		LiveWindow.run();
 	}
+
 }

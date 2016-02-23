@@ -97,8 +97,10 @@ public class OI {
 		private Button primeButton;
 		private Button intakeButton;
 		private Button lowerButton;
+
 		private Button camswapButton;
 		private Button driveButton;
+
 		public OI(){
 			//Define Controllers
 			driverXBOX = new Joystick(0);
@@ -126,6 +128,7 @@ public class OI {
 			armToPos45.whenPressed(new MoveArmToPos(-20));
 			
 			lowerButton = new JoystickButton(operatorJoystick, ATTACK_BUTTON_3);
+
 
 			camswapButton = new JoystickButton(operatorJoystick, ATTACK_BUTTON_4);
 			camswapButton.whenPressed(new SwapCamera());
