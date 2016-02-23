@@ -74,7 +74,6 @@ public class DriveSubsystem extends Subsystem{
 		derivative = error - previousError;
 		double output = (error*kP) + (integral*kI) + (derivative * kD);
 		
-		System.out.println("Current error: " + error + "Output: " + output);
 		mainDrive.arcadeDrive(speed, output);
 		previousError = error;
 	}
@@ -92,6 +91,7 @@ public class DriveSubsystem extends Subsystem{
 	}
 	
 	/**
+
 	 * Get distance the robot has moved
 	 * @return average of both sides of the drive
 	 */

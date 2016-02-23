@@ -97,7 +97,7 @@ public class Robot extends IterativeRobot {
         //Initialize Subsystems
         rightFlywheelPIDData = new PIDData(0,0,0);
     	leftFlywheelPIDData = new PIDData(0,0,0);
-        drive = new DriveSubsystem(RobotMap.leftDriveController, RobotMap.rightDriveController, RobotMap.leftDriveWheelEncoder, RobotMap.rightDriveWheelEncoder);
+        drive = new DriveSubsystem(RobotMap.leftDriveController, RobotMap.rightDriveController, RobotMap.leftDriveEncoder, RobotMap.rightDriveEncoder);
         rightFlywheel = new FlyWheel(RobotMap.rightFlyWheelController, RobotMap.rightFlyWheelEncoder, rightFlywheelPIDData);
         leftFlywheel =  new FlyWheel(RobotMap.leftFlyWheelController, RobotMap.leftFlyWheelEncoder, leftFlywheelPIDData);
         shooter = new DualShooter(leftFlywheel, rightFlywheel, RobotMap.innerLeftShooterWheelController, RobotMap.innerRightShooterWheelController );
@@ -163,7 +163,7 @@ public class Robot extends IterativeRobot {
     	SmartDashboard.putNumber("Move arm to pos kD", .001);
     	SmartDashboard.putNumber("Arm steady kP", 0.3D);
 		SmartDashboard.putNumber("Arm steady kI", 0.0D);
-		SmartDashboard.putNumber("Arm steady kD", 0.03D);
+		SmartDashboard.putNumber("Arm steady kD", 0.1D);
 		SmartDashboard.putNumber("Arm steady integral range", 7.0D);
     }
 
@@ -273,7 +273,7 @@ public class Robot extends IterativeRobot {
      * This function is called periodically during operator control
      */
     public void teleopPeriodic() {
-    	System.out.println("Angle: "+RobotMap.gyro.getAngle());
+    	System.out.println("Distance: " + RobotMap.rightDriveEncoder.getDistance());
     	//System.out.println("meh" + RobotMap.dial.get());
         Scheduler.getInstance().run();
         if(foundCamera){

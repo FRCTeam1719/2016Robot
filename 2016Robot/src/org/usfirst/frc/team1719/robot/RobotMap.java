@@ -51,8 +51,7 @@ public class RobotMap {
 	public static Spark innerLeftShooterWheelController;
 	public static Spark innerRightShooterWheelController;
 	public static AnalogPotentiometer armPot;	
-	public static Encoder rightDriveWheelEncoder;
-	public static Encoder leftDriveWheelEncoder;
+	
 	public static AnalogInput dial;
 	public static DigitalInput buttonA;
 	public static DigitalInput buttonB;
@@ -79,7 +78,10 @@ public class RobotMap {
 		leftFlyWheelEncoder = new Encoder(4, 5, true, Encoder.EncodingType.k4X);
 		leftFlyWheelEncoder.setDistancePerPulse(FLYWHEEL_CIRCUMFRENCE_FEET / 20);
 		rightDriveEncoder = new Encoder(6, 7, true, Encoder.EncodingType.k4X);
+		rightDriveEncoder.setDistancePerPulse(1);
 		leftDriveEncoder = new Encoder(8, 9, true, Encoder.EncodingType.k4X);
+		leftDriveEncoder.setDistancePerPulse(1);
+
 
 		//Analog In
 		//armPot = new AnalogPotentiometer(1);

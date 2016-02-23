@@ -3,6 +3,7 @@ package org.usfirst.frc.team1719.robot;
 import org.usfirst.frc.team1719.robot.commands.AimAndFire;
 import org.usfirst.frc.team1719.robot.commands.ManualShoot;
 import org.usfirst.frc.team1719.robot.commands.MoveArmToPos;
+import org.usfirst.frc.team1719.robot.commands.MoveForwards;
 import org.usfirst.frc.team1719.robot.commands.RunIntake;
 import org.usfirst.frc.team1719.robot.commands.TurnToAngle;
 
@@ -94,6 +95,7 @@ public class OI {
 		private Button intakeButton;
 		
 		private Button lowerButton;
+		private Button forwardsButton;
 		public OI(){
 			//Define Controllers
 			driverXBOX = new Joystick(0);
@@ -117,6 +119,8 @@ public class OI {
 			armToPos45.whenPressed(new MoveArmToPos(-20));
 			
 			lowerButton = new JoystickButton(operatorJoystick, ATTACK_BUTTON_3);
+			forwardsButton = new JoystickButton(driverXBOX, A_BUTTON);
+			forwardsButton.whenPressed(new MoveForwards(5, 0.7));
 		}
 		
 		//Functions for getting input
