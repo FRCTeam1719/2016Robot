@@ -70,6 +70,9 @@ public class TargetVision {
     // Height of target from the ground
     private static final double TARGET_HEIGHT_FT = 7.583D;
     
+    private static final double JEREMYS_CONSTANT_A = 13.76D;
+    private static final double JEREMYS_CONSTANT_B = 6394.0D;
+    
     // Tables to read from GRIP
     private static final NetworkTable table1;
     private static final NetworkTable table2;
@@ -100,14 +103,14 @@ public class TargetVision {
             System.out.println("LockStatus: "+lock);
             // Is the target detected?
             SmartDashboard.putBoolean("Target Lock", lock);
-            if(!lock) {
+            if(false) {
                 return null; // Target not found
             }
             System.out.println("Still here");
             // Calculate position of the target from the contour data
             double azimuth = computeTargetAzimuth(contour);
             double altitude = computeTargetAltitude(contour);
-            double distance = (TARGET_HEIGHT_FT - CAM_HEIGHT_FT) / Math.tan((Math.PI / 180.0D) * altitude);
+            double distance = computeTargetDistance(contour); //(TARGET_HEIGHT_FT - CAM_HEIGHT_FT) / Math.tan((Math.PI / 180.0D) * altitude);
             // And put them on the smart dashboard as well for good measure
             SmartDashboard.putNumber("Target Distance", distance);
             SmartDashboard.putNumber("Target Azimuth", azimuth);
@@ -115,6 +118,11 @@ public class TargetVision {
             System.out.println("Distance" + distance);
             System.out.println("Azimuth" + azimuth);
             System.out.println("Altitude" + altitude);
+            System.out.println("Height" + contour.height);
+            System.out.println("Highest point" + (contour.posY + (contour.height/2)));
+            System.out.println("posY: "+ contour.posY);
+            
+            
             // Orientation of the target
             double angleToNormal = Math.acos((14.0D/20.0D) * (contour.width / contour.height) * Math.cos(CAM_ANGLE_DEG));
             // Return the position
@@ -161,6 +169,10 @@ public class TargetVision {
     private static double computeTargetAltitude(Contour contour) {
         double normalizedPosY = 2.0D * contour.posY / VIEW_HEIGHT_PX - 1.0D;
         return (Math.atan(normalizedPosY * Math.tan(VIEW_ANGLE_HEIGHT_DEG * Math.PI / (180*2))) * (180.0D / Math.PI)) + CAM_ANGLE_DEG;
+    }
+    
+    private static double computeTargetDistance(Contour contour) {
+    	return (JEREMYS_CONSTANT_A * (contour.posY + contour.height / 2) + JEREMYS_CONSTANT_B) / contour.height;
     }
     
     static {
