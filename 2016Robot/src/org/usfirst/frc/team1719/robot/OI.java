@@ -89,6 +89,7 @@ public class OI {
 		private Button rotateRight90Button;
 		private Button rotateLeft90Button;
 		private Button visionButton;
+		private Button photonButton;
 		private Button fireButton;			
 		private Button armToPos45;
 //		private Button moveArmButton;
@@ -109,6 +110,7 @@ public class OI {
 			rotateLeft90Button.whenPressed(new TurnToAngle(-1337D,true));
 			visionButton = new JoystickButton(driverXBOX, Y_BUTTON);
 			visionButton.whenPressed(new AutoSenseTower());
+			photonButton = new JoystickButton(operatorJoystick, ATTACK_BUTTON_3);
 
 			fireButton = new JoystickButton(operatorJoystick, ATTACK_TRIGGER);
 			primeButton = new JoystickButton(operatorJoystick, ATTACK_BUTTON_5);
@@ -155,7 +157,9 @@ public class OI {
 			return operatorJoystick.getRawAxis(ATTACK_Y_AXIS);
 		}
 		
-		
+		public boolean getPhotonButton(){
+			return photonButton.get();
+		}
 		public boolean getFireButton()
 		{
 			return fireButton.get();

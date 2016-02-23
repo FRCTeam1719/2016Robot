@@ -291,6 +291,16 @@ public class Robot extends IterativeRobot {
         	RobotMap.photonCannon.set(false);//off
         	RobotMap.photonCannon.set(true);//on full power
         }
+        if(oi.getPhotonButton() == true){
+        	//Flicker the photon cannon until we get to the right state
+        	RobotMap.photonCannon.set(true);// dim
+        	RobotMap.photonCannon.set(false);//off
+        	RobotMap.photonCannon.set(true);//blinking
+        	RobotMap.photonCannon.set(false);//off
+        	RobotMap.photonCannon.set(true);//on full power
+        }else{
+        	RobotMap.photonCannon.set(false);
+        }
     }
     
     /**
