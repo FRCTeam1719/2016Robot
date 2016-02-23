@@ -11,6 +11,7 @@ import org.usfirst.frc.team1719.robot.subsystems.DriveSubsystem;
 import org.usfirst.frc.team1719.robot.subsystems.DualShooter;
 import org.usfirst.frc.team1719.robot.subsystems.ExampleSubsystem;
 import org.usfirst.frc.team1719.robot.subsystems.FlyWheel;
+import org.usfirst.frc.team1719.robot.subsystems.TapeSubsystem;
 
 import com.ni.vision.NIVision;
 import com.ni.vision.NIVision.Image;
@@ -43,6 +44,8 @@ public class Robot extends IterativeRobot {
 	public static FlyWheel rightFlywheel;
 	public static FlyWheel leftFlywheel;
 	public static DualShooter shooter;
+	public static Climber climber;
+	public static TapeSubsystem tapeSubsystem;
 	PIDData rightFlywheelPIDData;
 	PIDData leftFlywheelPIDData;
 	public static Arm arm;
@@ -61,7 +64,7 @@ public class Robot extends IterativeRobot {
 	Image frame;
 	int session;
 	NIVision.Rect crosshair;
-	public static Climber climber;
+
 
 	public static boolean isAuton = false;
 
@@ -90,7 +93,9 @@ public class Robot extends IterativeRobot {
 				RobotMap.innerRightShooterWheelController);
 		arm = new Arm(RobotMap.armController, RobotMap.armPot);
 		display = new Display(RobotMap.buttonA, RobotMap.buttonB, RobotMap.dial);
-		climber = new Climber (RobotMap.climberLeft, RobotMap.climberRight); 
+		climber = new Climber (RobotMap.winchMotor); 
+		tapeSubsystem = new TapeSubsystem(RobotMap.climberLeft, RobotMap.climberRight);
+		
 		oi = new OI();
 		isAuton = false;
 		frame = NIVision.imaqCreateImage(NIVision.ImageType.IMAGE_RGB, 0);

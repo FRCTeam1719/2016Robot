@@ -45,6 +45,7 @@ public class RobotMap {
 	public static DigitalInput buttonB;
 	public static Spark climberRight;
 	public static Spark climberLeft;
+	public static Spark winchMotor;
 	public static void init(){
 		//Main hardware allocation
 		
@@ -58,6 +59,7 @@ public class RobotMap {
 		innerRightShooterWheelController = new Spark(6);
 		climberLeft = new Spark (7);
 		climberRight = new Spark (8);
+		winchMotor = new Spark(9);
 
 		//Sensors
 		

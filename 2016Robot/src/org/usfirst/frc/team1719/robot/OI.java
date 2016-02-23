@@ -1,9 +1,12 @@
 package org.usfirst.frc.team1719.robot;
 
 
-import org.usfirst.frc.team1719.robot.commands.ManualShoot;
-import org.usfirst.frc.team1719.robot.commands.RunIntake;
+import org.usfirst.frc.team1719.robot.commands.ClimbUp;
 import org.usfirst.frc.team1719.robot.commands.ExtendHook;
+import org.usfirst.frc.team1719.robot.commands.ManualShoot;
+import org.usfirst.frc.team1719.robot.commands.RetractHook;
+import org.usfirst.frc.team1719.robot.commands.RunIntake;
+import org.usfirst.frc.team1719.robot.commands.SwitchOperatorMode;
 import org.usfirst.frc.team1719.robot.commands.TurnToAngle;
 
 import edu.wpi.first.wpilibj.Joystick;
@@ -74,6 +77,9 @@ public class OI {
 		final int START_BUTTON = 8;
 		final int LEFT_BUTTON = 9;
 		final int RIGHT_BUTTON = 10;
+		
+		public final boolean MODE_NORMAL = true;
+		public final boolean MODE_CLIMB = false;
 	
 		private Joystick driverXBOX;
 		private Joystick operatorJoystick;
@@ -85,10 +91,20 @@ public class OI {
 //		private Button moveArmButton;
 		private Button primeButton;
 		private Button intakeButton;
-		private Button useClimberButton;
 		
-		private Button extendHookButton;
+		private Button extendTapeButton;
+		private Button retractTapeButton;
+		private Button climbButton;
+		private Button switchModeButton;
+
+		private boolean currentMode;
 		public OI(){
+			normalModeInit();
+			
+		}
+		
+		public void normalModeInit() {
+			currentMode = MODE_NORMAL;
 			//Define Controllers
 			driverXBOX = new Joystick(0);
 			operatorJoystick = new Joystick(1);
@@ -107,16 +123,23 @@ public class OI {
 			//moveArmButton.whenPressed(new MoveArmToPos(60));
 			intakeButton = new JoystickButton(operatorJoystick, ATTACK_BUTTON_2);
 			intakeButton.whenPressed(new RunIntake());
-			useClimberButton = new JoystickButton(operatorJoystick, ATTACK_BUTTON_4);
-			useClimberButton.whileHeld(new ExtendHook());
+			
+			switchModeButton = new JoystickButton(operatorJoystick, ATTACK_BUTTON_4);
+			switchModeButton.whenPressed(new SwitchOperatorMode());
 		}
 		
-		public void climingModeInit() {
-			primeButton = null;
-			extendHookButton = new JoystickButton(operatorJoystick, ATTACK_BUTTON_3);
-			intakeButton = new JoystickButton(operatorJoystick, ATTACK_BUTTON_2);
-			intakeButton.whileHeld(new ExtendHook());
+		public void climbModeInit() {
+			currentMode = MODE_CLIMB;
+			extendTapeButton = new JoystickButton(operatorJoystick, ATTACK_BUTTON_8);
+			extendTapeButton.whileHeld(new ExtendHook());
+			
+			retractTapeButton = new JoystickButton(operatorJoystick, ATTACK_BUTTON_9);
+			retractTapeButton.whileHeld(new RetractHook());
+			
+			fireButton.whileHeld(new ClimbUp());
 		}
+		
+		
 		//Functions for getting input
 		
 		/**
@@ -153,6 +176,9 @@ public class OI {
 			return intakeButton.get();
 		}
 		
+		public boolean getCurrentMode() {
+			return currentMode;
+		}
 		
 }
 

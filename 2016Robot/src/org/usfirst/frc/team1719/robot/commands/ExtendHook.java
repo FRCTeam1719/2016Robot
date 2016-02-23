@@ -7,37 +7,30 @@ import edu.wpi.first.wpilibj.command.Command;
 public class ExtendHook extends Command {
 	
 	int loopNumber = 0;
-	int desiredLoopNumber ;
+	int desiredLoopNumber;
+	
+	public ExtendHook () {
+		requires(Robot.tapeSubsystem);
+	}
 	@Override
 	protected void end() {
-		// TODO Auto-generated method stub
+		Robot.tapeSubsystem.stop();
 		
 	}
 
 	@Override
 	protected void execute() {
-		Robot.climber.extend (1,-1);
-		// TODO Auto-generated method stub
-		
+		Robot.tapeSubsystem.retract();		
 	}
 
 	@Override
-	protected void initialize() {
-		
-		loopNumber = 0;
-
-		// TODO Auto-generated method stub
-		
+	protected void initialize() {		
 	}
 	
-	public ExtendHook () {
-		
-	}
 
 	@Override
 	protected void interrupted() {
-		// TODO Auto-generated method stub
-		
+		Robot.tapeSubsystem.stop();
 	}
 
 	@Override
