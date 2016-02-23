@@ -272,7 +272,7 @@ public class Robot extends IterativeRobot {
      * This function is called periodically during operator control
      */
     public void teleopPeriodic() {
-
+    	System.out.println("Enc value: " + RobotMap.leftDriveEncoder.get());
     	//System.out.println("meh" + RobotMap.dial.get());
         Scheduler.getInstance().run();
         if(foundCamera){
