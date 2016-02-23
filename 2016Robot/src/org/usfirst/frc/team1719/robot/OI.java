@@ -1,6 +1,7 @@
 package org.usfirst.frc.team1719.robot;
 
 import org.usfirst.frc.team1719.robot.commands.AutoSenseTower;
+import org.usfirst.frc.team1719.robot.commands.EngagePhotonCannon;
 import org.usfirst.frc.team1719.robot.commands.ManualShoot;
 import org.usfirst.frc.team1719.robot.commands.MoveArmToPos;
 import org.usfirst.frc.team1719.robot.commands.MoveForwards;
@@ -111,6 +112,7 @@ public class OI {
 			visionButton = new JoystickButton(driverXBOX, Y_BUTTON);
 			visionButton.whenPressed(new AutoSenseTower());
 			photonButton = new JoystickButton(operatorJoystick, ATTACK_BUTTON_3);
+			photonButton.whenPressed(new EngagePhotonCannon());
 
 			fireButton = new JoystickButton(operatorJoystick, ATTACK_TRIGGER);
 			primeButton = new JoystickButton(operatorJoystick, ATTACK_BUTTON_5);
