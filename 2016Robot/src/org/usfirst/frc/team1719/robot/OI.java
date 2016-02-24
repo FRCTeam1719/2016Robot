@@ -1,6 +1,6 @@
 package org.usfirst.frc.team1719.robot;
 
-import org.usfirst.frc.team1719.robot.commands.AimAndFire;
+
 import org.usfirst.frc.team1719.robot.commands.ManualShoot;
 import org.usfirst.frc.team1719.robot.commands.MoveArmToPos;
 import org.usfirst.frc.team1719.robot.commands.MoveForwards;
@@ -113,22 +113,23 @@ public class OI {
 			moveForward2FeetButton.whenPressed(new MoveForwards(2,.5));
 			moveBack2FeetButton = new JoystickButton (driverXBOX, A_BUTTON);
 			moveBack2FeetButton.whenPressed(new MoveForwards(2,.5));
+			rotateLeft90Button.whenPressed(new TurnToAngle(-90,true));
+
 
 			fireButton = new JoystickButton(operatorJoystick, ATTACK_TRIGGER);
-			primeButton = new JoystickButton(operatorJoystick, ATTACK_BUTTON_5);
+			primeButton = new JoystickButton(operatorJoystick, ATTACK_BUTTON_3);
 			primeButton.whenPressed(new ManualShoot());
 			//moveArmButton = new JoystickButton(operatorJoystick, ATTACK_BUTTON_6);
 			//moveArmButton.whenPressed(new MoveArmToPos(60));
 			intakeButton = new JoystickButton(operatorJoystick, ATTACK_BUTTON_2);
 			intakeButton.whenPressed(new RunIntake());
 			photonCanonButton = new JoystickButton (operatorJoystick, ATTACK_BUTTON_5);
-			photonCanonButton.whenPressed(command);
+			photonCanonButton.whenPressed(new EngagePhotonCannon());
 			
 
 			armToPos45 = new JoystickButton(operatorJoystick, ATTACK_BUTTON_6);
 			armToPos45.whenPressed(new MoveArmToPos(-20));
 			
-			lowerButton = new JoystickButton(operatorJoystick, ATTACK_BUTTON_3);
 
 			camswapButton = new JoystickButton(operatorJoystick, ATTACK_BUTTON_4);
 			camswapButton.whenPressed(new SwapCamera());
