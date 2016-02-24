@@ -51,11 +51,14 @@ public class OI {
     // Start the command when the button is released  and let it run the command
     // until it is finished as determined by it's isFinished method.
     // button.whenReleased(new ExampleCommand());
-	
+	// -90
 	//Arm setpoint constants
 	//These are in degrees, with 0 being straight up, and -90 being all the way down in the front
 	final double DEADEYE_ANGLE = -45D;
 	final double CHIVAL_ANGLE = -30;
+	final double ALLTHEWAYDOWN_ANGLE = -90; 
+	final double LOWGOAL_ANGLE = 15;
+	
 	//
 	
 	//LOGITECH ATTACK 3 BINDINGS
@@ -109,6 +112,8 @@ public class OI {
 		private Button deadEyeButton;
 		private Button chevalButton;
 		private Button allTheWayDownButton; 
+		private Button lowGoalButton;
+		
 
 		public OI(){
 			//Define Controllers
@@ -138,7 +143,11 @@ public class OI {
 			deadEyeButton.whenPressed(new MoveArmToPos(DEADEYE_ANGLE));
 			chevalButton = new JoystickButton (operatorJoystick, ATTACK_BUTTON_6);
 			chevalButton.whenPressed(new MoveArmToPos(CHIVAL_ANGLE));
-			allTheWayDownButton = new JoystickButton (operatorJoystick, ATTACK_BUTTON_8);
+			allTheWayDownButton = new JoystickButton (operatorJoystick, ATTACK_BUTTON_11);
+			allTheWayDownButton.whenPressed(new MoveArmToPos(ALLTHEWAYDOWN_ANGLE));
+			lowGoalButton = new JoystickButton (operatorJoystick, ATTACK_BUTTON_10);
+			lowGoalButton.whenPressed(new MoveArmToPos(LOWGOAL_ANGLE));
+			
 
 			
 			
