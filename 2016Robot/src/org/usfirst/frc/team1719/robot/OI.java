@@ -5,6 +5,7 @@ import org.usfirst.frc.team1719.robot.commands.AutoSenseTower;
 import org.usfirst.frc.team1719.robot.commands.ClimbUp;
 import org.usfirst.frc.team1719.robot.commands.ExtendHook;
 import org.usfirst.frc.team1719.robot.commands.ManualShoot;
+import org.usfirst.frc.team1719.robot.commands.MoveArmToPos;
 import org.usfirst.frc.team1719.robot.commands.RetractHook;
 import org.usfirst.frc.team1719.robot.commands.RunIntake;
 import org.usfirst.frc.team1719.robot.commands.SwitchOperatorMode;
@@ -113,6 +114,9 @@ public class OI {
 
 		private Button camswapButton;
 		private Button driveButton;
+		
+		private Button firstClimbingPosButton;
+		private Button secondClimbingPosButton;
 
 		public OI(){
 			normalModeInit();
@@ -155,7 +159,15 @@ public class OI {
 			retractTapeButton = new JoystickButton(operatorJoystick, ATTACK_BUTTON_9);
 			retractTapeButton.whileHeld(new RetractHook());
 			
+			fireButton = new JoystickButton(operatorJoystick, ATTACK_TRIGGER);
 			fireButton.whileHeld(new ClimbUp());
+			
+			firstClimbingPosButton = new JoystickButton(operatorJoystick, ATTACK_BUTTON_7);
+			firstClimbingPosButton.whenPressed(new MoveArmToPos(-10, 0.25));
+			
+			secondClimbingPosButton = new JoystickButton(operatorJoystick, ATTACK_BUTTON_10);
+			secondClimbingPosButton.whenPressed(new MoveArmToPos(-16, 0.4));
+			
 		}
 		
 		

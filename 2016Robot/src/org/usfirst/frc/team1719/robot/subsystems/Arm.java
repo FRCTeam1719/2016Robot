@@ -15,7 +15,7 @@ import edu.wpi.first.wpilibj.command.Subsystem;
  */
 public class Arm extends Subsystem {
 	
-
+	double maxSpeed;
 	Spark motor;
 	
 	AnalogPotentiometer pot;
@@ -32,13 +32,27 @@ public class Arm extends Subsystem {
 		this.pot = pot;
 		motor.set(0);
 		targetPos = getArmAngle();
+		
+		maxSpeed = 1;
 	}
 	
 	/**
 	 * @param speed to move at
 	 */
 	public void move(double speed) {
-		motor.set(speed);
+		if (Math.abs(speed) > maxSpeed) {
+			if (speed < 0) {
+				motor.set(-maxSpeed);
+			}
+			else if (speed > 0) {
+				motor.set(maxSpeed);
+			}
+			
+		}
+		else {
+			motor.set(speed);
+
+		}
 	}
 	
 	/**
@@ -55,6 +69,10 @@ public class Arm extends Subsystem {
 
     public void setTargetPos(double _targetPos) {
         targetPos = _targetPos;
+    }
+    
+    public void setMaxSpeed(double speed) {
+    	maxSpeed = Math.abs(speed);
     }
 	
 }

@@ -43,6 +43,7 @@ public class UseArm extends Command{
 	        double derivative = error - lastErr;
 	        motorSpeed = -kP * error + kI * integral + kD * derivative;
 		} else { // joystick touched, reset integral and desired pos
+			Robot.arm.setMaxSpeed(1);
 		    integral = 0;
 		    Robot.arm.setTargetPos(Robot.arm.getArmAngle());
 			//Apply control scaling

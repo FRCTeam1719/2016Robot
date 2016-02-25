@@ -42,9 +42,21 @@ public class MoveArmToPos extends Command {
 		// Use requires() here to declare subsystem dependencies
 		// eg. requires(chassis);
 		requires(Robot.arm);
+		
+		Robot.arm.setMaxSpeed(1);
 
 		this.desiredAngle = desiredAngle;
 
+	}
+	
+	public MoveArmToPos(double desiredAngle, double maxSpeed) {
+		requires(Robot.arm);
+		if (maxSpeed < 0 || maxSpeed > 1) {
+			System.out.println("Error: invalid arm max speed");
+		}
+		Robot.arm.setMaxSpeed(maxSpeed);
+		
+		this.desiredAngle = desiredAngle;
 	}
 
 	// Called just before this Command runs the first time
