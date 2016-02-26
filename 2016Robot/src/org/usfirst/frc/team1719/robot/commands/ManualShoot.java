@@ -31,7 +31,8 @@ public class ManualShoot extends Command{
 	protected void end() {
 		//Verify that everything has stopped
 		Robot.shooter.reset();
-		
+		//Reset the stabilization notification
+		SmartDashboard.putBoolean("shooterStable", false);
 	}
 
 	@Override
