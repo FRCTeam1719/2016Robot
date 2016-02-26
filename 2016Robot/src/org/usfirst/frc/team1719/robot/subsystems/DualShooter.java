@@ -22,7 +22,9 @@ public class DualShooter extends Subsystem {
 	public final boolean EJECT = true;
 	public final boolean INTAKE = false;
 	
-	
+	public enum spinMode{
+		EJECT,INTAKE,STOP
+	}
 	
 	/**
 	 * Give the flyWheels and inner wheels
@@ -44,24 +46,39 @@ public class DualShooter extends Subsystem {
 	 * @param leftPower speed
 	 * @param rightPower speed
 	 */
-	public void spin(double leftPower, double rightPower)
+	public void spin(spinMode mode)
 	{
-		leftFlyWheel.spin(leftPower);
-		rightFlyWheel.spin(rightPower);
+		switch(mode){
+		case INTAKE:
+			leftFlyWheel.spin(-1);
+			rightFlyWheel.spin(1);
+		case EJECT:
+			leftFlyWheel.spin(1);
+			rightFlyWheel.spin(-1);
+		case STOP:
+			leftFlyWheel.spin(0);
+			rightFlyWheel.spin(0);
+		}
 	}
 	
 	/**
 	 * Spin the inner wheels so that they eject the ball
 	 */
-	public void runInnerMotors(boolean direction)
+	public void runInnerMotors(spinMode mode)
 	{
-		if(direction==EJECT){
+		
+		switch(mode){
+		case EJECT:
 			leftHolderMotor.set(1);
 			rightHolderMotor.set(-1);
-		}else if(direction==INTAKE){
+		case INTAKE:
 			leftHolderMotor.set(-1);
 			rightHolderMotor.set(1);
+		case STOP:
+			leftHolderMotor.set(0);
+			rightHolderMotor.set(0);
 		}
+		
 	}
 	
 	/**

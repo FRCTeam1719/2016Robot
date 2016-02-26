@@ -1,6 +1,7 @@
 package org.usfirst.frc.team1719.robot.commands;
 
 import org.usfirst.frc.team1719.robot.Robot;
+import org.usfirst.frc.team1719.robot.subsystems.DualShooter;
 
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.command.Command;
@@ -38,13 +39,13 @@ public class ShootBoulder extends Command {
 
 	@Override
 	protected void execute() {
-	    Robot.shooter.spin(leftPower, rightPower);
+	    Robot.shooter.spin(DualShooter.spinMode.EJECT);
 	    isStabilized = Robot.shooter.isStabilized();
 		//if we shoot the boulder check if the angle has been reached before firing
 		if((!Robot.isAuton && Robot.oi.getFireButton())||
 				(Robot.isAuton && isStabilized && SmartDashboard.getBoolean("Angle Reached")))
 		{
-			Robot.shooter.runInnerMotors(Robot.shooter.EJECT);
+			Robot.shooter.runInnerMotors(DualShooter.spinMode.EJECT);
 			//TODO Maybe change this
 			//hasShot = true;
 			timer.start();
