@@ -98,10 +98,7 @@ public class OI {
 	
 		private Button rotateRight90Button;
 		private Button rotateLeft90Button;
-		private Button visionButton;
 		private Button fireButton;			
-		private Button armToPos45;
-//		private Button moveArmButton;
 		private Button primeButton;
 		private Button intakeButton;
 		private Button lowerButton;

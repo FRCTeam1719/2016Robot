@@ -103,9 +103,7 @@ public class TargetVision {
             System.out.println("LockStatus: "+lock);
             // Is the target detected?
             SmartDashboard.putBoolean("Target Lock", lock);
-            if(false) {
-                return null; // Target not found
-            }
+
             System.out.println("Still here");
             // Calculate position of the target from the contour data
             double azimuth = computeTargetAzimuth(contour);
