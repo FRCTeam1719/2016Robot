@@ -83,16 +83,6 @@ public class Robot extends IterativeRobot {
 	 */
 
 	public void robotInit() {
-        //Initialize Subsystems
-        rightFlywheelPIDData = new PIDData(0,0,0);
-    	leftFlywheelPIDData = new PIDData(0,0,0);
-        drive = new DriveSubsystem(RobotMap.leftDriveController, RobotMap.rightDriveController, RobotMap.leftDriveEncoder, RobotMap.rightDriveEncoder);
-        rightFlywheel = new FlyWheel(RobotMap.rightFlyWheelController, RobotMap.rightFlyWheelEncoder, rightFlywheelPIDData);
-        leftFlywheel =  new FlyWheel(RobotMap.leftFlyWheelController, RobotMap.leftFlyWheelEncoder, leftFlywheelPIDData);
-        shooter = new DualShooter(leftFlywheel, rightFlywheel, RobotMap.innerLeftShooterWheelController, RobotMap.innerRightShooterWheelController );
-        arm = new Arm(RobotMap.armController, RobotMap.armPot);
-        display = new Display(RobotMap.buttonA, RobotMap.buttonB, RobotMap.dial);
-        oi = new OI();
 
 		// Network Initialization
 
@@ -100,9 +90,9 @@ public class Robot extends IterativeRobot {
 
 		// Configure SmartDashboard Things
 
-		// Hardware Initialization
-		// Allocate Hardware
-		RobotMap.init();
+        // Hardware Initialization
+        // Allocate Hardware
+     	RobotMap.init();
 
 		// Initialize Subsystems
 		rightFlywheelPIDData = new PIDData(0, 0, 0);

@@ -115,6 +115,7 @@ public class RobotMap {
 		}else{
 			//We are compiling for the practice bot, use Talons instead
 			controller = new Talon(port);
+			System.out.println("Setting things to Talons");
 		}
 		return controller;
 	}
