@@ -62,8 +62,8 @@ public class TargetVision {
     private static final double VIEW_WIDTH_PX = 1280.0D;
     private static final double VIEW_HEIGHT_PX = 720.0D;
     // Camera field of view (in degrees)
-    private static final double VIEW_ANGLE_DEG = 54.70D;
-    private static final double VIEW_ANGLE_HEIGHT_DEG = 18.59D;
+    private static final double VIEW_ANGLE_DEG = 61.336D;
+    private static final double VIEW_ANGLE_HEIGHT_DEG = 36.939D;
     // Height of camera from the ground
     private static final double CAM_HEIGHT_FT = 1.208;
     private static final double CAM_ANGLE_DEG = 25.0D;
@@ -103,9 +103,7 @@ public class TargetVision {
             System.out.println("LockStatus: "+lock);
             // Is the target detected?
             SmartDashboard.putBoolean("Target Lock", lock);
-            if(false) {
-                return null; // Target not found
-            }
+
             System.out.println("Still here");
             // Calculate position of the target from the contour data
             double azimuth = computeTargetAzimuth(contour);
