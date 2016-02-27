@@ -165,8 +165,8 @@ public class Robot extends IterativeRobot {
     	SmartDashboard.putNumber("Move arm to pos kI", .001);
     	SmartDashboard.putNumber("Move arm to pos kD", .001);
     	SmartDashboard.putNumber("Arm steady kP", 0.3D);
-		SmartDashboard.putNumber("Arm steady kI", 0.001D);
-		SmartDashboard.putNumber("Arm steady kD", 0.002D);
+		SmartDashboard.putNumber("Arm steady kI", 0.01D);
+		SmartDashboard.putNumber("Arm steady kD", 0.007D);
 		SmartDashboard.putNumber("Arm steady integral range", 7.0D);
 	}
 
@@ -216,6 +216,7 @@ public class Robot extends IterativeRobot {
 		}
 
 		Scheduler.getInstance().run();
+		System.out.println("Arm angle: " + Robot.arm.getArmAngle());
 
 	}
 
@@ -285,7 +286,7 @@ public class Robot extends IterativeRobot {
 			NIVision.IMAQdxGrab(session, frame, 1);
 			CameraServer.getInstance().setImage(frame);
 		}
-
+		System.out.println("Enc value: " + RobotMap.leftDriveEncoder);
 	}
 
 	/**

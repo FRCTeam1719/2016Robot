@@ -22,7 +22,7 @@ public class RobotMap {
 	/** 
 	 * Measured in feet
 	 */
-	public final static boolean COMPILINGFORPRODUCTIONBOT = false;
+	public final static boolean COMPILINGFORPRODUCTIONBOT = true;
 
     // For example to map the left and right motors, you could define the
     // following variables to use with your drivetrain subsystem.
@@ -96,10 +96,13 @@ public class RobotMap {
 		gyro = new AnalogGyro(0);
 		dial = new AnalogInput(3);
         
-		//Relay
+		
 		photonCannon = new DigitalOutput(1);
-
-        armPot = new AnalogPotentiometer(1, 141, -109.4);
+		//.127
+		//.773
+		//.646
+        //armPot = new AnalogPotentiometer(1, 141, -110.4);
+		armPot = new AnalogPotentiometer(1, 139.32, -106);
         buttonA = new DigitalInput(19);
 		buttonB = new DigitalInput(20);
 	}

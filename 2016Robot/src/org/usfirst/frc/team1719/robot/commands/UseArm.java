@@ -38,16 +38,21 @@ public class UseArm extends Command{
 	        double kD = SmartDashboard.getNumber("Arm steady kD");
 	        double rng = SmartDashboard.getNumber("Arm steady integral range");
 	        double angle = Robot.arm.getArmAngle();
-	        double error = -(Robot.arm.getTargetPos() - angle);
+	        double error = (Robot.arm.getTargetPos() - angle);
 	        if(Math.abs(error) < rng) integral += error;
 	        double derivative = error - lastErr;
-	        motorSpeed = -kP * error + kI * integral + kD * derivative;
+	        motorSpeed = kP * error + kI * integral + kD * derivative;
 		} else { // joystick touched, reset integral and desired pos
 		    integral = 0;
 		    Robot.arm.setTargetPos(Robot.arm.getArmAngle());
 			//Apply control scaling
 		    if(Robot.arm.getArmAngle()<LOW_RANGE_THRESHOLD)
-				motorSpeed = joystickReading *LOW_RANGE_CONTROL_SCALING;
+		    	if (joystickReading < 0) {
+		    		motorSpeed = joystickReading *LOW_RANGE_CONTROL_SCALING;
+		    	}
+		    	else {
+		    		motorSpeed = joystickReading * CONTROL_SCALING;
+		    	}
 		    else
 		    	motorSpeed = joystickReading * CONTROL_SCALING;
 		}
