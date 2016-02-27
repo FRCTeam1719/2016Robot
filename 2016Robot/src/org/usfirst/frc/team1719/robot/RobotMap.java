@@ -63,8 +63,8 @@ public class RobotMap {
 		
 
 		//Motor Controllers
-		rightDriveController = configureMotor(rightDriveController,0);
-		leftDriveController = configureMotor(leftDriveController,1);   
+		rightDriveController = configureMotor(0);
+		leftDriveController = configureMotor(1);   
 		leftFlyWheelController = new Spark(2);
 		rightFlyWheelController = new Spark(3);
 		armController = new Spark(4);
@@ -109,8 +109,9 @@ public class RobotMap {
 	 */
 	
 	
-	private static SpeedController configureMotor(SpeedController controller, int port){
-		if(COMPILINGFORPRODUCTIONBOT){
+	private static SpeedController configureMotor(int port){
+		SpeedController controller;
+	    if(COMPILINGFORPRODUCTIONBOT){
 			controller = new Spark(port);
 		}else{
 			//We are compiling for the practice bot, use Talons instead
