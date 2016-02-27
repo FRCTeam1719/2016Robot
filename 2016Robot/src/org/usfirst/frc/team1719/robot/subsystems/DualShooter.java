@@ -52,12 +52,15 @@ public class DualShooter extends Subsystem {
 		case INTAKE:
 			leftFlyWheel.spin(-1);
 			rightFlyWheel.spin(1);
+			break;
 		case EJECT:
 			leftFlyWheel.spin(1);
 			rightFlyWheel.spin(-1);
+			break;
 		case STOP:
 			leftFlyWheel.spin(0);
 			rightFlyWheel.spin(0);
+			break;
 		}
 	}
 	
@@ -71,12 +74,15 @@ public class DualShooter extends Subsystem {
 		case EJECT:
 			leftHolderMotor.set(1);
 			rightHolderMotor.set(-1);
+			break;
 		case INTAKE:
 			leftHolderMotor.set(-1);
 			rightHolderMotor.set(1);
+			break;
 		case STOP:
 			leftHolderMotor.set(0);
 			rightHolderMotor.set(0);
+			break;
 		}
 		
 	}
