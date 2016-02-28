@@ -56,7 +56,7 @@ public class UseArm extends Command{
 	protected boolean isFinished() {
 		return true;
 	}
-
+//
 	@Override
 	protected void end() {
 		
