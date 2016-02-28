@@ -208,7 +208,7 @@ public class Robot extends IterativeRobot {
 		}
 
 		Scheduler.getInstance().run();
-		System.out.println("Arm angle: " + Robot.arm.getArmAngle());
+		System.out.println("Arm angle: " + RobotMap.armPot.get());
 
 	}
 
@@ -236,8 +236,10 @@ public class Robot extends IterativeRobot {
 			NIVision.IMAQdxStartAcquisition(session);
 		}
 		// schedule the autonomous command (example)
-		if (autonomousCommand != null)
+		if (autonomousCommand != null) {
 			autonomousCommand.start();
+		}
+		
 
 	}
 
@@ -246,6 +248,7 @@ public class Robot extends IterativeRobot {
 	 */
 	public void autonomousPeriodic() {
 		Scheduler.getInstance().run();
+
 	}
 
 	public void teleopInit() {
@@ -278,7 +281,6 @@ public class Robot extends IterativeRobot {
 			NIVision.IMAQdxGrab(session, frame, 1);
 			CameraServer.getInstance().setImage(frame);
 		}
-		System.out.println("Enc value: " + RobotMap.leftDriveEncoder);
 	}
 
 	/**

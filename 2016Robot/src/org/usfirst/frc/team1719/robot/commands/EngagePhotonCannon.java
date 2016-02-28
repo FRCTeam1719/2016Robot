@@ -15,14 +15,14 @@ public class EngagePhotonCannon extends Command {
 	@Override
 	protected void execute() {
 		// TODO Auto-generated method stub
-		if(Robot.arm.getArmAngle() < 60){
+		
 			Robot.photonCannon.isOn = !Robot.photonCannon.isOn;
 			if(Robot.photonCannon.isOn == true){
 				Robot.photonCannon.turnOn();
 			}else{
 				Robot.photonCannon.turnOff();
 			}
-		}
+		
 	}
 
 	@Override

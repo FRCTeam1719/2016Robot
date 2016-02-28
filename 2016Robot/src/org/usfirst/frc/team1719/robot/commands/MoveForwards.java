@@ -46,17 +46,18 @@ public class MoveForwards extends Command {
 	@Override
 	protected void execute() {
 		
-        Robot.drive.driveStraight(speed); // drive towards heading 0
+        Robot.drive.operateDrive(speed, speed); // drive towards heading 0
 	}
 
 	@Override
+	
 	protected void initialize() {
 		timer.reset();
 		timer.start();
 		
 		
 		RobotMap.gyro.reset();
-		Robot.drive.resetEncoders();
+		//Robot.drive.resetEncoders();
 		if(desiredTime == 0.0D) desiredTime = SmartDashboard.getNumber("MoveDistParam");
 	}
 

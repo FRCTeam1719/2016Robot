@@ -17,7 +17,7 @@ public class PhotonCannon extends Subsystem {
 	@Override
 	protected void initDefaultCommand() {
 		// TODO Auto-generated method stub
-		setDefaultCommand(new UpdatePhotonState());
+		
 	}
 
 	
