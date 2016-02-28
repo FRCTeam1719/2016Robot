@@ -136,14 +136,14 @@ public class OI {
 			intakeButton.whenPressed(new RunIntake());
 			photonCanonButton = new JoystickButton (operatorJoystick, ATTACK_BUTTON_5);
 			photonCanonButton.whenPressed(new EngagePhotonCannon());
-			deadEyeButton = new JoystickButton (operatorJoystick, ATTACK_BUTTON_7);
-			deadEyeButton.whenPressed(new MoveArmToPos(DEADEYE_ANGLE));
-			chevalButton = new JoystickButton (operatorJoystick, ATTACK_BUTTON_6);
-			chevalButton.whenPressed(new MoveArmToPos(CHIVAL_ANGLE));
-			allTheWayDownButton = new JoystickButton (operatorJoystick, ATTACK_BUTTON_11);
-			allTheWayDownButton.whenPressed(new MoveArmToPos(ALLTHEWAYDOWN_ANGLE));
-			lowGoalButton = new JoystickButton (operatorJoystick, ATTACK_BUTTON_10);
-			lowGoalButton.whenPressed(new MoveArmToPos(LOWGOAL_ANGLE));
+//			deadEyeButton = new JoystickButton (operatorJoystick, ATTACK_BUTTON_7);
+//			deadEyeButton.whenPressed(new MoveArmToPos(DEADEYE_ANGLE));
+//			chevalButton = new JoystickButton (operatorJoystick, ATTACK_BUTTON_6);
+//			chevalButton.whenPressed(new MoveArmToPos(CHIVAL_ANGLE));
+//			allTheWayDownButton = new JoystickButton (operatorJoystick, ATTACK_BUTTON_11);
+//			allTheWayDownButton.whenPressed(new MoveArmToPos(ALLTHEWAYDOWN_ANGLE));
+//			lowGoalButton = new JoystickButton (operatorJoystick, ATTACK_BUTTON_10);
+//			lowGoalButton.whenPressed(new MoveArmToPos(LOWGOAL_ANGLE));
 			
 
 			
