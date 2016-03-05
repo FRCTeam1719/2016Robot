@@ -19,15 +19,14 @@ public class UpdatePhotonState extends Command{
 	@Override
 	protected void execute() {
 		// TODO Auto-generated method stub
-		if ((Robot.arm.getArmAngle()) < PHOTON_CANNON_ANGLE) {
-			Robot.photonCannon.turnOff();
-		}
-	}
+		Robot.photonCannon.isOn = !Robot.photonCannon.isOn;
+		Robot.photonCannon.update();
+ 	}
 
 	@Override
 	protected boolean isFinished() {
 		// TODO Auto-generated method stub
-		return false;
+		return true;
 	}
 
 	@Override
