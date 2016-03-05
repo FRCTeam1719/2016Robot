@@ -16,8 +16,10 @@ public class RoughTerrainAuton extends CommandGroup {
 		addSequential(new MoveArmToPos(-30));
 		addParallel(new UseArm());
 		addSequential(new Wait(1));
-		addSequential(new MoveForwards(3.3, 0.9));
+		addSequential(new MoveForwards(3.5, 1.0));
 		addSequential(new TurnToAngle(0, false));
+		addSequential(new MoveArmToPos(0));
+		addParallel(new UseArm());
 	}
 
 }
