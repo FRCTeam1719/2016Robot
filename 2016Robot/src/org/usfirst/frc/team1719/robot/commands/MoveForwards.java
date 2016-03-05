@@ -59,7 +59,7 @@ public class MoveForwards extends Command {
 		timer.start();
 		
 		
-		RobotMap.gyro.reset();
+		System.out.println("MoveForwardStarted");
 		//Robot.drive.resetEncoders();
 		if(desiredTime == 0.0D) desiredTime = SmartDashboard.getNumber("MoveDistParam");
 	}
