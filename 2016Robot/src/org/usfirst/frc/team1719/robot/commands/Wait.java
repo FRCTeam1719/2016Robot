@@ -1,5 +1,7 @@
 package org.usfirst.frc.team1719.robot.commands;
 
+import org.usfirst.frc.team1719.robot.Robot;
+
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.command.Command;
 
@@ -17,13 +19,13 @@ public class Wait extends Command {
 	protected void initialize() {
 		timer.reset();
 		timer.start();
+		System.out.println("Wait started");
 		
 	}
 
 	@Override
 	protected void execute() {
-		
-		
+			
 	}
 
 	@Override
@@ -33,6 +35,7 @@ public class Wait extends Command {
 
 	@Override
 	protected void end() {
+		System.out.println("Wait ended");
 		timer.stop();
 		
 	}

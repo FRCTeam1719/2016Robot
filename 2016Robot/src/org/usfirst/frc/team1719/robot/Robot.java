@@ -6,6 +6,7 @@ import org.usfirst.frc.team1719.robot.autonomousSelections.RockWallAuton;
 import org.usfirst.frc.team1719.robot.autonomousSelections.RoughTerrainAuton;
 import org.usfirst.frc.team1719.robot.commands.AimAndFire;
 import org.usfirst.frc.team1719.robot.commands.AutoSenseTower;
+import org.usfirst.frc.team1719.robot.commands.UseArm;
 import org.usfirst.frc.team1719.robot.settings.PIDData;
 import org.usfirst.frc.team1719.robot.subsystems.Arm;
 import org.usfirst.frc.team1719.robot.subsystems.Display;
@@ -237,10 +238,9 @@ public class Robot extends IterativeRobot {
 		}
 		// schedule the autonomous command (example)
 		if (autonomousCommand != null) {
+			System.out.println(autonomousCommand);
 			autonomousCommand.start();
 		}
-		
-
 	}
 
 	/**

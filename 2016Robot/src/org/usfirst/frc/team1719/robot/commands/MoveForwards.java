@@ -40,13 +40,16 @@ public class MoveForwards extends Command {
 	}
 
 	@Override
-	protected void end() {		
+	protected void end() {	
+		//STop the drive
+		Robot.drive.operateDrive(0, 0);
+		System.out.println("Ended");
 	}
 
 	@Override
 	protected void execute() {
 		
-        Robot.drive.operateDrive(speed, speed); // drive towards heading 0
+        Robot.drive.operateDrive(-speed, -speed); // drive towards heading 0
 	}
 
 	@Override
@@ -69,6 +72,7 @@ public class MoveForwards extends Command {
 
 	@Override
 	protected boolean isFinished() {
+		System.out.println(timer.get());
 		return timer.get() >= desiredTime;
 	}
 

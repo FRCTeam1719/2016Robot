@@ -68,12 +68,11 @@ public class UseArm extends Command{
 		Robot.arm.move(motorSpeed);
 		//System.out.println("Arm Angle: "+Robot.arm.getArmAngle());
 		//System.out.println("motor speed: " + motorSpeed);
-		System.out.println("Target angle: " + Robot.arm.getTargetPos());
 	}
 
 	@Override
 	protected boolean isFinished() {
-		return true;
+		return false;
 	}
 
 	@Override
