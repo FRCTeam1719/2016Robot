@@ -119,6 +119,9 @@ public class Robot extends IterativeRobot {
 		smartDashboardInit();
 		RobotMap.gyro.initGyro();
 		RobotMap.gyro.calibrate();
+		//Initialize Autonomous Command
+		autonomousCommand = new RoughTerrainAuton	();
+		System.out.println("AUTONOMOUS: " + autonomousCommand);
 	}
 
 	/**
@@ -224,7 +227,6 @@ public class Robot extends IterativeRobot {
 	 * to the switch structure below with additional strings and commands.
 	 */
 	public void autonomousInit() {
-		autonomousCommand = new RoughTerrainAuton();
 		isAuton = true;
 		/*
 		 * String autoSelected = SmartDashboard.getString("Auto Selector",
