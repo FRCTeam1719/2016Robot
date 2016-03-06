@@ -2,6 +2,7 @@ package org.usfirst.frc.team1719.robot;
 
 import org.usfirst.frc.team1719.robot.autonomousSelections.DoNothing;
 import org.usfirst.frc.team1719.robot.autonomousSelections.LowBarAuton;
+import org.usfirst.frc.team1719.robot.autonomousSelections.ReachAuton;
 import org.usfirst.frc.team1719.robot.autonomousSelections.RockWallAuton;
 import org.usfirst.frc.team1719.robot.autonomousSelections.RoughTerrainAuton;
 import org.usfirst.frc.team1719.robot.commands.AimAndFire;
@@ -119,9 +120,14 @@ public class Robot extends IterativeRobot {
 		smartDashboardInit();
 		RobotMap.gyro.initGyro();
 		RobotMap.gyro.calibrate();
+		//TODO: fix this after match
 		//Initialize Autonomous Command
-		autonomousCommand = new RoughTerrainAuton	();
-		System.out.println("AUTONOMOUS: " + autonomousCommand);
+		//autonomousCommand = new ReachAuton();
+		/*try{
+			System.out.println("AUTONOMOUS: " + autonomousCommand);
+		}catch(Exception e){
+			System.out.println("Hey the autocommand is null");
+		}*/
 	}
 
 	/**
@@ -239,7 +245,6 @@ public class Robot extends IterativeRobot {
 		}
 		// schedule the autonomous command (example)
 		if (autonomousCommand != null) {
-			System.out.println(autonomousCommand);
 			autonomousCommand.start();
 		}
 	}

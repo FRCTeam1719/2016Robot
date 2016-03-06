@@ -29,7 +29,8 @@ public class MoveForwards extends Command {
 	/**
 	 * 
 	 * @param distFeet
-	 *            to move forward
+	 *            to move forward (in time)
+	 * @param speed to move for
 	 */
 	public MoveForwards(double distFeet, double speed) {
 		requires(Robot.drive);
