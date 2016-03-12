@@ -64,9 +64,11 @@ public class TargetVision {
     // Camera field of view (in degrees)
     private static final double VIEW_ANGLE_DEG = 61.336D;
     private static final double VIEW_ANGLE_HEIGHT_DEG = 36.939D;
+    private static final double TAN_VIEW_HEIGHT = Math.tan(VIEW_ANGLE_HEIGHT_DEG * Math.PI / 180.0D);
     // Height of camera from the ground
-    private static final double CAM_HEIGHT_FT = 1.208;
-    private static final double CAM_ANGLE_DEG = 25.0D;
+    private static final double CAM_HEIGHT_FT = 1.25;
+    private static final double CAM_ANGLE_DEG = 30.0D;
+    private static final double TAN_CAM_ANGLE = Math.tan(CAM_ANGLE_DEG * Math.PI / 180.0D);
     // Height of target from the ground
     private static final double TARGET_HEIGHT_FT = 7.583D;
     
@@ -108,7 +110,7 @@ public class TargetVision {
             // Calculate position of the target from the contour data
             double azimuth = computeTargetAzimuth(contour);
             double altitude = computeTargetAltitude(contour);
-            double distanceduncan = (TARGET_HEIGHT_FT - CAM_HEIGHT_FT) / Math.tan((Math.PI / 180.0D) * altitude);
+            double distanceduncan = computeTargetDistanceD(contour);
             double distancejeremy = computeTargetDistance(contour);
             // And put them on the smart dashboard as well for good measure
             SmartDashboard.putNumber("Target Distance", distanceduncan);
@@ -116,6 +118,7 @@ public class TargetVision {
             SmartDashboard.putNumber("Target Altitude", altitude);
             System.out.println("Distance (Duncan's Method): " + distanceduncan);
             System.out.println("Distance (Jeremy's Method): " + distancejeremy);
+            System.out.println("Distance (Ripped off Method): " + computeTargetDistanceRipoff(contour));
             System.out.println("Azimuth" + azimuth);
             System.out.println("Altitude" + altitude);
             System.out.println("Height" + contour.height);
@@ -173,6 +176,16 @@ public class TargetVision {
     
     private static double computeTargetDistance(Contour contour) {
     	return (JEREMYS_CONSTANT_A * (contour.posY + contour.height / 2) + JEREMYS_CONSTANT_B) / contour.height;
+    }
+    
+    private static double computeTargetDistanceD(Contour contour) {
+        double normalizedPosY = 1.0D - 2.0D * contour.posY / VIEW_HEIGHT_PX;
+        System.out.println("nPosY = " + normalizedPosY);
+        return (TARGET_HEIGHT_FT - CAM_HEIGHT_FT) * (1.0D - TAN_CAM_ANGLE * TAN_VIEW_HEIGHT * normalizedPosY) / (TAN_CAM_ANGLE + TAN_VIEW_HEIGHT * normalizedPosY);
+    }
+    private static double computeTargetDistanceRipoff(Contour contour) {
+        double normalizedPosY = 1.0D - 2.0D * contour.posY / VIEW_HEIGHT_PX;
+        return (TARGET_HEIGHT_FT - CAM_HEIGHT_FT) / Math.tan((normalizedPosY * VIEW_ANGLE_HEIGHT_DEG / 2.0D + CAM_ANGLE_DEG) * Math.PI / 180.0D);
     }
     
     static {

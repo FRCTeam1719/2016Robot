@@ -10,6 +10,7 @@ import org.usfirst.frc.team1719.robot.autonomousSelections.RoughTerrainAuton;
 import org.usfirst.frc.team1719.robot.commands.AimAndFire;
 import org.usfirst.frc.team1719.robot.commands.AutoSenseTower;
 import org.usfirst.frc.team1719.robot.commands.TurnToAngle;
+import org.usfirst.frc.team1719.robot.sensors.TargetVision;
 import org.usfirst.frc.team1719.robot.settings.PIDData;
 import org.usfirst.frc.team1719.robot.subsystems.Arm;
 import org.usfirst.frc.team1719.robot.subsystems.Display;
@@ -180,7 +181,7 @@ public class Robot extends IterativeRobot {
 	}
 
 	public void disabledPeriodic() {
-
+	    try {TargetVision.detect();} catch (Exception e) {e.printStackTrace();}
 		if (display.buttonAPressed()) {
 			currentDisplayMode = AUTONDISPLAY;
 		} else if (display.buttonBPressed()) {
