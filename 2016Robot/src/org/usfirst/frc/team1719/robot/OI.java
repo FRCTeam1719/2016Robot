@@ -5,6 +5,7 @@ import org.usfirst.frc.team1719.robot.commands.ManualShoot;
 import org.usfirst.frc.team1719.robot.commands.MoveArmToPos;
 import org.usfirst.frc.team1719.robot.commands.RunIntake;
 import org.usfirst.frc.team1719.robot.commands.SwapCamera;
+import org.usfirst.frc.team1719.robot.commands.TestEncoder;
 import org.usfirst.frc.team1719.robot.commands.TurnToAngle;
 import org.usfirst.frc.team1719.robot.commands.UpdatePhotonState;
 
@@ -109,6 +110,7 @@ public class OI {
 		private Button chevalButton;
 		private Button allTheWayDownButton; 
 		private Button lowGoalButton;
+		private Button encoderTestButton;
 		
 
 		public OI(){
@@ -140,6 +142,8 @@ public class OI {
 			lowGoalButton = new JoystickButton (operatorJoystick, ATTACK_BUTTON_10);
 			lowGoalButton.whenPressed(new MoveArmToPos(LOWGOAL_ANGLE));
 			
+			encoderTestButton = new JoystickButton(driverXBOX, Y_BUTTON);
+			encoderTestButton.whenPressed(new TestEncoder());
 
 			
 			

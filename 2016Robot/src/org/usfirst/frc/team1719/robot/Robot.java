@@ -211,8 +211,8 @@ public class Robot extends IterativeRobot {
 		}
 
 		Scheduler.getInstance().run();
-		System.out.println("Arm angle: " + RobotMap.armPot.get());
 
+		
 	}
 
 	/**

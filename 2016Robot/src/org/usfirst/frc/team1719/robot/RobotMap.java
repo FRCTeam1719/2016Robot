@@ -39,8 +39,10 @@ public class RobotMap {
 	
 	public static SpeedController leftDriveController;
 	public static SpeedController rightDriveController;
+	public static SpeedController encoderTesterMotor;
 	public static Encoder leftDriveEncoder;
 	public static Encoder rightDriveEncoder;
+	public static Encoder encoderTesterMotorEncoder;
 	public static Spark rightFlyWheelController;
 	public static Encoder rightFlyWheelEncoder;
 	public static Spark leftFlyWheelController;
@@ -71,6 +73,7 @@ public class RobotMap {
 		armController = new Spark(4);
 		innerLeftShooterWheelController = new Spark(5);
 		innerRightShooterWheelController = new Spark(6);
+		encoderTesterMotor = configureMotor(encoderTesterMotor, 7);
 
 		//Sensors
 		
@@ -81,8 +84,8 @@ public class RobotMap {
 		leftFlyWheelEncoder = new Encoder(4, 5, true, Encoder.EncodingType.k4X);
 		leftFlyWheelEncoder.setDistancePerPulse(FLYWHEEL_CIRCUMFRENCE_FEET / 20);
 		
-		rightDriveEncoder = new Encoder(6, 7, true, Encoder.EncodingType.k4X);
-		rightDriveEncoder.setDistancePerPulse(1);
+		encoderTesterMotorEncoder = new Encoder(6, 7, true, Encoder.EncodingType.k4X);
+		encoderTesterMotorEncoder.setDistancePerPulse((6 * Math.PI) / 256);
 		leftDriveEncoder = new Encoder(8, 9, true, Encoder.EncodingType.k4X);
 		leftDriveEncoder.setDistancePerPulse(1);
 
