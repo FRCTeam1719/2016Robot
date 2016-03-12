@@ -98,12 +98,13 @@ public class RobotMap {
 		dial = new AnalogInput(3);
         
 		
+		
 		photonCannon = new Relay(0);
 		//.127
 		//.773
 		//.646
         //armPot = new AnalogPotentiometer(1, 141, -110.4);
-		armPot = new AnalogPotentiometer(1, 139.32, -106);
+		armPot = new AnalogPotentiometer(1);
         buttonA = new DigitalInput(19);
 		buttonB = new DigitalInput(20);
 	}

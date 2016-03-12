@@ -122,7 +122,7 @@ public class Robot extends IterativeRobot {
 		RobotMap.gyro.calibrate();
 		//TODO: fix this after match
 		//Initialize Autonomous Command
-		//autonomousCommand = new ReachAuton();
+		autonomousCommand = new ReachAuton();
 		/*try{
 			System.out.println("AUTONOMOUS: " + autonomousCommand);
 		}catch(Exception e){
@@ -287,6 +287,7 @@ public class Robot extends IterativeRobot {
 			NIVision.IMAQdxGrab(session, frame, 1);
 			CameraServer.getInstance().setImage(frame);
 		}
+		System.out.println("Angle: "+RobotMap.armPot.get());
 	}
 
 	/**
