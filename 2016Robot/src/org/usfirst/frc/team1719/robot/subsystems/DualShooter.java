@@ -13,11 +13,10 @@ import edu.wpi.first.wpilibj.command.Subsystem;
  */
 public class DualShooter extends Subsystem {
 	
-	FlyWheel leftFlyWheel;
-	FlyWheel rightFlyWheel;
+	FlyWheel flyWheel;
 	
-	Spark leftHolderMotor;
-	Spark rightHolderMotor;
+	Spark holderMotor;
+
 	
 	public final boolean EJECT = true;
 	public final boolean INTAKE = false;
@@ -33,13 +32,12 @@ public class DualShooter extends Subsystem {
 	 * @param leftHolderMotor Inner motor on the left
 	 * @param rightHolderMotor Inner motor on the right
 	 */
-	public DualShooter(FlyWheel leftFlyWheel, FlyWheel rightFlyWheel, Spark leftHolderMotor, Spark rightHolderMotor)
+	public DualShooter(FlyWheel flyWheel, Spark holderMotor)
 	{
-		this.leftFlyWheel = leftFlyWheel;
-		this.rightFlyWheel = rightFlyWheel;
-		this.leftHolderMotor = leftHolderMotor;
-		this.rightHolderMotor = rightHolderMotor;
-	}
+		this.flyWheel = flyWheel;
+		
+		this.holderMotor = holderMotor;
+		}
 	
 	/**
 	 * Spin up the Fly Wheels as specified powers
@@ -49,17 +47,17 @@ public class DualShooter extends Subsystem {
 	public void spin(spinMode mode)
 	{
 		switch(mode){
+		
 		case INTAKE:
-			leftFlyWheel.spin(-.7);
-			rightFlyWheel.spin(.7);
+			flyWheel.spin(-.7);
 			break;
+			
 		case EJECT:
-			leftFlyWheel.spin(1);
-			rightFlyWheel.spin(-1);
+			flyWheel.spin(1);
 			break;
+			
 		case STOP:
-			leftFlyWheel.spin(0);
-			rightFlyWheel.spin(0);
+			flyWheel.spin(0);	
 			break;
 		}
 	}
@@ -71,17 +69,17 @@ public class DualShooter extends Subsystem {
 	{
 		
 		switch(mode){
+		
 		case EJECT:
-			leftHolderMotor.set(1);
-			rightHolderMotor.set(-1);
+			holderMotor.set(1);
 			break;
+			
 		case INTAKE:
-			leftHolderMotor.set(-1);
-			rightHolderMotor.set(1);
+			holderMotor.set(-1);
 			break;
+			
 		case STOP:
-			leftHolderMotor.set(0);
-			rightHolderMotor.set(0);
+			holderMotor.set(0);
 			break;
 		}
 		
@@ -92,10 +90,10 @@ public class DualShooter extends Subsystem {
 	 */
 	public void reset()
 	{
-		leftFlyWheel.reset();
-		rightFlyWheel.reset();
-		leftHolderMotor.set(0);
-		rightHolderMotor.set(0);
+		flyWheel.reset();
+	
+		holderMotor.set(0);
+		
 	}
 	
 	/**
@@ -104,7 +102,7 @@ public class DualShooter extends Subsystem {
 	 */
 	public boolean isStabilized()
 	{
-		return leftFlyWheel.isStabilized(100) && rightFlyWheel.isStabilized(100);
+		return flyWheel.isStabilized(100);
 	}
 	
 	protected void initDefaultCommand() {

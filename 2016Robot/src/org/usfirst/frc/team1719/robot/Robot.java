@@ -49,7 +49,7 @@ public class Robot extends IterativeRobot {
 	public static PhotonCannon photonCannon;
 	public static DriveSubsystem drive;
 	public static FlyWheel rightFlywheel;
-	public static FlyWheel leftFlywheel;
+	public static FlyWheel flywheel;
 	public static DualShooter shooter;
 	PIDData rightFlywheelPIDData;
 	PIDData leftFlywheelPIDData;
@@ -95,11 +95,8 @@ public class Robot extends IterativeRobot {
 		leftFlywheelPIDData = new PIDData(0, 0, 0);
 		drive = new DriveSubsystem(RobotMap.leftDriveController, RobotMap.rightDriveController,
 				RobotMap.leftDriveEncoder, RobotMap.rightDriveEncoder);
-		rightFlywheel = new FlyWheel(RobotMap.rightFlyWheelController, RobotMap.rightFlyWheelEncoder,
-				rightFlywheelPIDData);
-		leftFlywheel = new FlyWheel(RobotMap.leftFlyWheelController, RobotMap.leftFlyWheelEncoder, leftFlywheelPIDData);
-		shooter = new DualShooter(leftFlywheel, rightFlywheel, RobotMap.innerLeftShooterWheelController,
-				RobotMap.innerRightShooterWheelController);
+		flywheel = new FlyWheel(RobotMap.leftFlyWheelController, RobotMap.leftFlyWheelEncoder, leftFlywheelPIDData);
+		shooter = new DualShooter(flywheel, RobotMap.innerRightShooterWheelController);
 		arm = new Arm(RobotMap.armController, RobotMap.armPot);
 		display = new Display(RobotMap.buttonA, RobotMap.buttonB, RobotMap.dial);
 		photonCannon = new PhotonCannon();
@@ -174,7 +171,7 @@ public class Robot extends IterativeRobot {
 		// Make sure everything gets disabled
 		isAuton = false;
 		rightFlywheel.spin(0);
-		leftFlywheel.spin(0);
+		flywheel.spin(0);
 
 		if (foundCamera) {
 			NIVision.IMAQdxStopAcquisition(session);

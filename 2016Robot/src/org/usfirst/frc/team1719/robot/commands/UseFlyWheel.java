@@ -7,8 +7,7 @@ import edu.wpi.first.wpilibj.command.Command;
 public class UseFlyWheel extends Command{
 	
 	public UseFlyWheel() {
-		requires(Robot.rightFlywheel);
-		requires(Robot.leftFlywheel);
+		requires(Robot.flywheel);
 	}
 
 	double leftPower;
@@ -17,7 +16,7 @@ public class UseFlyWheel extends Command{
 	public UseFlyWheel(double leftPower, double rightPower)
 	{
 		requires(Robot.rightFlywheel);
-		requires(Robot.leftFlywheel);
+		requires(Robot.flywheel);
 		this.leftPower = leftPower;
 		this.rightPower = rightPower; 
 	}
@@ -25,21 +24,21 @@ public class UseFlyWheel extends Command{
 	@Override
 	protected void end() {
 		Robot.rightFlywheel.reset();
-		Robot.leftFlywheel.reset();
+		Robot.flywheel.reset();
 	}
 
 	@Override
 	protected void execute() {
 
 		Robot.rightFlywheel.spin(rightPower);
-		Robot.leftFlywheel.spin(leftPower);
+		Robot.flywheel.spin(leftPower);
 		
 	}
 
 	@Override
 	protected void initialize() {
 		Robot.rightFlywheel.reset();
-		Robot.leftFlywheel.reset();
+		Robot.flywheel.reset();
 	}
 
 	@Override

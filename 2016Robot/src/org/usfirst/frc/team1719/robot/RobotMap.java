@@ -67,10 +67,8 @@ public class RobotMap {
 		rightDriveController = configureMotor(rightDriveController,0);
 		leftDriveController = configureMotor(leftDriveController,1);   
 		leftFlyWheelController = new Spark(2);
-		rightFlyWheelController = new Spark(3);
 		armController = new Spark(4);
 		innerLeftShooterWheelController = new Spark(5);
-		innerRightShooterWheelController = new Spark(6);
 
 		//Sensors
 		
