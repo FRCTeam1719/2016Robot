@@ -6,6 +6,7 @@ import org.usfirst.frc.team1719.robot.commands.ResetGyro;
 import org.usfirst.frc.team1719.robot.commands.TurnToAngle;
 import org.usfirst.frc.team1719.robot.commands.UseArm;
 import org.usfirst.frc.team1719.robot.commands.Wait;
+import org.usfirst.frc.team1719.robot.commands.printCommand;
 
 import edu.wpi.first.wpilibj.command.CommandGroup;
 
@@ -23,6 +24,7 @@ public class RockWallAuton extends CommandGroup {
 		addSequential(new TurnToAngle(0, false));
 //		addSequential(new MoveArmToPos(0));
 		addParallel(new UseArm());
+		addSequential(new printCommand("meme1"));
     }
 
 }

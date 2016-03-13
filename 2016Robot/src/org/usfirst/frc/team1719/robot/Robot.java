@@ -57,7 +57,8 @@ public class Robot extends IterativeRobot {
 	PIDData leftFlywheelPIDData;
 	public static Arm arm;
 	public int autonomousMode = 0;
-	public int autonomousModes = 3; // maximum number to count to while selecting auton modes starts at 0.
+	public int autonomousModes = 2; // maximum number to count to while
+									// selecting auton modes starts at 0.
 	final boolean VOLTAGEDISPLAY = true;
 	final boolean AUTONDISPLAY = false;
 	boolean currentDisplayMode = VOLTAGEDISPLAY;
@@ -123,7 +124,7 @@ public class Robot extends IterativeRobot {
 		RobotMap.gyro.initGyro();
 		RobotMap.gyro.calibrate();
 		// Initialize Autonomous Command
-		autonomousCommand = new RoughTerrainAuton();
+		//autonomousCommand = new RoughTerrainAuton();
 		System.out.println("AUTONOMOUS: " + autonomousCommand);
 	}
 
@@ -217,20 +218,16 @@ public class Robot extends IterativeRobot {
 		}
 		switch (autonomousMode) {
 		case 0:
-			//autonomousCommand = new DoNothing();
-			autonomousCommand = new Test();
+			autonomousCommand = new DoNothing();
+			System.out.println("Doing Noting");
 			break;
 		case 1:
-			//autonomousCommand = new LowBarAuton();
-			autonomousCommand = new Test();
+			autonomousCommand = new RockWallAuton();
+			System.out.println("Rock Wall?");
 			break;
 		case 2:
-		//	autonomousCommand = new RockWallAuton();
-			autonomousCommand = new Test2();
-			break;
-		case 3:
-			//autonomousCommand = new RoughTerrainAuton();
-			autonomousCommand = new Test2();
+			autonomousCommand = new RoughTerrainAuton();
+			System.out.println("meme.");
 			break;
 		}
 

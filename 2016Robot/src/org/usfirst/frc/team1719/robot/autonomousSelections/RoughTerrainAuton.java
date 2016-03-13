@@ -5,6 +5,7 @@ import org.usfirst.frc.team1719.robot.commands.MoveForwards;
 import org.usfirst.frc.team1719.robot.commands.ResetGyro;
 import org.usfirst.frc.team1719.robot.commands.UseArm;
 import org.usfirst.frc.team1719.robot.commands.Wait;
+import org.usfirst.frc.team1719.robot.commands.printCommand;
 
 import edu.wpi.first.wpilibj.command.CommandGroup;
 
@@ -18,6 +19,7 @@ public class RoughTerrainAuton extends CommandGroup {
 		addSequential(new MoveForwards(1.75, 1));
 		addSequential(new MoveArmToPos(0));
 		addParallel(new UseArm());
+		addSequential(new printCommand("meme2"));
 		//addSequential(new TurnToAngle(0, false));
 		
 	}
