@@ -4,10 +4,8 @@ import java.util.stream.DoubleStream;
 
 import org.usfirst.frc.team1719.robot.settings.PIDData;
 
-import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.Spark;
 import edu.wpi.first.wpilibj.command.Subsystem;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
  * Flywheel subsystem Composed of: 1 Spark motor controller for spinning the
@@ -21,7 +19,6 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 public class FlyWheel extends Subsystem {
 
 	Spark motor;
-	Encoder encoder;
 
 	double errors[] = new double[30];
 
@@ -45,12 +42,10 @@ public class FlyWheel extends Subsystem {
 	 * @param pidData
 	 *            PIDData object
 	 */
-	public FlyWheel(Spark controller, Encoder enc, PIDData pidData) {
+	public FlyWheel(Spark controller, PIDData pidData) {
 
 		this.pidData = pidData;
 		motor = controller;
-		encoder = enc;
-		encoder.reset();
 	}
 
 	@Override
@@ -60,7 +55,6 @@ public class FlyWheel extends Subsystem {
 	 * Stop motors and reset encoders
 	 */
 	public void reset() {
-		encoder.reset();
 		output = 0;
 		motor.set(output);
 	}
@@ -71,38 +65,8 @@ public class FlyWheel extends Subsystem {
 	 * @param feetPerSecond
 	 *            double
 	 */
-	public void spin(double feetPerSecond) {
-		double desiredSpeed = feetPerSecond;
-		pidData.kP = SmartDashboard.getNumber("Right flywheel kP: ");
-		pidData.kI = SmartDashboard.getNumber("Right flywheel kI: ");
-		pidData.kD = SmartDashboard.getNumber("Right flywheel kD: ");
-
-		if (desiredSpeed == 0) {
-			motor.set(0);
-			return;
-		}
-		double currentSpeed = encoder.getRate();
-		double error = desiredSpeed - currentSpeed;
-		integral += error;
-		derivative = error - previousError;
-
-		if (Math.abs(error) < TOLERANCE_FEET_PER_SECOND) {
-			integral = 0;
-		}
-
-		output += (error * pidData.kP) + (integral * pidData.kI) + (derivative * pidData.kD);
-
-		if (output > 1) {
-			output = 1;
-		} else if (output < -1) {
-			output = -1;
-		}
-		motor.set(feetPerSecond);
-		for (int i = (errors.length - 1); i > 0; i--) {                
-		    errors[i] = errors[i-1];
-		} 
-		errors[0] = error;
-		previousError = error;
+	public void spin(double speed) {
+		motor.set(speed);
 		//System.out.println("Output: " + output);
 		//System.out.println("Error: " + error);
 		//System.out.println("kP: "+ pidData.kP);
@@ -125,8 +89,6 @@ public class FlyWheel extends Subsystem {
 	 * 
 	 * @return encoder rate
 	 */
-	public double getRate() {
-		return encoder.getRate();
-	}
+	
 
 }

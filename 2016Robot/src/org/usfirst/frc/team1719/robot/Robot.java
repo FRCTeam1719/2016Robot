@@ -2,6 +2,7 @@ package org.usfirst.frc.team1719.robot;
 
 import org.usfirst.frc.team1719.robot.autonomousSelections.DoNothing;
 import org.usfirst.frc.team1719.robot.autonomousSelections.LowBarAuton;
+import org.usfirst.frc.team1719.robot.autonomousSelections.ReachAuton;
 import org.usfirst.frc.team1719.robot.autonomousSelections.RockWallAuton;
 import org.usfirst.frc.team1719.robot.autonomousSelections.RoughTerrainAuton;
 import org.usfirst.frc.team1719.robot.commands.AimAndFire;
@@ -95,9 +96,9 @@ public class Robot extends IterativeRobot {
 		leftFlywheelPIDData = new PIDData(0, 0, 0);
 		drive = new DriveSubsystem(RobotMap.leftDriveController, RobotMap.rightDriveController,
 				RobotMap.leftDriveEncoder, RobotMap.rightDriveEncoder);
-		rightFlywheel = new FlyWheel(RobotMap.rightFlyWheelController, RobotMap.rightFlyWheelEncoder,
+		rightFlywheel = new FlyWheel(RobotMap.rightFlyWheelController,
 				rightFlywheelPIDData);
-		leftFlywheel = new FlyWheel(RobotMap.leftFlyWheelController, RobotMap.leftFlyWheelEncoder, leftFlywheelPIDData);
+		leftFlywheel = new FlyWheel(RobotMap.leftFlyWheelController, leftFlywheelPIDData);
 		shooter = new DualShooter(leftFlywheel, rightFlywheel, RobotMap.innerLeftShooterWheelController,
 				RobotMap.innerRightShooterWheelController);
 		arm = new Arm(RobotMap.armController, RobotMap.armPot);
@@ -120,7 +121,7 @@ public class Robot extends IterativeRobot {
 		RobotMap.gyro.initGyro();
 		RobotMap.gyro.calibrate();
 		//Initialize Autonomous Command
-		autonomousCommand = new RoughTerrainAuton	();
+		autonomousCommand = new ReachAuton();
 		System.out.println("AUTONOMOUS: " + autonomousCommand);
 	}
 
@@ -182,7 +183,7 @@ public class Robot extends IterativeRobot {
 	}
 
 	public void disabledPeriodic() {
-
+		System.out.println("ultrasonic: " + RobotMap.ultrasonic.getDistanceFeet());
 		if (display.buttonAPressed()) {
 			currentDisplayMode = AUTONDISPLAY;
 		} else if (display.buttonBPressed()) {

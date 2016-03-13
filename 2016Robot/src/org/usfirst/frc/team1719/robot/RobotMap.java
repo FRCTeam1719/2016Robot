@@ -1,5 +1,7 @@
 package org.usfirst.frc.team1719.robot;
 
+import org.usfirst.frc.team1719.robot.customSensors.MB1220UltrasonicPWM;
+
 import edu.wpi.first.wpilibj.AnalogGyro;
 import edu.wpi.first.wpilibj.AnalogInput;
 import edu.wpi.first.wpilibj.AnalogPotentiometer;
@@ -23,7 +25,7 @@ public class RobotMap {
 	/** 
 	 * Measured in feet
 	 */
-	public final static boolean COMPILINGFORPRODUCTIONBOT = true;
+	public final static boolean COMPILINGFORPRODUCTIONBOT = false;
 
     // For example to map the left and right motors, you could define the
     // following variables to use with your drivetrain subsystem.
@@ -49,9 +51,11 @@ public class RobotMap {
 	public static DigitalInput armLowerLimitSwitch;
 	public static DigitalInput armUpperLimitSwitch;	
 	public static AnalogGyro gyro;
+	public static AnalogGyro verticalGyro;
 	public static Spark innerLeftShooterWheelController;
 	public static Spark innerRightShooterWheelController;
-	public static AnalogPotentiometer armPot;	
+	public static AnalogPotentiometer armPot;
+	public static MB1220UltrasonicPWM ultrasonic;
 	
 	public static AnalogInput dial;
 	public static DigitalInput buttonA;
@@ -75,8 +79,6 @@ public class RobotMap {
 		//Sensors
 		
 		//DIO
-		rightFlyWheelEncoder = new Encoder(2, 3, true, Encoder.EncodingType.k4X);	
-		rightFlyWheelEncoder.setDistancePerPulse(FLYWHEEL_CIRCUMFRENCE_FEET / 20);
 		camswap = new DigitalOutput(0);
 		leftFlyWheelEncoder = new Encoder(4, 5, true, Encoder.EncodingType.k4X);
 		leftFlyWheelEncoder.setDistancePerPulse(FLYWHEEL_CIRCUMFRENCE_FEET / 20);
@@ -86,6 +88,7 @@ public class RobotMap {
 		leftDriveEncoder = new Encoder(8, 9, true, Encoder.EncodingType.k4X);
 		leftDriveEncoder.setDistancePerPulse(1);
 
+		ultrasonic = new MB1220UltrasonicPWM(3);
 
 		//Analog In
 		//armPot = new AnalogPotentiometer(1);
@@ -95,7 +98,8 @@ public class RobotMap {
 		//.754
 		//Analog In
 		gyro = new AnalogGyro(0);
-		dial = new AnalogInput(3);
+		verticalGyro = new AnalogGyro(1);
+		verticalGyro.calibrate();
         
 		
 		photonCannon = new Relay(0);
@@ -103,7 +107,7 @@ public class RobotMap {
 		//.773
 		//.646
         //armPot = new AnalogPotentiometer(1, 141, -110.4);
-		armPot = new AnalogPotentiometer(1, 139.32, -106);
+		armPot = new AnalogPotentiometer(2, 139.32, -106);
         buttonA = new DigitalInput(19);
 		buttonB = new DigitalInput(20);
 	}
