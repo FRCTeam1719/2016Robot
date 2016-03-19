@@ -3,7 +3,6 @@ package org.usfirst.frc.team1719.robot.commands;
 import org.usfirst.frc.team1719.robot.Robot;
 
 import edu.wpi.first.wpilibj.command.Command;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 /**
  * Default command for the arm, drives it according to the Operator Joystick
  * @author aaroneline
@@ -33,28 +32,9 @@ public class UseArm extends Command{
 	    double motorSpeed;
 
 		if(Math.abs(joystickReading) < TOLERANCE){ // joystick not used, hold arm steady with PID + sinusoidally varing force
-		    double kP = SmartDashboard.getNumber("Arm steady kP");
-	        double kI = SmartDashboard.getNumber("Arm steady kI");
-	        double kD = SmartDashboard.getNumber("Arm steady kD");
-	        double rng = SmartDashboard.getNumber("Arm steady integral range");
-	        double angle = Robot.arm.getArmAngle();
-	        double error = -(Robot.arm.getTargetPos() - angle);
-	        if(Math.abs(error) < rng) integral += error;
-	        double derivative = error - lastErr;
-	        motorSpeed = kP * error + kI * integral + kD * derivative;
-		} else { // joystick touched, reset integral and desired pos
-		    integral = 0;
-		    Robot.arm.setTargetPos(Robot.arm.getArmAngle());
-			//Apply control scaling
-		    if(Robot.arm.getArmAngle()<LOW_RANGE_THRESHOLD)
-		    	if (joystickReading < 0) {
-		    		motorSpeed = joystickReading *LOW_RANGE_CONTROL_SCALING;
-		    	}
-		    	else {
-		    		motorSpeed = joystickReading * CONTROL_SCALING;
-		    	}
-		    else
-		    	motorSpeed = joystickReading * CONTROL_SCALING;
+		    motorSpeed = 0.2;
+		} else { // joystick touched,
+		    motorSpeed = joystickReading * Math.abs(joystickReading);
 		}
 		if (motorSpeed > 0.7) {
 			motorSpeed = 0.7;
@@ -66,7 +46,7 @@ public class UseArm extends Command{
 		
 		
 		Robot.arm.move(motorSpeed);
-		//System.out.println("Arm Angle: "+Robot.arm.getArmAngle());
+		System.out.println("Arm Angle: "+Robot.arm.getArmAngle());
 		//System.out.println("motor speed: " + motorSpeed);
 	}
 
@@ -74,7 +54,7 @@ public class UseArm extends Command{
 	protected boolean isFinished() {
 		return false;
 	}
-
+//
 	@Override
 	protected void end() {
 		
