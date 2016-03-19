@@ -11,9 +11,12 @@ import edu.wpi.first.wpilibj.command.CommandGroup;
 public class LowBarAuton extends CommandGroup {	
 	
 	public LowBarAuton() {
-		addSequential((new MoveArmToPos(100.5)));
+		addSequential((new MoveArmToPos(90)));
 		addParallel(new UseArm());
 		addSequential(new Wait(1.5));
+		addSequential(new MoveArmToPos(100.6));
+		addParallel(new UseArm());
+		addSequential(new Wait(0.5));
 		addSequential(new MoveForwards(1.75,1));
 	}
 
