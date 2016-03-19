@@ -1,6 +1,10 @@
 package org.usfirst.frc.team1719.robot;
 
+import org.usfirst.frc.team1719.robot.autonomousSelections.DoNothing;
+import org.usfirst.frc.team1719.robot.autonomousSelections.LowBarAuton;
 import org.usfirst.frc.team1719.robot.autonomousSelections.ReachAuton;
+import org.usfirst.frc.team1719.robot.autonomousSelections.RockWallAuton;
+import org.usfirst.frc.team1719.robot.autonomousSelections.RoughTerrainAuton;
 import org.usfirst.frc.team1719.robot.settings.PIDData;
 import org.usfirst.frc.team1719.robot.subsystems.Arm;
 import org.usfirst.frc.team1719.robot.subsystems.Display;
@@ -197,7 +201,7 @@ public class Robot extends IterativeRobot {
 			String voltage = Double.toString(DriverStation.getInstance().getBatteryVoltage());
 			display.displayString(voltage);
 		}
-		/*
+		
 		switch (autonomousMode) {
 		case 0:
 			autonomousCommand = new DoNothing();
@@ -219,8 +223,7 @@ public class Robot extends IterativeRobot {
 			autonomousCommand = new LowBarAuton();
 			System.out.println("LowbarAuton");
 			break;
-		}*/
-		autonomousCommand = new ReachAuton();
+		}
 
 		Scheduler.getInstance().run();
 		System.out.println("Arm angle: " + RobotMap.armPot.get());
