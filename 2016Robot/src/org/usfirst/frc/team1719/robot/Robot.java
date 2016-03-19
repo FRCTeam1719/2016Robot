@@ -57,7 +57,7 @@ public class Robot extends IterativeRobot {
 									// selecting auton modes starts at 0.
 	final boolean VOLTAGEDISPLAY = true;
 	final boolean AUTONDISPLAY = false;
-	boolean currentDisplayMode = VOLTAGEDISPLAY;
+	boolean currentDisplayMode = AUTONDISPLAY;
 	final double TOLERANCE = 0.01;
 	double maxPotValue = .274;
 	double scalingFactor;
