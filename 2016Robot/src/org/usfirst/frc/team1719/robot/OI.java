@@ -1,13 +1,12 @@
 package org.usfirst.frc.team1719.robot;
 
 
-import org.usfirst.frc.team1719.robot.commands.EngagePhotonCannon;
 import org.usfirst.frc.team1719.robot.commands.ManualShoot;
 import org.usfirst.frc.team1719.robot.commands.MoveArmToPos;
-import org.usfirst.frc.team1719.robot.commands.MoveForwards;
 import org.usfirst.frc.team1719.robot.commands.RunIntake;
 import org.usfirst.frc.team1719.robot.commands.SwapCamera;
 import org.usfirst.frc.team1719.robot.commands.TurnToAngle;
+import org.usfirst.frc.team1719.robot.commands.UpdatePhotonState;
 
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.buttons.Button;
@@ -121,12 +120,8 @@ public class OI {
 			rotateRight90Button = new JoystickButton(driverXBOX, X_BUTTON);
 			rotateRight90Button.whenPressed(new TurnToAngle(90,true));
 			rotateLeft90Button = new JoystickButton(driverXBOX, B_BUTTON);
-			moveForward2FeetButton = new JoystickButton(driverXBOX, Y_BUTTON);
-			moveForward2FeetButton.whenPressed(new MoveForwards(2,.5));
-			moveBack2FeetButton = new JoystickButton (driverXBOX, A_BUTTON);
-			moveBack2FeetButton.whenPressed(new MoveForwards(2,.5));
 			rotateLeft90Button.whenPressed(new TurnToAngle(-90,true));
-
+			
 			fireButton = new JoystickButton(operatorJoystick, ATTACK_TRIGGER);
 			primeButton = new JoystickButton(operatorJoystick, ATTACK_BUTTON_3);
 			primeButton.whenPressed(new ManualShoot());
@@ -134,8 +129,6 @@ public class OI {
 			//moveArmButton.whenPressed(new MoveArmToPos(60));
 			intakeButton = new JoystickButton(operatorJoystick, ATTACK_BUTTON_2);
 			intakeButton.whenPressed(new RunIntake());
-			photonCanonButton = new JoystickButton (operatorJoystick, ATTACK_BUTTON_5);
-			photonCanonButton.whenPressed(new EngagePhotonCannon());
 //			deadEyeButton = new JoystickButton (operatorJoystick, ATTACK_BUTTON_7);
 //			deadEyeButton.whenPressed(new MoveArmToPos(DEADEYE_ANGLE));
 //			chevalButton = new JoystickButton (operatorJoystick, ATTACK_BUTTON_6);
@@ -144,7 +137,7 @@ public class OI {
 //			allTheWayDownButton.whenPressed(new MoveArmToPos(ALLTHEWAYDOWN_ANGLE));
 //			lowGoalButton = new JoystickButton (operatorJoystick, ATTACK_BUTTON_10);
 //			lowGoalButton.whenPressed(new MoveArmToPos(LOWGOAL_ANGLE));
-			
+
 
 			
 			

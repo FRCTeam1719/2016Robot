@@ -1,32 +1,15 @@
 package org.usfirst.frc.team1719.robot.autonomousSelections;
 
-import edu.wpi.first.wpilibj.command.Command;
+import org.usfirst.frc.team1719.robot.commands.MoveArmToPos;
+import org.usfirst.frc.team1719.robot.commands.UseArm;
 
-public class DoNothing extends Command {
+import edu.wpi.first.wpilibj.command.CommandGroup;
 
-	@Override
-	protected void initialize() {
-		
-	}
+public class DoNothing extends CommandGroup {
 
-	@Override
-	protected void execute() {
-		
-	}
-
-	@Override
-	protected boolean isFinished() {
-		return true;
-	}
-
-	@Override
-	protected void end() {
-		
-	}
-
-	@Override
-	protected void interrupted() {
-		
+	public DoNothing(){
+		addSequential(new MoveArmToPos(0));
+		addParallel(new UseArm());
 	}
 
 }

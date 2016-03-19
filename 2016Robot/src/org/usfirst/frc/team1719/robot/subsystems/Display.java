@@ -34,6 +34,8 @@ public class Display extends Subsystem {
 			final String customAuto = "Other.";
 			String autoSelected;
 			SendableChooser chooser;
+			boolean lastButtonA = false;
+			boolean lastButtonB = false;
 	public static final Map<Character, byte[]> map;
 	public Display(DigitalInput buttonA, DigitalInput buttonB, AnalogInput dial) {
 		byte[] osc = new byte[1];
@@ -103,15 +105,29 @@ public class Display extends Subsystem {
 	 */
 	public boolean buttonAPressed(){
 		System.out.println(!buttonA.get());
-		return !buttonA.get();
-	}
+		if(buttonA.get() != lastButtonA && buttonA.get() == true){
+			lastButtonA = buttonA.get();
+			return true;
+		}else{
+			lastButtonA = buttonA.get();
+			return false;
+		}
+		
+				}
 	
 	/**
 	 * Return status of button B
 	 * @return boolean buttonStatus, true if depressed
 	 */
 	public boolean buttonBPressed(){
-		return !buttonB.get();
+		System.out.println(!buttonB.get());
+		if(buttonB.get() != lastButtonB && buttonB.get() == true){
+			lastButtonB = buttonB.get();
+			return true;
+		}else{
+			lastButtonB = buttonB.get();
+			return false;
+		}
 	}
 	
 	/**

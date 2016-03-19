@@ -55,6 +55,8 @@ public class Robot extends IterativeRobot {
 	PIDData leftFlywheelPIDData;
 	public static Arm arm;
 	public int autonomousMode = 0;
+	public int autonomousModes = 2; // maximum number to count to while
+									// selecting auton modes starts at 0.
 	final boolean VOLTAGEDISPLAY = true;
 	final boolean AUTONDISPLAY = false;
 	boolean currentDisplayMode = VOLTAGEDISPLAY;
@@ -86,9 +88,9 @@ public class Robot extends IterativeRobot {
 
 		// Configure SmartDashboard Things
 
-        // Hardware Initialization
-        // Allocate Hardware
-     	RobotMap.init();
+		// Hardware Initialization
+		// Allocate Hardware
+		RobotMap.init();
 
 		// Initialize Subsystems
 		rightFlywheelPIDData = new PIDData(0, 0, 0);
@@ -119,6 +121,9 @@ public class Robot extends IterativeRobot {
 		smartDashboardInit();
 		RobotMap.gyro.initGyro();
 		RobotMap.gyro.calibrate();
+		// Initialize Autonomous Command
+		//autonomousCommand = new RoughTerrainAuton();
+		System.out.println("AUTONOMOUS: " + autonomousCommand);
 	}
 
 	/**
@@ -126,15 +131,7 @@ public class Robot extends IterativeRobot {
 	 */
 	public void smartDashboardInit() {
 
-		chooser = new SendableChooser();
-
-		// Move forwards command
-		chooser.addDefault("Do nothing", new DoNothing());
-		chooser.addObject("Go Under Low Bar", new LowBarAuton());
-		chooser.addObject("Go over Rough Terrain", new RoughTerrainAuton());
-		chooser.addObject("Go over Rock Wall", new RockWallAuton());
-		chooser.addObject("Shoot at tower", new AimAndFire());
-
+		
 		rightFlywheelPIDData = new PIDData();
 		chooser.addObject("Sense Tower High Goals", new AutoSenseTower());
 		// chooser.addObject("My Auto", new MyAutoCommand());
@@ -150,13 +147,13 @@ public class Robot extends IterativeRobot {
 		SmartDashboard.putNumber("Turn kP", 0.1);
 		SmartDashboard.putNumber("Turn kI", 0.0);
 		SmartDashboard.putNumber("Turn kD", 0.65);
-    	
-    	SmartDashboard.putNumber("Arm steady kP", (0.2 / 90));
-    	
-    	SmartDashboard.putNumber("Move arm to pos kP", .03);
-    	SmartDashboard.putNumber("Move arm to pos kI", .001);
-    	SmartDashboard.putNumber("Move arm to pos kD", .001);
-    	SmartDashboard.putNumber("Arm steady kP", 0.3D);
+
+		SmartDashboard.putNumber("Arm steady kP", (0.2 / 90));
+
+		SmartDashboard.putNumber("Move arm to pos kP", .03);
+		SmartDashboard.putNumber("Move arm to pos kI", .001);
+		SmartDashboard.putNumber("Move arm to pos kD", .001);
+		SmartDashboard.putNumber("Arm steady kP", 0.3D);
 		SmartDashboard.putNumber("Arm steady kI", 0.01D);
 		SmartDashboard.putNumber("Arm steady kD", 0.007D);
 		SmartDashboard.putNumber("Arm steady integral range", 7.0D);
@@ -181,35 +178,51 @@ public class Robot extends IterativeRobot {
 	public void disabledPeriodic() {
 
 		if (display.buttonAPressed()) {
-			currentDisplayMode = AUTONDISPLAY;
-		} else if (display.buttonBPressed()) {
-			currentDisplayMode = VOLTAGEDISPLAY;
+			if (currentDisplayMode == AUTONDISPLAY) {
+				currentDisplayMode = VOLTAGEDISPLAY;
+			} else if (currentDisplayMode == VOLTAGEDISPLAY) {
+				currentDisplayMode = AUTONDISPLAY;
+			}
 		}
-
 		if (currentDisplayMode == AUTONDISPLAY) {
 			// System.out.println("displayingAuton");
-			Double dialPos = display.getDialReading();
-			if (dialPos - .25 <= TOLERANCE) {
-				autonomousMode = 0;
-				display.displayString("A  0");
-			} else if (dialPos - .255 <= TOLERANCE) {
-				autonomousMode = 1;
-				display.displayString("A  1");
-			} else if (dialPos - .26 <= TOLERANCE) {
-				autonomousMode = 2;
-				display.displayString("A  2");
-			} else if (dialPos - .265 <= TOLERANCE) {
-				autonomousMode = 3;
-				display.displayString("A  3");
-			}
+			display.displayString("A  " + String.valueOf(autonomousMode));
+			if (display.buttonBPressed()) {
+				autonomousMode++;
+				if (autonomousMode > autonomousModes) {
+					autonomousMode = 0;
+				}
+			} /*
+				 * Double dialPos = display.getDialReading(); if (dialPos - .25
+				 * <= TOLERANCE) { autonomousMode = 0; display.displayString(
+				 * "A  0"); } else if (dialPos - .255 <= TOLERANCE) {
+				 * autonomousMode = 1; display.displayString("A  1"); } else if
+				 * (dialPos - .26 <= TOLERANCE) { autonomousMode = 2;
+				 * display.displayString("A  2"); } else if (dialPos - .265 <=
+				 * TOLERANCE) { autonomousMode = 3; display.displayString("A  3"
+				 * ); }
+				 */
 		} else if (currentDisplayMode == VOLTAGEDISPLAY) {
 			String voltage = Double.toString(DriverStation.getInstance().getBatteryVoltage());
 			display.displayString(voltage);
 		}
+		switch (autonomousMode) {
+		case 0:
+			autonomousCommand = new DoNothing();
+			System.out.println("Doing Noting");
+			break;
+		case 1:
+			autonomousCommand = new RockWallAuton();
+			System.out.println("Rock Wall?");
+			break;
+		case 2:
+			autonomousCommand = new RoughTerrainAuton();
+			System.out.println("RoughTerrainAuton");
+			break;
+		}
 
 		Scheduler.getInstance().run();
 		System.out.println("Arm angle: " + RobotMap.armPot.get());
-
 	}
 
 	/**
@@ -224,7 +237,6 @@ public class Robot extends IterativeRobot {
 	 * to the switch structure below with additional strings and commands.
 	 */
 	public void autonomousInit() {
-		autonomousCommand = (Command) chooser.getSelected();
 		isAuton = true;
 		/*
 		 * String autoSelected = SmartDashboard.getString("Auto Selector",
@@ -237,10 +249,9 @@ public class Robot extends IterativeRobot {
 		}
 		// schedule the autonomous command (example)
 		if (autonomousCommand != null) {
+			System.out.println(autonomousCommand);
 			autonomousCommand.start();
 		}
-		
-
 	}
 
 	/**
@@ -267,8 +278,6 @@ public class Robot extends IterativeRobot {
 		}
 		RobotMap.gyro.reset();
 	}
-
-
 
 	/**
 	 * This function is called periodically during operator control
