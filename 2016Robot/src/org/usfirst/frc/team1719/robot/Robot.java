@@ -1,11 +1,9 @@
 package org.usfirst.frc.team1719.robot;
 
 import org.usfirst.frc.team1719.robot.autonomousSelections.DoNothing;
-import org.usfirst.frc.team1719.robot.autonomousSelections.LowBarAuton;
+import org.usfirst.frc.team1719.robot.autonomousSelections.ReachAuton;
 import org.usfirst.frc.team1719.robot.autonomousSelections.RockWallAuton;
 import org.usfirst.frc.team1719.robot.autonomousSelections.RoughTerrainAuton;
-import org.usfirst.frc.team1719.robot.commands.AimAndFire;
-import org.usfirst.frc.team1719.robot.commands.AutoSenseTower;
 import org.usfirst.frc.team1719.robot.settings.PIDData;
 import org.usfirst.frc.team1719.robot.subsystems.Arm;
 import org.usfirst.frc.team1719.robot.subsystems.Display;
@@ -25,7 +23,6 @@ import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
-import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
@@ -55,7 +52,7 @@ public class Robot extends IterativeRobot {
 	PIDData leftFlywheelPIDData;
 	public static Arm arm;
 	public int autonomousMode = 0;
-	public int autonomousModes = 2; // maximum number to count to while
+	public final int autonomousModes = 3; // maximum number to count to while
 									// selecting auton modes starts at 0.
 	final boolean VOLTAGEDISPLAY = true;
 	final boolean AUTONDISPLAY = false;
@@ -67,7 +64,6 @@ public class Robot extends IterativeRobot {
 	boolean foundCamera = false;
 
 	Command autonomousCommand;
-	SendableChooser chooser;
 	Command DisplayVoltage;
 	Image frame;
 	int session;
@@ -133,9 +129,7 @@ public class Robot extends IterativeRobot {
 
 		
 		rightFlywheelPIDData = new PIDData();
-		chooser.addObject("Sense Tower High Goals", new AutoSenseTower());
 		// chooser.addObject("My Auto", new MyAutoCommand());
-		SmartDashboard.putData("Auto mode", chooser);
 		SmartDashboard.putNumber("Right flywheel kP: ", rightFlywheelPIDData.kP);
 		SmartDashboard.putNumber("Right flywheel kI: ", rightFlywheelPIDData.kI);
 		SmartDashboard.putNumber("Right flywheel kD: ", rightFlywheelPIDData.kD);
@@ -218,6 +212,10 @@ public class Robot extends IterativeRobot {
 		case 2:
 			autonomousCommand = new RoughTerrainAuton();
 			System.out.println("RoughTerrainAuton");
+			break;
+		case 3:
+			autonomousCommand = new ReachAuton();
+			System.out.println("Reach Auton Selected");
 			break;
 		}
 
