@@ -1,6 +1,7 @@
 package org.usfirst.frc.team1719.robot;
 
 import org.usfirst.frc.team1719.robot.autonomousSelections.DoNothing;
+import org.usfirst.frc.team1719.robot.autonomousSelections.LowBarAuton;
 import org.usfirst.frc.team1719.robot.autonomousSelections.ReachAuton;
 import org.usfirst.frc.team1719.robot.autonomousSelections.RockWallAuton;
 import org.usfirst.frc.team1719.robot.autonomousSelections.RoughTerrainAuton;
@@ -52,7 +53,7 @@ public class Robot extends IterativeRobot {
 	PIDData leftFlywheelPIDData;
 	public static Arm arm;
 	public int autonomousMode = 0;
-	public final int autonomousModes = 3; // maximum number to count to while
+	public final int autonomousModes = 4; // maximum number to count to while
 									// selecting auton modes starts at 0.
 	final boolean VOLTAGEDISPLAY = true;
 	final boolean AUTONDISPLAY = false;
@@ -216,6 +217,10 @@ public class Robot extends IterativeRobot {
 		case 3:
 			autonomousCommand = new ReachAuton();
 			System.out.println("Reach Auton Selected");
+			break;
+		case 4:
+			autonomousCommand = new LowBarAuton();
+			System.out.println("LowbarAuton");
 			break;
 		}
 

@@ -53,8 +53,8 @@ public class OI {
 	// -90
 	//Arm setpoint constants
 	//These are in degrees, with 0 being straight up, and -90 being all the way down in the front
-	final double DEADEYE_ANGLE = 30D;
-	final double CHIVAL_ANGLE = 30;
+	final double DEADEYE_ANGLE = 40D;
+	final double CROSSING_ANGLE = 30;
 	final double ALLTHEWAYDOWN_ANGLE = 90; 
 	final double LOWGOAL_ANGLE = 15;
 	
@@ -106,7 +106,7 @@ public class OI {
 		private Button moveBack2FeetButton;
 		private Button photonCanonButton;
 		private Button deadEyeButton;
-		private Button chevalButton;
+		private Button crossingButton;
 		private Button allTheWayDownButton; 
 		private Button lowGoalButton;
 		
@@ -131,8 +131,8 @@ public class OI {
 			intakeButton.whenPressed(new RunIntake());
 			deadEyeButton = new JoystickButton (operatorJoystick, ATTACK_BUTTON_7);
 			deadEyeButton.whenPressed(new MoveArmToPos(DEADEYE_ANGLE));
-//			chevalButton = new JoystickButton (operatorJoystick, ATTACK_BUTTON_6);
-//			chevalButton.whenPressed(new MoveArmToPos(CHIVAL_ANGLE));
+			crossingButton = new JoystickButton (operatorJoystick, ATTACK_BUTTON_6);
+			crossingButton.whenPressed(new MoveArmToPos(CROSSING_ANGLE));
 //			allTheWayDownButton = new JoystickButton (operatorJoystick, ATTACK_BUTTON_11);
 //			allTheWayDownButton.whenPressed(new MoveArmToPos(ALLTHEWAYDOWN_ANGLE));
 //			lowGoalButton = new JoystickButton (operatorJoystick, ATTACK_BUTTON_10);

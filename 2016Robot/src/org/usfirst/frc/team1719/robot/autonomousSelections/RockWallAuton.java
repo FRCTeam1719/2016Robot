@@ -16,7 +16,7 @@ public class RockWallAuton extends CommandGroup {
 
     public RockWallAuton() {
 		addSequential(new ResetGyro());
-		addSequential(new MoveArmToPos(-30));
+		addSequential(new MoveArmToPos(60));
 		addParallel(new UseArm());
 		addSequential(new Wait(1));
 		addSequential(new MoveForwards(2.5, 1));
