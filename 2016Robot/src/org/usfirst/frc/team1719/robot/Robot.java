@@ -52,7 +52,7 @@ public class Robot extends IterativeRobot {
 	PIDData rightFlywheelPIDData;
 	PIDData leftFlywheelPIDData;
 	public static Arm arm;
-	public int autonomousMode = 0;
+	public int autonomousMode = 3; //DEFAULT TO REACH AUTOMA
 	public final int autonomousModes = 4; // maximum number to count to while
 									// selecting auton modes starts at 0.
 	final boolean VOLTAGEDISPLAY = true;

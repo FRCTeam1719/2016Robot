@@ -53,7 +53,7 @@ public class OI {
 	// -90
 	//Arm setpoint constants
 	//These are in degrees, with 0 being straight up, and -90 being all the way down in the front
-	final double DEADEYE_ANGLE = 40D;
+	final double DEADEYE_ANGLE = 21D;
 	final double CROSSING_ANGLE = 30;
 	final double ALLTHEWAYDOWN_ANGLE = 90; 
 	final double LOWGOAL_ANGLE = 15;

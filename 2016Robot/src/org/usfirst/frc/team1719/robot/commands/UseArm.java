@@ -57,10 +57,10 @@ public class UseArm extends Command{
 		    	motorSpeed = joystickReading * CONTROL_SCALING;
 		}
 		if (motorSpeed > 0.7) {
-			motorSpeed = 0.4;
+			motorSpeed = 0.7;
 		}
 		else if (motorSpeed < -0.7) {
-			motorSpeed = -0.4;
+			motorSpeed = -0.7;
 		}
 
 		
