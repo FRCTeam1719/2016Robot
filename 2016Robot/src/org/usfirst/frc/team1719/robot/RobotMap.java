@@ -104,7 +104,8 @@ public class RobotMap {
 		//.646
         //armPot = new AnalogPotentiometer(1, 141, -110.4);
 		//armPot = new AnalogPotentiometer(1, 139.32, -106);
-		armPot = new AnalogPotentiometer(2, 180, -70.4);
+		//armPot = new AnalogPotentiometer(2, 180, -70.4);
+		armPot = new AnalogPotentiometer(2);
         buttonA = new DigitalInput(19);
 		buttonB = new DigitalInput(20);
 	}
