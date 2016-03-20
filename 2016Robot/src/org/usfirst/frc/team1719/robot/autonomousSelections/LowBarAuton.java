@@ -18,6 +18,9 @@ public class LowBarAuton extends CommandGroup {
 		addParallel(new UseArm());
 		addSequential(new Wait(0.5));
 		addSequential(new MoveForwards(1.5,1));
+		addSequential(new MoveArmToPos(30));
+		addParallel(new UseArm());
+
 	}
 
 }

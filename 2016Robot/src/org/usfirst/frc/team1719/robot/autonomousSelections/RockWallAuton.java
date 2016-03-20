@@ -23,6 +23,9 @@ public class RockWallAuton extends CommandGroup {
 		//addSequential(new TurnToAngle(0, false));
 //		addSequential(new MoveArmToPos(0));
 		addParallel(new UseArm());
+		addSequential(new MoveArmToPos(30));
+		addParallel(new UseArm());
+
     }
 
 }
