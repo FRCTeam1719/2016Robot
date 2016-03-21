@@ -1,5 +1,7 @@
 package org.usfirst.frc.team1719.robot;
 
+import org.usfirst.frc.team1719.robot.sensors.ScaledPotentiometer;
+
 import edu.wpi.first.wpilibj.AnalogGyro;
 import edu.wpi.first.wpilibj.AnalogInput;
 import edu.wpi.first.wpilibj.AnalogPotentiometer;
@@ -102,7 +104,8 @@ public class RobotMap {
 		//.773
 		//.646
         //armPot = new AnalogPotentiometer(1, 141, -110.4);
-		armPot = new AnalogPotentiometer(1, 139.32, -106);
+		AnalogInput potChannel = new AnalogInput(1);
+		armPot = new ScaledPotentiometer(potChannel, 139.32, -106);
         buttonA = new DigitalInput(19);
 		buttonB = new DigitalInput(20);
 	}
