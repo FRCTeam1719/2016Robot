@@ -1,6 +1,6 @@
 package org.usfirst.frc.team1719.robot.subsystems;
 
-import org.usfirst.frc.team1719.robot.commands.UseArm;
+import org.usfirst.frc.team1719.robot.commands.UseArmPID;
 
 import edu.wpi.first.wpilibj.AnalogPotentiometer;
 import edu.wpi.first.wpilibj.Spark;
@@ -23,7 +23,7 @@ public class Arm extends Subsystem {
 	
 	@Override
 	protected void initDefaultCommand() {
-		setDefaultCommand(new UseArm());
+		setDefaultCommand(new UseArmPID());
 		
 	}
 	
