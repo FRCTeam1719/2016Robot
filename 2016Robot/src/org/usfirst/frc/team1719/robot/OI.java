@@ -3,7 +3,6 @@ package org.usfirst.frc.team1719.robot;
 
 import org.usfirst.frc.team1719.robot.commands.EngagePhotonCannon;
 import org.usfirst.frc.team1719.robot.commands.ManualShoot;
-import org.usfirst.frc.team1719.robot.commands.MoveArmToPos;
 import org.usfirst.frc.team1719.robot.commands.MoveForwards;
 import org.usfirst.frc.team1719.robot.commands.RunIntake;
 import org.usfirst.frc.team1719.robot.commands.SwapCamera;
@@ -106,10 +105,7 @@ public class OI {
 		private Button moveForward2FeetButton; 
 		private Button moveBack2FeetButton;
 		private Button photonCanonButton;
-		private Button deadEyeButton;
-		private Button chevalButton;
-		private Button allTheWayDownButton; 
-		private Button lowGoalButton;
+
 		
 
 		public OI(){

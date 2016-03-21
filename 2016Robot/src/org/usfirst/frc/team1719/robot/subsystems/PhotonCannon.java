@@ -1,7 +1,6 @@
 package org.usfirst.frc.team1719.robot.subsystems;
 
 import org.usfirst.frc.team1719.robot.RobotMap;
-import org.usfirst.frc.team1719.robot.commands.UpdatePhotonState;
 
 import edu.wpi.first.wpilibj.command.Subsystem;
 
