@@ -2,7 +2,6 @@ package org.usfirst.frc.team1719.robot;
 
 import org.usfirst.frc.team1719.robot.autonomousSelections.DoNothing;
 import org.usfirst.frc.team1719.robot.autonomousSelections.LowBarAuton;
-import org.usfirst.frc.team1719.robot.autonomousSelections.ReachAuton;
 import org.usfirst.frc.team1719.robot.autonomousSelections.RockWallAuton;
 import org.usfirst.frc.team1719.robot.autonomousSelections.RoughTerrainAuton;
 import org.usfirst.frc.team1719.robot.commands.AimAndFire;
@@ -121,7 +120,7 @@ public class Robot extends IterativeRobot {
 		RobotMap.gyro.initGyro();
 		RobotMap.gyro.calibrate();
 		//Initialize Autonomous Command
-		autonomousCommand = new ReachAuton();
+		
 		System.out.println("AUTONOMOUS: " + autonomousCommand);
 	}
 
