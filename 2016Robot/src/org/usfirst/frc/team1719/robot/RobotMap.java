@@ -1,8 +1,9 @@
 package org.usfirst.frc.team1719.robot;
 
+import org.usfirst.frc.team1719.robot.sensors.ScaledPotentiometer;
+
 import edu.wpi.first.wpilibj.AnalogGyro;
 import edu.wpi.first.wpilibj.AnalogInput;
-import edu.wpi.first.wpilibj.AnalogPotentiometer;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.DigitalOutput;
 import edu.wpi.first.wpilibj.Encoder;
@@ -51,7 +52,7 @@ public class RobotMap {
 	public static AnalogGyro gyro;
 	public static Spark innerLeftShooterWheelController;
 	public static Spark innerRightShooterWheelController;
-	public static AnalogPotentiometer armPot;	
+	public static ScaledPotentiometer armPot;	
 	
 	public static AnalogInput dial;
 	public static DigitalInput buttonA;
@@ -103,9 +104,10 @@ public class RobotMap {
 		//.773
 		//.646
         //armPot = new AnalogPotentiometer(1, 141, -110.4);
-		//armPot = new AnalogPotentiometer(1, 139.32, -106);
-		//armPot = new AnalogPotentiometer(2, 180, -70.4);
-		armPot = new AnalogPotentiometer(2,187.5,-66.2);
+
+		AnalogInput potChannel = new AnalogInput(2);
+		//armPot = new ScaledPotentiometer(potChannel, 139.32, -106);
+		armPot = new ScaledPotentiometer(potChannel, 360);
         buttonA = new DigitalInput(19);
 		buttonB = new DigitalInput(20);
 	}

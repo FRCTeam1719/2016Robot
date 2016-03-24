@@ -6,7 +6,6 @@ import org.usfirst.frc.team1719.robot.commands.MoveArmToPos;
 import org.usfirst.frc.team1719.robot.commands.RunIntake;
 import org.usfirst.frc.team1719.robot.commands.SwapCamera;
 import org.usfirst.frc.team1719.robot.commands.TurnToAngle;
-import org.usfirst.frc.team1719.robot.commands.UpdatePhotonState;
 
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.buttons.Button;
@@ -109,6 +108,7 @@ public class OI {
 		private Button crossingButton;
 		private Button allTheWayDownButton; 
 		private Button lowGoalButton;
+
 		
 
 		public OI(){
