@@ -1,6 +1,7 @@
 package org.usfirst.frc.team1719.robot;
 
 import org.usfirst.frc.team1719.robot.sensors.ScaledPotentiometer;
+import org.usfirst.frc.team1719.robot.sensors.Ultrasonic;
 
 import edu.wpi.first.wpilibj.AnalogGyro;
 import edu.wpi.first.wpilibj.AnalogInput;
@@ -59,6 +60,7 @@ public class RobotMap {
 	public static DigitalInput buttonB;
 	public static Relay photonCannon;
 	public static DigitalOutput camswap;
+	public static Ultrasonic ultrasonic;
 	
 	public static void init(){
 		//Main hardware allocation
@@ -96,7 +98,7 @@ public class RobotMap {
 		//.754
 		//Analog In
 		gyro = new AnalogGyro(0);
-		dial = new AnalogInput(3);
+		//dial = new AnalogInput(3);
         
 		
 		photonCannon = new Relay(0);
@@ -110,6 +112,8 @@ public class RobotMap {
 		armPot = new ScaledPotentiometer(potChannel, 360);
         buttonA = new DigitalInput(19);
 		buttonB = new DigitalInput(20);
+		
+		ultrasonic = new Ultrasonic(new AnalogInput(3));
 	}
 	
 	/**
