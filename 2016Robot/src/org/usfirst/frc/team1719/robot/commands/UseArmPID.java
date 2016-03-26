@@ -66,7 +66,8 @@ public class UseArmPID extends Command{
 		
 		
 		Robot.arm.move(motorSpeed);
-		//System.out.println("motor speed: " + motorSpeed);
+		System.out.println("Angle: "+Robot.arm.getArmAngle());
+		System.out.println("Raw Reading: "+Robot.arm.getRawReading());
 	}
 
 	@Override

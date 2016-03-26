@@ -1,5 +1,6 @@
 package org.usfirst.frc.team1719.robot;
 
+import org.usfirst.frc.team1719.robot.sensors.AutoScalingPotentiometer;
 import org.usfirst.frc.team1719.robot.sensors.ScaledPotentiometer;
 import org.usfirst.frc.team1719.robot.sensors.Ultrasonic;
 
@@ -54,7 +55,7 @@ public class RobotMap {
 	public static AnalogGyro gyro;
 	public static Spark innerLeftShooterWheelController;
 	public static Spark innerRightShooterWheelController;
-	public static ScaledPotentiometer armPot;	
+	public static AutoScalingPotentiometer armPot;	
 	
 	public static AnalogInput dial;
 	public static DigitalInput buttonA;
@@ -109,7 +110,9 @@ public class RobotMap {
         //armPot = new AnalogPotentiometer(1, 141, -110.4);
 
 		//armPot = new ScaledPotentiometer(potChannel, 139.32, -106);
-		armPot = autoConfigurePotentiometer(2, 139.32, 90);
+		//armPot = autoConfigurePotentiometer(2, 139.32, 90);
+		//armPot = autoConfigurePotentiometer(2, 360, 90);
+		armPot = new AutoScalingPotentiometer(new AnalogInput(2),360, 132);
         buttonA = new DigitalInput(19);
 		buttonB = new DigitalInput(20);
 		
@@ -142,7 +145,7 @@ public class RobotMap {
 		AnalogPotentiometer initPot = new AnalogPotentiometer(channel, scale);
 		double at90Degrees = initPot.get();
 		initPot.free();
-		double offset = at90Degrees - defaultPosition;
+		double offset = -1 * (at90Degrees - defaultPosition);
 		return new ScaledPotentiometer(new AnalogInput(channel), scale, offset);
 	}
 	

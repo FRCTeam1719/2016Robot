@@ -228,7 +228,7 @@ public class Robot extends IterativeRobot {
 		}
 
 		Scheduler.getInstance().run();
-		System.out.println(RobotMap.ultrasonic.getDistanceCM());
+		
 	}
 
 	/**
