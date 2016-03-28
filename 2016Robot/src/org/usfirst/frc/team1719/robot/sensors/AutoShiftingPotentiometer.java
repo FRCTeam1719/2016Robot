@@ -37,11 +37,11 @@ public class AutoShiftingPotentiometer extends ScaledPotentiometer{
 	
 	/**
 	 * Adjusts the offset of the pot so that it currently reads what is passed 
-	 * @param currerntPoint 
+	 * @param desiredReading 
 	 */
-	public void adjustShift(double currerntPoint){
+	public void adjustShift(double desiredReading){
 		double currentState = super.getRaw() * super.getScale();
-		double newOffset = -1 * (currentState - currerntPoint);
+		double newOffset = -1 * (currentState - desiredReading);
 		super.setOffset(newOffset);
 	}
 	

@@ -52,6 +52,7 @@ public class RobotMap {
 	public static Spark armController;
 	public static DigitalInput armLowerLimitSwitch;
 	public static DigitalInput armUpperLimitSwitch;	
+	public static DigitalInput armZeroLimitSwitch;
 	public static AnalogGyro gyro;
 	public static Spark innerLeftShooterWheelController;
 	public static Spark innerRightShooterWheelController;
@@ -90,6 +91,8 @@ public class RobotMap {
 		rightDriveEncoder.setDistancePerPulse(1);
 		leftDriveEncoder = new Encoder(8, 9, true, Encoder.EncodingType.k4X);
 		leftDriveEncoder.setDistancePerPulse(1);
+		
+		armZeroLimitSwitch = new DigitalInput(1);
 
 
 		//Analog In
@@ -134,20 +137,8 @@ public class RobotMap {
 		return controller;
 	}
 	
-	/**
-	 * Automatically configure a potentiometer offset
-	 * @param channel channel that the pot is on
-	 * @param scale default scale
-	 * @param defaultPosition The position that the pot needs to read at 
-	 * @return ScaledPotentiometer with the correct offset
-	 */
-	private static ScaledPotentiometer autoConfigurePotentiometer(int channel, double scale, double defaultPosition){
-		AnalogPotentiometer initPot = new AnalogPotentiometer(channel, scale);
-		double at90Degrees = initPot.get();
-		initPot.free();
-		double offset = -1 * (at90Degrees - defaultPosition);
-		return new ScaledPotentiometer(new AnalogInput(channel), scale, offset);
-	}
+	
+	
 	
 	
 	

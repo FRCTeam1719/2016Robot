@@ -298,6 +298,10 @@ public class Robot extends IterativeRobot {
 			NIVision.IMAQdxGrab(session, frame, 1);
 			CameraServer.getInstance().setImage(frame);
 		}
+		//If we hit the zero limit, reset the offset on the arm pot
+		if(RobotMap.armZeroLimitSwitch.get()){
+			RobotMap.armPot.adjustShift(0);
+		}
 	}
 
 	/**
