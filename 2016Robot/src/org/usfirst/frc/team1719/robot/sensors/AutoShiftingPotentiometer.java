@@ -20,7 +20,7 @@ public class AutoShiftingPotentiometer extends ScaledPotentiometer{
 	 * @param defaultPosition default angle the pot is at
 	 */
 	public AutoShiftingPotentiometer(AnalogInput channel, double scale, double defaultPosition) {
-		super(channel, 360, 0);
+		super(channel, scale, 0);
 		double initState = super.get();
 		//Set the offset
 		double offset = -1 * (initState - defaultPosition);
