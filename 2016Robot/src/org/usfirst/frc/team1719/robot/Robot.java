@@ -225,6 +225,10 @@ public class Robot extends IterativeRobot {
 			autonomousCommand = new LowBarAuton();
 			System.out.println("LowbarAuton");
 			break;
+		case 5:
+			autonomousCommand = new LowBarAutonAndBack();
+			System.out.println("Lowbar And back");
+			break;
 		}
 
 		Scheduler.getInstance().run();
