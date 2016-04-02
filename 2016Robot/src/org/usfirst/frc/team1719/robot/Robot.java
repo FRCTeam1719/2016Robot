@@ -5,7 +5,7 @@ import org.usfirst.frc.team1719.robot.autonomousSelections.LowBarAuton;
 import org.usfirst.frc.team1719.robot.autonomousSelections.ReachAuton;
 import org.usfirst.frc.team1719.robot.autonomousSelections.RockWallAuton;
 import org.usfirst.frc.team1719.robot.autonomousSelections.RoughTerrainAuton;
-import org.usfirst.frc.team1719.robot.commands.WithinDistance;
+import org.usfirst.frc.team1719.robot.commands.ReadUltraSonics;
 import org.usfirst.frc.team1719.robot.settings.PIDData;
 import org.usfirst.frc.team1719.robot.subsystems.Arm;
 import org.usfirst.frc.team1719.robot.subsystems.Display;
@@ -283,7 +283,7 @@ public class Robot extends IterativeRobot {
 			NIVision.IMAQdxStartAcquisition(session);
 		}
 		RobotMap.gyro.reset();
-		Command ultraCommand = new WithinDistance(100);
+		Command ultraCommand = new ReadUltraSonics(100);
 		ultraCommand.start();
 	}
 
