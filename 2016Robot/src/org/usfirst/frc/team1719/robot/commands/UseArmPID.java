@@ -17,7 +17,11 @@ public class UseArmPID extends Command{
 	final double LOW_RANGE_THRESHOLD = -60;
 	private double lastErr = 0.0D;
 	private double integral = 0.0D;
-	
+	private final double STANDARD_SPEED = 0.7;
+	private final double SLOW_SPEED = 0.3;
+	private final double DANGER_ANGLE = 8.5;
+	private final double MIN_ANGLE = 0;
+	private final double MAX_ANGLE = -35;
 	public UseArmPID(){
 		requires(Robot.arm);
 	}
@@ -56,11 +60,20 @@ public class UseArmPID extends Command{
 		    else
 		    	motorSpeed = joystickReading * CONTROL_SCALING;
 		}
-		if (motorSpeed > 0.7) {
-			motorSpeed = 0.7;
+		//Bound our speed. if we are near our target, slow us down.
+		double boundedSpeed;
+		if(nearEnds()){
+			boundedSpeed = SLOW_SPEED;
+		}else{
+			boundedSpeed = STANDARD_SPEED;
 		}
-		else if (motorSpeed < -0.7) {
-			motorSpeed = -0.7;
+		
+		
+		if (motorSpeed > boundedSpeed) {
+			motorSpeed = boundedSpeed;
+		}
+		else if (motorSpeed < -boundedSpeed) {
+			motorSpeed = -boundedSpeed;
 		}
 
 		
@@ -70,6 +83,22 @@ public class UseArmPID extends Command{
 		System.out.println("Raw Reading: "+Robot.arm.getRawReading());
 	}
 
+	/**
+	 * 
+	 * @return whether or not the arm is near the extremes
+	 */
+	private boolean nearEnds(){
+		boolean nearTop = false;
+		boolean nearBottom = false;
+		if(DANGER_ANGLE  > Math.abs(Robot.arm.getArmAngle() - MAX_ANGLE)){
+			nearTop = true;
+		}
+		if(DANGER_ANGLE > Math.abs(Robot.arm.getArmAngle() - MIN_ANGLE)){
+			nearBottom = true;
+		}
+		return nearTop || nearBottom;
+	}
+	
 	@Override
 	protected boolean isFinished() {
 		return false;
