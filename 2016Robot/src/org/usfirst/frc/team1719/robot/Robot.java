@@ -38,8 +38,6 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class Robot extends IterativeRobot {
 
-	// degrees
-	final double PHOTON_CANNON_ANGLE = 60;
 
 	final String CAMERA_NAME = "cam0";
 	public static final double GET_VALUE_FROM_SMARTDASHBOARD = -1337.0D;
@@ -78,7 +76,6 @@ public class Robot extends IterativeRobot {
 	 * This function is run when the robot is first started up and should be
 	 * used for any initialization code.
 	 */
-
 	public void robotInit() {
 
 		// Network Initialization
@@ -132,7 +129,7 @@ public class Robot extends IterativeRobot {
 
 		
 		rightFlywheelPIDData = new PIDData();
-		// chooser.addObject("My Auto", new MyAutoCommand());
+		//Send PID constants for tuning
 		SmartDashboard.putNumber("Right flywheel kP: ", rightFlywheelPIDData.kP);
 		SmartDashboard.putNumber("Right flywheel kI: ", rightFlywheelPIDData.kI);
 		SmartDashboard.putNumber("Right flywheel kD: ", rightFlywheelPIDData.kD);
@@ -173,8 +170,9 @@ public class Robot extends IterativeRobot {
 		}
 	}
 
+	
 	public void disabledPeriodic() {
-
+		//A button toggles display mode
 		if (display.buttonAPressed()) {
 			if (currentDisplayMode == AUTONDISPLAY) {
 				currentDisplayMode = VOLTAGEDISPLAY;
@@ -183,28 +181,21 @@ public class Robot extends IterativeRobot {
 			}
 		}
 		if (currentDisplayMode == AUTONDISPLAY) {
-			// System.out.println("displayingAuton");
+			//Display the currently selected mode, if the button is pressed increment the mode
 			display.displayString("A  " + String.valueOf(autonomousMode));
 			if (display.buttonBPressed()) {
 				autonomousMode++;
 				if (autonomousMode > autonomousModes) {
 					autonomousMode = 0;
 				}
-			} /*
-				 * Double dialPos = display.getDialReading(); if (dialPos - .25
-				 * <= TOLERANCE) { autonomousMode = 0; display.displayString(
-				 * "A  0"); } else if (dialPos - .255 <= TOLERANCE) {
-				 * autonomousMode = 1; display.displayString("A  1"); } else if
-				 * (dialPos - .26 <= TOLERANCE) { autonomousMode = 2;
-				 * display.displayString("A  2"); } else if (dialPos - .265 <=
-				 * TOLERANCE) { autonomousMode = 3; display.displayString("A  3"
-				 * ); }
-				 */
+			} 
 		} else if (currentDisplayMode == VOLTAGEDISPLAY) {
+			//Display the battery voltage
 			String voltage = Double.toString(DriverStation.getInstance().getBatteryVoltage());
 			display.displayString(voltage);
 		}
 		
+		//Set our auto made based on the selection
 		switch (autonomousMode) {
 		case 0:
 			autonomousCommand = new DoNothing();
@@ -232,8 +223,8 @@ public class Robot extends IterativeRobot {
 			break;
 		}
 
+		//Run tasks
 		Scheduler.getInstance().run();
-		
 	}
 
 	/**
@@ -249,16 +240,10 @@ public class Robot extends IterativeRobot {
 	 */
 	public void autonomousInit() {
 		isAuton = true;
-		/*
-		 * String autoSelected = SmartDashboard.getString("Auto Selector",
-		 * "Default"); switch(autoSelected) { case "My Auto": autonomousCommand
-		 * = new MyAutoCommand(); break; case "Default Auto": default:
-		 * autonomousCommand = new ExampleCommand(); break; }
-		 */
 		if (foundCamera) {
 			NIVision.IMAQdxStartAcquisition(session);
 		}
-		// schedule the autonomous command (example)
+		// schedule the autonomous command with safety
 		if (autonomousCommand != null) {
 			System.out.println(autonomousCommand);
 			autonomousCommand.start();
@@ -280,6 +265,7 @@ public class Robot extends IterativeRobot {
 		 * running. If you want the autonomous to continue until interrupted by
 		 * another command, remove this line or comment it out.
 		 */
+		//Make sure auto stops
 		isAuton = false;
 		if (autonomousCommand != null)
 			autonomousCommand.cancel();
@@ -287,7 +273,10 @@ public class Robot extends IterativeRobot {
 		if (foundCamera) {
 			NIVision.IMAQdxStartAcquisition(session);
 		}
+		//Reset the gyro
 		RobotMap.gyro.reset();
+		
+		//Read from the ultrasonics
 		Command ultraCommand = new WithinDistance(100);
 		ultraCommand.start();
 	}
@@ -296,8 +285,6 @@ public class Robot extends IterativeRobot {
 	 * This function is called periodically during operator control
 	 */
 	public void teleopPeriodic() {
-		// System.out.println("Angle: "+RobotMap.gyro.getAngle());
-		// System.out.println("meh" + RobotMap.dial.get());
 		Scheduler.getInstance().run();
 		if (foundCamera) {
 			NIVision.IMAQdxGrab(session, frame, 1);

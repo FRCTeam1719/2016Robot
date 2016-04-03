@@ -6,6 +6,11 @@ import org.usfirst.frc.team1719.robot.commands.UseArmPID;
 
 import edu.wpi.first.wpilibj.command.CommandGroup;
 
+/**
+ * Just move forwards to reach the defenses.
+ * @author aaron
+ *
+ */
 public class ReachAuton extends CommandGroup{
 
 	public ReachAuton(){

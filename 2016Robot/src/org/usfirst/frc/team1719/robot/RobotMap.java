@@ -134,21 +134,6 @@ public class RobotMap {
 		return controller;
 	}
 	
-	/**
-	 * Automatically configure a potentiometer offset
-	 * @param channel channel that the pot is on
-	 * @param scale default scale
-	 * @param defaultPosition The position that the pot needs to read at 
-	 * @return ScaledPotentiometer with the correct offset
-	 */
-	private static ScaledPotentiometer autoConfigurePotentiometer(int channel, double scale, double defaultPosition){
-		AnalogPotentiometer initPot = new AnalogPotentiometer(channel, scale);
-		double at90Degrees = initPot.get();
-		initPot.free();
-		double offset = -1 * (at90Degrees - defaultPosition);
-		return new ScaledPotentiometer(new AnalogInput(channel), scale, offset);
-	}
-	
 	
 	
 }

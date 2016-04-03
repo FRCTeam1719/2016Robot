@@ -4,9 +4,7 @@ package org.usfirst.frc.team1719.robot;
 import org.usfirst.frc.team1719.robot.commands.ManualShoot;
 import org.usfirst.frc.team1719.robot.commands.MoveArmToPos;
 import org.usfirst.frc.team1719.robot.commands.RunIntake;
-import org.usfirst.frc.team1719.robot.commands.SwapCamera;
 import org.usfirst.frc.team1719.robot.commands.TurnToAngle;
-
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.buttons.Button;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
@@ -49,7 +47,7 @@ public class OI {
     // Start the command when the button is released  and let it run the command
     // until it is finished as determined by it's isFinished method.
     // button.whenReleased(new ExampleCommand());
-	// -90
+	// 90
 	//Arm setpoint constants
 	//These are in degrees, with 0 being straight up, and -90 being all the way down in the front
 	public final double DEADEYE_ANGLE = 21D;
@@ -57,7 +55,7 @@ public class OI {
 	final double ALLTHEWAYDOWN_ANGLE = 90; 
 	final double LOWGOAL_ANGLE = 15;
 	
-	//
+	// Controller Bindings
 	
 	//LOGITECH ATTACK 3 BINDINGS
 		final int ATTACK_X_AXIS = 0;
@@ -101,13 +99,8 @@ public class OI {
 		private Button intakeButton;
 		private Button lowerButton;
 		private Button camswapButton;
-		private Button moveForward2FeetButton; 
-		private Button moveBack2FeetButton;
-		private Button photonCanonButton;
 		private Button deadEyeButton;
 		private Button crossingButton;
-		private Button allTheWayDownButton; 
-		private Button lowGoalButton;
 
 		
 
@@ -125,25 +118,12 @@ public class OI {
 			fireButton = new JoystickButton(operatorJoystick, ATTACK_TRIGGER);
 			primeButton = new JoystickButton(operatorJoystick, ATTACK_BUTTON_3);
 			primeButton.whenPressed(new ManualShoot());
-			//moveArmButton = new JoystickButton(operatorJoystick, ATTACK_BUTTON_6);
-			//moveArmButton.whenPressed(new MoveArmToPos(60));
 			intakeButton = new JoystickButton(operatorJoystick, ATTACK_BUTTON_2);
 			intakeButton.whenPressed(new RunIntake());
 			deadEyeButton = new JoystickButton (operatorJoystick, ATTACK_BUTTON_7);
 			deadEyeButton.whenPressed(new MoveArmToPos(DEADEYE_ANGLE));
 			crossingButton = new JoystickButton (operatorJoystick, ATTACK_BUTTON_6);
 			crossingButton.whenPressed(new MoveArmToPos(CROSSING_ANGLE));
-//			allTheWayDownButton = new JoystickButton (operatorJoystick, ATTACK_BUTTON_11);
-//			allTheWayDownButton.whenPressed(new MoveArmToPos(ALLTHEWAYDOWN_ANGLE));
-//			lowGoalButton = new JoystickButton (operatorJoystick, ATTACK_BUTTON_10);
-//			lowGoalButton.whenPressed(new MoveArmToPos(LOWGOAL_ANGLE));
-
-
-			
-			
-
-			camswapButton = new JoystickButton(operatorJoystick, ATTACK_BUTTON_4);
-			camswapButton.whenPressed(new SwapCamera());
 
 		}
 		
@@ -191,9 +171,6 @@ public class OI {
 			return lowerButton.get();
 		}
 
-		public boolean getPhotonButton() {
-			// TODO Auto-generated method stub
-			return false;
-		}
+		
 		
 }

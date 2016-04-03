@@ -8,6 +8,11 @@ import org.usfirst.frc.team1719.robot.commands.Wait;
 
 import edu.wpi.first.wpilibj.command.CommandGroup;
 
+/**
+ * Breach the rough terrain in auton
+ * @author aaron
+ *
+ */
 public class RoughTerrainAuton extends CommandGroup {
 	
 	public RoughTerrainAuton() {

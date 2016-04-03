@@ -9,7 +9,8 @@ import org.usfirst.frc.team1719.robot.commands.Wait;
 import edu.wpi.first.wpilibj.command.CommandGroup;
 
 /**
- *
+ * Breach the Rock Wall in auton
+ * Moves the to 60 degrees, so that arm is safe
  */
 public class RockWallAuton extends CommandGroup {
 
@@ -19,8 +20,6 @@ public class RockWallAuton extends CommandGroup {
 		addParallel(new UseArmPID());
 		addSequential(new Wait(1));
 		addSequential(new MoveForwards(2.3, 1));
-		//addSequential(new TurnToAngle(0, false));
-//		addSequential(new MoveArmToPos(0));
 		addParallel(new UseArmPID());
 		addSequential(new MoveArmToPos(30));
 		addParallel(new UseArmPID());
