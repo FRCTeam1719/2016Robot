@@ -299,7 +299,7 @@ public class Robot extends IterativeRobot {
 			CameraServer.getInstance().setImage(frame);
 		}
 		//If we hit the zero limit, reset the offset on the arm pot
-		if(RobotMap.armZeroLimitSwitch.get()){
+		if(!RobotMap.armZeroMagSwitch.get()){
 			RobotMap.armPot.adjustShift(0);
 		}
 	}
