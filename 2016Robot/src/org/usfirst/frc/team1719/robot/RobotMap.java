@@ -50,6 +50,7 @@ public class RobotMap {
 	public static AnalogGyro gyro;
 	public static Spark innerLeftShooterWheelController;
 	public static Spark innerRightShooterWheelController;
+	public static Spark m_climber;
 	public static AnalogPotentiometer armPot;	
 	
 	public static AnalogInput dial;
@@ -70,6 +71,7 @@ public class RobotMap {
 		armController = new Spark(4);
 		innerLeftShooterWheelController = new Spark(5);
 		innerRightShooterWheelController = new Spark(6);
+		m_climber = new Spark(10);
 
 		//Sensors
 		

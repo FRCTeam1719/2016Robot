@@ -157,20 +157,36 @@ public class OI {
 		//Functions for getting input
 		
 		/**
-		 * Grab the left Y axis from the Driver XBox
+		 * Grab the left trigger from the Driver XBox
 		 * @return Axis Reading
 		 */
-		public double getLeftDriveReading(){
-			return driverXBOX.getRawAxis(LEFT_Y);
+		public double getLeftTriggerReading(){
+			return driverXBOX.getRawAxis(LEFT_TRIGGER);
 		}
 		
 		/**
-		 * Grab the right Y axis from the Driver XBox
+		 * Grab the right trigger from the Driver XBox
 		 * @return Axis Reading
 		 */
-		public double getRightDriveReading(){
-			return driverXBOX.getRawAxis(RIGHT_Y);
+		public double getRightTriggerReading(){
+			return driverXBOX.getRawAxis(RIGHT_TRIGGER);
 		}
+		
+		/**
+         * Grab the left Y axis from the Driver XBox
+         * @return Axis Reading
+         */
+        public double getLeftDriveReading(){
+            return driverXBOX.getRawAxis(LEFT_Y);
+        }
+        
+        /**
+         * Grab the right Y axis from the Driver XBox
+         * @return Axis Reading
+         */
+        public double getRightDriveReading(){
+            return driverXBOX.getRawAxis(RIGHT_Y);
+        }
 		
 		/**
 		 * Grab the Y axis from the operator controller for driving the arm

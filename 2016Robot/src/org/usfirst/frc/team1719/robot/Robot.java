@@ -13,6 +13,7 @@ import org.usfirst.frc.team1719.robot.commands.TurnToAngle;
 import org.usfirst.frc.team1719.robot.sensors.TargetVision;
 import org.usfirst.frc.team1719.robot.settings.PIDData;
 import org.usfirst.frc.team1719.robot.subsystems.Arm;
+import org.usfirst.frc.team1719.robot.subsystems.Climber;
 import org.usfirst.frc.team1719.robot.subsystems.Display;
 import org.usfirst.frc.team1719.robot.subsystems.DriveSubsystem;
 import org.usfirst.frc.team1719.robot.subsystems.DualShooter;
@@ -56,6 +57,7 @@ public class Robot extends IterativeRobot {
 	public static FlyWheel rightFlywheel;
 	public static FlyWheel leftFlywheel;
 	public static DualShooter shooter;
+	public static Climber climber;
 	PIDData rightFlywheelPIDData;
 	PIDData leftFlywheelPIDData;
 	public static Arm arm;
@@ -101,6 +103,7 @@ public class Robot extends IterativeRobot {
 		arm = new Arm(RobotMap.armController, RobotMap.armPot);
 		display = new Display(RobotMap.buttonA, RobotMap.buttonB, RobotMap.dial);
 		photonCannon = new PhotonCannon();
+		climber = new Climber(RobotMap.m_climber);
 		oi = new OI();
 
 		isAuton = false;
