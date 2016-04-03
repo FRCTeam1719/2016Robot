@@ -18,7 +18,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  *
  */
 public class CalcAngle extends Command {
-	private final double TOLERANCE = 0.5;
+	private final double TOLERANCE = 0.75;
 	private double rightInitAverage;
 	private double leftInitAverage;
 	private States currentState;
