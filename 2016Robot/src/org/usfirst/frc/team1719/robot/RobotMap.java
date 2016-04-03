@@ -9,6 +9,7 @@ import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.Spark;
 import edu.wpi.first.wpilibj.SpeedController;
 import edu.wpi.first.wpilibj.Talon;
+import edu.wpi.first.wpilibj.Ultrasonic;
 
 /**
  * The RobotMap is a mapping from the ports sensors and actuators are wired into
@@ -57,6 +58,7 @@ public class RobotMap {
 	public static DigitalInput buttonB;
 	public static DigitalOutput photonCannon;
 	public static DigitalOutput camswap;
+	public static Ultrasonic hcsro4;
 	
 	public static void init(){
 		//Main hardware allocation
@@ -74,11 +76,8 @@ public class RobotMap {
 		//Sensors
 		
 		//DIO
-		rightFlyWheelEncoder = new Encoder(2, 3, true, Encoder.EncodingType.k4X);	
-		rightFlyWheelEncoder.setDistancePerPulse(FLYWHEEL_CIRCUMFRENCE_FEET / 20);
 		camswap = new DigitalOutput(0);
-		leftFlyWheelEncoder = new Encoder(4, 5, true, Encoder.EncodingType.k4X);
-		leftFlyWheelEncoder.setDistancePerPulse(FLYWHEEL_CIRCUMFRENCE_FEET / 20);
+		hcsro4 = new Ultrasonic(2, 3);
 		rightDriveEncoder = new Encoder(6, 7, true, Encoder.EncodingType.k4X);
 		rightDriveEncoder.setDistancePerPulse(1);
 		leftDriveEncoder = new Encoder(8, 9, true, Encoder.EncodingType.k4X);

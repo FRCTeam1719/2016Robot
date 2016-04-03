@@ -180,7 +180,8 @@ public class Robot extends IterativeRobot {
 	}
 
 	public void disabledPeriodic() {
-
+	    System.out.println("HC-SRO4 Distance (in): " + RobotMap.hcsro4.getRangeInches());
+	    System.out.println("HC-SRO4 Distance (mm): " + RobotMap.hcsro4.getRangeMM());
 		if (display.buttonAPressed()) {
 			currentDisplayMode = AUTONDISPLAY;
 		} else if (display.buttonBPressed()) {
