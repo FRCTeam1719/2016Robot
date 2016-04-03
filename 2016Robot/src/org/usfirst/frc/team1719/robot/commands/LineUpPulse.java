@@ -45,6 +45,7 @@ public class LineUpPulse extends Command {
 	protected void initialize() {
 		currentState = States.DETERMINE_SIDE;
 		driveRunning = false;
+		pulseTimer = new Timer();
 	}
 
 	@Override
@@ -56,12 +57,14 @@ public class LineUpPulse extends Command {
 				leftInitAverage = leftAverage;
 				currentState = States.CALC_RIGHT_AVERAGE;
 			}
+			System.out.println("LEFT AVERAGE: "+leftAverage);
 		}else if(currentState == States.CALC_RIGHT_AVERAGE){
 			double rightAverage = findInitAverage(RobotMap.rightUltrasonic);
 			if(rightAverage!=ERROR_AVG){
 				rightInitAverage = rightAverage;
 				currentState = States.DETERMINE_SIDE;
 			}
+			System.out.println("RIGHT AVERAGE: "+rightAverage);
 		}else if(currentState == States.DETERMINE_SIDE){
 			if(rightInitAverage < leftInitAverage){
 				//Left side is farther
@@ -72,11 +75,13 @@ public class LineUpPulse extends Command {
 			}
 			pulseTimer.start();
 			currentState = States.LINE_UP;
+			System.out.println("Determined Side: "+fartherSide);
 		}else if(currentState == States.LINE_UP){
 			if(pulseTimer.get() > PULSE_TIME){
 				toggleDrive(fartherSide);
 				pulseTimer.reset();
 			}
+			System.out.println("Lining Up");
 		}
 	}
 	

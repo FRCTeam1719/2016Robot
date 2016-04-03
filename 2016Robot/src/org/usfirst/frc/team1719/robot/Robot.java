@@ -298,6 +298,8 @@ public class Robot extends IterativeRobot {
 			NIVision.IMAQdxGrab(session, frame, 1);
 			CameraServer.getInstance().setImage(frame);
 		}
+		System.out.println("leftUltrasonic: "+RobotMap.leftUltrasonic.getDistanceCM());
+		System.out.println("rightUltrasonic: "+RobotMap.rightUltrasonic.getDistanceFeet());
 	}
 
 	/**

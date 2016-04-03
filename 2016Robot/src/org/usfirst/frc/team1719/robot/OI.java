@@ -4,7 +4,6 @@ package org.usfirst.frc.team1719.robot;
 import org.usfirst.frc.team1719.robot.commands.LineUpPulse;
 import org.usfirst.frc.team1719.robot.commands.ManualShoot;
 import org.usfirst.frc.team1719.robot.commands.MoveArmToPos;
-import org.usfirst.frc.team1719.robot.commands.PulseTest;
 import org.usfirst.frc.team1719.robot.commands.RunIntake;
 import org.usfirst.frc.team1719.robot.commands.SwapCamera;
 import org.usfirst.frc.team1719.robot.commands.TurnToAngle;
@@ -126,7 +125,7 @@ public class OI {
 			lineUpButton = new JoystickButton(driverXBOX, A_BUTTON);
 			lineUpButton.whenPressed(new LineUpPulse(lineUpButton));
 			testPulseDrive = new JoystickButton(driverXBOX, Y_BUTTON);
-			testPulseDrive.whenPressed(new PulseTest(testPulseDrive));
+			testPulseDrive.whenPressed(new LineUpPulse(testPulseDrive));
 			
 			fireButton = new JoystickButton(operatorJoystick, ATTACK_TRIGGER);
 			primeButton = new JoystickButton(operatorJoystick, ATTACK_BUTTON_3);
