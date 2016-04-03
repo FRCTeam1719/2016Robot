@@ -59,15 +59,15 @@ public class TargetVision {
     }
     
     // Image from camera dimensions (in pixels)
-    private static final double VIEW_WIDTH_PX = 1280.0D;
-    private static final double VIEW_HEIGHT_PX = 720.0D;
+    private static final double VIEW_WIDTH_PX = 640.0D; //1280.0D;
+    private static final double VIEW_HEIGHT_PX = 480.0D; //720.0D;
     // Camera field of view (in degrees)
-    private static final double VIEW_ANGLE_DEG = 61.336D;
+    private static final double VIEW_ANGLE_DEG = 61.336D; //Unsure of this
     private static final double VIEW_ANGLE_HEIGHT_DEG = 36.939D;
     private static final double TAN_VIEW_HEIGHT = Math.tan(VIEW_ANGLE_HEIGHT_DEG * Math.PI / 180.0D);
     // Height of camera from the ground
     private static final double CAM_HEIGHT_FT = 1.25;
-    private static final double CAM_ANGLE_DEG = 30.0D;
+    private static final double CAM_ANGLE_DEG = 25.0D;
     private static final double TAN_CAM_ANGLE = Math.tan(CAM_ANGLE_DEG * Math.PI / 180.0D);
     // Height of target from the ground
     private static final double TARGET_HEIGHT_FT = 7.583D;

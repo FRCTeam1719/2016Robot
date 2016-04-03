@@ -210,7 +210,7 @@ public class Robot extends IterativeRobot {
 		}
 
 		Scheduler.getInstance().run();
-
+		try {TargetVision.detect();} catch(Exception e) {}
 	}
 
 	/**
