@@ -4,7 +4,9 @@ import org.usfirst.frc.team1719.robot.Robot;
 import org.usfirst.frc.team1719.robot.RobotMap;
 import org.usfirst.frc.team1719.robot.RobotMap.sides;
 import org.usfirst.frc.team1719.robot.sensors.Ultrasonic;
+
 import edu.wpi.first.wpilibj.Timer;
+import edu.wpi.first.wpilibj.buttons.Button;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
@@ -25,9 +27,11 @@ public class LineUp extends Command {
 	private final double PULSE_TIME = 0.2;
 	private boolean driveRunning;
 	private final double ERROR_AVG = -1337;
+	private Button deadManSwitch;
 	
-	public LineUp(){
+	public LineUp(Button deadManSwitch){
 		requires(Robot.drive);
+		this.deadManSwitch = deadManSwitch;
 	}
 	
 	private enum States {
@@ -142,7 +146,7 @@ public class LineUp extends Command {
 	protected boolean isFinished() {
 		
 		try{
-			return SmartDashboard.getBoolean("linedUp");
+			return (SmartDashboard.getBoolean("linedUp") || deadManSwitch.get());
 		}catch(Exception e){
 			System.out.println("CANT FIND VALUE ON DASHBOARD, QUITING");
 			return true;

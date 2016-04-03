@@ -1,6 +1,7 @@
 package org.usfirst.frc.team1719.robot;
 
 
+import org.usfirst.frc.team1719.robot.commands.LineUp;
 import org.usfirst.frc.team1719.robot.commands.ManualShoot;
 import org.usfirst.frc.team1719.robot.commands.MoveArmToPos;
 import org.usfirst.frc.team1719.robot.commands.RunIntake;
@@ -108,7 +109,7 @@ public class OI {
 		private Button crossingButton;
 		private Button allTheWayDownButton; 
 		private Button lowGoalButton;
-
+		private Button lineUpButton;
 		
 
 		public OI(){
@@ -121,7 +122,8 @@ public class OI {
 			rotateRight90Button.whenPressed(new TurnToAngle(90,true));
 			rotateLeft90Button = new JoystickButton(driverXBOX, B_BUTTON);
 			rotateLeft90Button.whenPressed(new TurnToAngle(-90,true));
-			
+			lineUpButton = new JoystickButton(driverXBOX, A_BUTTON);
+			lineUpButton.whenPressed(new LineUp(lineUpButton));
 			fireButton = new JoystickButton(operatorJoystick, ATTACK_TRIGGER);
 			primeButton = new JoystickButton(operatorJoystick, ATTACK_BUTTON_3);
 			primeButton.whenPressed(new ManualShoot());
