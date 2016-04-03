@@ -1,12 +1,10 @@
 package org.usfirst.frc.team1719.robot;
 
 import org.usfirst.frc.team1719.robot.sensors.AutoShiftingPotentiometer;
-import org.usfirst.frc.team1719.robot.sensors.ScaledPotentiometer;
 import org.usfirst.frc.team1719.robot.sensors.Ultrasonic;
 
 import edu.wpi.first.wpilibj.AnalogGyro;
 import edu.wpi.first.wpilibj.AnalogInput;
-import edu.wpi.first.wpilibj.AnalogPotentiometer;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.DigitalOutput;
 import edu.wpi.first.wpilibj.Encoder;
@@ -52,7 +50,7 @@ public class RobotMap {
 	public static Spark armController;
 	public static DigitalInput armLowerLimitSwitch;
 	public static DigitalInput armUpperLimitSwitch;	
-	public static DigitalInput armZeroLimitSwitch;
+	public static DigitalInput armZeroMagSwitch;
 	public static AnalogGyro gyro;
 	public static Spark innerLeftShooterWheelController;
 	public static Spark innerRightShooterWheelController;
@@ -92,7 +90,7 @@ public class RobotMap {
 		leftDriveEncoder = new Encoder(8, 9, true, Encoder.EncodingType.k4X);
 		leftDriveEncoder.setDistancePerPulse(1);
 		
-		armZeroLimitSwitch = new DigitalInput(1);
+		armZeroMagSwitch = new DigitalInput(1);
 
 
 		//Analog In

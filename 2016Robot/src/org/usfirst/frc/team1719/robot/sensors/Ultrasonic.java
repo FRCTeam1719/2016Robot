@@ -1,7 +1,6 @@
 package org.usfirst.frc.team1719.robot.sensors;
 
 import edu.wpi.first.wpilibj.AnalogInput;
-import edu.wpi.first.wpilibj.ControllerPower;
 
 public class Ultrasonic {
 
