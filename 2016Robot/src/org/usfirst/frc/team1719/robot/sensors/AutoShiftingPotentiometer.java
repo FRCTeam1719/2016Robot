@@ -1,12 +1,19 @@
 package org.usfirst.frc.team1719.robot.sensors;
 
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
+
 import edu.wpi.first.wpilibj.AnalogInput;
 
 /**
  * AutoShiftingPotentiometer implements a ScaledPotentiometer where the offset is dynamically shifted
  * This is to counteract a slipping potentiometer
  * 
- * @author aaron
+ * @author Aaron
  *
  */
 public class AutoShiftingPotentiometer extends ScaledPotentiometer{
@@ -19,15 +26,32 @@ public class AutoShiftingPotentiometer extends ScaledPotentiometer{
 	 * @param scale multiplier for pot output
 	 * @param defaultPosition default angle the pot is at
 	 */
-	public AutoShiftingPotentiometer(AnalogInput channel, double scale, double defaultPosition) {
+	public AutoShiftingPotentiometer(AnalogInput channel, double scale, double defaultOffset) {
 		super(channel, scale, 0);
-		double initState = super.get();
-		//Set the offset
-		double offset = -1 * (initState - defaultPosition);
+		double offset = 0;
+	    String fileName = "offset.txt";
+	    String line = null;
+		try{
+			//Read offset from file
+            // FileReader reads text files in the default encoding.
+            FileReader fileReader = 
+                new FileReader(fileName);
+
+            // Always wrap FileReader in BufferedReader.
+            BufferedReader bufferedReader = new BufferedReader(fileReader);
+            // Always close files.
+            while((line = bufferedReader.readLine()) != null) {
+                offset = Double.parseDouble(line);
+            }   
+            bufferedReader.close();    
+		}catch(IOException e){
+			offset = defaultOffset;
+		}
+		
 		super.setOffset(offset);
-		System.out.println("initState: "+initState); 
+		System.out.println("offset: "+offset); 
 		System.out.println("initRawState: "+super.getRaw());
-		System.out.println("defaultPosition: "+defaultPosition);
+		System.out.println("defaultPosition: "+defaultOffset);
 		System.out.println("offset: "+offset);
 	}
 	
@@ -43,6 +67,15 @@ public class AutoShiftingPotentiometer extends ScaledPotentiometer{
 		double currentState = super.getRaw() * super.getScale();
 		double newOffset = -1 * (currentState - desiredReading);
 		super.setOffset(newOffset);
+		try{
+		 	File offsetFile = new File(Double.toString(offset));
+		    BufferedWriter writer = new BufferedWriter(new FileWriter(offsetFile));
+		    writer.write (Double.toString(newOffset));
+		    writer.close();
+		}catch(Exception e) {
+		    e.printStackTrace();
+		}
+		
 	}
 	
 	
