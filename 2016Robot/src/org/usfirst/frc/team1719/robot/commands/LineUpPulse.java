@@ -17,7 +17,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  * @author aaron
  *
  */
-public class LineUp extends Command {
+public class LineUpPulse extends Command {
 	private final double TOLERANCE = 4;
 	private double rightInitAverage;
 	private double leftInitAverage;
@@ -29,7 +29,7 @@ public class LineUp extends Command {
 	private final double ERROR_AVG = -1337;
 	private Button deadManSwitch;
 	
-	public LineUp(Button deadManSwitch){
+	public LineUpPulse(Button deadManSwitch){
 		requires(Robot.drive);
 		this.deadManSwitch = deadManSwitch;
 	}
@@ -146,7 +146,7 @@ public class LineUp extends Command {
 	protected boolean isFinished() {
 		
 		try{
-			return (SmartDashboard.getBoolean("linedUp") || deadManSwitch.get());
+			return (SmartDashboard.getBoolean("linedUp") || !deadManSwitch.get());
 		}catch(Exception e){
 			System.out.println("CANT FIND VALUE ON DASHBOARD, QUITING");
 			return true;

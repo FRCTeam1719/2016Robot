@@ -1,9 +1,10 @@
 package org.usfirst.frc.team1719.robot;
 
 
-import org.usfirst.frc.team1719.robot.commands.LineUp;
+import org.usfirst.frc.team1719.robot.commands.LineUpPulse;
 import org.usfirst.frc.team1719.robot.commands.ManualShoot;
 import org.usfirst.frc.team1719.robot.commands.MoveArmToPos;
+import org.usfirst.frc.team1719.robot.commands.PulseTest;
 import org.usfirst.frc.team1719.robot.commands.RunIntake;
 import org.usfirst.frc.team1719.robot.commands.SwapCamera;
 import org.usfirst.frc.team1719.robot.commands.TurnToAngle;
@@ -110,7 +111,7 @@ public class OI {
 		private Button allTheWayDownButton; 
 		private Button lowGoalButton;
 		private Button lineUpButton;
-		
+		private Button testPulseDrive;
 
 		public OI(){
 			//Define Controllers
@@ -123,7 +124,10 @@ public class OI {
 			rotateLeft90Button = new JoystickButton(driverXBOX, B_BUTTON);
 			rotateLeft90Button.whenPressed(new TurnToAngle(-90,true));
 			lineUpButton = new JoystickButton(driverXBOX, A_BUTTON);
-			lineUpButton.whenPressed(new LineUp(lineUpButton));
+			lineUpButton.whenPressed(new LineUpPulse(lineUpButton));
+			testPulseDrive = new JoystickButton(driverXBOX, Y_BUTTON);
+			testPulseDrive.whenPressed(new PulseTest(testPulseDrive));
+			
 			fireButton = new JoystickButton(operatorJoystick, ATTACK_TRIGGER);
 			primeButton = new JoystickButton(operatorJoystick, ATTACK_BUTTON_3);
 			primeButton.whenPressed(new ManualShoot());
