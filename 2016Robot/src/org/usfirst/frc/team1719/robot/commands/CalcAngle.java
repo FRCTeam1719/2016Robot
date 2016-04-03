@@ -3,7 +3,7 @@ package org.usfirst.frc.team1719.robot.commands;
 import org.usfirst.frc.team1719.robot.Robot;
 import org.usfirst.frc.team1719.robot.RobotMap;
 import org.usfirst.frc.team1719.robot.RobotMap.sides;
-import org.usfirst.frc.team1719.robot.sensors.Ultrasonic;
+import edu.wpi.first.wpilibj.Ultrasonic;
 
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.buttons.Button;
@@ -17,8 +17,8 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  * @author aaron
  *
  */
-public class LineUpPulse extends Command {
-	private final double TOLERANCE = 4;
+public class CalcAngle extends Command {
+	private final double TOLERANCE = 0.5;
 	private double rightInitAverage;
 	private double leftInitAverage;
 	private States currentState;
@@ -28,8 +28,11 @@ public class LineUpPulse extends Command {
 	private boolean driveRunning;
 	private final double ERROR_AVG = -1337;
 	private Button deadManSwitch;
+	private final double DISTANCE_BETWEEN_SENSORS = 10.25;
+	private double lastLeftReading;
+	private double lastRightReading;
 	
-	public LineUpPulse(Button deadManSwitch){
+	public CalcAngle(Button deadManSwitch){
 		requires(Robot.drive);
 		this.deadManSwitch = deadManSwitch;
 	}
@@ -43,7 +46,8 @@ public class LineUpPulse extends Command {
 
 	@Override
 	protected void initialize() {
-		currentState = States.DETERMINE_SIDE;
+		System.out.println("STARTED COMMAND");
+		currentState = States.CALC_LEFT_AVERAGE;
 		driveRunning = false;
 		pulseTimer = new Timer();
 	}
@@ -52,69 +56,55 @@ public class LineUpPulse extends Command {
 	protected void execute() {
 		// Figure out which side is closer
 		if (currentState == States.CALC_LEFT_AVERAGE) {
-			double leftAverage = findInitAverage(RobotMap.leftUltrasonic);
-			if(leftAverage!=ERROR_AVG){
-				leftInitAverage = leftAverage;
-				currentState = States.CALC_RIGHT_AVERAGE;
-			}
-			System.out.println("LEFT AVERAGE: "+leftAverage);
+			leftInitAverage = findInitAverage(RobotMap.rightUltrasonic);
+			System.out.println("LEFT AVERAGE: "+leftInitAverage);
+			currentState = States.CALC_RIGHT_AVERAGE;
 		}else if(currentState == States.CALC_RIGHT_AVERAGE){
-			double rightAverage = findInitAverage(RobotMap.rightUltrasonic);
-			if(rightAverage!=ERROR_AVG){
-				rightInitAverage = rightAverage;
-				currentState = States.DETERMINE_SIDE;
-			}
-			System.out.println("RIGHT AVERAGE: "+rightAverage);
+			rightInitAverage = findInitAverage(RobotMap.leftUltrasonic);
+			currentState = States.DETERMINE_SIDE;
 		}else if(currentState == States.DETERMINE_SIDE){
 			if(rightInitAverage < leftInitAverage){
 				//Left side is farther
 				fartherSide = RobotMap.sides.LEFT;
+				double angle = -1 * calcAngle(leftInitAverage, rightInitAverage);
+				SmartDashboard.putNumber("TurnToAngleParam", angle);
+				System.out.println(angle);
 			}else{
 				//Right side is farther
+				double angle = calcAngle(rightInitAverage, leftInitAverage);
+				SmartDashboard.putNumber("TurnToAngleParem", angle);
 				fartherSide = RobotMap.sides.RIGHT;
+				System.out.println(angle);
 			}
-			pulseTimer.start();
 			currentState = States.LINE_UP;
-			System.out.println("Determined Side: "+fartherSide);
+			
 		}else if(currentState == States.LINE_UP){
-			if(pulseTimer.get() > PULSE_TIME){
-				toggleDrive(fartherSide);
-				pulseTimer.reset();
+			System.out.println("LINING UP");
+			double leftPower = 0;
+			double rightPower = 0;
+			if(fartherSide == RobotMap.sides.LEFT){
+				leftPower = -0.5;
+				rightPower = 0.5;
+			}else{
+				rightPower = -0.5;
+				leftPower = 0.5;
 			}
-			System.out.println("Lining Up");
+			Robot.drive.operateDrive(leftPower, rightPower);
 		}
 	}
 	
+	private double calcAngle(double fartherSide, double closerSide){
+		double rad = Math.atan((fartherSide-closerSide)/DISTANCE_BETWEEN_SENSORS);
+		double degrees = Math.toDegrees(rad);
+		return degrees;
+	}
+	
 	private double findInitAverage(Ultrasonic sensor){
-		double lastReading = sensor.getDistanceCM();
-		int foundCounter = 0;
-		boolean foundEnough = false;
-		int tries = 0;
-		double validReadings[] = new double[3];
-		while ((foundCounter < 3) || (tries < 3)) {
-			double readings[] = new double[3];
-			for (int i = 0; i < 3; i++) {
-				double newReading = sensor.getDistanceCM();
-				if (withinTolerance(lastReading, newReading)) {
-					readings[i] = newReading;
-					foundCounter++;
-					lastReading = newReading;
-				}
-			}
-			tries++;
-			if(foundCounter < 3){
-				foundEnough = true;
-				validReadings = readings;
-			}
+		double averageDistance = 0;
+		for(int i=0;i<3;i++){
+			averageDistance += sensor.getRangeInches();
 		}
-		double averageDistance = -1337;
-		if(foundEnough){
-			averageDistance = 0;
-			for(int i=0;i<validReadings.length;i++){
-				averageDistance += validReadings[i];
-			}
-			averageDistance /= validReadings.length;
-		}
+		averageDistance /= 3;
 		return averageDistance;
 	}
 
@@ -126,7 +116,7 @@ public class LineUpPulse extends Command {
 	 * @return boolean distances within tolerance
 	 */
 	private boolean withinTolerance(double distance1, double distance2) {
-		return TOLERANCE < Math.abs(distance1 - distance2);
+		return TOLERANCE > Math.abs(distance1 - distance2);
 	}
 	
 	//This is implementing a pulsing drive that might give more accuracy in turning to small distances
@@ -151,13 +141,11 @@ public class LineUpPulse extends Command {
 
 	@Override
 	protected boolean isFinished() {
-		
-		try{
-			return (SmartDashboard.getBoolean("linedUp") || !deadManSwitch.get());
-		}catch(Exception e){
-			System.out.println("CANT FIND VALUE ON DASHBOARD, QUITING");
-			return true;
-		}
+		System.out.println(deadManSwitch.get());
+		lastLeftReading = RobotMap.leftUltrasonic.getRangeInches();
+		lastRightReading = RobotMap.rightUltrasonic.getRangeInches();
+		return withinTolerance(lastLeftReading, lastRightReading)
+				|| !deadManSwitch.get();
 		
 		
 	}
@@ -165,6 +153,8 @@ public class LineUpPulse extends Command {
 	@Override
 	protected void end() {
 		Robot.drive.operateDrive(0, 0);
+		System.out.println("ENDED");
+		System.out.println("LEFT: "+lastLeftReading + " RIGHT: "+lastRightReading);
 
 	}
 

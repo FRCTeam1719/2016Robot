@@ -63,9 +63,9 @@ public class ReadUltraSonics extends Command{
 	 * @return average reading from both ultrasonics
 	 */
 	private double averageReadings(){
-		double leftReading = RobotMap.leftUltrasonic.getDistanceCM();
-		double rightReading = RobotMap.rightUltrasonic.getDistanceCM();
-		return (leftReading+rightReading)/2;
+		//double leftReading = RobotMap.leftUltrasonic.getDistanceCM();
+		//double rightReading = RobotMap.rightUltrasonic.getDistanceCM();
+		return 0;//(leftReading+rightReading)/2;
 	}
 	
 	/**
@@ -77,9 +77,10 @@ public class ReadUltraSonics extends Command{
 	}
 	
 	private boolean linedUp(){
-		double readingDifference = Math.abs(
+		/*double readingDifference = Math.abs(
 				RobotMap.leftUltrasonic.getDistanceCM() - RobotMap.rightUltrasonic.getDistanceCM());
-		return TOLERANCE_IN_CM > readingDifference;
+		return TOLERANCE_IN_CM > readingDifference; */
+		return false;
 	}
 	
 	private boolean withinDistance(){

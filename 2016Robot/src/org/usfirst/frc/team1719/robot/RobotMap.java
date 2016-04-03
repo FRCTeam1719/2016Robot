@@ -2,7 +2,7 @@ package org.usfirst.frc.team1719.robot;
 
 import org.usfirst.frc.team1719.robot.sensors.AutoScalingPotentiometer;
 import org.usfirst.frc.team1719.robot.sensors.ScaledPotentiometer;
-import org.usfirst.frc.team1719.robot.sensors.Ultrasonic;
+import edu.wpi.first.wpilibj.Ultrasonic;
 
 import edu.wpi.first.wpilibj.AnalogGyro;
 import edu.wpi.first.wpilibj.AnalogInput;
@@ -62,8 +62,8 @@ public class RobotMap {
 	public static DigitalInput buttonB;
 	public static Relay photonCannon;
 	public static DigitalOutput camswap;
-	public static Ultrasonic leftUltrasonic;
 	public static Ultrasonic rightUltrasonic;
+	public static Ultrasonic leftUltrasonic;
 	public enum sides{
 		LEFT,
 		RIGHT
@@ -85,11 +85,12 @@ public class RobotMap {
 		//Sensors
 		
 		//DIO
-		rightFlyWheelEncoder = new Encoder(2, 3, true, Encoder.EncodingType.k4X);	
-		rightFlyWheelEncoder.setDistancePerPulse(FLYWHEEL_CIRCUMFRENCE_FEET / 20);
+		//rightFlyWheelEncoder = new Encoder(2, 3, true, Encoder.EncodingType.k4X);	
+		//rightFlyWheelEncoder.setDistancePerPulse(FLYWHEEL_CIRCUMFRENCE_FEET / 20);
 		camswap = new DigitalOutput(0);
-		leftFlyWheelEncoder = new Encoder(4, 5, true, Encoder.EncodingType.k4X);
-		leftFlyWheelEncoder.setDistancePerPulse(FLYWHEEL_CIRCUMFRENCE_FEET / 20);
+//		leftFlyWheelEncoder = new Encoder(4, 5, true, Encoder.EncodingType.k4X);
+//		leftFlyWheelEncoder.setDistancePerPulse(FLYWHEEL_CIRCUMFRENCE_FEET / 20);
+		
 		
 		rightDriveEncoder = new Encoder(6, 7, true, Encoder.EncodingType.k4X);
 		rightDriveEncoder.setDistancePerPulse(1);
@@ -121,8 +122,10 @@ public class RobotMap {
         buttonA = new DigitalInput(19);
 		buttonB = new DigitalInput(20);
 		
-		leftUltrasonic = new Ultrasonic(new AnalogInput(3));
-		rightUltrasonic = new Ultrasonic(new AnalogInput(2));
+		rightUltrasonic = new Ultrasonic(5,4,Ultrasonic.Unit.kInches);
+		//leftUltrasonic.setAutomaticMode(true);
+		leftUltrasonic = new Ultrasonic(2,3,Ultrasonic.Unit.kInches);
+		leftUltrasonic.setAutomaticMode(true);
 	}
 	
 	/**
