@@ -2,6 +2,7 @@ package org.usfirst.frc.team1719.robot;
 
 import org.usfirst.frc.team1719.robot.autonomousSelections.DoNothing;
 import org.usfirst.frc.team1719.robot.autonomousSelections.LowBarAuton;
+import org.usfirst.frc.team1719.robot.autonomousSelections.LowBarAutonAndBack;
 import org.usfirst.frc.team1719.robot.autonomousSelections.ReachAuton;
 import org.usfirst.frc.team1719.robot.autonomousSelections.RockWallAuton;
 import org.usfirst.frc.team1719.robot.autonomousSelections.RoughTerrainAuton;
@@ -224,6 +225,10 @@ public class Robot extends IterativeRobot {
 		case 4:
 			autonomousCommand = new LowBarAuton();
 			System.out.println("LowbarAuton");
+			break;
+		case 5:
+			autonomousCommand = new LowBarAutonAndBack();
+			System.out.println("Lowbar And back");
 			break;
 		}
 
