@@ -124,6 +124,8 @@ public class LineUpPulse extends Command {
 		return TOLERANCE < Math.abs(distance1 - distance2);
 	}
 	
+	//This is implementing a pulsing drive that might give more accuracy in turning to small distances
+	//This might not work, and may need to be changes to something more robust.
 	private void toggleDrive(RobotMap.sides sideToToggle){
 		double drive_parem[] = new double[2];
 		if(driveRunning){
