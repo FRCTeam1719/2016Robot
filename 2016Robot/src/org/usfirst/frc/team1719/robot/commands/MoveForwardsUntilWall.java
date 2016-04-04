@@ -37,7 +37,7 @@ public class MoveForwardsUntilWall extends Command {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	if(withinTolerance(RobotMap.ultrasonic.getDistanceCM())){
+    	if(withinTolerance(RobotMap.getAverageRange())){
 			timesDetected++;
 		}
 		if(resetTimer.get() >= RESET_TIME){

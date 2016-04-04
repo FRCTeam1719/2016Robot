@@ -21,8 +21,8 @@ public class ScaledPotentiometer extends AnalogPotentiometer{
 		super(channel);
 		this.channel = channel;
 	}
-	
 
+	
 	
 	public double getRaw(){
 		return channel.getVoltage() / ControllerPower.getVoltage5V();

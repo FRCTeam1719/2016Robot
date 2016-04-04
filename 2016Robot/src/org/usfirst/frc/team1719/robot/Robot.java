@@ -6,7 +6,6 @@ import org.usfirst.frc.team1719.robot.autonomousSelections.LowBarAutonAndBack;
 import org.usfirst.frc.team1719.robot.autonomousSelections.ReachAuton;
 import org.usfirst.frc.team1719.robot.autonomousSelections.RockWallAuton;
 import org.usfirst.frc.team1719.robot.autonomousSelections.RoughTerrainAuton;
-import org.usfirst.frc.team1719.robot.commands.WithinDistance;
 import org.usfirst.frc.team1719.robot.settings.PIDData;
 import org.usfirst.frc.team1719.robot.subsystems.Arm;
 import org.usfirst.frc.team1719.robot.subsystems.Display;
@@ -96,9 +95,9 @@ public class Robot extends IterativeRobot {
 		leftFlywheelPIDData = new PIDData(0, 0, 0);
 		drive = new DriveSubsystem(RobotMap.leftDriveController, RobotMap.rightDriveController,
 				RobotMap.leftDriveEncoder, RobotMap.rightDriveEncoder);
-		rightFlywheel = new FlyWheel(RobotMap.rightFlyWheelController, RobotMap.rightFlyWheelEncoder,
+		rightFlywheel = new FlyWheel(RobotMap.rightFlyWheelController,
 				rightFlywheelPIDData);
-		leftFlywheel = new FlyWheel(RobotMap.leftFlyWheelController, RobotMap.leftFlyWheelEncoder, leftFlywheelPIDData);
+		leftFlywheel = new FlyWheel(RobotMap.leftFlyWheelController,  leftFlywheelPIDData);
 		shooter = new DualShooter(leftFlywheel, rightFlywheel, RobotMap.innerLeftShooterWheelController,
 				RobotMap.innerRightShooterWheelController);
 		arm = new Arm(RobotMap.armController, RobotMap.armPot);
@@ -233,7 +232,7 @@ public class Robot extends IterativeRobot {
 		}
 
 		Scheduler.getInstance().run();
-		System.out.println(RobotMap.ultrasonic.getDistanceCM());
+		
 	}
 
 	/**
@@ -288,8 +287,6 @@ public class Robot extends IterativeRobot {
 			NIVision.IMAQdxStartAcquisition(session);
 		}
 		RobotMap.gyro.reset();
-		Command ultraCommand = new WithinDistance(100);
-		ultraCommand.start();
 	}
 
 	/**
@@ -303,6 +300,8 @@ public class Robot extends IterativeRobot {
 			NIVision.IMAQdxGrab(session, frame, 1);
 			CameraServer.getInstance().setImage(frame);
 		}
+		//System.out.println("rightUltrasonic: "+RobotMap.rightUltrasonic.getRangeInches());
+		//System.out.println("leftUltrasonic: "+RobotMap.leftUltrasonic.getRangeInches());
 	}
 
 	/**
@@ -312,5 +311,8 @@ public class Robot extends IterativeRobot {
 		isAuton = false;
 		LiveWindow.run();
 	}
+	
+	
+	
 
 }

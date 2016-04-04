@@ -38,7 +38,7 @@ public class WithinDistance extends Command{
 
 	@Override
 	protected void execute() {
-		if(withinTolerance(RobotMap.ultrasonic.getDistanceCM())){
+		if(withinTolerance(RobotMap.getAverageRange())){
 			timesDetected++;
 		}
 		if(resetTimer.get() >= RESET_TIME){

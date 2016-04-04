@@ -1,11 +1,9 @@
 package org.usfirst.frc.team1719.robot;
 
-import org.usfirst.frc.team1719.robot.sensors.ScaledPotentiometer;
-import org.usfirst.frc.team1719.robot.sensors.Ultrasonic;
+import org.usfirst.frc.team1719.robot.sensors.AutoScalingPotentiometer;
 
 import edu.wpi.first.wpilibj.AnalogGyro;
 import edu.wpi.first.wpilibj.AnalogInput;
-import edu.wpi.first.wpilibj.AnalogPotentiometer;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.DigitalOutput;
 import edu.wpi.first.wpilibj.Encoder;
@@ -13,6 +11,7 @@ import edu.wpi.first.wpilibj.Relay;
 import edu.wpi.first.wpilibj.Spark;
 import edu.wpi.first.wpilibj.SpeedController;
 import edu.wpi.first.wpilibj.Talon;
+import edu.wpi.first.wpilibj.Ultrasonic;
 
 /**
  * The RobotMap is a mapping from the ports sensors and actuators are wired into
@@ -54,16 +53,21 @@ public class RobotMap {
 	public static AnalogGyro gyro;
 	public static Spark innerLeftShooterWheelController;
 	public static Spark innerRightShooterWheelController;
-	public static ScaledPotentiometer armPot;	
+	public static AutoScalingPotentiometer armPot;	
 	
 	public static AnalogInput dial;
 	public static DigitalInput buttonA;
 	public static DigitalInput buttonB;
 	public static Relay photonCannon;
 	public static DigitalOutput camswap;
-	public static Ultrasonic ultrasonic;
-	
+	public static Ultrasonic rightUltrasonic;
+	public static Ultrasonic leftUltrasonic;
+	public enum sides{
+		LEFT,
+		RIGHT
+	}
 	public static void init(){
+		
 		//Main hardware allocation
 		
 
@@ -79,11 +83,12 @@ public class RobotMap {
 		//Sensors
 		
 		//DIO
-		rightFlyWheelEncoder = new Encoder(2, 3, true, Encoder.EncodingType.k4X);	
-		rightFlyWheelEncoder.setDistancePerPulse(FLYWHEEL_CIRCUMFRENCE_FEET / 20);
+		//rightFlyWheelEncoder = new Encoder(2, 3, true, Encoder.EncodingType.k4X);	
+		//rightFlyWheelEncoder.setDistancePerPulse(FLYWHEEL_CIRCUMFRENCE_FEET / 20);
 		camswap = new DigitalOutput(0);
-		leftFlyWheelEncoder = new Encoder(4, 5, true, Encoder.EncodingType.k4X);
-		leftFlyWheelEncoder.setDistancePerPulse(FLYWHEEL_CIRCUMFRENCE_FEET / 20);
+//		leftFlyWheelEncoder = new Encoder(4, 5, true, Encoder.EncodingType.k4X);
+//		leftFlyWheelEncoder.setDistancePerPulse(FLYWHEEL_CIRCUMFRENCE_FEET / 20);
+		
 		
 		rightDriveEncoder = new Encoder(6, 7, true, Encoder.EncodingType.k4X);
 		rightDriveEncoder.setDistancePerPulse(1);
@@ -109,11 +114,16 @@ public class RobotMap {
         //armPot = new AnalogPotentiometer(1, 141, -110.4);
 
 		//armPot = new ScaledPotentiometer(potChannel, 139.32, -106);
-		armPot = autoConfigurePotentiometer(2, 139.32, 90);
+		//armPot = autoConfigurePotentiometer(2, 139.32, 90);
+		//armPot = autoConfigurePotentiometer(2, 360, 90);
+		armPot = new AutoScalingPotentiometer(new AnalogInput(1),360, 132);
         buttonA = new DigitalInput(19);
 		buttonB = new DigitalInput(20);
 		
-		ultrasonic = new Ultrasonic(new AnalogInput(3));
+		rightUltrasonic = new Ultrasonic(5,4,Ultrasonic.Unit.kInches);
+		//leftUltrasonic.setAutomaticMode(true);
+		leftUltrasonic = new Ultrasonic(2,3,Ultrasonic.Unit.kInches);
+		leftUltrasonic.setAutomaticMode(true);
 	}
 	
 	/**
@@ -132,20 +142,11 @@ public class RobotMap {
 	}
 	
 	/**
-	 * Automatically configure a potentiometer offset
-	 * @param channel channel that the pot is on
-	 * @param scale default scale
-	 * @param defaultPosition The position that the pot needs to read at 
-	 * @return ScaledPotentiometer with the correct offset
+	 * @return the average of both rangefinders
 	 */
-	private static ScaledPotentiometer autoConfigurePotentiometer(int channel, double scale, double defaultPosition){
-		AnalogPotentiometer initPot = new AnalogPotentiometer(channel, scale);
-		double at90Degrees = initPot.get();
-		initPot.free();
-		double offset = at90Degrees - defaultPosition;
-		return new ScaledPotentiometer(new AnalogInput(channel), scale, offset);
+	public static double getAverageRange(){
+		return (RobotMap.leftUltrasonic.getRangeInches() + RobotMap.rightUltrasonic.getRangeInches())/2;
 	}
-	
 	
 	
 }

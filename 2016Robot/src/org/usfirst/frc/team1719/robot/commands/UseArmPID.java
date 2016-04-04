@@ -66,7 +66,7 @@ public class UseArmPID extends Command{
 		
 		
 		Robot.arm.move(motorSpeed);
-		//System.out.println("motor speed: " + motorSpeed);
+
 	}
 
 	@Override
