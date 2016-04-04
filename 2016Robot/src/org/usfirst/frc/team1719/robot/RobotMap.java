@@ -1,12 +1,9 @@
 package org.usfirst.frc.team1719.robot;
 
 import org.usfirst.frc.team1719.robot.sensors.AutoScalingPotentiometer;
-import org.usfirst.frc.team1719.robot.sensors.ScaledPotentiometer;
-import edu.wpi.first.wpilibj.Ultrasonic;
 
 import edu.wpi.first.wpilibj.AnalogGyro;
 import edu.wpi.first.wpilibj.AnalogInput;
-import edu.wpi.first.wpilibj.AnalogPotentiometer;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.DigitalOutput;
 import edu.wpi.first.wpilibj.Encoder;
@@ -14,6 +11,7 @@ import edu.wpi.first.wpilibj.Relay;
 import edu.wpi.first.wpilibj.Spark;
 import edu.wpi.first.wpilibj.SpeedController;
 import edu.wpi.first.wpilibj.Talon;
+import edu.wpi.first.wpilibj.Ultrasonic;
 
 /**
  * The RobotMap is a mapping from the ports sensors and actuators are wired into
@@ -141,21 +139,6 @@ public class RobotMap {
 			System.out.println("Setting things to Talons");
 		}
 		return controller;
-	}
-	
-	/**
-	 * Automatically configure a potentiometer offset
-	 * @param channel channel that the pot is on
-	 * @param scale default scale
-	 * @param defaultPosition The position that the pot needs to read at 
-	 * @return ScaledPotentiometer with the correct offset
-	 */
-	private static ScaledPotentiometer autoConfigurePotentiometer(int channel, double scale, double defaultPosition){
-		AnalogPotentiometer initPot = new AnalogPotentiometer(channel, scale);
-		double at90Degrees = initPot.get();
-		initPot.free();
-		double offset = -1 * (at90Degrees - defaultPosition);
-		return new ScaledPotentiometer(new AnalogInput(channel), scale, offset);
 	}
 	
 	

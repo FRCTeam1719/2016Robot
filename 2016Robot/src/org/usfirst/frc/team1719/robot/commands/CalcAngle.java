@@ -3,16 +3,13 @@ package org.usfirst.frc.team1719.robot.commands;
 import org.usfirst.frc.team1719.robot.Robot;
 import org.usfirst.frc.team1719.robot.RobotMap;
 import org.usfirst.frc.team1719.robot.RobotMap.sides;
-import edu.wpi.first.wpilibj.Ultrasonic;
 
-import edu.wpi.first.wpilibj.Timer;
+import edu.wpi.first.wpilibj.Ultrasonic;
 import edu.wpi.first.wpilibj.buttons.Button;
 import edu.wpi.first.wpilibj.command.Command;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
- * Determine the angle we are in relation to a flat plane, and pass it to the
- * SmartDashboard Calculated from ultrasonic readings
+ * Line the robot up with a straight wall
  * 
  * @author aaron
  *
@@ -23,15 +20,13 @@ public class CalcAngle extends Command {
 	private double leftInitAverage;
 	private States currentState;
 	private sides fartherSide;
-	private Timer pulseTimer;
-	private final double PULSE_TIME = 0.2;
-	private boolean driveRunning;
-	private final double ERROR_AVG = -1337;
 	private Button deadManSwitch;
-	private final double DISTANCE_BETWEEN_SENSORS = 10.25;
 	private double lastLeftReading;
 	private double lastRightReading;
 	
+	/**
+	 * @param deadManSwitch Button to monitor, command stops when released
+	 */
 	public CalcAngle(Button deadManSwitch){
 		requires(Robot.drive);
 		this.deadManSwitch = deadManSwitch;
@@ -48,8 +43,6 @@ public class CalcAngle extends Command {
 	protected void initialize() {
 		System.out.println("STARTED COMMAND");
 		currentState = States.CALC_LEFT_AVERAGE;
-		driveRunning = false;
-		pulseTimer = new Timer();
 	}
 
 	@Override
@@ -66,15 +59,9 @@ public class CalcAngle extends Command {
 			if(rightInitAverage < leftInitAverage){
 				//Left side is farther
 				fartherSide = RobotMap.sides.LEFT;
-				double angle = -1 * calcAngle(leftInitAverage, rightInitAverage);
-				SmartDashboard.putNumber("TurnToAngleParam", angle);
-				System.out.println(angle);
 			}else{
 				//Right side is farther
-				double angle = calcAngle(rightInitAverage, leftInitAverage);
-				SmartDashboard.putNumber("TurnToAngleParem", angle);
 				fartherSide = RobotMap.sides.RIGHT;
-				System.out.println(angle);
 			}
 			currentState = States.LINE_UP;
 			
@@ -91,12 +78,6 @@ public class CalcAngle extends Command {
 			}
 			Robot.drive.operateDrive(leftPower, rightPower);
 		}
-	}
-	
-	private double calcAngle(double fartherSide, double closerSide){
-		double rad = Math.atan((fartherSide-closerSide)/DISTANCE_BETWEEN_SENSORS);
-		double degrees = Math.toDegrees(rad);
-		return degrees;
 	}
 	
 	private double findInitAverage(Ultrasonic sensor){
@@ -119,26 +100,6 @@ public class CalcAngle extends Command {
 		return TOLERANCE > Math.abs(distance1 - distance2);
 	}
 	
-	//This is implementing a pulsing drive that might give more accuracy in turning to small distances
-	//This might not work, and may need to be changes to something more robust.
-	private void toggleDrive(RobotMap.sides sideToToggle){
-		double drive_parem[] = new double[2];
-		if(driveRunning){
-			//Stop the drive
-			drive_parem[0] = 0;
-			drive_parem[1] = 0;
-		}else if (sideToToggle==RobotMap.sides.LEFT){
-			drive_parem[0] = 1;
-			drive_parem[1] = 0;
-		}else if (sideToToggle==RobotMap.sides.RIGHT){
-			drive_parem[0] = 1;
-			drive_parem[1] = 0;
-		}
-		Robot.drive.operateDrive(drive_parem[0], drive_parem[1]);
-		driveRunning = !driveRunning;
-	}
-	
-
 	@Override
 	protected boolean isFinished() {
 		System.out.println(deadManSwitch.get());

@@ -3,7 +3,6 @@ package org.usfirst.frc.team1719.robot.subsystems;
 import org.usfirst.frc.team1719.robot.commands.UseArmPID;
 import org.usfirst.frc.team1719.robot.sensors.ScaledPotentiometer;
 
-import edu.wpi.first.wpilibj.AnalogPotentiometer;
 import edu.wpi.first.wpilibj.Spark;
 import edu.wpi.first.wpilibj.command.Subsystem;
 /**
