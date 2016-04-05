@@ -4,6 +4,7 @@ package org.usfirst.frc.team1719.robot;
 import org.usfirst.frc.team1719.robot.commands.CalcAngle;
 import org.usfirst.frc.team1719.robot.commands.ManualShoot;
 import org.usfirst.frc.team1719.robot.commands.MoveArmToPos;
+import org.usfirst.frc.team1719.robot.commands.MoveToDist;
 import org.usfirst.frc.team1719.robot.commands.RunIntake;
 import org.usfirst.frc.team1719.robot.commands.SwapCamera;
 import org.usfirst.frc.team1719.robot.commands.TurnToAngle;
@@ -57,6 +58,7 @@ public class OI {
 	final double CROSSING_ANGLE = 30;
 	final double ALLTHEWAYDOWN_ANGLE = 90; 
 	final double LOWGOAL_ANGLE = 15;
+	final double DIST_FROM_GOAL = 34;
 	
 	//
 	
@@ -110,7 +112,7 @@ public class OI {
 		private Button allTheWayDownButton; 
 		private Button lowGoalButton;
 		private Button lineUpButton;
-		private Button testPulseDrive;
+		private Button moveToDistButton;
 
 		public OI(){
 			//Define Controllers
@@ -124,8 +126,8 @@ public class OI {
 			rotateLeft90Button.whenPressed(new TurnToAngle(-90,true));
 			lineUpButton = new JoystickButton(driverXBOX, A_BUTTON);
 			lineUpButton.whenPressed(new CalcAngle(lineUpButton));
-			testPulseDrive = new JoystickButton(driverXBOX, Y_BUTTON);
-			testPulseDrive.whenPressed(new CalcAngle(testPulseDrive));
+			moveToDistButton = new JoystickButton(driverXBOX, Y_BUTTON);
+			moveToDistButton.whenPressed(new MoveToDist(DIST_FROM_GOAL,moveToDistButton));
 			
 			fireButton = new JoystickButton(operatorJoystick, ATTACK_TRIGGER);
 			primeButton = new JoystickButton(operatorJoystick, ATTACK_BUTTON_3);

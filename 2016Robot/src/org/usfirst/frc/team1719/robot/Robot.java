@@ -306,5 +306,9 @@ public class Robot extends IterativeRobot {
 		isAuton = false;
 		LiveWindow.run();
 	}
+	
+	public static double getAverageRange(){
+		return (RobotMap.leftUltrasonic.getRangeInches() + RobotMap.rightUltrasonic.getRangeInches())/2;
+	}
 
 }
