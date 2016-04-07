@@ -116,7 +116,7 @@ public class RobotMap {
 		//armPot = new ScaledPotentiometer(potChannel, 139.32, -106);
 		//armPot = autoConfigurePotentiometer(2, 139.32, 90);
 		//armPot = autoConfigurePotentiometer(2, 360, 90);
-		armPot = new AutoScalingPotentiometer(new AnalogInput(1),360, 132);
+		armPot = new AutoScalingPotentiometer(new AnalogInput(2),200.44, -63);
         buttonA = new DigitalInput(19);
 		buttonB = new DigitalInput(20);
 		

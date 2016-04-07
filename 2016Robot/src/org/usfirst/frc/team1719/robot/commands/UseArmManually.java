@@ -1,6 +1,7 @@
 package org.usfirst.frc.team1719.robot.commands;
 
 import org.usfirst.frc.team1719.robot.Robot;
+import org.usfirst.frc.team1719.robot.RobotMap;
 
 import edu.wpi.first.wpilibj.command.Command;
 /**
@@ -47,7 +48,8 @@ public class UseArmManually extends Command{
 		Robot.arm.move(motorSpeed);
 		//System.out.println("Arm Angle: "+Robot.arm.getArmAngle());
 		//System.out.println("motor speed: " + motorSpeed);
-		System.out.println("Target angle: " + Robot.arm.getTargetPos());
+		System.out.println("Arm angle: " + Robot.arm.getArmAngle());
+		System.out.println("Raw pot value" + RobotMap.armPot.getRaw());
 	}
 
 	@Override

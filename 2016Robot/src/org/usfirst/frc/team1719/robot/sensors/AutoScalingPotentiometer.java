@@ -8,10 +8,10 @@ public class AutoScalingPotentiometer extends ScaledPotentiometer{
 	
 	
 	public AutoScalingPotentiometer(AnalogInput channel, double scale, double defaultPosition) {
-		super(channel, 360, 0);
+		super(channel, scale, 0);
 		double initState = super.get();
 		//Set the offset
-		offset = -1 * (initState - defaultPosition);
+	    offset = defaultPosition;
 		System.out.println("initState: "+initState); 
 		System.out.println("initRawState: "+super.getRaw());
 		System.out.println("defaultPosition: "+defaultPosition);
