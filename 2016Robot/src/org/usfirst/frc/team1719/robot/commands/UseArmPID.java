@@ -45,7 +45,7 @@ public class UseArmPID extends Command{
 	        motorSpeed = kP * error + kI * integral + kD * derivative;
 	        //Check if we should calibrate the pot
 	        if(!RobotMap.potCallibrationSwitch.get()){
-	        	RobotMap.armPot.scale(100);
+	        	//RobotMap.armPot.scale(100);
 	        	//System.out.println("Resetting");
 	        }
 		} else { // joystick touched, reset integral and desired pos
