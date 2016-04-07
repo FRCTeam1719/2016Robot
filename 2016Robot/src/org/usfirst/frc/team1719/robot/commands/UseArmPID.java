@@ -46,7 +46,7 @@ public class UseArmPID extends Command{
 	        //Check if we should calibrate the pot
 	        if(!RobotMap.potCallibrationSwitch.get()){
 	        	//RobotMap.armPot.scale(100);
-	        	//System.out.println("Resetting");
+	        	//Robot.arm.setTargetPos(100);
 	        }
 		} else { // joystick touched, reset integral and desired pos
 		    integral = 0;
@@ -70,9 +70,7 @@ public class UseArmPID extends Command{
 		}
 
 		
-		SmartDashboard.putNumber("armAngle", Robot.arm.getArmAngle());
 		Robot.arm.move(motorSpeed);
-		System.out.println("Arm Angle: " + Robot.arm.getArmAngle());
 
 	}
 

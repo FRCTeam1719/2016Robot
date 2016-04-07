@@ -309,6 +309,7 @@ public class Robot extends IterativeRobot {
 		LiveWindow.run();
 	}
 	
+	
 	public static double getAverageRange(){
 		return (RobotMap.leftUltrasonic.getRangeInches() + RobotMap.rightUltrasonic.getRangeInches())/2;
 	}
@@ -317,9 +318,10 @@ public class Robot extends IterativeRobot {
 		double left = RobotMap.leftUltrasonic.getRangeInches();
 		double right = RobotMap.rightUltrasonic.getRangeInches();
 		boolean withinTolerance = 0.75 > Math.abs(left - right);
-		SmartDashboard.putNumber("leftUltrasonic", left);
+		SmartDashboard.putNumber("leftUltrasjonic", left);
 		SmartDashboard.putNumber("rightUltrasonic", right);
 		SmartDashboard.putBoolean("withinTolerance", withinTolerance);
+
 	}
 
 }

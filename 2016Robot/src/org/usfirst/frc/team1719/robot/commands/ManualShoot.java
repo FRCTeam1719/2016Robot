@@ -15,7 +15,7 @@ public class ManualShoot extends Command{
 	}
 	
 	final double SHOOT_WAIT_TIME = 2.5;
-	final double PREP_WAIT_TIME = 0.2;
+	final double PREP_WAIT_TIME = 0.05;
 	private boolean done;
 	private state currentState;
 	private Timer shootTimer;
