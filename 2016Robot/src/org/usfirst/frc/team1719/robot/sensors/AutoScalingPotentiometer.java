@@ -28,8 +28,12 @@ public class AutoScalingPotentiometer extends ScaledPotentiometer{
 		this.offset = offset;
 	}
 	
-	public void scale(double currerntPoint){
-		
+	public void scale(double currentPoint){
+		double currentRawPoint = super.get();
+		double newOffset = currentRawPoint - currentPoint;
+		setOffset(newOffset);
+		System.out.println(currentRawPoint);
+		System.out.println(newOffset);
 	}
 	
 	

@@ -225,6 +225,7 @@ public class Robot extends IterativeRobot {
 			System.out.println("LowbarAuton");
 			break;
 		}
+		updateUltrasonic();
 
 		Scheduler.getInstance().run();
 		
@@ -290,6 +291,7 @@ public class Robot extends IterativeRobot {
 	public void teleopPeriodic() {
 		// System.out.println("Angle: "+RobotMap.gyro.getAngle());
 		// System.out.println("meh" + RobotMap.dial.get());
+		updateUltrasonic();
 		Scheduler.getInstance().run();
 		if (foundCamera) {
 			NIVision.IMAQdxGrab(session, frame, 1);
@@ -309,6 +311,15 @@ public class Robot extends IterativeRobot {
 	
 	public static double getAverageRange(){
 		return (RobotMap.leftUltrasonic.getRangeInches() + RobotMap.rightUltrasonic.getRangeInches())/2;
+	}
+	
+	public void updateUltrasonic(){
+		double left = RobotMap.leftUltrasonic.getRangeInches();
+		double right = RobotMap.rightUltrasonic.getRangeInches();
+		boolean withinTolerance = 0.75 > Math.abs(left - right);
+		SmartDashboard.putNumber("leftUltrasonic", left);
+		SmartDashboard.putNumber("rightUltrasonic", right);
+		SmartDashboard.putBoolean("withinTolerance", withinTolerance);
 	}
 
 }

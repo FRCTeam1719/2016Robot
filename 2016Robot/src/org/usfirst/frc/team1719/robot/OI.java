@@ -6,7 +6,6 @@ import org.usfirst.frc.team1719.robot.commands.ManualShoot;
 import org.usfirst.frc.team1719.robot.commands.MoveArmToPos;
 import org.usfirst.frc.team1719.robot.commands.MoveToDist;
 import org.usfirst.frc.team1719.robot.commands.RunIntake;
-import org.usfirst.frc.team1719.robot.commands.SwapCamera;
 import org.usfirst.frc.team1719.robot.commands.TurnToAngle;
 
 import edu.wpi.first.wpilibj.Joystick;
@@ -149,8 +148,7 @@ public class OI {
 			
 			
 
-			camswapButton = new JoystickButton(operatorJoystick, ATTACK_BUTTON_4);
-			camswapButton.whenPressed(new SwapCamera());
+
 
 		}
 		
