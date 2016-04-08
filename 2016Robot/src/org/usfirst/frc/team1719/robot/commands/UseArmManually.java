@@ -31,11 +31,11 @@ public class UseArmManually extends Command{
 	    double joystickReading = Robot.oi.getArmReading();
 	    double motorSpeed;
 
-		if(Math.abs(joystickReading) < TOLERANCE){ // joystick not used, hold arm steady with PID + sinusoidally varing force
-		    motorSpeed = 0.2;
-		} else { // joystick touched,
+		 // joystick not used, hold arm steady with PID + sinusoidally varing force
+		    
+		// joystick touched,
 		    motorSpeed = joystickReading * Math.abs(joystickReading);
-		}
+		
 		if (motorSpeed > 0.7) {
 			motorSpeed = 0.7;
 		}

@@ -11,7 +11,7 @@ import edu.wpi.first.wpilibj.command.Command;
  */
 public class UseDrive extends Command{
 
-	final double DEADZONE = 0.005D;
+	final double DEADZONE = 0.0125D;
 	final double NIL = 0.0;
 	
 	public UseDrive(){
@@ -19,7 +19,7 @@ public class UseDrive extends Command{
 	}
 	double startValueL = 0;
 	double startValueR = 0;
-	final double SMOOTH = 0.1;
+	final double SMOOTH = 0.3;
 	double corectedValueL = 0;
 	double corectedValueR = 0;
 	final double SYNCHTOLERANCE = 0.15;
