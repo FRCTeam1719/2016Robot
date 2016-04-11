@@ -5,7 +5,6 @@ import org.usfirst.frc.team1719.robot.sensors.AutoScalingPotentiometer;
 import edu.wpi.first.wpilibj.AnalogGyro;
 import edu.wpi.first.wpilibj.AnalogInput;
 import edu.wpi.first.wpilibj.DigitalInput;
-import edu.wpi.first.wpilibj.DigitalOutput;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.Relay;
 import edu.wpi.first.wpilibj.Spark;
@@ -59,7 +58,7 @@ public class RobotMap {
 	public static DigitalInput buttonA;
 	public static DigitalInput buttonB;
 	public static Relay photonCannon;
-	public static DigitalOutput camswap;
+	public static DigitalInput potCallibrationSwitch;
 	public static Ultrasonic rightUltrasonic;
 	public static Ultrasonic leftUltrasonic;
 	public enum sides{
@@ -85,10 +84,9 @@ public class RobotMap {
 		//DIO
 		//rightFlyWheelEncoder = new Encoder(2, 3, true, Encoder.EncodingType.k4X);	
 		//rightFlyWheelEncoder.setDistancePerPulse(FLYWHEEL_CIRCUMFRENCE_FEET / 20);
-		camswap = new DigitalOutput(0);
 //		leftFlyWheelEncoder = new Encoder(4, 5, true, Encoder.EncodingType.k4X);
 //		leftFlyWheelEncoder.setDistancePerPulse(FLYWHEEL_CIRCUMFRENCE_FEET / 20);
-		
+		potCallibrationSwitch = new DigitalInput(0);
 		
 		rightDriveEncoder = new Encoder(6, 7, true, Encoder.EncodingType.k4X);
 		rightDriveEncoder.setDistancePerPulse(1);
@@ -116,13 +114,14 @@ public class RobotMap {
 		//armPot = new ScaledPotentiometer(potChannel, 139.32, -106);
 		//armPot = autoConfigurePotentiometer(2, 139.32, 90);
 		//armPot = autoConfigurePotentiometer(2, 360, 90);
-		armPot = new AutoScalingPotentiometer(new AnalogInput(1),360, 132);
+		armPot = new AutoScalingPotentiometer(new AnalogInput(2),200.44, -74);
         buttonA = new DigitalInput(19);
 		buttonB = new DigitalInput(20);
 		
-		rightUltrasonic = new Ultrasonic(5,4,Ultrasonic.Unit.kInches);
 		//leftUltrasonic.setAutomaticMode(true);
 		leftUltrasonic = new Ultrasonic(2,3,Ultrasonic.Unit.kInches);
+		//leftUltrasonic.setAutomaticMode(true);
+		rightUltrasonic = new Ultrasonic(4,5,Ultrasonic.Unit.kInches);
 		leftUltrasonic.setAutomaticMode(true);
 	}
 	

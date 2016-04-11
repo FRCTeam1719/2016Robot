@@ -19,10 +19,11 @@ public class UseDrive extends Command{
 	}
 	double startValueL = 0;
 	double startValueR = 0;
-	final double SMOOTH = 0.5;
+	final double SMOOTH = 0.3;
 	double corectedValueL = 0;
 	double corectedValueR = 0;
 	final double SYNCHTOLERANCE = 0.15;
+	final double MAX_DRIVE_POWER = 0.9;
 	@Override
 	protected void initialize() {
 		// No initialization needed
@@ -63,6 +64,11 @@ public class UseDrive extends Command{
 			right = corectedValueR;
 		}
 		
+		//Min-max the drive values
+		right = minMax(right);
+		left = minMax(left);
+		
+		
 		Robot.drive.operateDrive(right, left);
 	}
 
@@ -79,6 +85,16 @@ public class UseDrive extends Command{
 	@Override
 	protected void interrupted() {
 		
+	}
+	
+	private double minMax(double driveIn){
+		if(driveIn > MAX_DRIVE_POWER){
+			driveIn = MAX_DRIVE_POWER;
+		}
+		if(driveIn < -MAX_DRIVE_POWER){
+			driveIn = -MAX_DRIVE_POWER;
+		}
+		return driveIn;
 	}
 
 }

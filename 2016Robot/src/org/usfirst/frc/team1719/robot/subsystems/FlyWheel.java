@@ -4,7 +4,6 @@ import java.util.stream.DoubleStream;
 
 import org.usfirst.frc.team1719.robot.settings.PIDData;
 
-import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.Spark;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;

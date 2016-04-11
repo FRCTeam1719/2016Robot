@@ -5,7 +5,6 @@ import org.usfirst.frc.team1719.robot.commands.CalcAngle;
 import org.usfirst.frc.team1719.robot.commands.ManualShoot;
 import org.usfirst.frc.team1719.robot.commands.MoveArmToPos;
 import org.usfirst.frc.team1719.robot.commands.RunIntake;
-import org.usfirst.frc.team1719.robot.commands.SwapCamera;
 import org.usfirst.frc.team1719.robot.commands.TurnToAngle;
 
 import edu.wpi.first.wpilibj.Joystick;
@@ -53,10 +52,12 @@ public class OI {
 	// -90
 	//Arm setpoint constants
 	//These are in degrees, with 0 being straight up, and -90 being all the way down in the front
-	public final double DEADEYE_ANGLE = 21D;
-	final double CROSSING_ANGLE = 30;
+
+	final double DEADEYE_ANGLE = 21D;
+	final double CROSSING_ANGLE = 24;
 	final double ALLTHEWAYDOWN_ANGLE = 90; 
 	final double LOWGOAL_ANGLE = 15;
+	final double DIST_FROM_GOAL = 34;
 	
 	//
 	
@@ -101,17 +102,9 @@ public class OI {
 		private Button primeButton;
 		private Button intakeButton;
 		private Button lowerButton;
-		private Button camswapButton;
-		private Button moveForward2FeetButton; 
-		private Button moveBack2FeetButton;
-		private Button photonCanonButton;
 		private Button deadEyeButton;
 		private Button crossingButton;
-		private Button allTheWayDownButton; 
-		private Button lowGoalButton;
 		private Button lineUpButton;
-		private Button testPulseDrive;
-
 		public OI(){
 			//Define Controllers
 			driverXBOX = new Joystick(0);
@@ -124,31 +117,24 @@ public class OI {
 			rotateLeft90Button.whenPressed(new TurnToAngle(-90,true));
 			lineUpButton = new JoystickButton(driverXBOX, A_BUTTON);
 			lineUpButton.whenPressed(new CalcAngle(lineUpButton));
-			testPulseDrive = new JoystickButton(driverXBOX, Y_BUTTON);
-			testPulseDrive.whenPressed(new CalcAngle(testPulseDrive));
+			new JoystickButton(driverXBOX, Y_BUTTON);
 			
 			fireButton = new JoystickButton(operatorJoystick, ATTACK_TRIGGER);
 			primeButton = new JoystickButton(operatorJoystick, ATTACK_BUTTON_3);
 			primeButton.whenPressed(new ManualShoot());
-			//moveArmButton = new JoystickButton(operatorJoystick, ATTACK_BUTTON_6);
-			//moveArmButton.whenPressed(new MoveArmToPos(60));
 			intakeButton = new JoystickButton(operatorJoystick, ATTACK_BUTTON_2);
 			intakeButton.whenPressed(new RunIntake());
 			deadEyeButton = new JoystickButton (operatorJoystick, ATTACK_BUTTON_7);
 			deadEyeButton.whenPressed(new MoveArmToPos(DEADEYE_ANGLE));
 			crossingButton = new JoystickButton (operatorJoystick, ATTACK_BUTTON_6);
 			crossingButton.whenPressed(new MoveArmToPos(CROSSING_ANGLE));
-//			allTheWayDownButton = new JoystickButton (operatorJoystick, ATTACK_BUTTON_11);
-//			allTheWayDownButton.whenPressed(new MoveArmToPos(ALLTHEWAYDOWN_ANGLE));
-//			lowGoalButton = new JoystickButton (operatorJoystick, ATTACK_BUTTON_10);
-//			lowGoalButton.whenPressed(new MoveArmToPos(LOWGOAL_ANGLE));
+
 
 
 			
 			
 
-			camswapButton = new JoystickButton(operatorJoystick, ATTACK_BUTTON_4);
-			camswapButton.whenPressed(new SwapCamera());
+
 
 		}
 		
