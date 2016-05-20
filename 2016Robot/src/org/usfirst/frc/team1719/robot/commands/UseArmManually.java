@@ -1,6 +1,7 @@
 package org.usfirst.frc.team1719.robot.commands;
 
 import org.usfirst.frc.team1719.robot.Robot;
+import org.usfirst.frc.team1719.robot.RobotMap;
 
 import edu.wpi.first.wpilibj.command.Command;
 /**
@@ -30,11 +31,11 @@ public class UseArmManually extends Command{
 	    double joystickReading = Robot.oi.getArmReading();
 	    double motorSpeed;
 
-		if(Math.abs(joystickReading) < TOLERANCE){ // joystick not used, hold arm steady with PID + sinusoidally varing force
-		    motorSpeed = 0.2;
-		} else { // joystick touched,
+		 // joystick not used, hold arm steady with PID + sinusoidally varing force
+		    
+		// joystick touched,
 		    motorSpeed = joystickReading * Math.abs(joystickReading);
-		}
+		
 		if (motorSpeed > 0.7) {
 			motorSpeed = 0.7;
 		}
@@ -47,7 +48,8 @@ public class UseArmManually extends Command{
 		Robot.arm.move(motorSpeed);
 		//System.out.println("Arm Angle: "+Robot.arm.getArmAngle());
 		//System.out.println("motor speed: " + motorSpeed);
-		System.out.println("Target angle: " + Robot.arm.getTargetPos());
+		System.out.println("Arm angle: " + Robot.arm.getArmAngle());
+		System.out.println("Raw pot value" + RobotMap.armPot.getRaw());
 	}
 
 	@Override

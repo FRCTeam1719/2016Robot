@@ -6,7 +6,6 @@ import org.usfirst.frc.team1719.robot.autonomousSelections.LowBarAutonAndBack;
 import org.usfirst.frc.team1719.robot.autonomousSelections.ReachAuton;
 import org.usfirst.frc.team1719.robot.autonomousSelections.RockWallAuton;
 import org.usfirst.frc.team1719.robot.autonomousSelections.RoughTerrainAuton;
-import org.usfirst.frc.team1719.robot.commands.WithinDistance;
 import org.usfirst.frc.team1719.robot.settings.PIDData;
 import org.usfirst.frc.team1719.robot.subsystems.Arm;
 import org.usfirst.frc.team1719.robot.subsystems.Display;
@@ -93,9 +92,9 @@ public class Robot extends IterativeRobot {
 		leftFlywheelPIDData = new PIDData(0, 0, 0);
 		drive = new DriveSubsystem(RobotMap.leftDriveController, RobotMap.rightDriveController,
 				RobotMap.leftDriveEncoder, RobotMap.rightDriveEncoder);
-		rightFlywheel = new FlyWheel(RobotMap.rightFlyWheelController, RobotMap.rightFlyWheelEncoder,
+		rightFlywheel = new FlyWheel(RobotMap.rightFlyWheelController,
 				rightFlywheelPIDData);
-		leftFlywheel = new FlyWheel(RobotMap.leftFlyWheelController, RobotMap.leftFlyWheelEncoder, leftFlywheelPIDData);
+		leftFlywheel = new FlyWheel(RobotMap.leftFlyWheelController,  leftFlywheelPIDData);
 		shooter = new DualShooter(leftFlywheel, rightFlywheel, RobotMap.innerLeftShooterWheelController,
 				RobotMap.innerRightShooterWheelController);
 		arm = new Arm(RobotMap.armController, RobotMap.armPot);
@@ -222,6 +221,7 @@ public class Robot extends IterativeRobot {
 			System.out.println("Lowbar And back");
 			break;
 		}
+		updateUltrasonic();
 
 		//Run tasks
 		Scheduler.getInstance().run();
@@ -275,21 +275,22 @@ public class Robot extends IterativeRobot {
 		}
 		//Reset the gyro
 		RobotMap.gyro.reset();
-		
-		//Read from the ultrasonics
-		Command ultraCommand = new WithinDistance(100);
-		ultraCommand.start();
 	}
 
 	/**
 	 * This function is called periodically during operator control
 	 */
 	public void teleopPeriodic() {
+		// System.out.println("Angle: "+RobotMap.gyro.getAngle());
+		// System.out.println("meh" + RobotMap.dial.get());
+		updateUltrasonic();
 		Scheduler.getInstance().run();
 		if (foundCamera) {
 			NIVision.IMAQdxGrab(session, frame, 1);
 			CameraServer.getInstance().setImage(frame);
 		}
+		//System.out.println("rightUltrasonic: "+RobotMap.rightUltrasonic.getRangeInches());
+		//System.out.println("leftUltrasonic: "+RobotMap.leftUltrasonic.getRangeInches());
 	}
 
 	/**
@@ -299,5 +300,22 @@ public class Robot extends IterativeRobot {
 		isAuton = false;
 		LiveWindow.run();
 	}
+	
+	
+
+	public static double getAverageRange(){
+		return (RobotMap.leftUltrasonic.getRangeInches() + RobotMap.rightUltrasonic.getRangeInches())/2;
+	}
+	
+	public void updateUltrasonic(){
+		double left = RobotMap.leftUltrasonic.getRangeInches();
+		double right = RobotMap.rightUltrasonic.getRangeInches();
+		boolean withinTolerance = 0.75 > Math.abs(left - right);
+		SmartDashboard.putNumber("leftUltrasjonic", left);
+		SmartDashboard.putNumber("rightUltrasonic", right);
+		SmartDashboard.putBoolean("withinTolerance", withinTolerance);
+
+	}
+
 
 }

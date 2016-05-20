@@ -1,12 +1,12 @@
 package org.usfirst.frc.team1719.robot.sensors;
 
 import edu.wpi.first.wpilibj.AnalogInput;
-import edu.wpi.first.wpilibj.ControllerPower;
 
-public class Ultrasonic {
+
+public class AnalogUltrasonic {
 
 	AnalogInput channel;
-	public Ultrasonic(AnalogInput channel){
+	public AnalogUltrasonic(AnalogInput channel){
 		this.channel = channel;
 	}
 	

@@ -1,6 +1,7 @@
 package org.usfirst.frc.team1719.robot;
 
 
+import org.usfirst.frc.team1719.robot.commands.CalcAngle;
 import org.usfirst.frc.team1719.robot.commands.ManualShoot;
 import org.usfirst.frc.team1719.robot.commands.MoveArmToPos;
 import org.usfirst.frc.team1719.robot.commands.RunIntake;
@@ -50,10 +51,12 @@ public class OI {
 	// 90
 	//Arm setpoint constants
 	//These are in degrees, with 0 being straight up, and -90 being all the way down in the front
-	public final double DEADEYE_ANGLE = 21D;
-	final double CROSSING_ANGLE = 30;
+
+	final double DEADEYE_ANGLE = 21D;
+	final double CROSSING_ANGLE = 24;
 	final double ALLTHEWAYDOWN_ANGLE = 90; 
 	final double LOWGOAL_ANGLE = 15;
+	final double DIST_FROM_GOAL = 34;
 	
 	// Controller Bindings
 	
@@ -98,12 +101,9 @@ public class OI {
 		private Button primeButton;
 		private Button intakeButton;
 		private Button lowerButton;
-		private Button camswapButton;
 		private Button deadEyeButton;
 		private Button crossingButton;
-
-		
-
+		private Button lineUpButton;
 		public OI(){
 			//Define Controllers
 			driverXBOX = new Joystick(0);
@@ -114,6 +114,9 @@ public class OI {
 			rotateRight90Button.whenPressed(new TurnToAngle(90,true));
 			rotateLeft90Button = new JoystickButton(driverXBOX, B_BUTTON);
 			rotateLeft90Button.whenPressed(new TurnToAngle(-90,true));
+			lineUpButton = new JoystickButton(driverXBOX, A_BUTTON);
+			lineUpButton.whenPressed(new CalcAngle(lineUpButton));
+			new JoystickButton(driverXBOX, Y_BUTTON);
 			
 			fireButton = new JoystickButton(operatorJoystick, ATTACK_TRIGGER);
 			primeButton = new JoystickButton(operatorJoystick, ATTACK_BUTTON_3);

@@ -1,6 +1,7 @@
 package org.usfirst.frc.team1719.robot.commands;
 
 import org.usfirst.frc.team1719.robot.Robot;
+import org.usfirst.frc.team1719.robot.RobotMap;
 
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -42,6 +43,11 @@ public class UseArmPID extends Command{
 	        if(Math.abs(error) < rng) integral += error;
 	        double derivative = error - lastErr;
 	        motorSpeed = kP * error + kI * integral + kD * derivative;
+	        //Check if we should calibrate the pot
+	        if(!RobotMap.potCallibrationSwitch.get()){
+	        	//RobotMap.armPot.scale(100);
+	        	//Robot.arm.setTargetPos(100);
+	        }
 		} else { // joystick touched, reset integral and desired pos
 		    integral = 0;
 		    Robot.arm.setTargetPos(Robot.arm.getArmAngle());
@@ -64,10 +70,9 @@ public class UseArmPID extends Command{
 		}
 
 		
-		
 		Robot.arm.move(motorSpeed);
-		System.out.println("Angle: "+Robot.arm.getArmAngle());
-		System.out.println("Raw Reading: "+Robot.arm.getRawReading());
+		System.out.println("Arm Angle: "+Robot.arm.getArmAngle());
+		System.out.println("Raw Pot: "+Robot.arm.getRawReading());
 	}
 
 	@Override
