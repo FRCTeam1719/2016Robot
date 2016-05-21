@@ -1,5 +1,6 @@
 package org.usfirst.frc.team1719.robot.subsystems;
 
+import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.Spark;
 import edu.wpi.first.wpilibj.command.Subsystem;
 
@@ -19,6 +20,8 @@ public class DualShooter extends Subsystem {
 	Spark leftHolderMotor;
 	Spark rightHolderMotor;
 	
+	Solenoid piston;
+
 	public final boolean EJECT = true;
 	public final boolean INTAKE = false;
 	
@@ -33,12 +36,14 @@ public class DualShooter extends Subsystem {
 	 * @param leftHolderMotor Inner motor on the left
 	 * @param rightHolderMotor Inner motor on the right
 	 */
-	public DualShooter(FlyWheel leftFlyWheel, FlyWheel rightFlyWheel, Spark leftHolderMotor, Spark rightHolderMotor)
+	public DualShooter(FlyWheel leftFlyWheel, FlyWheel rightFlyWheel, 
+			Spark leftHolderMotor, Spark rightHolderMotor, Solenoid piston)
 	{
 		this.leftFlyWheel = leftFlyWheel;
 		this.rightFlyWheel = rightFlyWheel;
 		this.leftHolderMotor = leftHolderMotor;
 		this.rightHolderMotor = rightHolderMotor;
+		this.piston = piston;
 	}
 	
 	/**
@@ -62,6 +67,11 @@ public class DualShooter extends Subsystem {
 			rightFlyWheel.spin(0);
 			break;
 		}
+	}
+	
+	public void setPiston(boolean state){
+		piston.set(state);
+		
 	}
 	
 	/**
@@ -96,6 +106,7 @@ public class DualShooter extends Subsystem {
 		rightFlyWheel.reset();
 		leftHolderMotor.set(0);
 		rightHolderMotor.set(0);
+		piston.set(false);
 	}
 	
 	/**

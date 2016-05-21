@@ -4,9 +4,11 @@ import org.usfirst.frc.team1719.robot.sensors.AutoScalingPotentiometer;
 
 import edu.wpi.first.wpilibj.AnalogGyro;
 import edu.wpi.first.wpilibj.AnalogInput;
+import edu.wpi.first.wpilibj.Compressor;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.Relay;
+import edu.wpi.first.wpilibj.Solenoid;
 import edu.wpi.first.wpilibj.Spark;
 import edu.wpi.first.wpilibj.SpeedController;
 import edu.wpi.first.wpilibj.Talon;
@@ -61,6 +63,11 @@ public class RobotMap {
 	public static DigitalInput potCallibrationSwitch;
 	public static Ultrasonic rightUltrasonic;
 	public static Ultrasonic leftUltrasonic;
+	
+	//Pneumatics
+	public static Compressor mainCompressor;
+	public static Solenoid shooterSolenoid;
+	
 	public enum sides{
 		LEFT,
 		RIGHT
@@ -123,6 +130,10 @@ public class RobotMap {
 		//leftUltrasonic.setAutomaticMode(true);
 		rightUltrasonic = new Ultrasonic(4,5,Ultrasonic.Unit.kInches);
 		leftUltrasonic.setAutomaticMode(true);
+		
+		mainCompressor = new Compressor(0);
+		mainCompressor.setClosedLoopControl(true);
+		shooterSolenoid = new Solenoid(0);
 	}
 	
 	/**

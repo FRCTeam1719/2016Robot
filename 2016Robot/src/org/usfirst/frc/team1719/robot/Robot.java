@@ -99,7 +99,7 @@ public class Robot extends IterativeRobot {
 				rightFlywheelPIDData);
 		leftFlywheel = new FlyWheel(RobotMap.leftFlyWheelController,  leftFlywheelPIDData);
 		shooter = new DualShooter(leftFlywheel, rightFlywheel, RobotMap.innerLeftShooterWheelController,
-				RobotMap.innerRightShooterWheelController);
+				RobotMap.innerRightShooterWheelController, RobotMap.shooterSolenoid);
 		arm = new Arm(RobotMap.armController, RobotMap.armPot);
 		display = new Display(RobotMap.buttonA, RobotMap.buttonB, RobotMap.dial);
 		photonCannon = new PhotonCannon();
@@ -170,6 +170,7 @@ public class Robot extends IterativeRobot {
 		if (foundCamera) {
 			NIVision.IMAQdxStopAcquisition(session);
 		}
+		RobotMap.shooterSolenoid.set(false);
 	}
 
 	public void disabledPeriodic() {

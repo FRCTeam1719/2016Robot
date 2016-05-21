@@ -71,6 +71,7 @@ public class ManualShoot extends Command{
 		case EJECT_BALL:
 			//Shoot the ball & start a timer
 			Robot.shooter.runInnerMotors(DualShooter.spinMode.EJECT);
+			Robot.shooter.setPiston(true);
 			shootTimer.start();
 			currentState = state.WAITING_FOR_END;
 			break;
