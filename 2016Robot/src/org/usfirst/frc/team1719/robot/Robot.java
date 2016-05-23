@@ -96,7 +96,8 @@ public class Robot extends IterativeRobot {
 				rightFlywheelPIDData);
 		leftFlywheel = new FlyWheel(RobotMap.leftFlyWheelController,  leftFlywheelPIDData);
 		shooter = new DualShooter(leftFlywheel, rightFlywheel, RobotMap.innerLeftShooterWheelController,
-				RobotMap.innerRightShooterWheelController);
+				RobotMap.innerRightShooterWheelController,
+				RobotMap.armPiston);
 		arm = new Arm(RobotMap.armController, RobotMap.armPot);
 		display = new Display(RobotMap.buttonA, RobotMap.buttonB, RobotMap.dial);
 		photonCannon = new PhotonCannon();
@@ -255,7 +256,12 @@ public class Robot extends IterativeRobot {
 	 */
 	public void autonomousPeriodic() {
 		Scheduler.getInstance().run();
-
+	}
+	
+	private void checkLimits(){
+		for(int i=0;i<RobotMap.limitedParts.size();i++){
+			RobotMap.limitedParts.get(i).check();
+		}
 	}
 
 	public void teleopInit() {
@@ -291,6 +297,7 @@ public class Robot extends IterativeRobot {
 		}
 		//System.out.println("rightUltrasonic: "+RobotMap.rightUltrasonic.getRangeInches());
 		//System.out.println("leftUltrasonic: "+RobotMap.leftUltrasonic.getRangeInches());
+		checkLimits();
 	}
 
 	/**

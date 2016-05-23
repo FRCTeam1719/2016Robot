@@ -46,6 +46,7 @@ public class ManualShoot extends Command{
 			prepTimer.start();
 			//Advance to the next state
 			currentState = state.SECURING_BALL;
+			System.out.println("prep");
 			break;
 		case SECURING_BALL:		
 			if(prepTimer.get() > PREP_WAIT_TIME){
@@ -59,6 +60,7 @@ public class ManualShoot extends Command{
 				//Start the outer motors
 				Robot.shooter.spin(DualShooter.spinMode.EJECT);
 			}
+			System.out.println("SeC");
 			break;
 		case REV_SHOOTER:
 			//Update the dashboard on the state of the shooter
@@ -67,21 +69,25 @@ public class ManualShoot extends Command{
 				//Move onto next stage
 				currentState = state.EJECT_BALL;
 			}
+			System.out.println("REV");
 			break;
 		case EJECT_BALL:
 			//Shoot the ball & start a timer
 			Robot.shooter.runInnerMotors(DualShooter.spinMode.EJECT);
 			shootTimer.start();
 			currentState = state.WAITING_FOR_END;
+			System.out.println("EJECT");
 			break;
 		case WAITING_FOR_END:
 			if(shootTimer.get() > SHOOT_WAIT_TIME){
 				//Stop the wheels and the timer
 				Robot.shooter.reset();
+				Robot.shooter.runInnerMotors(DualShooter.spinMode.INTAKE);
 				shootTimer.stop();
 				//Mark that we are done
 				done = true;
 			}
+			System.out.println("WAIT");
 			break;
 		}
 		

@@ -1,6 +1,10 @@
 package org.usfirst.frc.team1719.robot;
 
+import java.util.ArrayList;
+
 import org.usfirst.frc.team1719.robot.sensors.AutoScalingPotentiometer;
+import org.usfirst.frc.team1719.robot.sensors.LimitedMotor;
+import org.usfirst.frc.team1719.robot.subsystems.LimitedPart;
 
 import edu.wpi.first.wpilibj.AnalogGyro;
 import edu.wpi.first.wpilibj.AnalogInput;
@@ -38,6 +42,8 @@ public class RobotMap {
 	static double FLYWHEEL_CIRCUMFRENCE_FEET = 1.5708;
 	static double DRIVEWHEEL_CIRCUMFRENCE_FEET = 2.618;
 	
+	public static ArrayList<LimitedPart> limitedParts = new ArrayList<LimitedPart>();
+	
 	public static SpeedController leftDriveController;
 	public static SpeedController rightDriveController;
 	public static Encoder leftDriveEncoder;
@@ -61,6 +67,7 @@ public class RobotMap {
 	public static DigitalInput potCallibrationSwitch;
 	public static Ultrasonic rightUltrasonic;
 	public static Ultrasonic leftUltrasonic;
+	public static LimitedMotor armPiston;
 	public enum sides{
 		LEFT,
 		RIGHT
@@ -88,11 +95,13 @@ public class RobotMap {
 //		leftFlyWheelEncoder.setDistancePerPulse(FLYWHEEL_CIRCUMFRENCE_FEET / 20);
 		potCallibrationSwitch = new DigitalInput(0);
 		
-		rightDriveEncoder = new Encoder(6, 7, true, Encoder.EncodingType.k4X);
-		rightDriveEncoder.setDistancePerPulse(1);
-		leftDriveEncoder = new Encoder(8, 9, true, Encoder.EncodingType.k4X);
-		leftDriveEncoder.setDistancePerPulse(1);
-
+		//rightDriveEncoder = new Encoder(6, 7, true, Encoder.EncodingType.k4X);
+		//rightDriveEncoder.setDistancePerPulse(1);
+		//leftDriveEncoder = new Encoder(8, 9, true, Encoder.EncodingType.k4X);
+		//leftDriveEncoder.setDistancePerPulse(1);
+		
+		armPiston = new LimitedMotor(7,6);
+		limitedParts.add(armPiston);
 
 		//Analog In
 		//armPot = new AnalogPotentiometer(1);
