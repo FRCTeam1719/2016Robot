@@ -4,8 +4,10 @@ package org.usfirst.frc.team1719.robot;
 import org.usfirst.frc.team1719.robot.commands.CalcAngle;
 import org.usfirst.frc.team1719.robot.commands.ManualShoot;
 import org.usfirst.frc.team1719.robot.commands.MoveArmToPos;
+import org.usfirst.frc.team1719.robot.commands.RetractPiston;
 import org.usfirst.frc.team1719.robot.commands.RunIntake;
 import org.usfirst.frc.team1719.robot.commands.TurnToAngle;
+
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.buttons.Button;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
@@ -104,6 +106,7 @@ public class OI {
 		private Button deadEyeButton;
 		private Button crossingButton;
 		private Button lineUpButton;
+		private Button retractPistonButton;
 		public OI(){
 			//Define Controllers
 			driverXBOX = new Joystick(0);
@@ -127,6 +130,8 @@ public class OI {
 			deadEyeButton.whenPressed(new MoveArmToPos(DEADEYE_ANGLE));
 			crossingButton = new JoystickButton (operatorJoystick, ATTACK_BUTTON_6);
 			crossingButton.whenPressed(new MoveArmToPos(CROSSING_ANGLE));
+			retractPistonButton = new JoystickButton(operatorJoystick, ATTACK_BUTTON_3);
+			retractPistonButton.whenPressed(new RetractPiston());
 
 		}
 		

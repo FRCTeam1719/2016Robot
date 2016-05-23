@@ -21,7 +21,7 @@ public class DualShooter extends Subsystem {
 	Spark leftHolderMotor;
 	Spark rightHolderMotor;
 	
-	LimitedMotor pusher;
+	public LimitedMotor pusher;
 	
 	public final boolean EJECT = true;
 	public final boolean INTAKE = false;
@@ -95,6 +95,7 @@ public class DualShooter extends Subsystem {
 		}
 		
 	}
+	
 	
 	/**
 	 * Stop all motors
