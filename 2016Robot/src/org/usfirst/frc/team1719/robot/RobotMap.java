@@ -61,6 +61,7 @@ public class RobotMap {
 	public static DigitalInput potCallibrationSwitch;
 	public static Ultrasonic rightUltrasonic;
 	public static Ultrasonic leftUltrasonic;
+	public static Spark piston;
 	public enum sides{
 		LEFT,
 		RIGHT
@@ -78,6 +79,7 @@ public class RobotMap {
 		armController = new Spark(4);
 		innerLeftShooterWheelController = new Spark(5);
 		innerRightShooterWheelController = new Spark(6);
+		piston = new Spark(7);
 
 		//Sensors
 		

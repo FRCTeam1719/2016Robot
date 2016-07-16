@@ -1,6 +1,7 @@
 package org.usfirst.frc.team1719.robot.commands;
 
 import org.usfirst.frc.team1719.robot.Robot;
+import org.usfirst.frc.team1719.robot.RobotMap;
 import org.usfirst.frc.team1719.robot.subsystems.DualShooter;
 
 import edu.wpi.first.wpilibj.Timer;
@@ -72,6 +73,7 @@ public class ManualShoot extends Command{
 			//Shoot the ball & start a timer
 			Robot.shooter.runInnerMotors(DualShooter.spinMode.EJECT);
 			shootTimer.start();
+			RobotMap.piston.set(-1);
 			currentState = state.WAITING_FOR_END;
 			break;
 		case WAITING_FOR_END:
@@ -79,6 +81,7 @@ public class ManualShoot extends Command{
 				//Stop the wheels and the timer
 				Robot.shooter.reset();
 				shootTimer.stop();
+				RobotMap.piston.set(0);
 				//Mark that we are done
 				done = true;
 			}
