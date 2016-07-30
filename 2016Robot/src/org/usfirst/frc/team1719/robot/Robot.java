@@ -19,8 +19,11 @@ import com.ni.vision.NIVision;
 import com.ni.vision.NIVision.Image;
 import com.ni.vision.VisionException;
 
+import customSensors.NavX;
 import edu.wpi.first.wpilibj.CameraServer;
 import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.I2C;
+import edu.wpi.first.wpilibj.I2C.Port;
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
@@ -71,6 +74,7 @@ public class Robot extends IterativeRobot {
 	int session;
 	NIVision.Rect crosshair;
 
+
 	public static boolean isAuton = false;
 
 	/**
@@ -117,8 +121,7 @@ public class Robot extends IterativeRobot {
 			System.out.println("Can't find the camera, failing with style");
 		}
 		smartDashboardInit();
-		RobotMap.gyro.initGyro();
-		RobotMap.gyro.calibrate();
+
 		// Initialize Autonomous Command
 		//autonomousCommand = new RoughTerrainAuton();
 		System.out.println("AUTONOMOUS: " + autonomousCommand);
@@ -136,13 +139,13 @@ public class Robot extends IterativeRobot {
 		SmartDashboard.putNumber("Right flywheel kI: ", rightFlywheelPIDData.kI);
 		SmartDashboard.putNumber("Right flywheel kD: ", rightFlywheelPIDData.kD);
 
-		SmartDashboard.putNumber("Drive kP", 0.02);
-		SmartDashboard.putNumber("Drive kI", 0.003);
-		SmartDashboard.putNumber("Drive kD", 0.003);
+		SmartDashboard.putNumber("Drive kP", 0.000);
+		SmartDashboard.putNumber("Drive kI", 0.000);
+		SmartDashboard.putNumber("Drive kD", 0.000);
 
 		SmartDashboard.putNumber("Turn kP", 0.1);
 		SmartDashboard.putNumber("Turn kI", 0.0);
-		SmartDashboard.putNumber("Turn kD", 0.65);
+		SmartDashboard.putNumber("Turn kD", 0.0);
 
 		SmartDashboard.putNumber("Arm steady kP", (0.2 / 90));
 
@@ -162,6 +165,7 @@ public class Robot extends IterativeRobot {
 	 * the robot is disabled.
 	 */
 	public void disabledInit() {
+		
 		// Make sure everything gets disabled
 		isAuton = false;
 		rightFlywheel.spin(0);
@@ -173,6 +177,7 @@ public class Robot extends IterativeRobot {
 	}
 
 	public void disabledPeriodic() {
+		System.out.println("Pitch: " + RobotMap.navX.getPitch());
 
 		if (display.buttonAPressed()) {
 			if (currentDisplayMode == AUTONDISPLAY) {
@@ -282,7 +287,6 @@ public class Robot extends IterativeRobot {
 		if (foundCamera) {
 			NIVision.IMAQdxStartAcquisition(session);
 		}
-		RobotMap.gyro.reset();
 		Command ultraCommand = new ReadUltraSonics(100);
 		ultraCommand.start();
 	}
@@ -300,6 +304,7 @@ public class Robot extends IterativeRobot {
 		}
 		//System.out.println("rightUltrasonic: "+RobotMap.rightUltrasonic.getRangeInches());
 		//System.out.println("leftUltrasonic: "+RobotMap.leftUltrasonic.getRangeInches());
+		System.out.println("Pitch: " + RobotMap.navX.getPitch());
 	}
 
 	/**

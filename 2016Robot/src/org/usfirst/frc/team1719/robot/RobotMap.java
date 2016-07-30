@@ -2,18 +2,22 @@ package org.usfirst.frc.team1719.robot;
 
 import org.usfirst.frc.team1719.robot.sensors.AutoScalingPotentiometer;
 import org.usfirst.frc.team1719.robot.sensors.ScaledPotentiometer;
-import edu.wpi.first.wpilibj.Ultrasonic;
 
+import customSensors.LoggablePotentiometer;
+import customSensors.NavX;
 import edu.wpi.first.wpilibj.AnalogGyro;
 import edu.wpi.first.wpilibj.AnalogInput;
 import edu.wpi.first.wpilibj.AnalogPotentiometer;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.DigitalOutput;
 import edu.wpi.first.wpilibj.Encoder;
+import edu.wpi.first.wpilibj.I2C;
+import edu.wpi.first.wpilibj.I2C.Port;
 import edu.wpi.first.wpilibj.Relay;
 import edu.wpi.first.wpilibj.Spark;
 import edu.wpi.first.wpilibj.SpeedController;
 import edu.wpi.first.wpilibj.Talon;
+import edu.wpi.first.wpilibj.Ultrasonic;
 
 /**
  * The RobotMap is a mapping from the ports sensors and actuators are wired into
@@ -64,6 +68,10 @@ public class RobotMap {
 	public static DigitalOutput camswap;
 	public static Ultrasonic rightUltrasonic;
 	public static Ultrasonic leftUltrasonic;
+	public static NavX navX;
+	public static LoggablePotentiometer pot;
+
+	
 	public enum sides{
 		LEFT,
 		RIGHT
@@ -105,7 +113,6 @@ public class RobotMap {
 		//.116
 		//.754
 		//Analog In
-		gyro = new AnalogGyro(0);
 		//dial = new AnalogInput(3);
         
 		
@@ -126,6 +133,10 @@ public class RobotMap {
 		//leftUltrasonic.setAutomaticMode(true);
 		leftUltrasonic = new Ultrasonic(2,3,Ultrasonic.Unit.kInches);
 		leftUltrasonic.setAutomaticMode(true);
+		
+		
+		navX = new NavX(Port.kMXP);
+		pot = new LoggablePotentiometer(0);
 	}
 	
 	/**

@@ -25,7 +25,6 @@ public class UseDrive extends Command{
 	final double SYNCHTOLERANCE = 0.15;
 	@Override
 	protected void initialize() {
-		// No initialization needed
 		
 	}
 
@@ -33,6 +32,7 @@ public class UseDrive extends Command{
 	protected void execute() {
 		double left = Robot.oi.getLeftDriveReading();
 		double right = Robot.oi.getRightDriveReading();
+		System.out.println("Left: "+left+" Right: "+right);
 		
 		//Drive algorithms 
 		

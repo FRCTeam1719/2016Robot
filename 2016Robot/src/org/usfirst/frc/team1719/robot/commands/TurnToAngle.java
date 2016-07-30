@@ -6,6 +6,8 @@ import org.usfirst.frc.team1719.robot.Robot;
 import org.usfirst.frc.team1719.robot.RobotMap;
 
 import edu.wpi.first.wpilibj.AnalogGyro;
+import edu.wpi.first.wpilibj.PIDController;
+import edu.wpi.first.wpilibj.PIDOutput;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -13,18 +15,19 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 /**
  * Turns the drive to the specified angle
  */
-public class TurnToAngle extends Command {
+public class TurnToAngle extends Command implements PIDOutput {
 	// in degrees
 	private static final double TOLERANCE = 5;
-	private static final double MAX_PWR = 1.0D;
+	
+	private double leftOutput;
+	private double rightOutput;
 
 	double kP;
 	double kD;
 	double kI;
-
+	PIDController pidController;
 	private double desiredAngle;
 	private double currentAngle = 0D;
-	private double integral;
 	double previousError;
 	// In second
 	private final double TIMEOUT_TIME = 5.0;
@@ -56,7 +59,7 @@ public class TurnToAngle extends Command {
 
 	// Called just before this Command runs the first time
 	protected void initialize() {
-		integral = 0;
+		RobotMap.navX.zeroYaw();
 		kP = SmartDashboard.getNumber("Turn kP");
 		kD = SmartDashboard.getNumber("Turn kD");
 		kI = SmartDashboard.getNumber("Turn kI");
@@ -71,6 +74,13 @@ public class TurnToAngle extends Command {
 		for (int i = 0; i < errors.length; i++) {
 			errors[i] = desiredAngle-RobotMap.gyro.getAngle();
 		}
+		
+		pidController = new PIDController(kP, kI, kD, RobotMap.navX, this);
+		pidController.setInputRange(-180, 180);
+		pidController.setOutputRange(-1, 1);
+		pidController.setContinuous(true);
+		pidController.reset();
+		
 	}
 
 	// Called repeatedly when this Command is scheduled to run
@@ -83,16 +93,13 @@ public class TurnToAngle extends Command {
 		}
 		errors[0] = error;
 
-		double derivative = error - previousError;
-		previousError = error;
-		integral += error;
-		if (error < TOLERANCE) {
-			integral = 0;
-		}
-		double output = Math.max(Math.min((error * kP) + (derivative * kD) + (integral * kI), MAX_PWR), -MAX_PWR);
-		System.out.println(output);
-		Robot.drive.operateDrive(output, -output);
-		System.out.println("Angle: " + RobotMap.gyro.getAngle());
+		pidController.setSetpoint(desiredAngle);
+		pidController.enable();
+		currentAngle = RobotMap.navX.getYaw();
+		
+		Robot.drive.operateDrive(leftOutput, rightOutput);
+		
+		System.out.println(RobotMap.navX.getAngle());
 
 		
 	}
@@ -115,5 +122,12 @@ public class TurnToAngle extends Command {
 	// Called when another command which requires one or more of the same
 	// subsystems is scheduled to run
 	protected void interrupted() {
+	}
+
+	@Override
+	public void pidWrite(double output) {
+		leftOutput = output;
+		rightOutput = -output;
+		
 	}
 }
