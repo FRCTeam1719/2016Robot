@@ -30,6 +30,7 @@ public class DriveOverRockWall extends Command {
     protected void initialize() {
     	stage = DRIVING_TO_WALL;
     	RobotMap.navX.reset();
+    	timeoutTimer.start();
     	timeoutTimer.reset();
     }
 
@@ -53,32 +54,34 @@ public class DriveOverRockWall extends Command {
     	else if (stage == ON_WALL_GOING_UP) {
     		Robot.drive.operateDrive(-0.9, -0.9); 
     		if (RobotMap.navX.getPitch() <= -10 || timeoutTimer.get() >= 0.4) {
-    			stage = FINISHED;
+    			stage = ON_WALL_GOING_DOWN;
     			timeoutTimer.reset();
     		}
     	}
     	else if (stage == ON_WALL_GOING_DOWN) {
-    		Robot.drive.operateDrive(0, 0);
+    		Robot.drive.operateDrive(-0.4, -0.4);
     		if (RobotMap.navX.getPitch() >= -5) {
     			stage = ON_RAMP_GOING_DOWN;
     			timeoutTimer.reset();
     		}
     	}
     	else if (stage == ON_RAMP_GOING_DOWN) {
-    		Robot.drive.operateDrive(0, 0);
+    		Robot.drive.operateDrive(-0.3, -0.3);
     		if (Math.abs(RobotMap.navX.getPitch()) < 2) {
     			stage = OFF_WALL_GOING_FORWARDS;
     			timeoutTimer.reset();
     		}
     	}
     	else if (stage == OFF_WALL_GOING_FORWARDS) {
-    		Robot.drive.operateDrive(0, 0);
+    		Robot.drive.operateDrive(-0.4, -0.4);
     		if (timeoutTimer.get() >= 0.7) {
     			stage = FINISHED;
     		}
     	}
     	System.out.println("navx: " + RobotMap.navX.getPitch());
     	System.out.println("stage: " + stage);
+    	System.out.println("Finish: " + (stage == FINISHED));
+    	System.out.println("Timer: " + timeoutTimer.get());
     }
 
     // Make this return true when this Command no longer needs to run execute()
