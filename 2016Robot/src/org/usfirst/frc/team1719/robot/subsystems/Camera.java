@@ -7,21 +7,21 @@ import edu.wpi.first.wpilibj.networktables.NetworkTable;
 
 public class Camera extends Subsystem {
 
-	private Servo mX;
-	private Servo mY;
+	private Servo xServo;
+	private Servo yServo;
 	private double posX;
 	private double posY;
-	private boolean odX;
-	private boolean odY;
+	private boolean xLockedOn;
+	private boolean yLockedOn;
 	
 	// Tables to read from GRIP
-    private static final NetworkTable table2;
+    private static final NetworkTable table;
     private static final double ANGLE_SCALE = 180.0D;
 	
-	public Camera(Servo _mX, Servo _mY) {
-		mX = _mX;
-		mY = _mY;
-	    odX = odY = true;
+	public Camera(Servo xServo, Servo yServo) {
+		this.xServo = xServo;
+		this.yServo = yServo;
+	    xLockedOn = yLockedOn = false;
 	    posX = posY = 0.0D;
 	}
 
@@ -30,12 +30,12 @@ public class Camera extends Subsystem {
 		setDefaultCommand(new AutoCameraLock());
 	}
 	
-	public boolean isXOutdated() {
-		return odX;
+	public boolean isXLockedOn() {
+		return xLockedOn;
 	}
 	
-	public boolean isYOutdated() {
-		return odY;
+	public boolean isYLockedOn() {
+		return yLockedOn;
 	}
 	
 	public double getAzimuth() {
@@ -58,24 +58,33 @@ public class Camera extends Subsystem {
 
 		@Override
 		protected void execute() {
-	        double[] areas2 = table2.getNumberArray("area", new double[] {});
-	        double[] ctrX = table2.getNumberArray("centerX", new double[] {});
-	        double[] ctrY = table2.getNumberArray("centerY", new double[] {});
-	        int n = 0;
-	        for(int i = 1; i < areas2.length; i++) {
-	        	if (areas2[i] > areas2[n]) n = i;
+			//Update data from GRIP
+			
+			//Stores area of each contour
+	        double[] areas = table.getNumberArray("area", new double[] {});
+	        //Store center points of each contour
+	        double[] centerX = table.getNumberArray("centerX", new double[] {});
+	        double[] centerY = table.getNumberArray("centerY", new double[] {});
+
+	        ///Largest Index
+	        int largestContourIndex = 0;
+	        for(int i = 1; i < areas.length; i++) {
+	        	if (areas[i] > areas[largestContourIndex]) largestContourIndex = i;
 	        }
-	        if(Math.abs(ctrX[n]) < TOLERANCE) odX = false;
-	        else {
-	        	odX = true;
-	        	posX -= INCREMENT * Math.signum(ctrX[n]);
-	        	mX.set(posX);
+
+	        if(Math.abs(centerX[largestContourIndex]) < TOLERANCE){
+	        	xLockedOn = true;
+	        }else{
+  	        	xLockedOn = false;
+	        	posX -= INCREMENT * Math.signum(centerX[largestContourIndex]);
+	        	xServo.set(posX);
 	        }
-	        if(Math.abs(ctrY[n]) < TOLERANCE) odY = false;
-	        else {
-	        	odY = true;
-	        	posY -= INCREMENT * Math.signum(ctrY[n]);
-	        	mY.set(posY);
+	        if(Math.abs(centerY[largestContourIndex]) < TOLERANCE){
+	        	yLockedOn = true;
+			}else{
+	        	yLockedOn = false;
+	        	posY -= INCREMENT * Math.signum(centerY[largestContourIndex]);
+	        	yServo.set(posY);
 	        }
 		}
 
@@ -89,12 +98,12 @@ public class Camera extends Subsystem {
 
 		@Override
 		protected void interrupted() {
-			throw new RuntimeException("AutoCameraLock should not be interrupted");
+			System.out.println("Camera Tracking Command Was Interrupted");
 		}
 		
 	}
 	
 	static {
-        table2 = NetworkTable.getTable("GRIP/table2");
+        table = NetworkTable.getTable("GRIP/table2");
     }
 }
