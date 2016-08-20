@@ -13,9 +13,8 @@ public class AutoSenseTower extends Command {
     private static final double MIN_DISTANCE_FT = 2.0D;
     private static final double MAX_DISTANCE_FT = 10.0D;
 
-    
     boolean done;
-    
+
     public AutoSenseTower() {
         System.out.println("Command Constructed!");
         // Use requires() here to declare subsystem dependencies
