@@ -45,15 +45,15 @@ public class DriveOverRockWall extends Command {
     		}
     	}
     	else if (stage == ON_RAMP_GOING_UP) {
-    		Robot.drive.operateDrive(-0.7, -0.7);
-    		if (RobotMap.navX.getPitch() >= 10) {
+    		Robot.drive.operateDrive(-0.9, -0.9);
+    		if (RobotMap.navX.getPitch() >= 15) {
     			stage = ON_WALL_GOING_UP;
     			timeoutTimer.reset();
     		}
     	}
     	else if (stage == ON_WALL_GOING_UP) {
     		Robot.drive.operateDrive(-0.9, -0.9); 
-    		if (RobotMap.navX.getPitch() <= -10 || timeoutTimer.get() >= 0.4) {
+    		if (RobotMap.navX.getPitch() <= -10) {
     			stage = ON_WALL_GOING_DOWN;
     			timeoutTimer.reset();
     		}

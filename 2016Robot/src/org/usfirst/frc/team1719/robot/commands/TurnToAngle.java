@@ -36,7 +36,7 @@ public class TurnToAngle extends Command implements PIDOutput {
 
 	private boolean shouldResetGyro;
 
-	AnalogGyro gyro = RobotMap.gyro;
+	//AnalogGyro gyro = RobotMap.gyro;
 
 	/**
 	 * 
@@ -66,13 +66,13 @@ public class TurnToAngle extends Command implements PIDOutput {
 		if (desiredAngle == -1337)
 			desiredAngle = SmartDashboard.getNumber("TurnToAngleParam");
 		if (shouldResetGyro) {
-			gyro.reset();
+			//gyro.reset();
 		}
 		System.out.println("Turning command started");
 		timeout.start();
 		// Initialize our error array with the default error
 		for (int i = 0; i < errors.length; i++) {
-			errors[i] = desiredAngle-RobotMap.gyro.getAngle();
+			errors[i] = desiredAngle-RobotMap.navX.getAngle();
 		}
 		
 		pidController = new PIDController(kP, kI, kD, RobotMap.navX, this);
@@ -86,7 +86,7 @@ public class TurnToAngle extends Command implements PIDOutput {
 	// Called repeatedly when this Command is scheduled to run
 	protected void execute() {
 
-		currentAngle = gyro.getAngle();
+		currentAngle = RobotMap.navX.getAngle();
 		double error = desiredAngle - currentAngle;
 		for (int i = (errors.length - 1); i > 0; i--) {
 			errors[i] = errors[i - 1];

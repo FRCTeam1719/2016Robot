@@ -3,6 +3,7 @@ package org.usfirst.frc.team1719.robot;
 
 import org.usfirst.frc.team1719.robot.commands.CalcAngle;
 import org.usfirst.frc.team1719.robot.commands.DriveOverRockWall;
+import org.usfirst.frc.team1719.robot.commands.GoOverRockWallAndCenter;
 import org.usfirst.frc.team1719.robot.commands.ManualShoot;
 import org.usfirst.frc.team1719.robot.commands.MoveArmToPos;
 import org.usfirst.frc.team1719.robot.commands.MoveForwards;
@@ -121,7 +122,7 @@ public class OI {
 			
 			//Define Buttons
 			rotateRight90Button = new JoystickButton(driverXBOX, X_BUTTON);
-			rotateRight90Button.whenPressed(new DriveOverRockWall());
+			rotateRight90Button.whenPressed(new GoOverRockWallAndCenter());
 			rotateLeft90Button = new JoystickButton(driverXBOX, B_BUTTON);
 			rotateLeft90Button.whenPressed(new TurnToAngle(-90,true));
 			lineUpButton = new JoystickButton(driverXBOX, A_BUTTON);
