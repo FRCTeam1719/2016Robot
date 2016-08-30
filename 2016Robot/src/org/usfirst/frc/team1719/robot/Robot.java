@@ -6,8 +6,10 @@ import org.usfirst.frc.team1719.robot.autonomousSelections.LowBarAutonAndBack;
 import org.usfirst.frc.team1719.robot.autonomousSelections.ReachAuton;
 import org.usfirst.frc.team1719.robot.autonomousSelections.RockWallAuton;
 import org.usfirst.frc.team1719.robot.autonomousSelections.RoughTerrainAuton;
+import org.usfirst.frc.team1719.robot.commands.HardwareInitialization;
 import org.usfirst.frc.team1719.robot.settings.PIDData;
 import org.usfirst.frc.team1719.robot.subsystems.Arm;
+import org.usfirst.frc.team1719.robot.subsystems.CameraMount;
 import org.usfirst.frc.team1719.robot.subsystems.Display;
 import org.usfirst.frc.team1719.robot.subsystems.DriveSubsystem;
 import org.usfirst.frc.team1719.robot.subsystems.DualShooter;
@@ -48,6 +50,7 @@ public class Robot extends IterativeRobot {
 	public static FlyWheel rightFlywheel;
 	public static FlyWheel leftFlywheel;
 	public static DualShooter shooter;
+	public static CameraMount cameraMount;
 	PIDData rightFlywheelPIDData;
 	PIDData leftFlywheelPIDData;
 	public static Arm arm;
@@ -101,6 +104,7 @@ public class Robot extends IterativeRobot {
 		display = new Display(RobotMap.buttonA, RobotMap.buttonB, RobotMap.dial);
 		photonCannon = new PhotonCannon();
 		oi = new OI();
+		cameraMount = new CameraMount(RobotMap.cameraAzimuth, RobotMap.cameraHeightAngle);
 
 		isAuton = false;
 
@@ -243,6 +247,7 @@ public class Robot extends IterativeRobot {
 		if (foundCamera) {
 			NIVision.IMAQdxStartAcquisition(session);
 		}
+		(new HardwareInitialization()).start();
 		// schedule the autonomous command with safety
 		if (autonomousCommand != null) {
 			System.out.println(autonomousCommand);
@@ -270,6 +275,7 @@ public class Robot extends IterativeRobot {
 		if (autonomousCommand != null)
 			autonomousCommand.cancel();
 
+		(new HardwareInitialization()).start();
 		if (foundCamera) {
 			NIVision.IMAQdxStartAcquisition(session);
 		}

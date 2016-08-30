@@ -7,6 +7,7 @@ import edu.wpi.first.wpilibj.AnalogInput;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.Relay;
+import edu.wpi.first.wpilibj.Servo;
 import edu.wpi.first.wpilibj.Spark;
 import edu.wpi.first.wpilibj.SpeedController;
 import edu.wpi.first.wpilibj.Talon;
@@ -62,6 +63,9 @@ public class RobotMap {
 	public static Ultrasonic rightUltrasonic;
 	public static Ultrasonic leftUltrasonic;
 	public static Spark piston;
+	//TODO Port numbers
+	public static Servo cameraAzimuth;
+	public static Servo cameraHeightAngle;
 	public enum sides{
 		LEFT,
 		RIGHT
