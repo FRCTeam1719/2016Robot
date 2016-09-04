@@ -20,9 +20,10 @@ public class ManualShoot extends Command{
 	private state currentState;
 	private Timer shootTimer;
 	private Timer prepTimer;
+	private DualShooter system;
 	
-	public ManualShoot(){
-		requires(Robot.shooter);
+	public ManualShoot(DualShooter system){
+		requires(system);
 		shootTimer = new Timer();
 		prepTimer = new Timer();
 	}
@@ -30,7 +31,7 @@ public class ManualShoot extends Command{
 	@Override
 	protected void end() {
 		//Verify that everything has stopped
-		Robot.shooter.reset();
+		system.reset();
 		//Reset the stabilization notification
 		SmartDashboard.putBoolean("shooterStable", false);
 	}
@@ -41,7 +42,7 @@ public class ManualShoot extends Command{
 		switch (currentState) {
 		case PREP:
 			//Run the intake motors so that the ball is secure
-			Robot.shooter.runInnerMotors(DualShooter.spinMode.INTAKE);
+			system.runInnerMotors(DualShooter.spinMode.INTAKE);
 			//Start the prep timer
 			prepTimer.start();
 			//Advance to the next state
@@ -51,18 +52,18 @@ public class ManualShoot extends Command{
 			if(prepTimer.get() > PREP_WAIT_TIME){
 				//End this state
 				//Stop the intake wheels
-				Robot.shooter.runInnerMotors(DualShooter.spinMode.STOP);
+				system.runInnerMotors(DualShooter.spinMode.STOP);
 				//Stop the timer
 				prepTimer.stop();
 				//Start the next phase
 				currentState = state.REV_SHOOTER;
 				//Start the outer motors
-				Robot.shooter.spin(DualShooter.spinMode.EJECT);
+				system.spin(DualShooter.spinMode.EJECT);
 			}
 			break;
 		case REV_SHOOTER:
 			//Update the dashboard on the state of the shooter
-			SmartDashboard.putBoolean("shooterStable", Robot.shooter.isStabilized());
+			SmartDashboard.putBoolean("shooterStable", system.isStabilized());
 			if(Robot.oi.getFireButton()){
 				//Move onto next stage
 				currentState = state.EJECT_BALL;
@@ -70,14 +71,14 @@ public class ManualShoot extends Command{
 			break;
 		case EJECT_BALL:
 			//Shoot the ball & start a timer
-			Robot.shooter.runInnerMotors(DualShooter.spinMode.EJECT);
+			system.runInnerMotors(DualShooter.spinMode.EJECT);
 			shootTimer.start();
 			currentState = state.WAITING_FOR_END;
 			break;
 		case WAITING_FOR_END:
 			if(shootTimer.get() > SHOOT_WAIT_TIME){
 				//Stop the wheels and the timer
-				Robot.shooter.reset();
+				system.reset();
 				shootTimer.stop();
 				//Mark that we are done
 				done = true;
@@ -101,7 +102,7 @@ public class ManualShoot extends Command{
 	@Override
 	protected void interrupted() {
 		//Stop everything
-		Robot.shooter.reset();
+		system.reset();
 		
 	}
 
