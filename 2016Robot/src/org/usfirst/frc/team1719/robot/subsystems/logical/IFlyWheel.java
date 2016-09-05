@@ -1,6 +1,6 @@
 package org.usfirst.frc.team1719.robot.subsystems.logical;
 
-public interface IFlyWheel {
+public interface IFlyWheel extends LogicalSubsystem{
 
 	/**
 	 * Stop subsystem

@@ -1,6 +1,6 @@
 package org.usfirst.frc.team1719.robot.subsystems.logical;
 
-public interface IDualShooter {
+public interface IDualShooter extends LogicalSubsystem{
 
 	public enum spinMode{
 		EJECT,INTAKE,STOP

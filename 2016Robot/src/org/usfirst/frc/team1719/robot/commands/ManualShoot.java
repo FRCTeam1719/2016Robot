@@ -2,12 +2,12 @@ package org.usfirst.frc.team1719.robot.commands;
 
 import org.usfirst.frc.team1719.robot.Robot;
 import org.usfirst.frc.team1719.robot.subsystems.DualShooter;
+import org.usfirst.frc.team1719.robot.subsystems.logical.IDualShooter;
 
-import edu.wpi.first.wpilibj.Timer;
-import edu.wpi.first.wpilibj.command.Command;
+import edu.wpi.first.wpilibj.Timer.Interface;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
-public class ManualShoot extends Command{
+public class ManualShoot extends TestableCommand{
 
 	
 	private enum state {
@@ -18,15 +18,16 @@ public class ManualShoot extends Command{
 	final double PREP_WAIT_TIME = 0.2;
 	private boolean done;
 	private state currentState;
-	private Timer shootTimer;
-	private Timer prepTimer;
-	private DualShooter system;
+	//WPILib Timer Interface
+	private Interface timer;
+	private IDualShooter system;
 	
-	public ManualShoot(DualShooter system){
-		requires(system);
-		shootTimer = new Timer();
-		prepTimer = new Timer();
+	public ManualShoot(IDualShooter system, Interface timer){
+		super(system);
+		this.system = system;
+		this.timer = timer;
 	}
+	
 	
 	@Override
 	protected void end() {
@@ -44,17 +45,18 @@ public class ManualShoot extends Command{
 			//Run the intake motors so that the ball is secure
 			system.runInnerMotors(DualShooter.spinMode.INTAKE);
 			//Start the prep timer
-			prepTimer.start();
+			timer.start();
 			//Advance to the next state
 			currentState = state.SECURING_BALL;
 			break;
 		case SECURING_BALL:		
-			if(prepTimer.get() > PREP_WAIT_TIME){
+			if(timer.get() > PREP_WAIT_TIME){
 				//End this state
 				//Stop the intake wheels
 				system.runInnerMotors(DualShooter.spinMode.STOP);
 				//Stop the timer
-				prepTimer.stop();
+				timer.stop();
+				timer.reset();
 				//Start the next phase
 				currentState = state.REV_SHOOTER;
 				//Start the outer motors
@@ -72,14 +74,15 @@ public class ManualShoot extends Command{
 		case EJECT_BALL:
 			//Shoot the ball & start a timer
 			system.runInnerMotors(DualShooter.spinMode.EJECT);
-			shootTimer.start();
+			timer.start();
 			currentState = state.WAITING_FOR_END;
 			break;
 		case WAITING_FOR_END:
-			if(shootTimer.get() > SHOOT_WAIT_TIME){
+			if(timer.get() > SHOOT_WAIT_TIME){
 				//Stop the wheels and the timer
 				system.reset();
-				shootTimer.stop();
+				timer.stop();
+				timer.reset();
 				//Mark that we are done
 				done = true;
 			}
@@ -92,8 +95,7 @@ public class ManualShoot extends Command{
 	@Override
 	protected void initialize() {
 		//Reset all timers
-		shootTimer.reset();
-		prepTimer.reset();
+		timer.reset();
 		//Reset all states
 		done = false;
 		currentState = state.PREP;

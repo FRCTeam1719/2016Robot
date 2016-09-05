@@ -6,6 +6,7 @@ import org.usfirst.frc.team1719.robot.commands.MoveArmToPos;
 import org.usfirst.frc.team1719.robot.commands.RunIntake;
 import org.usfirst.frc.team1719.robot.commands.SwapCamera;
 import org.usfirst.frc.team1719.robot.commands.TurnToAngle;
+import org.usfirst.frc.team1719.robot.sensors.UTimer;
 
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.buttons.Button;
@@ -124,7 +125,7 @@ public class OI {
 			
 			fireButton = new JoystickButton(operatorJoystick, ATTACK_TRIGGER);
 			primeButton = new JoystickButton(operatorJoystick, ATTACK_BUTTON_3);
-			primeButton.whenPressed(new ManualShoot(Robot.shooter));
+			primeButton.whenPressed(new ManualShoot(Robot.shooter, new UTimer()));
 			//moveArmButton = new JoystickButton(operatorJoystick, ATTACK_BUTTON_6);
 			//moveArmButton.whenPressed(new MoveArmToPos(60));
 			intakeButton = new JoystickButton(operatorJoystick, ATTACK_BUTTON_2);
