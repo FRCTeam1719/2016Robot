@@ -1,31 +1,29 @@
 package org.usfirst.frc.team1719.robot.commands;
 
-import org.usfirst.frc.team1719.robot.Robot;
+import org.usfirst.frc.team1719.robot.interfaces.RobotInterface;
 import org.usfirst.frc.team1719.robot.subsystems.DualShooter;
 import org.usfirst.frc.team1719.robot.subsystems.logical.IDualShooter;
-
 import edu.wpi.first.wpilibj.Timer.Interface;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class ManualShoot extends TestableCommand{
 
 	
-	private enum state {
+	public static enum ShooterState {
 		PREP,SECURING_BALL,REV_SHOOTER,EJECT_BALL,WAITING_FOR_END
 	}
 	
 	final double SHOOT_WAIT_TIME = 2.5;
 	final double PREP_WAIT_TIME = 0.2;
 	private boolean done;
-	private state currentState;
+	private ShooterState currentState;
 	//WPILib Timer Interface
 	private Interface timer;
 	private IDualShooter system;
 	
-	public ManualShoot(IDualShooter system, Interface timer){
-		super(system);
+	public ManualShoot(IDualShooter system, RobotInterface robot){
+		super(system, robot);
 		this.system = system;
-		this.timer = timer;
+		timer = robot.getSystemTimer("shootTimer");
 	}
 	
 	
@@ -34,7 +32,7 @@ public class ManualShoot extends TestableCommand{
 		//Verify that everything has stopped
 		system.reset();
 		//Reset the stabilization notification
-		SmartDashboard.putBoolean("shooterStable", false);
+		dashboard._putBoolean("shooterStable", false);
 	}
 
 	@Override
@@ -47,7 +45,7 @@ public class ManualShoot extends TestableCommand{
 			//Start the prep timer
 			timer.start();
 			//Advance to the next state
-			currentState = state.SECURING_BALL;
+			currentState = ShooterState.SECURING_BALL;
 			break;
 		case SECURING_BALL:		
 			if(timer.get() > PREP_WAIT_TIME){
@@ -58,24 +56,24 @@ public class ManualShoot extends TestableCommand{
 				timer.stop();
 				timer.reset();
 				//Start the next phase
-				currentState = state.REV_SHOOTER;
+				currentState = ShooterState.REV_SHOOTER;
 				//Start the outer motors
 				system.spin(DualShooter.spinMode.EJECT);
 			}
 			break;
 		case REV_SHOOTER:
 			//Update the dashboard on the state of the shooter
-			SmartDashboard.putBoolean("shooterStable", system.isStabilized());
-			if(Robot.oi.getFireButton()){
+			dashboard._putBoolean("shooterStable", system.isStabilized());
+			if(robot.getOi().getFireButton()){
 				//Move onto next stage
-				currentState = state.EJECT_BALL;
+				currentState = ShooterState.EJECT_BALL;
 			}
 			break;
 		case EJECT_BALL:
 			//Shoot the ball & start a timer
 			system.runInnerMotors(DualShooter.spinMode.EJECT);
 			timer.start();
-			currentState = state.WAITING_FOR_END;
+			currentState = ShooterState.WAITING_FOR_END;
 			break;
 		case WAITING_FOR_END:
 			if(timer.get() > SHOOT_WAIT_TIME){
@@ -98,7 +96,7 @@ public class ManualShoot extends TestableCommand{
 		timer.reset();
 		//Reset all states
 		done = false;
-		currentState = state.PREP;
+		currentState = ShooterState.PREP;
 	}
 
 	@Override
@@ -110,6 +108,14 @@ public class ManualShoot extends TestableCommand{
 
 	@Override
 	protected boolean isFinished() {
+		return done;
+	}
+	
+	public ShooterState getCurrentState(){
+		return currentState;
+	}
+	
+	public boolean isDone(){
 		return done;
 	}
 

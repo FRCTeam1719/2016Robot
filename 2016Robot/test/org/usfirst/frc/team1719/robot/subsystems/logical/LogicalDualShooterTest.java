@@ -42,6 +42,7 @@ public class LogicalDualShooterTest {
 		setup();
 		for(int i=0;i<modes.length;i++){
 			shooter.spin(modes[i]);
+			assertTrue(shooter.getFlyWheelMode() == modes[i]);
 			assertTrue(Math.abs(leftFlyWheelMotor.currentSpeed) == flyWheelsSpeeds[i]);
 			assertTrue(Math.abs(rightFlyWheelMotor.currentSpeed) == flyWheelsSpeeds[i]);
 			if(modes[i]==IDualShooter.spinMode.INTAKE){
@@ -59,6 +60,7 @@ public class LogicalDualShooterTest {
 		setup();
 		for(int i=0;i<modes.length;i++){
 			shooter.runInnerMotors(modes[i]);
+			assertTrue(shooter.getInnerWheelMode() == modes[i]);
 			assertTrue(Math.abs(leftInnerMotor.currentSpeed) == innerMotorSpeeds[i]);
 			assertTrue(Math.abs(rightInnerMotor.currentSpeed) == innerMotorSpeeds[i]);
 			if(modes[i]==IDualShooter.spinMode.INTAKE){
@@ -79,6 +81,8 @@ public class LogicalDualShooterTest {
 				shooter.spin(flyMode);
 				shooter.runInnerMotors(innerMode);
 				shooter.reset();
+				assertTrue(shooter.getFlyWheelMode() == IDualShooter.spinMode.STOP);
+				assertTrue(shooter.getInnerWheelMode() == IDualShooter.spinMode.STOP);
 				for(MockSpeedController motor:motors){
 					assertTrue(motor.currentSpeed == 0);
 				}

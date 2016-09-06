@@ -20,6 +20,8 @@ public class LogicalDualShooter implements IDualShooter{
 	
 	public final boolean EJECT = true;
 	public final boolean INTAKE = false;
+	public IDualShooter.spinMode flyWheelMode;
+	public IDualShooter.spinMode innerWheelMode;
 	
 	
 	/**
@@ -45,6 +47,7 @@ public class LogicalDualShooter implements IDualShooter{
 	 */
 	public void spin(IDualShooter.spinMode mode)
 	{
+		flyWheelMode = mode;
 		switch(mode){
 		case INTAKE:
 			leftFlyWheel.spin(-.7);
@@ -66,7 +69,7 @@ public class LogicalDualShooter implements IDualShooter{
 	 */
 	public void runInnerMotors(IDualShooter.spinMode mode)
 	{
-		
+		innerWheelMode = mode;
 		switch(mode){
 		case EJECT:
 			leftHolderMotor.set(1);
@@ -89,6 +92,8 @@ public class LogicalDualShooter implements IDualShooter{
 	 */
 	public void reset()
 	{
+		flyWheelMode = IDualShooter.spinMode.STOP;
+		innerWheelMode = IDualShooter.spinMode.STOP;
 		leftFlyWheel.reset();
 		rightFlyWheel.reset();
 		leftHolderMotor.set(0);
@@ -107,4 +112,12 @@ public class LogicalDualShooter implements IDualShooter{
 	protected void initDefaultCommand() {
 		
 	}
+	
+	public IDualShooter.spinMode getFlyWheelMode(){
+		return flyWheelMode;
+	}
+	public IDualShooter.spinMode getInnerWheelMode(){
+		return innerWheelMode;
+	}
+	
 }

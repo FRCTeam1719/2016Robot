@@ -6,6 +6,9 @@ import org.usfirst.frc.team1719.robot.autonomousSelections.ReachAuton;
 import org.usfirst.frc.team1719.robot.autonomousSelections.RockWallAuton;
 import org.usfirst.frc.team1719.robot.autonomousSelections.RoughTerrainAuton;
 import org.usfirst.frc.team1719.robot.commands.WithinDistance;
+import org.usfirst.frc.team1719.robot.interfaces.RobotInterface;
+import org.usfirst.frc.team1719.robot.interfaces.TestableDashboard;
+import org.usfirst.frc.team1719.robot.sensors.UTimer;
 import org.usfirst.frc.team1719.robot.settings.PIDData;
 import org.usfirst.frc.team1719.robot.subsystems.Arm;
 import org.usfirst.frc.team1719.robot.subsystems.Display;
@@ -22,6 +25,7 @@ import com.ni.vision.VisionException;
 import edu.wpi.first.wpilibj.CameraServer;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.IterativeRobot;
+import edu.wpi.first.wpilibj.Timer.Interface;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
@@ -35,7 +39,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  * directory.
  */
 
-public class Robot extends IterativeRobot {
+public class Robot extends IterativeRobot{
 
 	// degrees
 	final double PHOTON_CANNON_ANGLE = 60;
@@ -43,13 +47,15 @@ public class Robot extends IterativeRobot {
 	final String CAMERA_NAME = "cam0";
 	public static final double GET_VALUE_FROM_SMARTDASHBOARD = -1337.0D;
 	public static final ExampleSubsystem exampleSubsystem = new ExampleSubsystem();
-	public static OI oi;
+	public static RealOperator oi;
 	public static Display display;
 	public static PhotonCannon photonCannon;
 	public static DriveSubsystem drive;
 	public static FlyWheel rightFlywheel;
 	public static FlyWheel leftFlywheel;
 	public static DualShooter shooter;
+	public static Dashboard globalDashboard = new Dashboard();
+	public static RealRobot robotData = new RealRobot();
 	PIDData rightFlywheelPIDData;
 	PIDData leftFlywheelPIDData;
 	public static Arm arm;
@@ -102,7 +108,7 @@ public class Robot extends IterativeRobot {
 		arm = new Arm(RobotMap.armController, RobotMap.armPot);
 		display = new Display(RobotMap.buttonA, RobotMap.buttonB, RobotMap.dial);
 		photonCannon = new PhotonCannon();
-		oi = new OI();
+		oi = new RealOperator();
 
 		isAuton = false;
 
@@ -306,5 +312,6 @@ public class Robot extends IterativeRobot {
 		isAuton = false;
 		LiveWindow.run();
 	}
+
 
 }
