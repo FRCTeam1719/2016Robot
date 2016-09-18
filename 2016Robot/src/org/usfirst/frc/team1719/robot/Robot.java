@@ -8,13 +8,11 @@ import org.usfirst.frc.team1719.robot.autonomousSelections.RoughTerrainAuton;
 import org.usfirst.frc.team1719.robot.commands.WithinDistance;
 import org.usfirst.frc.team1719.robot.interfaces.RobotInterface;
 import org.usfirst.frc.team1719.robot.interfaces.TestableDashboard;
-import org.usfirst.frc.team1719.robot.sensors.UTimer;
 import org.usfirst.frc.team1719.robot.settings.PIDData;
 import org.usfirst.frc.team1719.robot.subsystems.Arm;
 import org.usfirst.frc.team1719.robot.subsystems.Display;
 import org.usfirst.frc.team1719.robot.subsystems.DriveSubsystem;
 import org.usfirst.frc.team1719.robot.subsystems.DualShooter;
-import org.usfirst.frc.team1719.robot.subsystems.ExampleSubsystem;
 import org.usfirst.frc.team1719.robot.subsystems.FlyWheel;
 import org.usfirst.frc.team1719.robot.subsystems.PhotonCannon;
 
@@ -39,14 +37,13 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  * directory.
  */
 
-public class Robot extends IterativeRobot{
+public class Robot extends IterativeRobot implements RobotInterface {
 
 	// degrees
 	final double PHOTON_CANNON_ANGLE = 60;
 
 	final String CAMERA_NAME = "cam0";
 	public static final double GET_VALUE_FROM_SMARTDASHBOARD = -1337.0D;
-	public static final ExampleSubsystem exampleSubsystem = new ExampleSubsystem();
 	public static RealOperator oi;
 	public static Display display;
 	public static PhotonCannon photonCannon;
@@ -311,6 +308,24 @@ public class Robot extends IterativeRobot{
 	public void testPeriodic() {
 		isAuton = false;
 		LiveWindow.run();
+	}
+
+	@Override
+	public OI getOi() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public TestableDashboard getDashboard() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Interface getSystemTimer(String name) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 

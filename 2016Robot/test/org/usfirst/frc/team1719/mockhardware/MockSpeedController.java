@@ -11,6 +11,13 @@ public class MockSpeedController implements SpeedController{
 	}
 	
 	public void set(double newSpeed){
+		if (newSpeed > 1) {
+			newSpeed = 1;
+		}
+		else if (newSpeed < -1) {
+			newSpeed = -1;
+		}
+		
 		currentSpeed = newSpeed;
 	}
 

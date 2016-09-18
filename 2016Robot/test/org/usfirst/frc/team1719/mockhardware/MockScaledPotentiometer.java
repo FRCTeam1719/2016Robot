@@ -1,16 +1,13 @@
 package org.usfirst.frc.team1719.mockhardware;
 
-import org.usfirst.frc.team1719.robot.sensors.ScaledPotentiometer;
+import org.usfirst.frc.team1719.robot.sensors.IScaledPotentiometer;
 
-import edu.wpi.first.wpilibj.AnalogInput;
-
-public class MockScaledPotentiometer extends ScaledPotentiometer{
+public class MockScaledPotentiometer implements IScaledPotentiometer {
 
 	public double raw;
 	public double reading;
 	
-	public MockScaledPotentiometer(int channel) {
-		super(new AnalogInput(channel));
+	public MockScaledPotentiometer() {
 		reading = 0;
 		raw = 0;
 	}
@@ -21,6 +18,10 @@ public class MockScaledPotentiometer extends ScaledPotentiometer{
 	
 	public double get(){
 		return reading;
+	}
+	
+	public void setReading(double newReading) {
+		reading = newReading;
 	}
 
 }

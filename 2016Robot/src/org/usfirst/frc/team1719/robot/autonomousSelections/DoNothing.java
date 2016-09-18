@@ -1,5 +1,6 @@
 package org.usfirst.frc.team1719.robot.autonomousSelections;
 
+import org.usfirst.frc.team1719.robot.Robot;
 import org.usfirst.frc.team1719.robot.commands.MoveArmToPos;
 import org.usfirst.frc.team1719.robot.commands.UseArmPID;
 
@@ -9,7 +10,7 @@ public class DoNothing extends CommandGroup {
 
 	public DoNothing(){
 		addSequential(new MoveArmToPos(0));
-		addParallel(new UseArmPID());
+		addParallel(new UseArmPID(Robot.arm, Robot.robotData));
 	}
 
 }

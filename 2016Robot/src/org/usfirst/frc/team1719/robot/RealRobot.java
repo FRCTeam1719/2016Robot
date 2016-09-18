@@ -3,11 +3,16 @@ package org.usfirst.frc.team1719.robot;
 import org.usfirst.frc.team1719.robot.interfaces.RobotInterface;
 import org.usfirst.frc.team1719.robot.interfaces.TestableDashboard;
 import org.usfirst.frc.team1719.robot.sensors.UTimer;
+import org.usfirst.frc.team1719.robot.subsystems.Arm;
 
+import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.Timer.Interface;
 
 public class RealRobot implements RobotInterface{
-
+	
+	public Arm arm;
+	
+	
 	@Override
 	public OI getOi() {
 		return Robot.oi;

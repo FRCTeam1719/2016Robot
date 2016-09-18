@@ -1,9 +1,11 @@
 package org.usfirst.frc.team1719.robot.subsystems;
 
+import org.usfirst.frc.team1719.robot.Robot;
 import org.usfirst.frc.team1719.robot.commands.UseArmPID;
 import org.usfirst.frc.team1719.robot.sensors.ScaledPotentiometer;
+import org.usfirst.frc.team1719.robot.subsystems.logical.IArm;
+import org.usfirst.frc.team1719.robot.subsystems.logical.LogicalArm;
 
-import edu.wpi.first.wpilibj.AnalogPotentiometer;
 import edu.wpi.first.wpilibj.Spark;
 import edu.wpi.first.wpilibj.command.Subsystem;
 /**
@@ -14,32 +16,25 @@ import edu.wpi.first.wpilibj.command.Subsystem;
  * @author aaroneline
  *
  */
-public class Arm extends Subsystem {
+public class Arm extends Subsystem implements IArm {
 	
 
-	Spark motor;
-	
-	private ScaledPotentiometer pot;
-	private double targetPos = 0.0D;
+	LogicalArm logicArm;
 	
 	@Override
 	protected void initDefaultCommand() {
-		setDefaultCommand(new UseArmPID());
-		
+		setDefaultCommand(new UseArmPID(this, Robot.robotData));
 	}
 	
 	public Arm(Spark motor, ScaledPotentiometer pot) {
-		this.motor = motor;
-		this.pot = pot;
-		motor.set(0);
-		targetPos = getArmAngle();
+		logicArm = new LogicalArm(motor, pot);
 	}
 	
 	/**
 	 * @param speed to move at
 	 */
 	public void move(double speed) {
-		motor.set(speed);
+		logicArm.move(speed);
 	}
 	
 	/**
@@ -47,19 +42,16 @@ public class Arm extends Subsystem {
 	 * @return double angle
 	 */
 	public double getArmAngle() {
-		return pot.get();
-	}
-	
-	public double getRawReading(){
-		return pot.getRaw();
+		return logicArm.getArmAngle();
 	}
 
+
     public double getTargetPos() {
-        return targetPos;
+        return logicArm.getTargetPos();
     }
 
     public void setTargetPos(double _targetPos) {
-        targetPos = _targetPos;
+        logicArm.setTargetPos(_targetPos);
     }
 	
 }

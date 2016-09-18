@@ -4,7 +4,7 @@ import edu.wpi.first.wpilibj.AnalogInput;
 import edu.wpi.first.wpilibj.AnalogPotentiometer;
 import edu.wpi.first.wpilibj.ControllerPower;
 
-public class ScaledPotentiometer extends AnalogPotentiometer{
+public class ScaledPotentiometer extends AnalogPotentiometer implements IScaledPotentiometer{
 
 	AnalogInput channel;
 	public ScaledPotentiometer(AnalogInput channel, double fullRange, double offset) {

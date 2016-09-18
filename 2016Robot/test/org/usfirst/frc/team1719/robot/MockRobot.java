@@ -12,6 +12,7 @@ import edu.wpi.first.wpilibj.Timer.Interface;
 public class MockRobot implements RobotInterface {
 
 	public MockOI oi = new MockOI();
+	public RealRobot robotData;
 	public MockDashboard dashboard = new MockDashboard();
 	private Hashtable<String, MockTimer> timers = new Hashtable<String, MockTimer>();
 	

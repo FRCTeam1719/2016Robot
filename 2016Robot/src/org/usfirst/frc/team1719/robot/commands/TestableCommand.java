@@ -23,7 +23,7 @@ public abstract class TestableCommand extends Command{
 			System.out.println("Non subsystem passed, is a test running?");
 		}
 		this.robot = robot;
-		oi = robot.getOi();
+		oi = this.robot.getOi();
 		dashboard = robot.getDashboard();
 
 	}
