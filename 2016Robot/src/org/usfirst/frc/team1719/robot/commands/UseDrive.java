@@ -54,21 +54,21 @@ public class UseDrive extends Command{
 		left = Math.abs(left) * Math.abs(left) * left;
 		right = Math.abs(right) * Math.abs(right) * right;
 
-		//Smooth Drive
-		if(left != 0){
-			corectedValueL = (left*SMOOTH) + ( corectedValueL * ( 1.0 - SMOOTH));
-			left = corectedValueL;
-		}
-		if(right != 0){
-			corectedValueR = (right*SMOOTH) + ( corectedValueR * ( 1.0 - SMOOTH));
-			right = corectedValueR;
-		}
+//		Smooth Drive
+//		if(left != 0){
+//			corectedValueL = (left*SMOOTH) + ( corectedValueL * ( 1.0 - SMOOTH));
+//			left = corectedValueL;
+//		}
+//		if(right != 0){
+//			corectedValueR = (right*SMOOTH) + ( corectedValueR * ( 1.0 - SMOOTH));
+//			right = corectedValueR;
+//		}
 		
 		//Min-max the drive values
 		right = minMax(right);
 		left = minMax(left);
 		
-		
+		System.out.println("left: " + left+ " right: "+right );
 		Robot.drive.operateDrive(right, left);
 	}
 
