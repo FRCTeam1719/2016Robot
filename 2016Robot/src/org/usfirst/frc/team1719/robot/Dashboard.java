@@ -22,7 +22,7 @@ public class Dashboard extends SmartDashboard implements TestableDashboard{
 	}
 
 	@Override
-	public void _putNumer(String key, double value) {
+	public void _putNumber(String key, double value) {
 		super.putNumber(key, value);
 	}
 

@@ -9,10 +9,7 @@ import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.Timer.Interface;
 
 public class RealRobot implements RobotInterface{
-	
-	public Arm arm;
-	
-	
+		
 	@Override
 	public OI getOi() {
 		return Robot.oi;

@@ -7,7 +7,6 @@ import org.junit.Test;
 import org.usfirst.frc.team1719.mockhardware.MockScaledPotentiometer;
 import org.usfirst.frc.team1719.mockhardware.MockSpeedController;
 import org.usfirst.frc.team1719.robot.MockRobot;
-import org.usfirst.frc.team1719.robot.Robot;
 import org.usfirst.frc.team1719.robot.subsystems.logical.LogicalArm;
 
 /**

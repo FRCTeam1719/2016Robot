@@ -21,7 +21,7 @@ public class MockDashboard implements TestableDashboard {
 	}
 
 	@Override
-	public void _putNumer(String key, double value) {
+	public void _putNumber(String key, double value) {
 		numbers.put(key, value);
 	}
 

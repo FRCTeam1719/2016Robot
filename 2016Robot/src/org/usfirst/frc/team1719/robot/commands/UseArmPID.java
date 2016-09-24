@@ -2,7 +2,6 @@ package org.usfirst.frc.team1719.robot.commands;
 
 import org.usfirst.frc.team1719.robot.interfaces.RobotInterface;
 import org.usfirst.frc.team1719.robot.subsystems.logical.IArm;
-import org.usfirst.frc.team1719.robot.subsystems.logical.LogicalSubsystem;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 /**

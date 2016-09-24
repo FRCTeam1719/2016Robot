@@ -6,7 +6,7 @@ public interface TestableDashboard {
 	
 	public boolean _getBoolean(String key);
 	
-	public void _putNumer(String key, double value);
+	public void _putNumber(String key, double value);
 	
 	public double _getNumber(String key);
 	
