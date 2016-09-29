@@ -171,6 +171,7 @@ public class Robot extends IterativeRobot {
 
 	
 	public void disabledPeriodic() {
+		System.out.println("Pot: " + RobotMap.armPot.get());
 		//A button toggles display mode
 		if (display.buttonAPressed()) {
 			if (currentDisplayMode == AUTONDISPLAY) {
@@ -213,7 +214,7 @@ public class Robot extends IterativeRobot {
 			System.out.println("Reach Auton Selected");
 			break;
 		case 4:
-			autonomousCommand = new LowBarAuton();
+			//autonomousCommand = new LowBarAuton();
 			System.out.println("LowbarAuton");
 			break;
 		case 5:

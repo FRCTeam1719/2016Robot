@@ -108,7 +108,7 @@ public class RobotMap {
         
 		
 		photonCannon = new Relay(0);
-		//.127
+		//.15
 		//.773
 		//.646
         //armPot = new AnalogPotentiometer(1, 141, -110.4);
@@ -116,7 +116,7 @@ public class RobotMap {
 		//armPot = new ScaledPotentiometer(potChannel, 139.32, -106);
 		//armPot = autoConfigurePotentiometer(2, 139.32, 90);
 		//armPot = autoConfigurePotentiometer(2, 360, 90);
-		armPot = new AutoScalingPotentiometer(new AnalogInput(2),200.44, -74);
+		armPot = new AutoScalingPotentiometer(new AnalogInput(2), 204.5, -30);
         buttonA = new DigitalInput(19);
 		buttonB = new DigitalInput(20);
 		
