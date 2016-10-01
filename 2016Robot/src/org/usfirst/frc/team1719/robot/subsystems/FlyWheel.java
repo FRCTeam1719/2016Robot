@@ -4,7 +4,6 @@ import java.util.stream.DoubleStream;
 
 import org.usfirst.frc.team1719.robot.settings.PIDData;
 
-import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.Spark;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -21,7 +20,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 public class FlyWheel extends Subsystem {
 
 	Spark motor;
-	Encoder encoder;
+	
 
 	double errors[] = new double[30];
 
@@ -45,12 +44,12 @@ public class FlyWheel extends Subsystem {
 	 * @param pidData
 	 *            PIDData object
 	 */
-	public FlyWheel(Spark controller, Encoder enc, PIDData pidData) {
+	public FlyWheel(Spark controller, PIDData pidData) {
 
 		this.pidData = pidData;
 		motor = controller;
-		encoder = enc;
-		encoder.reset();
+		
+		//encoder.reset();
 	}
 
 	@Override
@@ -60,7 +59,7 @@ public class FlyWheel extends Subsystem {
 	 * Stop motors and reset encoders
 	 */
 	public void reset() {
-		encoder.reset();
+		//encoder.reset();
 		output = 0;
 		motor.set(output);
 	}
@@ -81,7 +80,7 @@ public class FlyWheel extends Subsystem {
 			motor.set(0);
 			return;
 		}
-		double currentSpeed = encoder.getRate();
+		double currentSpeed = 0;
 		double error = desiredSpeed - currentSpeed;
 		integral += error;
 		derivative = error - previousError;
@@ -126,7 +125,7 @@ public class FlyWheel extends Subsystem {
 	 * @return encoder rate
 	 */
 	public double getRate() {
-		return encoder.getRate();
+		return 0;//encoder.getRate();
 	}
 
 }

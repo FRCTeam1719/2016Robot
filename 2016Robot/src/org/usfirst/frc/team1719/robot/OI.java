@@ -1,14 +1,11 @@
 package org.usfirst.frc.team1719.robot;
 
 
-import org.usfirst.frc.team1719.robot.commands.EngagePhotonCannon;
+import org.usfirst.frc.team1719.robot.commands.CalcAngle;
 import org.usfirst.frc.team1719.robot.commands.ManualShoot;
 import org.usfirst.frc.team1719.robot.commands.MoveArmToPos;
-import org.usfirst.frc.team1719.robot.commands.MoveForwards;
 import org.usfirst.frc.team1719.robot.commands.RunIntake;
-import org.usfirst.frc.team1719.robot.commands.SwapCamera;
 import org.usfirst.frc.team1719.robot.commands.TurnToAngle;
-
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.buttons.Button;
 import edu.wpi.first.wpilibj.buttons.JoystickButton;
@@ -51,15 +48,17 @@ public class OI {
     // Start the command when the button is released  and let it run the command
     // until it is finished as determined by it's isFinished method.
     // button.whenReleased(new ExampleCommand());
-	// -90
+	// 90
 	//Arm setpoint constants
 	//These are in degrees, with 0 being straight up, and -90 being all the way down in the front
-	final double DEADEYE_ANGLE = -45D;
-	final double CHIVAL_ANGLE = -30;
-	final double ALLTHEWAYDOWN_ANGLE = -90; 
+
+	final double DEADEYE_ANGLE = 21D;
+	final double CROSSING_ANGLE = 24;
+	final double ALLTHEWAYDOWN_ANGLE = 90; 
 	final double LOWGOAL_ANGLE = 15;
+	final double DIST_FROM_GOAL = 34;
 	
-	//
+	// Controller Bindings
 	
 	//LOGITECH ATTACK 3 BINDINGS
 		final int ATTACK_X_AXIS = 0;
@@ -102,16 +101,9 @@ public class OI {
 		private Button primeButton;
 		private Button intakeButton;
 		private Button lowerButton;
-		private Button camswapButton;
-		private Button moveForward2FeetButton; 
-		private Button moveBack2FeetButton;
-		private Button photonCanonButton;
 		private Button deadEyeButton;
-		private Button chevalButton;
-		private Button allTheWayDownButton; 
-		private Button lowGoalButton;
-		
-
+		private Button crossingButton;
+		private Button lineUpButton;
 		public OI(){
 			//Define Controllers
 			driverXBOX = new Joystick(0);
@@ -121,36 +113,20 @@ public class OI {
 			rotateRight90Button = new JoystickButton(driverXBOX, X_BUTTON);
 			rotateRight90Button.whenPressed(new TurnToAngle(90,true));
 			rotateLeft90Button = new JoystickButton(driverXBOX, B_BUTTON);
-			moveForward2FeetButton = new JoystickButton(driverXBOX, Y_BUTTON);
-			moveForward2FeetButton.whenPressed(new MoveForwards(2,.5));
-			moveBack2FeetButton = new JoystickButton (driverXBOX, A_BUTTON);
-			moveBack2FeetButton.whenPressed(new MoveForwards(2,.5));
 			rotateLeft90Button.whenPressed(new TurnToAngle(-90,true));
-
+			lineUpButton = new JoystickButton(driverXBOX, A_BUTTON);
+			lineUpButton.whenPressed(new CalcAngle(lineUpButton));
+			new JoystickButton(driverXBOX, Y_BUTTON);
+			
 			fireButton = new JoystickButton(operatorJoystick, ATTACK_TRIGGER);
 			primeButton = new JoystickButton(operatorJoystick, ATTACK_BUTTON_3);
 			primeButton.whenPressed(new ManualShoot());
-			//moveArmButton = new JoystickButton(operatorJoystick, ATTACK_BUTTON_6);
-			//moveArmButton.whenPressed(new MoveArmToPos(60));
 			intakeButton = new JoystickButton(operatorJoystick, ATTACK_BUTTON_2);
 			intakeButton.whenPressed(new RunIntake());
-			photonCanonButton = new JoystickButton (operatorJoystick, ATTACK_BUTTON_5);
-			photonCanonButton.whenPressed(new EngagePhotonCannon());
 			deadEyeButton = new JoystickButton (operatorJoystick, ATTACK_BUTTON_7);
 			deadEyeButton.whenPressed(new MoveArmToPos(DEADEYE_ANGLE));
-			chevalButton = new JoystickButton (operatorJoystick, ATTACK_BUTTON_6);
-			chevalButton.whenPressed(new MoveArmToPos(CHIVAL_ANGLE));
-			allTheWayDownButton = new JoystickButton (operatorJoystick, ATTACK_BUTTON_11);
-			allTheWayDownButton.whenPressed(new MoveArmToPos(ALLTHEWAYDOWN_ANGLE));
-			lowGoalButton = new JoystickButton (operatorJoystick, ATTACK_BUTTON_10);
-			lowGoalButton.whenPressed(new MoveArmToPos(LOWGOAL_ANGLE));
-			
-
-			
-			
-
-			camswapButton = new JoystickButton(operatorJoystick, ATTACK_BUTTON_4);
-			camswapButton.whenPressed(new SwapCamera());
+			crossingButton = new JoystickButton (operatorJoystick, ATTACK_BUTTON_6);
+			crossingButton.whenPressed(new MoveArmToPos(CROSSING_ANGLE));
 
 		}
 		
@@ -198,9 +174,6 @@ public class OI {
 			return lowerButton.get();
 		}
 
-		public boolean getPhotonButton() {
-			// TODO Auto-generated method stub
-			return false;
-		}
+		
 		
 }

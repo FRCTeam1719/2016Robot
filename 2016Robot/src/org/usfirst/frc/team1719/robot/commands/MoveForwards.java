@@ -1,8 +1,8 @@
 package org.usfirst.frc.team1719.robot.commands;
 
 import org.usfirst.frc.team1719.robot.Robot;
-import org.usfirst.frc.team1719.robot.RobotMap;
 
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
@@ -16,11 +16,14 @@ public class MoveForwards extends Command {
 
 	double HALF_SPEED = 0.5D;
 	double speed;
+	
+	//TODO: Fix encoders and use them instead, going by time is ugly
+	Timer timer;
 
 	/** distances measured in feet
 	 * 
 	 */
-	private double desiredDist;
+	private double desiredTime;
 	
 	/**
 	 * 
@@ -29,27 +32,35 @@ public class MoveForwards extends Command {
 	 */
 	public MoveForwards(double distFeet, double speed) {
 		requires(Robot.drive);
-		this.desiredDist = distFeet;
+		this.desiredTime = distFeet;
 		this.speed = speed;
 		
+		timer = new Timer();
 	}
 
 	@Override
-	protected void end() {		
+	protected void end() {	
+		//STop the drive
+		Robot.drive.operateDrive(0, 0);
+		System.out.println("Ended");
 	}
 
 	@Override
 	protected void execute() {
 		
-        Robot.drive.driveStraight(speed); // drive towards heading 0
-        System.out.println("Dist: " + RobotMap.leftDriveEncoder.getDistance());
+        Robot.drive.operateDrive(-speed, -speed); // drive towards heading 0
 	}
 
 	@Override
+	
 	protected void initialize() {
-		RobotMap.gyro.reset();
-		Robot.drive.resetEncoders();
-		if(desiredDist == 0.0D) desiredDist = SmartDashboard.getNumber("MoveDistParam");
+		timer.reset();
+		timer.start();
+		
+		
+		System.out.println("MoveForwardStarted");
+		//Robot.drive.resetEncoders();
+		if(desiredTime == 0.0D) desiredTime = SmartDashboard.getNumber("MoveDistParam");
 	}
 
 	@Override
@@ -60,7 +71,8 @@ public class MoveForwards extends Command {
 
 	@Override
 	protected boolean isFinished() {
-		return Robot.drive.getDistanceDriven() >= desiredDist;
+		System.out.println(timer.get());
+		return timer.get() >= desiredTime;
 	}
 
 }

@@ -69,7 +69,7 @@ public class TurnToAngle extends Command {
 		timeout.start();
 		// Initialize our error array with the default error
 		for (int i = 0; i < errors.length; i++) {
-			errors[i] = desiredAngle;
+			errors[i] = desiredAngle-RobotMap.gyro.getAngle();
 		}
 	}
 
@@ -92,6 +92,9 @@ public class TurnToAngle extends Command {
 		double output = Math.max(Math.min((error * kP) + (derivative * kD) + (integral * kI), MAX_PWR), -MAX_PWR);
 		System.out.println(output);
 		Robot.drive.operateDrive(output, -output);
+		System.out.println("Angle: " + RobotMap.gyro.getAngle());
+
+		
 	}
 
 	// Make this return true when this Command no longer needs to run execute()
@@ -105,6 +108,7 @@ public class TurnToAngle extends Command {
 	protected void end() {
 		// RobotMap.gyro.reset();
 		System.out.println("Ending");
+		Robot.drive.operateDrive(0, 0);
 		timeout.reset();
 	}
 

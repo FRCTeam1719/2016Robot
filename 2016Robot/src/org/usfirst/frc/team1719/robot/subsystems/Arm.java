@@ -1,8 +1,8 @@
 package org.usfirst.frc.team1719.robot.subsystems;
 
-import org.usfirst.frc.team1719.robot.commands.UseArm;
+import org.usfirst.frc.team1719.robot.commands.UseArmPID;
+import org.usfirst.frc.team1719.robot.sensors.ScaledPotentiometer;
 
-import edu.wpi.first.wpilibj.AnalogPotentiometer;
 import edu.wpi.first.wpilibj.Spark;
 import edu.wpi.first.wpilibj.command.Subsystem;
 /**
@@ -18,16 +18,16 @@ public class Arm extends Subsystem {
 
 	Spark motor;
 	
-	AnalogPotentiometer pot;
+	private ScaledPotentiometer pot;
 	private double targetPos = 0.0D;
 	
 	@Override
 	protected void initDefaultCommand() {
-		setDefaultCommand(new UseArm());
+		setDefaultCommand(new UseArmPID());
 		
 	}
 	
-	public Arm(Spark motor, AnalogPotentiometer pot) {
+	public Arm(Spark motor, ScaledPotentiometer pot) {
 		this.motor = motor;
 		this.pot = pot;
 		motor.set(0);
@@ -47,6 +47,10 @@ public class Arm extends Subsystem {
 	 */
 	public double getArmAngle() {
 		return pot.get();
+	}
+	
+	public double getRawReading(){
+		return pot.getRaw();
 	}
 
     public double getTargetPos() {

@@ -1,15 +1,11 @@
 package org.usfirst.frc.team1719.robot.commands;
 
-import org.usfirst.frc.team1719.robot.Robot;
+import org.usfirst.frc.team1719.robot.RobotMap;
 
 import edu.wpi.first.wpilibj.command.Command;
 
-public class UpdatePhotonState extends Command{
+public class ResetGyro extends Command{
 
-	final double PHOTON_CANNON_ANGLE = 60;
-	public UpdatePhotonState(){
-		requires(Robot.photonCannon);
-	}
 	@Override
 	protected void initialize() {
 		// TODO Auto-generated method stub
@@ -18,20 +14,16 @@ public class UpdatePhotonState extends Command{
 
 	@Override
 	protected void execute() {
-		// TODO Auto-generated method stub
-		Robot.photonCannon.isOn = !Robot.photonCannon.isOn;
-		Robot.photonCannon.update();
- 	}
+		RobotMap.gyro.reset();
+	}
 
 	@Override
 	protected boolean isFinished() {
-		// TODO Auto-generated method stub
 		return true;
 	}
 
 	@Override
 	protected void end() {
-		// TODO Auto-generated method stub
 		
 	}
 

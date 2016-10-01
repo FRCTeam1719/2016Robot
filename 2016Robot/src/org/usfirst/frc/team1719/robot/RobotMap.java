@@ -1,14 +1,16 @@
 package org.usfirst.frc.team1719.robot;
 
+import org.usfirst.frc.team1719.robot.sensors.AutoScalingPotentiometer;
+
 import edu.wpi.first.wpilibj.AnalogGyro;
 import edu.wpi.first.wpilibj.AnalogInput;
-import edu.wpi.first.wpilibj.AnalogPotentiometer;
 import edu.wpi.first.wpilibj.DigitalInput;
-import edu.wpi.first.wpilibj.DigitalOutput;
 import edu.wpi.first.wpilibj.Encoder;
+import edu.wpi.first.wpilibj.Relay;
 import edu.wpi.first.wpilibj.Spark;
 import edu.wpi.first.wpilibj.SpeedController;
 import edu.wpi.first.wpilibj.Talon;
+import edu.wpi.first.wpilibj.Ultrasonic;
 
 /**
  * The RobotMap is a mapping from the ports sensors and actuators are wired into
@@ -22,7 +24,7 @@ public class RobotMap {
 	/** 
 	 * Measured in feet
 	 */
-	public final static boolean COMPILINGFORPRODUCTIONBOT = false;
+	public final static boolean COMPILINGFORPRODUCTIONBOT = true;
 
     // For example to map the left and right motors, you could define the
     // following variables to use with your drivetrain subsystem.
@@ -50,15 +52,22 @@ public class RobotMap {
 	public static AnalogGyro gyro;
 	public static Spark innerLeftShooterWheelController;
 	public static Spark innerRightShooterWheelController;
-	public static AnalogPotentiometer armPot;	
+	public static AutoScalingPotentiometer armPot;	
 	
 	public static AnalogInput dial;
 	public static DigitalInput buttonA;
 	public static DigitalInput buttonB;
-	public static DigitalOutput photonCannon;
-	public static DigitalOutput camswap;
-	
+	public static Relay photonCannon;
+	public static DigitalInput potCallibrationSwitch;
+	public static Ultrasonic rightUltrasonic;
+	public static Ultrasonic leftUltrasonic;
+	public static Spark piston;
+	public enum sides{
+		LEFT,
+		RIGHT
+	}
 	public static void init(){
+		
 		//Main hardware allocation
 		
 
@@ -70,15 +79,17 @@ public class RobotMap {
 		armController = new Spark(4);
 		innerLeftShooterWheelController = new Spark(5);
 		innerRightShooterWheelController = new Spark(6);
+		piston = new Spark(7);
 
 		//Sensors
 		
 		//DIO
-		rightFlyWheelEncoder = new Encoder(2, 3, true, Encoder.EncodingType.k4X);	
-		rightFlyWheelEncoder.setDistancePerPulse(FLYWHEEL_CIRCUMFRENCE_FEET / 20);
-		camswap = new DigitalOutput(0);
-		leftFlyWheelEncoder = new Encoder(4, 5, true, Encoder.EncodingType.k4X);
-		leftFlyWheelEncoder.setDistancePerPulse(FLYWHEEL_CIRCUMFRENCE_FEET / 20);
+		//rightFlyWheelEncoder = new Encoder(2, 3, true, Encoder.EncodingType.k4X);	
+		//rightFlyWheelEncoder.setDistancePerPulse(FLYWHEEL_CIRCUMFRENCE_FEET / 20);
+//		leftFlyWheelEncoder = new Encoder(4, 5, true, Encoder.EncodingType.k4X);
+//		leftFlyWheelEncoder.setDistancePerPulse(FLYWHEEL_CIRCUMFRENCE_FEET / 20);
+		potCallibrationSwitch = new DigitalInput(0);
+		
 		rightDriveEncoder = new Encoder(6, 7, true, Encoder.EncodingType.k4X);
 		rightDriveEncoder.setDistancePerPulse(1);
 		leftDriveEncoder = new Encoder(8, 9, true, Encoder.EncodingType.k4X);
@@ -93,33 +104,51 @@ public class RobotMap {
 		//.754
 		//Analog In
 		gyro = new AnalogGyro(0);
-		dial = new AnalogInput(3);
+		//dial = new AnalogInput(3);
         
-		//Relay
-		photonCannon = new DigitalOutput(1);
+		
+		photonCannon = new Relay(0);
+		//.15
+		//.773
+		//.646
+        //armPot = new AnalogPotentiometer(1, 141, -110.4);
 
-        armPot = new AnalogPotentiometer(1, 141, -109.4);
+		//armPot = new ScaledPotentiometer(potChannel, 139.32, -106);
+		//armPot = autoConfigurePotentiometer(2, 139.32, 90);
+		//armPot = autoConfigurePotentiometer(2, 360, 90);
+		armPot = new AutoScalingPotentiometer(new AnalogInput(2), 204.5, -30);
         buttonA = new DigitalInput(19);
 		buttonB = new DigitalInput(20);
+		
+		//leftUltrasonic.setAutomaticMode(true);
+		leftUltrasonic = new Ultrasonic(2,3,Ultrasonic.Unit.kInches);
+		//leftUltrasonic.setAutomaticMode(true);
+		rightUltrasonic = new Ultrasonic(4,5,Ultrasonic.Unit.kInches);
+		leftUltrasonic.setAutomaticMode(true);
 	}
 	
 	/**
-	 * Function for configuring encoders
+	 * Function for configuring encoders depending on the 
 	 * @param encoder
 	 */
-	
-	
 	private static SpeedController configureMotor(int port){
 		SpeedController controller;
-	    if(COMPILINGFORPRODUCTIONBOT){
+		if(COMPILINGFORPRODUCTIONBOT){
 			controller = new Spark(port);
 		}else{
 			//We are compiling for the practice bot, use Talons instead
 			controller = new Talon(port);
+			System.out.println("Setting things to Talons");
 		}
 		return controller;
 	}
 	
+	/**
+	 * @return the average of both rangefinders
+	 */
+	public static double getAverageRange(){
+		return (RobotMap.leftUltrasonic.getRangeInches() + RobotMap.rightUltrasonic.getRangeInches())/2;
+	}
 	
 	
 }

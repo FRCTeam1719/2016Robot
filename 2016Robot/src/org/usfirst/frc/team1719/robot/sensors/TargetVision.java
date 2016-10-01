@@ -161,6 +161,7 @@ public class TargetVision {
         return (Math.atan(normalizedPosX * Math.tan(VIEW_ANGLE_DEG * Math.PI / (180*2))) * (180.0D / Math.PI));
     }
     
+    
     /**
      * Find the altitude of the target depicted by a contour relative to to the robot's current facing
      * @param contour the contour for which to compute

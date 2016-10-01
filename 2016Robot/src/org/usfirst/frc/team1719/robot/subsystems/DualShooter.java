@@ -50,8 +50,8 @@ public class DualShooter extends Subsystem {
 	{
 		switch(mode){
 		case INTAKE:
-			leftFlyWheel.spin(-1);
-			rightFlyWheel.spin(1);
+			leftFlyWheel.spin(-.7);
+			rightFlyWheel.spin(.7);
 			break;
 		case EJECT:
 			leftFlyWheel.spin(1);

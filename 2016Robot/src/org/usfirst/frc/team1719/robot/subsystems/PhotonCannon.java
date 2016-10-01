@@ -1,8 +1,8 @@
 package org.usfirst.frc.team1719.robot.subsystems;
 
 import org.usfirst.frc.team1719.robot.RobotMap;
-import org.usfirst.frc.team1719.robot.commands.UpdatePhotonState;
 
+import edu.wpi.first.wpilibj.Relay;
 import edu.wpi.first.wpilibj.command.Subsystem;
 
 /**
@@ -17,25 +17,31 @@ public class PhotonCannon extends Subsystem {
 	@Override
 	protected void initDefaultCommand() {
 		// TODO Auto-generated method stub
-		setDefaultCommand(new UpdatePhotonState());
+		
 	}
-
+	public void update(){
+		if(isOn){
+			turnOn();
+		}else{
+			turnOff();
+		}
+	}
 	
 	public void turnOn() {
 		// Flicker the photon cannon until we get to the right state
-			RobotMap.photonCannon.set(true);// dim
-			RobotMap.photonCannon.set(false);// off
-			RobotMap.photonCannon.set(true);// blinking
-			RobotMap.photonCannon.set(false);// off
-			RobotMap.photonCannon.set(true);// on full power
-			isOn = true;
+			System.out.println("TURNING ON");
+			RobotMap.photonCannon.setDirection(Relay.Direction.kForward);// dim
+//			RobotMap.photonCannon.set(false);// off
+//			RobotMap.photonCannon.set(true);// blinking
+//			RobotMap.photonCannon.set(false);// off
+//			RobotMap.photonCannon.set(true);// on full power
 	}
 
 
 
 	public void turnOff() {
-			RobotMap.photonCannon.set(false); // set off
-			isOn = false;
+			System.out.println("TURNING OFF");
+			RobotMap.photonCannon.setDirection(Relay.Direction.kReverse); // set off
 	}
 
 }

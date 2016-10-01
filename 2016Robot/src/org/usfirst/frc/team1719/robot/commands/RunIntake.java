@@ -1,6 +1,7 @@
 package org.usfirst.frc.team1719.robot.commands;
 
 import org.usfirst.frc.team1719.robot.Robot;
+import org.usfirst.frc.team1719.robot.RobotMap;
 import org.usfirst.frc.team1719.robot.subsystems.DualShooter;
 
 import edu.wpi.first.wpilibj.command.Command;
@@ -21,6 +22,7 @@ public class RunIntake extends Command{
 	protected void execute() {
 		Robot.shooter.runInnerMotors(DualShooter.spinMode.INTAKE);
 		Robot.shooter.spin(DualShooter.spinMode.INTAKE);
+		RobotMap.piston.set(1);
 	}
 	
 
@@ -32,6 +34,7 @@ public class RunIntake extends Command{
 	@Override
 	protected void end() {
 		Robot.shooter.reset();
+		RobotMap.piston.set(0);
 		
 	}
 

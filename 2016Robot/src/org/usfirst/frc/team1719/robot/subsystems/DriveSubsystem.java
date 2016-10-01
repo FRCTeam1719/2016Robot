@@ -44,6 +44,7 @@ public class DriveSubsystem extends Subsystem{
 		this.rightController = rightController;
 		this.leftEncoder = leftEncoder;
 		this.rightEncoder = rightEncoder;
+		mainDrive.setSafetyEnabled(false);
 	}
 	
 	/**
