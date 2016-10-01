@@ -53,7 +53,7 @@ public class RobotMap {
 	public static Spark innerLeftShooterWheelController;
 	public static Spark innerRightShooterWheelController;
 	public static AutoScalingPotentiometer armPot;	
-	
+	public static DigitalInput pistonLimitSwitch;
 	public static AnalogInput dial;
 	public static DigitalInput buttonA;
 	public static DigitalInput buttonB;
@@ -62,6 +62,8 @@ public class RobotMap {
 	public static Ultrasonic rightUltrasonic;
 	public static Ultrasonic leftUltrasonic;
 	public static Spark piston;
+	
+	
 	public enum sides{
 		LEFT,
 		RIGHT
@@ -80,6 +82,7 @@ public class RobotMap {
 		innerLeftShooterWheelController = new Spark(5);
 		innerRightShooterWheelController = new Spark(6);
 		piston = new Spark(7);
+		pistonLimitSwitch = new DigitalInput(1);
 
 		//Sensors
 		
@@ -125,6 +128,9 @@ public class RobotMap {
 		//leftUltrasonic.setAutomaticMode(true);
 		rightUltrasonic = new Ultrasonic(4,5,Ultrasonic.Unit.kInches);
 		leftUltrasonic.setAutomaticMode(true);
+		
+		//pistonDigitalInput
+		
 	}
 	
 	/**

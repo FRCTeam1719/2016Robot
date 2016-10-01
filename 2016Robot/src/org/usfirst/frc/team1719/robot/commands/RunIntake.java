@@ -22,7 +22,9 @@ public class RunIntake extends Command{
 	protected void execute() {
 		Robot.shooter.runInnerMotors(DualShooter.spinMode.INTAKE);
 		Robot.shooter.spin(DualShooter.spinMode.INTAKE);
+		if (RobotMap.pistonLimitSwitch.get()){
 		RobotMap.piston.set(1);
+		}
 	}
 	
 
