@@ -15,7 +15,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  * @author aaroneline
  *
  */
-public class DriveSubsystem extends Subsystem{
+public class DriveSubsystem extends Subsystem {
 
 	Encoder leftEncoder;
 	Encoder rightEncoder;

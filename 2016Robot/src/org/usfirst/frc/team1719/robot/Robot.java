@@ -8,10 +8,10 @@ import org.usfirst.frc.team1719.robot.autonomousSelections.RoughTerrainAuton;
 import org.usfirst.frc.team1719.robot.settings.PIDData;
 import org.usfirst.frc.team1719.robot.subsystems.Arm;
 import org.usfirst.frc.team1719.robot.subsystems.Display;
-import org.usfirst.frc.team1719.robot.subsystems.DriveSubsystem;
 import org.usfirst.frc.team1719.robot.subsystems.DualShooter;
 import org.usfirst.frc.team1719.robot.subsystems.ExampleSubsystem;
 import org.usfirst.frc.team1719.robot.subsystems.FlyWheel;
+import org.usfirst.frc.team1719.robot.subsystems.PIDDrive;
 import org.usfirst.frc.team1719.robot.subsystems.PhotonCannon;
 
 import com.ni.vision.NIVision;
@@ -43,7 +43,7 @@ public class Robot extends IterativeRobot {
 	public static OI oi;
 	public static Display display;
 	public static PhotonCannon photonCannon;
-	public static DriveSubsystem drive;
+	public static PIDDrive drive;
 	public static FlyWheel rightFlywheel;
 	public static FlyWheel leftFlywheel;
 	public static DualShooter shooter;
@@ -82,10 +82,9 @@ public class Robot extends IterativeRobot {
 		// Initialize Subsystems
 		rightFlywheelPIDData = new PIDData(0, 0, 0);
 		leftFlywheelPIDData = new PIDData(0, 0, 0);
-		drive = new DriveSubsystem(RobotMap.leftDriveController, RobotMap.rightDriveController,
-				RobotMap.leftDriveEncoder, RobotMap.rightDriveEncoder);
 		rightFlywheel = new FlyWheel(RobotMap.rightFlyWheelController,
 				rightFlywheelPIDData);
+
 		leftFlywheel = new FlyWheel(RobotMap.leftFlyWheelController,  leftFlywheelPIDData);
 		shooter = new DualShooter(leftFlywheel, rightFlywheel, RobotMap.innerLeftShooterWheelController,
 				RobotMap.innerRightShooterWheelController);
