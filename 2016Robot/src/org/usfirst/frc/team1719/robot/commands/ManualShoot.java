@@ -52,7 +52,7 @@ public class ManualShoot extends Command{
 			if(prepTimer.get() > PREP_WAIT_TIME){
 				//End this state
 				//Stop the intake wheels
-				Robot.shooter.runInnerMotors(DualShooter.spinMode.STOP);
+				Robot.shooter.runInnerMotors(DualShooter.spinMode.EJECT);
 				//Stop the timer
 				prepTimer.stop();
 				//Start the next phase

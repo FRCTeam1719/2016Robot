@@ -147,8 +147,8 @@ public class Robot extends IterativeRobot {
 		SmartDashboard.putNumber("Move arm to pos kI", .001);
 		SmartDashboard.putNumber("Move arm to pos kD", .001);
 		SmartDashboard.putNumber("Arm steady kP", 0.3D);
-		SmartDashboard.putNumber("Arm steady kI", 0.01D);
-		SmartDashboard.putNumber("Arm steady kD", 0.016D);
+		SmartDashboard.putNumber("Arm steady kI", 0.005D);
+		SmartDashboard.putNumber("Arm steady kD", 0.02D);
 		SmartDashboard.putNumber("Arm steady integral range", 7.0D);
 		SmartDashboard.putBoolean("withinDistance", false);
 	}
